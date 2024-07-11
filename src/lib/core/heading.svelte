@@ -9,6 +9,6 @@
 	let { type = 'h1', children, style, clazz }: PropType = $props();
 </script>
 
-<svelte:element this={type} {style} class={clazz}>
+<svelte:element this={type} {style} class="moldex {clazz}">
 	{@render children()}
 </svelte:element>

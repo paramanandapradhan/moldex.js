@@ -1,6 +1,17 @@
 {
 	"name": "moldex",
 	"version": "0.0.1",
+	"description": "Moldex is a morden javascript web component library",
+	"license": "MIT",
+	"author": "cloudparker.com",
+	"keywords": [
+		"js",
+		"javascript",
+		"bootstrap"
+	],
+	"repository": "",
+	"homepage": "https://cloudparker.com",
+	"main": "./dist/index.js",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
