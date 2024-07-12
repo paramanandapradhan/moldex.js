@@ -1,4 +1,4 @@
-import { isTouchDevice } from "../utils/utils.js";
+import { isTouchDevice } from "../utils/index.js";
 
 export type RippleOptions = {
     /**
