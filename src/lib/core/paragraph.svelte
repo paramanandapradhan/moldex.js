@@ -1,13 +1,14 @@
 <script lang="ts">
 	type PropType = {
+		id?: string;
 		children?: any;
-		style?: string;
-		clazz?: string;
+		containerStyle?: string;
+		containerClass?: string;
 	};
 
-	let { children, style, clazz }: PropType = $props();
+	let { id, children, containerStyle, containerClass }: PropType = $props();
 </script>
 
-<p {style} class="moldex {clazz}">
+<p {id} style={containerStyle} class="moldex moldex-html {containerClass}">
 	{@render children()}
 </p>

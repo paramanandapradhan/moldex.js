@@ -1,16 +1,17 @@
 <script lang="ts">
 	type PropType = {
+		id?: string;
 		type?: string | 'div' | 'span';
 		children?: any;
-		style?: string;
-		clazz?: string;
+		containerStyle?: string;
+		containerClass?: string;
 	};
 
-	let { type, children, style, clazz }: PropType = $props();
+	let { id, type, children, containerStyle, containerClass }: PropType = $props();
 </script>
 
 {#if type}
-	<svelte:element this={type} {style} class="moldex {clazz}">
+	<svelte:element this={type} {id} style={containerStyle} class="moldex moldex-html {containerClass}">
 		{@html children()}
 	</svelte:element>
 {:else}

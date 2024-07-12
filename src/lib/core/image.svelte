@@ -1,16 +1,29 @@
 <script lang="ts">
 	type PropType = {
+		id?: string;
 		children?: any;
-		style?: string;
-		clazz?: string;
-		src?:string;
-		alt?: string; 
+		containerStyle?: string;
+		containerClass?: string;
+		src?: string;
+		alt?: string;
+		lazyLoad?: boolean;
 	};
 
-	let { src, alt = 'Image Defination', style, clazz }: PropType = $props();
+	let {
+		id,
+		src,
+		alt = 'Placeholder',
+		containerStyle,
+		containerClass,
+		lazyLoad = false
+	}: PropType = $props();
 </script>
 
-<img {src} {alt} {style} class="moldex {clazz}"/>
-
-
- 
+<img
+	{id}
+	{src}
+	class="moldex moldex-image {containerClass}"
+	style={containerStyle}
+	{alt}
+	loading={lazyLoad ? 'eager' : 'lazy'}
+/>

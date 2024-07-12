@@ -5,6 +5,6 @@
 
 <div>
 	<Heading type="h1" clazz="text-primary" style="text-decoration:underline;"> 
-		Hello
+		Hello World
 	</Heading>
 </div>
