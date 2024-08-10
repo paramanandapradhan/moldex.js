@@ -7,14 +7,18 @@
 		backdropClassName?: string;
 		className?: string;
 		containerClassName?: string;
+		drawerContainerClassName?: string;
+		drawerClassName?: string;
 	};
 
 	let {
 		id = '',
 		children,
 		backdropClassName = '',
-		className = 'bg-gray-300',
-		containerClassName = ''
+		className = 'bg-indigo-600 text-white',
+		containerClassName = '',
+		drawerContainerClassName = '',
+		drawerClassName = ''
 	}: PropsType = $props();
 
 	let hasDrawer: boolean = $state(false);
@@ -40,20 +44,22 @@
 </script>
 
 {#if hasDrawer}
-	<div {id} class="relative {containerClassName}" role="dialog" aria-modal="true">
+	<div {id} class="relative z-50 {containerClassName}" role="dialog" aria-modal="true">
+		<!-- Backdrop -->
 		<div
 			class="fixed inset-0 bg-gray-900/10 transition-opacity ease-linear duration-300 {isOpened
 				? 'opacity-100'
 				: 'opacity-0'}  {backdropClassName}"
 			aria-hidden="true"
 		></div>
-		<div class="fixed inset-0 flex">
+		<!-- Drawer -->
+		<div class="fixed inset-0 flex {drawerContainerClassName}">
 			<div
-				class="relative w-72 transition ease-in-out duration-300 transform {isOpened
+				class="relative flex w-full max-w-xs flex-1 transition ease-in-out duration-300 transform {isOpened
 					? 'translate-x-0'
-					: '-translate-x-full'} {className}"
+					: '-translate-x-full'} {drawerClassName}"
 			>
-				<div>
+				<div class="flex grow flex-col gap-y-5 overflow-y-auto w-72 {className}">
 					{#if children}
 						{@render children()}
 					{/if}
