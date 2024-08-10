@@ -64,14 +64,14 @@
 </script>
 
 <div
-	class="sticky top-0 z-40 flex h-16 shrink-0 items-center px-2 border-b border-gray-200 bg-white shadow-sm {className}"
+	class="sticky top-0 z-10 flex h-16 shrink-0 items-center px-2 border-b border-gray-200 bg-white shadow-sm {className}"
 >
 	{#if children}
 		{@render children()}
 	{:else}
 		{#if hasDrawer}
 			<Button
-				className="h-full px-2 {drawerButtonClassName}"
+				className="h-full px-2 text-gray-500 hover:text-gray-600 {drawerButtonClassName}"
 				iconPath={drawerIconPath}
 				disabled={!ondrawer}
 				onclick={ondrawer}

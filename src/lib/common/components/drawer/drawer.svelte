@@ -21,7 +21,7 @@
 		drawerClassName = ''
 	}: PropsType = $props();
 
-	let hasDrawer: boolean = $state(false);
+	let isPlaced: boolean = $state(false);
 	let isOpened: boolean = $state(false);
 
 	function handelBackdropClick() {
@@ -29,21 +29,29 @@
 	}
 
 	export function toggleDrawer() {
-		if (!hasDrawer) {
-			hasDrawer = true;
-			setTimeout(() => {
-				isOpened = true;
-			}, 0);
+		if (!isPlaced) {
+			openDrawer();
 		} else {
-			isOpened = false;
-			setTimeout(() => {
-				hasDrawer = false;
-			}, 300);
+			closeDrawer();
 		}
+	}
+
+	export function openDrawer() {
+		isPlaced = true;
+		setTimeout(() => {
+			isOpened = true;
+		}, 0);
+	}
+
+	export function closeDrawer() {
+		isOpened = false;
+		setTimeout(() => {
+			isPlaced = false;
+		}, 300);
 	}
 </script>
 
-{#if hasDrawer}
+{#if isPlaced}
 	<div {id} class="relative z-50 {containerClassName}" role="dialog" aria-modal="true">
 		<!-- Backdrop -->
 		<div
