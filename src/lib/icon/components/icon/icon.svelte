@@ -20,6 +20,6 @@
 	});
 </script>
 
-<svg class=" h-6 w-6 min-w-6 min-h-6 align-middle {className}" {viewBox} fill="currentColor">
+<svg class=" h-6 w-6 align-middle {className}" {viewBox} fill="currentColor">
 	<path d={path} />
 </svg>
