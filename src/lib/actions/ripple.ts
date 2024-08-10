@@ -19,6 +19,8 @@ export function ripple(node: HTMLElement, { color, light }: RipplePropsType = {}
     let timeoutInstance: any;
 
     function scheduleStartRipple(event: MouseEvent | TouchEvent) {
+        if ((node as any).disabled) return;
+        
         if (timeoutInstance) {
             clearTimeout(timeoutInstance);
         }
@@ -34,7 +36,6 @@ export function ripple(node: HTMLElement, { color, light }: RipplePropsType = {}
     }
 
     function startRipple(event: MouseEvent | TouchEvent) {
-        if ((event as any).isConsumed) return;
 
         const rippleColor = light ? LIGHT_RIPPLE_COLOR : color || DARK_RIPPLE_COLOR;
 
