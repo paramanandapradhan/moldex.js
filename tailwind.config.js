@@ -3,6 +3,11 @@ export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
     extend: {
+      fontSize: {
+        '2xs': '10px',
+        '3xs': '8px',
+        '4xs': '6px',
+      },
       colors: {
         primary: {
           light: '#63b3ed',
@@ -53,21 +58,6 @@ export default {
       },
       maxHeight: {
         '1/2vh': '50vh',
-      },
-      keyframes: {
-        'ripple-effect': {
-          '0%': {
-            transform: 'scale(0)',
-            opacity: '1',
-          },
-          '100%': {
-            transform: 'scale(4)',
-            opacity: '0',
-          },
-        },
-      },
-      animation: {
-        'ripple-effect': 'ripple-effect 0.5s linear',
       },
     },
   },

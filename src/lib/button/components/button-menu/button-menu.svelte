@@ -8,6 +8,7 @@
 	import type { Snippet } from 'svelte';
 	import type { ListItemType } from '$lib/button/components/button-list-item/button-list-item.svelte';
 	import ButtonListItem from '$lib/button/components/button-list-item/button-list-item.svelte';
+	import { ripple } from '$lib/actions/ripple.js';
 
 	enum MenuStateEnum {
 		OPENED,
@@ -153,6 +154,7 @@
 		aria-expanded={expanded}
 		aria-haspopup="true"
 		onclick={hendleToggleDropdown}
+		use:ripple
 	>
 		<span class="sr-only">{screenOnlyDesc}</span>
 		<div class="flex items-center flex-nowrap gap-2">

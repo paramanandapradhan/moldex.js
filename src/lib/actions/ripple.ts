@@ -38,7 +38,7 @@ export function ripple(node: HTMLElement, option: RippleOptions = {}) {
 
         const rippleColor = option.light ? LIGHT_RIPPLE_COLOR : option.color || DARK_RIPPLE_COLOR;
 
-        const circle = document.createElement('div');
+        const circle = document.createElement('span');
         const diameter = Math.max(node.clientWidth, node.clientHeight);
         const radius = diameter / 2;
 
@@ -53,7 +53,18 @@ export function ripple(node: HTMLElement, option: RippleOptions = {}) {
         circle.style.setProperty('--ripple-color', rippleColor);
         circle.classList.add('ripple');
 
-        node.classList.add('relative', 'overflow-hidden');
+
+        const newClassList: string[] = [];
+
+        if (!node.classList.contains('relative')) {
+            newClassList.push('relative')
+        }
+
+        if (!node.classList.contains('overflow-hidden')) {
+            newClassList.push('overflow-hidden')
+        }
+
+        node.classList.add(...newClassList);
         node.appendChild(circle);
 
         setTimeout(() => {
@@ -64,7 +75,7 @@ export function ripple(node: HTMLElement, option: RippleOptions = {}) {
             clearTimeout(containerRemoveTimer);
         }
         containerRemoveTimer = setTimeout(() => {
-            node.classList.remove('relative', 'overflow-hidden');
+            node.classList.remove(...newClassList);
         }, 500);
     }
 
@@ -77,7 +88,7 @@ export function ripple(node: HTMLElement, option: RippleOptions = {}) {
     }
 
     return {
-        destroy: () => {
+        destroy() {
             if (!isTouchEnabled) {
                 node.removeEventListener('mousedown', scheduleStartRipple);
                 node.removeEventListener('mousemove', mouseMove);

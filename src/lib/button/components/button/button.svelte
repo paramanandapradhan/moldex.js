@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { badge } from '$lib/actions/badge.js';
+	import { ripple } from '$lib/actions/ripple.js';
 	import Spinner from '$lib/common/components/spinner/spinner.svelte';
 	import Icon from '$lib/icon/components/icon/icon.svelte';
 	import type { Snippet } from 'svelte';
@@ -36,7 +38,13 @@
 	}: PropsType = $props();
 </script>
 
-<button type="button" class={className} {onclick} {disabled}>
+<button
+	type="button"
+	class={className}
+	{onclick}
+	{disabled}
+	use:ripple
+>
 	{#if children}
 		{@render children()}
 	{:else}

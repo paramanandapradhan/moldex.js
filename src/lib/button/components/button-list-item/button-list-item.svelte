@@ -22,6 +22,8 @@
 </script>
 
 <script lang="ts">
+	import { ripple } from '$lib/actions/ripple.js';
+
 	import Icon from '$lib/icon/components/icon/icon.svelte';
 	import {
 		mdiCheckCircle,
@@ -131,10 +133,11 @@
 	<button
 		id="{listId}-item-item-{index}"
 		type="button"
-		class="w-full select-none block px-3 py-2 text-start leading-6 text-gray-900 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none {className} {item.className}"
+		class="w-full select-none block px-3 py-2 text-start leading-6 text-gray-900 hover:bg-gray-50 focus:bg-gray-50 focus:outline-none {className} {item.className}"
 		role="menuitem"
 		onclick={(ev) => onclick(ev, item, index)}
 		disabled={item?.disabled}
+		use:ripple
 	>
 		{@render itemInternal()}
 	</button>
@@ -144,10 +147,11 @@
 	<a
 		id="{listId}-item-item-{index}"
 		href={item?.url}
-		class="block select-none px-3 py-1 w-full text-start leading-6 text-gray-900 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none {className} {item.className}"
+		class="block select-none px-3 py-1 w-full text-start leading-6 text-gray-900 hover:bg-gray-50 focus:bg-gray-50 focus:outline-none {className} {item.className}"
 		role="menuitem"
 		target={item?.openInNewWindow ? '_blank' : ''}
 		onclick={(ev) => onclick(ev, item, index)}
+		use:ripple
 	>
 		{@render itemInternal()}
 	</a>

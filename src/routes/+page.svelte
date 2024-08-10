@@ -2,7 +2,6 @@
 	import type { ListItemType } from '$lib/button/components/button-list-item/button-list-item.svelte';
 	import ButtonMenu from '$lib/button/components/button-menu/button-menu.svelte';
 	import Button from '$lib/button/components/button/button.svelte';
-	import VerticcalRule from '$lib/common/components/vertical-rule/verticcal-rule.svelte';
 	import { mdiBellOutline } from '$lib/icon/services/icon-path-service.js';
 
 	function handleMenuClick(ev: MouseEvent, menu: string | ListItemType, index: number) {
@@ -179,9 +178,24 @@
 				</div>
 
 				<div>
-					<Button className="border px-3 py-1" label="btn" iconPath={mdiBellOutline} iconClassName="h-4 w-4" spinner spinnerClassName="h-4 w-4">
-						 
-					</Button> 
+					<Button
+						className="border px-3 py-1"
+						label="btn"
+						iconPath={mdiBellOutline}
+						iconClassName="h-4 w-4"
+						spinner
+						spinnerClassName="h-4 w-4"
+					></Button>
+				</div>
+				<div class="pt-5">
+					<Button
+						className="border px-3 py-1"
+						label="btn"
+						iconPath={mdiBellOutline}
+						iconClassName="h-4 w-4"
+						spinner
+						spinnerClassName="h-4 w-4"
+					></Button>
 				</div>
 			</div>
 		</main>
