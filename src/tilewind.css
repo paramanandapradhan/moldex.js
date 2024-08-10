@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer utilities {
+    .ripple {
+      @apply absolute rounded-full bg-current;
+      transform: scale(0);
+      animation: ripple-effect 0.5s linear;
+      background-color: var(--ripple-color);
+    }
+  }
+
+
