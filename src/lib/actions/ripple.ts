@@ -1,4 +1,4 @@
-export type RippleOptions = {
+export type RipplePropsType = {
     /**
      * The color of the ripple effect, default is rgba(0, 0, 0, 0.12)
      */
@@ -13,7 +13,7 @@ export type RippleOptions = {
 export const DARK_RIPPLE_COLOR = 'rgba(0, 0, 0, 0.12)';
 export const LIGHT_RIPPLE_COLOR = 'rgba(255, 255, 255, 0.12)';
 
-export function ripple(node: HTMLElement, option: RippleOptions = {}) {
+export function ripple(node: HTMLElement, { color, light }: RipplePropsType = {}) {
     let containerRemoveTimer: any;
     const isTouchEnabled = isTouchDevice();
     let timeoutInstance: any;
@@ -36,7 +36,7 @@ export function ripple(node: HTMLElement, option: RippleOptions = {}) {
     function startRipple(event: MouseEvent | TouchEvent) {
         if ((event as any).isConsumed) return;
 
-        const rippleColor = option.light ? LIGHT_RIPPLE_COLOR : option.color || DARK_RIPPLE_COLOR;
+        const rippleColor = light ? LIGHT_RIPPLE_COLOR : color || DARK_RIPPLE_COLOR;
 
         const circle = document.createElement('span');
         const diameter = Math.max(node.clientWidth, node.clientHeight);

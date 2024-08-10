@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { badge } from '$lib/actions/badge.js';
-	import { ripple } from '$lib/actions/ripple.js';
+	import { ripple, type RipplePropsType } from '$lib/actions/ripple.js';
 	import Spinner from '$lib/common/components/spinner/spinner.svelte';
 	import Icon from '$lib/icon/components/icon/icon.svelte';
 	import type { Snippet } from 'svelte';
 
 	type PropsType = {
+		id?: string;
 		type?: 'button' | 'submit' | 'reset';
 		className?: string;
 		iconPath?: string;
@@ -18,10 +18,12 @@
 		spinnerClassName?: string;
 		onlySpinner?: boolean;
 		children?: Snippet;
+		useRipple?: boolean;
 		onclick?: (ev: MouseEvent) => void;
 	};
 
 	let {
+		id = '',
 		type = 'button',
 		label = '',
 		className = '',
@@ -34,35 +36,44 @@
 		spinnerClassName = '',
 		onlySpinner = false,
 		children,
+		useRipple = true,
 		onclick = (ev: MouseEvent) => {}
 	}: PropsType = $props();
+
+	function maybeRipple(node: HTMLElement, options?: RipplePropsType) {
+		if (useRipple) {
+			return ripple(node, options);
+		}
+		return {
+			destroy() {}
+		};
+	}
 </script>
 
-<button
-	type="button"
-	class={className}
-	{onclick}
-	{disabled}
-	use:ripple
->
+{#snippet buttonContent()}
+<div class="flex w-full items-center gap-1">
+	{#if spinner}
+		<Spinner className={spinnerClassName} />
+	{/if}
+	{#if !onlySpinner}
+		{#if iconPath}
+			<Icon path={iconPath} className={iconClassName} />
+		{/if}
+		{#if label}
+			<span>{label || ''}</span>
+		{/if}
+		{#if rightIconPath}
+			<Icon path={rightIconPath} className={rightIconClassName} />
+		{/if}
+	{/if}
+</div>
+	
+{/snippet}
+
+<button {id} {type} class={className} {onclick} {disabled} use:maybeRipple>
 	{#if children}
 		{@render children()}
 	{:else}
-		<div class="flex w-full items-center gap-1">
-			{#if spinner}
-				<Spinner className={spinnerClassName} />
-			{/if}
-			{#if !onlySpinner}
-				{#if iconPath}
-					<Icon path={iconPath} className={iconClassName} />
-				{/if}
-				{#if label}
-					<span>{label || ''}</span>
-				{/if}
-				{#if rightIconPath}
-					<Icon path={rightIconPath} className={rightIconClassName} />
-				{/if}
-			{/if}
-		</div>
+		{@render buttonContent()}
 	{/if}
 </button>
