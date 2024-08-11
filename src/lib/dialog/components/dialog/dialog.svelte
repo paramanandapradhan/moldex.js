@@ -1,9 +1,9 @@
 <script lang="ts" context="module">
 	export type DialogPropsType = {
 		id?: string;
+		formId?: string | null;
 		cancelable?: boolean;
 		className?: string;
-		hasForm?: boolean;
 		containerClassName?: string;
 		backdropClassName?: string;
 		isFullScreen?: boolean;
@@ -14,6 +14,7 @@
 		titleClassName?: string;
 		subtitleClassName?: string;
 		hasHeader?: boolean;
+		hasHeaderShadow?: boolean;
 		headerClassName?: string;
 		hasHeaderClose?: boolean;
 		headerCloseButtonClassName?: string;
@@ -24,6 +25,7 @@
 		headerBackIconPath?: string;
 		headerBackIconClassName?: string;
 		hasFooter?: boolean;
+		hasFooterShadow?: boolean;
 		hasFooterCloseButton?: boolean;
 		hasFooterOkButton?: boolean;
 		footerClassName?: string;
@@ -37,12 +39,20 @@
 		bodyClassName?: string;
 		component?: any;
 		componetProps?: any;
+		size?: 'sm' | 'md' | 'lg' | 'full';
 		children?: Snippet;
-		headerChildren?: Snippet;
-		bodyChildren?: Snippet;
-		footerChildren?: Snippet;
+		headerChildren?: Snippet<[dialogExports: DialogExportsType]>;
+		bodyChildren?: Snippet<[dialogExports: DialogExportsType]>;
+		footerChildren?: Snippet<[dialogExports: DialogExportsType]>;
 		onclose?: () => void;
 		onresult?: (value: any) => void;
+	};
+
+	export type DialogExportsType = {
+		closeDialog: () => void;
+		setResult: (value: any) => void;
+		setOkSpinner: (value: boolean) => void;
+		setOkDisabled: (value: boolean) => void;
 	};
 </script>
 
@@ -53,12 +63,12 @@
 
 	let {
 		id = '',
+		formId = undefined,
 		cancelable = true,
 		className = '',
 		containerClassName = '',
 		backdropClassName = '',
-		hasForm = false,
-		isFullScreen = false,
+		hasHeaderShadow = false,
 		hasTitle = false,
 		hasSubtitle = false,
 		title = '',
@@ -76,6 +86,7 @@
 		headerBackIconPath = mdiArrowLeft,
 		headerBackIconClassName = '',
 		hasFooter = false,
+		hasFooterShadow = false,
 		hasFooterCloseButton = false,
 		hasFooterOkButton = false,
 		footerClassName = '',
@@ -86,6 +97,7 @@
 		footerOkButtonType = 'button',
 		footerOkButtonSpinner = false,
 		footerOkButtonDisabled = false,
+		size = 'sm',
 		bodyClassName = '',
 		component,
 		componetProps = {},
@@ -97,10 +109,23 @@
 		onresult
 	}: DialogPropsType = $props();
 
+	let dialogExports: DialogExportsType = { closeDialog, setResult, setOkSpinner, setOkDisabled };
+
 	let isPlaced: boolean = $state(false);
 	let isOpened: boolean = $state(false);
 	let result: any;
-	let dialogContainerDivRef: HTMLElement;
+
+	let smSizeClassName = 'w-11/12 sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4';
+	let mdSizeClassName = 'w-11/12 sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3';
+	let lgSizeClassName = 'w-11/12 sm:w-3/4 md:w-3/4 lg:w-2/3 xl:w-1/2';
+	let fullSizeClassName = 'fixed inset-0 w-screen h-screen ';
+
+	let screenSizeClassNameMap: { [key: string]: string } = {
+		sm: smSizeClassName,
+		md: mdSizeClassName,
+		lg: lgSizeClassName,
+		full: fullSizeClassName
+	};
 
 	export function toggleDialog() {
 		if (isOpened) {
@@ -117,22 +142,29 @@
 		}, 0);
 	}
 
-	export function closeDialog() {
-		isOpened = false;
-		// console.log('closeDialog', isOpened);
-
-		setTimeout(() => {
-			isPlaced = false;
+	export function closeDialog(): Promise<any> {
+		return new Promise((resolve) => {
+			isOpened = false;
 			setTimeout(() => {
+				isPlaced = false;
+
 				onclose && onclose();
 				onresult && onresult(result);
-				// console.log('sent result', isPlaced);
-			}, 0);
-		}, 300);
+				resolve(result);
+			}, 300);
+		});
 	}
 
 	export function setResult(value: any) {
 		result = value;
+	}
+
+	export function setOkDisabled(value: boolean) {
+		footerOkButtonDisabled = value;
+	}
+
+	export function setOkSpinner(value: boolean) {
+		footerOkButtonSpinner = value;
 	}
 
 	function handleBackdropClick() {
@@ -147,9 +179,7 @@
 
 	function handleKeyDown(event: KeyboardEvent) {
 		if (event.key === 'Escape' || event.key === 'Esc') {
-			// console.log('handleDocumentKeyDown');
 			if (cancelable) {
-				// console.log('canceling');
 				event.stopPropagation();
 				closeDialog();
 			}
@@ -162,21 +192,28 @@
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		tabindex="-1"
-		class="relative flex flex-col w-96 transform overflow-hidden bg-white text-left transition-all outline-none {isOpened
+		class="relative flex flex-col max-h-screen transform overflow-hidden bg-white text-left transition-all outline-none {screenSizeClassNameMap[
+			size
+		]} {isOpened
 			? 'ease-out duration-300 opacity-100 translate-y-0 sm:scale-100'
-			: 'ease-in duration-200 opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'} {isFullScreen
-			? 'h-full w-full'
+			: 'ease-in duration-200 opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'} {size == 'full'
+			? ''
 			: 'rounded-lg shadow-xl'} {className}"
 		onclick={(ev: MouseEvent) => ev.stopPropagation()}
 	>
 		{#if hasHeader}
-			<div class="flex items-start gap-4 w-full cursor-default {headerClassName}">
+			<div
+				class="flex items-start gap-4 w-full cursor-default py-2 {hasHeaderShadow
+					? 'border-b shadow-sm'
+					: ''} {headerClassName}"
+			>
 				<div>
 					{#if hasHeaderBack}
 						<Button
 							iconPath={headerBackIconPath}
 							className="p-3 rounded-full text-gray-500 hover:text-gray-600 hover:bg-gray-50 {headerBackButtonClassName}"
 							iconClassName={headerBackIconClassName}
+							onclick={handleClose}
 						/>
 					{/if}
 				</div>
@@ -190,7 +227,7 @@
 				</div>
 				<div class="flex-grow">
 					{#if headerChildren}
-						{@render headerChildren()}
+						{@render headerChildren(dialogExports)}
 					{/if}
 				</div>
 				<div>
@@ -211,32 +248,34 @@
 			{#if children}
 				{@render children()}
 			{:else if bodyChildren}
-				{@render bodyChildren()}
+				{@render bodyChildren(dialogExports)}
 			{:else if component}
-				<svelte:component
-					this={component}
-					{...componetProps}
-					onclose={handleClose}
-					onresult={setResult}
-				/>
+				<svelte:component this={component} ...componetProps ...dialogExports />
 			{/if}
 		</div>
+
 		{#if hasFooter}
-			<div class="flex items-center justify-end p-4 gap-4 {footerClassName}">
+			<div
+				class="flex items-center justify-end p-4 gap-4 {hasFooterShadow
+					? 'border-t'
+					: ''} {footerClassName}"
+			>
 				<div class="flex-grow">
 					{#if footerChildren}
-						{@render footerChildren()}
+						{@render footerChildren(dialogExports)}
 					{/if}
 				</div>
 				{#if hasFooterOkButton}
 					<Button
 						id="btn-ok"
-						type={footerOkButtonType}
+						form={formId}
+						type={formId ? 'submit' : footerOkButtonType}
 						className="p-2 px-5 rounded bg-indigo-600 hover:bg-indigo-700 text-white {footerOkButtonClassName}"
 						label={footerOkLable}
 						disabled={footerOkButtonDisabled}
 						spinner={footerOkButtonSpinner}
-					></Button>
+						spinnerClassName="text-white w-4 h-4"
+					/>
 				{/if}
 				{#if hasFooterCloseButton}
 					<Button
@@ -245,7 +284,7 @@
 						className="p-2 px-5 rounded bg-gray-100 hover:bg-gray-200 {footerCloseButtonClassName}"
 						label={footerCloseLabel}
 						onclick={handleClose}
-					></Button>
+					/>
 				{/if}
 			</div>
 		{/if}

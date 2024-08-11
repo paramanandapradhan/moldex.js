@@ -7,6 +7,7 @@
 	type PropsType = {
 		id?: string;
 		type?: 'button' | 'submit' | 'reset';
+		form?: string | null;
 		className?: string;
 		iconPath?: string;
 		iconClassName?: string;
@@ -24,6 +25,7 @@
 
 	let {
 		id = '',
+		form = undefined,
 		type = 'button',
 		label = '',
 		className = '',
@@ -51,26 +53,25 @@
 </script>
 
 {#snippet buttonContent()}
-<div class="flex w-full items-center gap-1">
-	{#if spinner}
-		<Spinner className={spinnerClassName} />
-	{/if}
-	{#if !onlySpinner}
-		{#if iconPath}
-			<Icon path={iconPath} className={iconClassName} />
+	<div class="flex w-full items-center gap-2">
+		{#if spinner}
+			<Spinner className="w-4 h-4 {spinnerClassName}" />
 		{/if}
-		{#if label}
-			<span>{label || ''}</span>
+		{#if !onlySpinner}
+			{#if iconPath}
+				<Icon path={iconPath} className={iconClassName} />
+			{/if}
+			{#if label}
+				<span>{label || ''}</span>
+			{/if}
+			{#if rightIconPath}
+				<Icon path={rightIconPath} className={rightIconClassName} />
+			{/if}
 		{/if}
-		{#if rightIconPath}
-			<Icon path={rightIconPath} className={rightIconClassName} />
-		{/if}
-	{/if}
-</div>
-	
+	</div>
 {/snippet}
 
-<button {id} {type} class={className} {onclick} {disabled} use:maybeRipple>
+<button {id} {type} {form} class={className} {onclick} {disabled} use:maybeRipple>
 	{#if children}
 		{@render children()}
 	{:else}
