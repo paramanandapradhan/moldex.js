@@ -1,6 +1,17 @@
 {
-	"name": "moldex-svelte",
+	"name": "@cloudparker/moldex.js",
 	"version": "0.0.1",
+	"description": "A Tailwindcss Component Library",
+	"license": "MIT",
+	"author": "cloudparker.com",
+	"keywords": [
+		"js",
+		"javascript",
+		"tailwindcss"
+	],
+	"repository": "https://github.com/paramanandapradhan/moldex.js",
+	"homepage": "https://cloudparker.com",
+	"main": "./dist/index.js",
 	"scripts": {
 		"dev": "vite dev --port 3030",
 		"build": "vite build && npm run package",

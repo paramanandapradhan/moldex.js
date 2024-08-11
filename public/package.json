@@ -1,0 +1,32 @@
+{
+    "name": "@cloudparker/moldex.js",
+    "version": "0.0.1",
+    "author": "cloudparker.com",
+    "license": "MIT",
+    "keywords": [
+        "js",
+        "javascript",
+        "tailwindcss"
+    ],
+    "description": "A Tailwindcss Component Library",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "svelte": "./dist/index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "!dist/**/*.test.*",
+        "!dist/**/*.spec.*"
+    ],
+    "type": "module",
+    "main": "./dist/index.js",
+    "svelte": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "repository": "https://github.com/paramanandapradhan/moldex.js",
+    "homepage": "https://cloudparker.com",
+    "devDependencies": {
+        "@sveltejs/kit": "^2.0.0"
+    }
+}
