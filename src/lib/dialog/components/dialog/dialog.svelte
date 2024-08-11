@@ -97,15 +97,16 @@
 		onresult
 	}: DialogPropsType = $props();
 
-	let isPlaced: boolean = $state(true);
-	let isOpened: boolean = $state(true);
+	let isPlaced: boolean = $state(false);
+	let isOpened: boolean = $state(false);
 	let result: any;
+	let dialogContainerDivRef: HTMLElement;
 
 	export function toggleDialog() {
-		if (!isPlaced) {
-			openDialog();
-		} else {
+		if (isOpened) {
 			closeDialog();
+		} else {
+			openDialog();
 		}
 	}
 
@@ -118,13 +119,15 @@
 
 	export function closeDialog() {
 		isOpened = false;
+		// console.log('closeDialog', isOpened);
 
 		setTimeout(() => {
 			isPlaced = false;
 			setTimeout(() => {
 				onclose && onclose();
 				onresult && onresult(result);
-			}, 10);
+				// console.log('sent result', isPlaced);
+			}, 0);
 		}, 300);
 	}
 
@@ -142,9 +145,11 @@
 		closeDialog();
 	}
 
-	function handleDocumentKeyDown(event: KeyboardEvent) {
+	function handleKeyDown(event: KeyboardEvent) {
 		if (event.key === 'Escape' || event.key === 'Esc') {
+			// console.log('handleDocumentKeyDown');
 			if (cancelable) {
+				// console.log('canceling');
 				event.stopPropagation();
 				closeDialog();
 			}
@@ -152,19 +157,20 @@
 	}
 </script>
 
-<svelte:document onkeydown={handleDocumentKeyDown} />
 {#snippet dialogContent()}
-	<button
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
+	<!-- svelte-ignore a11y_no_static_element_interactions -->
+	<div
 		tabindex="-1"
-		class="relative flex flex-col w-96 transform overflow-hidden bg-white text-left transition-all ease-out duration-300 {isOpened
-			? 'opacity-100 translate-y-0'
-			: 'opacity-0 translate-y-4'} {isFullScreen
+		class="relative flex flex-col w-96 transform overflow-hidden bg-white text-left transition-all outline-none {isOpened
+			? 'ease-out duration-300 opacity-100 translate-y-0 sm:scale-100'
+			: 'ease-in duration-200 opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'} {isFullScreen
 			? 'h-full w-full'
 			: 'rounded-lg shadow-xl'} {className}"
 		onclick={(ev: MouseEvent) => ev.stopPropagation()}
 	>
 		{#if hasHeader}
-			<div class="flex items-start gap-4 w-full {headerClassName}">
+			<div class="flex items-start gap-4 w-full cursor-default {headerClassName}">
 				<div>
 					{#if hasHeaderBack}
 						<Button
@@ -243,7 +249,7 @@
 				{/if}
 			</div>
 		{/if}
-	</button>
+	</div>
 {/snippet}
 
 {#snippet dialog()}
@@ -256,22 +262,23 @@
 	>
 		<div
 			id="backdrop"
-			class="fixed inset-0 bg-gray-500/20 transition-opacity ease-out duration-300 cursor-auto {isOpened
-				? 'opacity-100'
-				: 'opacity-0'} {backdropClassName}"
+			class="fixed inset-0 bg-gray-500/20 transition-opacity {isOpened
+				? 'ease-out duration-300 opacity-100'
+				: 'ease-in duration-200 opacity-0'} {backdropClassName}"
 			aria-hidden="true"
 		></div>
 
-		<button
-			type="button"
-			tabindex="-1"
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<div
 			class="fixed inset-0 z-20 w-screen cursor-auto"
 			onclick={handleBackdropClick}
+			onkeydown={handleKeyDown}
 		>
 			<div class="flex min-h-full justify-center items-center">
 				{@render dialogContent()}
 			</div>
-		</button>
+		</div>
 	</div>
 {/snippet}
 
