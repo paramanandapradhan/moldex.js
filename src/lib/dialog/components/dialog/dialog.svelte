@@ -1,7 +1,6 @@
 <script lang="ts" context="module">
 	export type DialogPropsType = {
 		id?: string;
-		formId?: string | null;
 		cancelable?: boolean;
 		className?: string;
 		containerClassName?: string;
@@ -36,6 +35,7 @@
 		footerOkButtonType?: 'button' | 'submit' | 'reset';
 		footerOkButtonSpinner?: boolean;
 		footerOkButtonDisabled?: boolean;
+		submitFormId?: string;
 		bodyClassName?: string;
 		component?: any;
 		componetProps?: any;
@@ -64,7 +64,6 @@
 
 	let {
 		id = '',
-		formId = undefined,
 		cancelable = true,
 		className = '',
 		containerClassName = '',
@@ -98,6 +97,7 @@
 		footerOkButtonType = 'button',
 		footerOkButtonSpinner = false,
 		footerOkButtonDisabled = false,
+		submitFormId = undefined,
 		size = 'sm',
 		bodyClassName = '',
 		component,
@@ -269,8 +269,8 @@
 				{#if hasFooterOkButton}
 					<Button
 						id="btn-ok"
-						form={formId}
-						type={formId ? 'submit' : footerOkButtonType}
+						form={submitFormId}
+						type={submitFormId ? 'submit' : footerOkButtonType}
 						className="p-2 px-5 rounded bg-indigo-600 hover:bg-indigo-700 text-white {footerOkButtonClassName}"
 						label={footerOkLable}
 						disabled={footerOkButtonDisabled}
