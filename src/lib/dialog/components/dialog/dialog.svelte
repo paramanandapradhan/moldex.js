@@ -35,7 +35,7 @@
 		footerOkButtonType?: 'button' | 'submit' | 'reset';
 		footerOkButtonSpinner?: boolean;
 		footerOkButtonDisabled?: boolean;
-		submitFormId?: string;
+		submitButtonFormId?: string;
 		bodyClassName?: string;
 		component?: any;
 		componetProps?: any;
@@ -97,7 +97,7 @@
 		footerOkButtonType = 'button',
 		footerOkButtonSpinner = false,
 		footerOkButtonDisabled = false,
-		submitFormId = undefined,
+		submitButtonFormId = undefined,
 		size = 'sm',
 		bodyClassName = '',
 		component,
@@ -269,8 +269,8 @@
 				{#if hasFooterOkButton}
 					<Button
 						id="btn-ok"
-						form={submitFormId}
-						type={submitFormId ? 'submit' : footerOkButtonType}
+						form={submitButtonFormId}
+						type={submitButtonFormId ? 'submit' : footerOkButtonType}
 						className="p-2 px-5 rounded bg-indigo-600 hover:bg-indigo-700 text-white {footerOkButtonClassName}"
 						label={footerOkLable}
 						disabled={footerOkButtonDisabled}
