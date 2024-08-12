@@ -1,3 +1,4 @@
+import '../tailwind.css';
 export type RipplePropsType = {
     /**
      * The color of the ripple effect, default is rgba(0, 0, 0, 0.12)

@@ -57,6 +57,7 @@
 </script>
 
 <script lang="ts">
+	import '../../../tailwind.css';
 	import Button from '$lib/button/components/button/button.svelte';
 	import { mdiArrowLeft, mdiClose } from '$lib/icon/services/icon-path-service.js';
 	import type { Snippet } from 'svelte';

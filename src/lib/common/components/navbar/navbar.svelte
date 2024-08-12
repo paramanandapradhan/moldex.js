@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../../../tailwind.css';
 	import Button from '$lib/button/components/button/button.svelte';
 	import Icon from '$lib/icon/components/icon/icon.svelte';
 	import { mdiMenu } from '$lib/icon/services/icon-path-service.js';

@@ -1,3 +1,4 @@
+import '../tailwind.css';
 export type BadgeProsType = {
     containerClassName?: string,
     badgePositionClassName?: string,

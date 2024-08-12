@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../../../tailwind.css';
 	type IconPropsType = {
 		path: string;
 		className?: string;

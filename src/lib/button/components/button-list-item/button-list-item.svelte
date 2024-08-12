@@ -22,6 +22,7 @@
 </script>
 
 <script lang="ts">
+	import '../../../tailwind.css';
 	import { ripple } from '$lib/actions/ripple.js';
 
 	import Icon from '$lib/icon/components/icon/icon.svelte';

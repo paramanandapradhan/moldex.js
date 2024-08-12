@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../../../tailwind.css';
 	import { ripple, type RipplePropsType } from '$lib/actions/ripple.js';
 	import Spinner from '$lib/common/components/spinner/spinner.svelte';
 	import Icon from '$lib/icon/components/icon/icon.svelte';
