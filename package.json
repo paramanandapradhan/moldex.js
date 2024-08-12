@@ -1,6 +1,6 @@
 {
 	"name": "@cloudparker/moldex.js",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "A Tailwindcss Component Library",
 	"license": "MIT",
 	"author": "cloudparker.com",
@@ -15,7 +15,7 @@
 	"scripts": {
 		"dev": "vite dev --port 3030",
 		"build": "vite build && npm run package",
-		"build:tailwind":"npx tailwindcss -o dist/tailwind.css --minify",
+		"build:tailwind":"npx tailwindcss -i ./src/lib/tailwind.css -o dist/tailwind.css --minify",
 		"preview": "vite preview",
 		"package": "svelte-kit sync && svelte-package && publint",
 		"prepublishOnly": "npm run package",
