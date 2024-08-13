@@ -1,21 +1,24 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
+
 	type PropsType = {
 		className?: string;
 		backgroundClassName?: string;
 		value?: number;
 		showValue?: boolean;
+		children?: Snippet;
 	};
 
 	let {
 		backgroundClassName = '',
 		className = 'h-4',
 		value = 0,
-		showValue = false
+		showValue = false,
+		children
 	}: PropsType = $props();
 
 	let progressValue: number = $state(0);
 
-    
 	$effect(() => {
 		if (!className) {
 			className = 'h-4';
@@ -38,7 +41,9 @@
 		class="bg-indigo-600 rounded-full transition-all ease-in-out text-center text-xs text-white progressbar {className}"
 		style="--progressWidth:{progressValue}%;"
 	>
-		{#if showValue && progressValue > 0 && progressValue <= 100}
+		{#if children}
+			{@render children()}
+		{:else if showValue && progressValue > 0 && progressValue <= 100}
 			{progressValue}%
 		{/if}
 	</div>

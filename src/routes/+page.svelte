@@ -5,7 +5,9 @@
 </script>
 
 <div class="p-10">
-	<Progressbar {value} className="" showValue></Progressbar>
+	<Progressbar {value} className="" showValue>
+		{value}
+	</Progressbar>
 </div>
 <div>
 	<input type="number" bind:value />
