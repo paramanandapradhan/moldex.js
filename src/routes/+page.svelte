@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { openDialog } from '$lib/index.js';
-	import { openToast } from '$lib/toast/services/toast-service.js';
+	import TextCopy from '$lib/text/components/text-copy/text-copy.svelte';
+	import TextEmail from '$lib/text/components/text-email/text-email.svelte';
+	import { showToast } from '$lib/toast/services/toast-service.js';
 
 	function handleOpenDialog() {
 		openDialog({
@@ -16,10 +18,21 @@
 	}
 
 	function handleOpenToast() {
-		openToast('Success');
+		showToast('Success');
 	}
 </script>
 
-<button type="button" onclick={handleOpenDialog}>Open Dialog</button>
+<div>
+	<button type="button" onclick={handleOpenDialog}>Open Dialog</button>
 
-<button type="button" onclick={handleOpenToast}>Open Toast</button>
+	<button type="button" onclick={handleOpenToast}>Open Toast</button>
+	
+</div>
+
+<div>
+	<TextCopy input="Paramananda Pradhan"/>
+</div>
+
+<div>
+	<TextEmail input="param@gmail.com"/>
+</div>

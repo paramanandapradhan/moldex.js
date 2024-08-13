@@ -1,11 +1,16 @@
 <script lang="ts">
-	import { dateFormat, dateToAgo, toDate } from '$lib/services/date-service';
+	import { dateFormat, dateToAgo, toDate } from '$lib/date';
+
 	import { BROWSER } from 'esm-env';
 
-	export let input: any;
-	export let format: 'ago' | string = 'DD-MM-YYYY hh:mm a';
+	type PropsType = {
+		input: Date | number | string | { seconds: number; nanoseconds: number };
+		format?: 'ago' | string;
+	};
 
-	let dateString: string = '';
+	let { input, format = 'DD-MM-YYYY hh:mm a' }: PropsType = $props();
+
+	let dateString: string = $state('');
 
 	function prepareDate(..._: any) {
 		// console.log('date data', data);
@@ -22,7 +27,9 @@
 		}
 	}
 
-	$: BROWSER && prepareDate(input);
+	$effect(() => {
+		BROWSER && prepareDate(input);
+	});
 </script>
 
 <span>

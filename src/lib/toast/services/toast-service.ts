@@ -7,7 +7,7 @@ function addToast(props: ToastPropsType) {
     return toast;
 }
 
-export function openToast(props: ToastPropsType | string) {
+export function showToast(props: ToastPropsType | string) {
     let newProps: ToastPropsType = { msg: 'Ok' };
     if (typeof props === 'string') {
         newProps.msg = props as string;
@@ -17,15 +17,15 @@ export function openToast(props: ToastPropsType | string) {
     addToast(newProps);
 }
 
-export function openSuccessToast() {
-    openToast('Success')
+export function showSuccessToast() {
+    showToast('Success')
 }
 
-export function openFailedToast() {
-    openToast('Failed')
+export function showFailedToast() {
+    showToast('Failed')
 }
 
-export function openErrorToast() {
-    openToast('Error')
+export function showErrorToast() {
+    showToast('Error')
 }
 

@@ -5,12 +5,16 @@ import json from './package.json' assert { type: 'json' };
 let publicFolder = './public';
 
 let packageJsonKeys = ['name', 'version', 'author', 'license', 'keywords', 'description', 'exports', 'files', 'type', 'main', 'module', 'svelte', 'types', 'repository', 'homepage',]
+
 let dependencies = [
 ];
-let devDependencies = ["@sveltejs/kit",];
-let peerDependencies = [
 
-]
+let devDependencies = [
+    '@cloudparker/easy-script-loader-svelte', 'esm-env', 'moment',
+];
+
+let peerDependencies = [
+];
 
 
 function main() {

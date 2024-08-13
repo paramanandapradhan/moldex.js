@@ -1,27 +1,41 @@
 <script lang="ts">
-	import { showToast } from '$lib/components/toast';
-	import { mdiContentCopy } from '$lib/services/icon-service';
-	import { copyText } from '$lib/services/utils-service';
-	import Icon from '../icon.svelte';
+	import Button from '$lib/button/components/button/button.svelte';
+	import { mdiContentCopy } from '$lib/icon/index.js';
+	import { showToast } from '$lib/toast/index.js';
+	import { copyText } from '$lib/utils/index.js';
 
-	export let input: string;
-	export let btnClass: string = '';
-	export let iconSize: string = '16px';
-	export let iconColor: string = 'grey';
+	type PropsType = {
+		input: string;
+		containerClassName?: string;
+		buttonClassName?: string;
+		iconClassName?: string;
+		iconPath?: string;
+	};
+
+	let {
+		input,
+		containerClassName = '',
+		buttonClassName = '',
+		iconClassName = '',
+		iconPath = mdiContentCopy
+	}: PropsType = $props();
 
 	function handleCopy() {
 		if (input) {
 			copyText(input);
-			showToast({ message: 'Copied!' });
+			showToast('Copied!');
 		}
 	}
 </script>
 
-<span class="flex-align-center">
+<span class="flex items-center {containerClassName}">
 	<span>{input || ''}</span>
 	{#if input}
-		<button class="btn btn-sm p-0 mx-2 {btnClass}" on:click={handleCopy}>
-			<Icon path={mdiContentCopy} size={iconSize} color={iconColor} />
-		</button>
+		<Button
+			onclick={handleCopy}
+			className="ms-1 p-1 rounded text-gray-500 hover:text-gray-700 hover:bg-gray-100 {buttonClassName}"
+			iconClassName="w-4 h-4 {iconClassName}"
+			{iconPath}
+		/>
 	{/if}
 </span>

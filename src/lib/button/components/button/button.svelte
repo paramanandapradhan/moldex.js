@@ -54,25 +54,31 @@
 </script>
 
 {#snippet buttonContent()}
-	<div class="flex w-full items-center gap-2">
-		{#if spinner}
-			<Spinner className="w-4 h-4 {spinnerClassName}" />
+	{#if spinner}
+		<Spinner className="w-4 h-4 {spinnerClassName}" />
+	{/if}
+	{#if !onlySpinner}
+		{#if iconPath}
+			<Icon path={iconPath} className={iconClassName} />
 		{/if}
-		{#if !onlySpinner}
-			{#if iconPath}
-				<Icon path={iconPath} className={iconClassName} />
-			{/if}
-			{#if label}
-				<span>{label || ''}</span>
-			{/if}
-			{#if rightIconPath}
-				<Icon path={rightIconPath} className={rightIconClassName} />
-			{/if}
+		{#if label}
+			<span>{label || ''}</span>
 		{/if}
-	</div>
+		{#if rightIconPath}
+			<Icon path={rightIconPath} className={rightIconClassName} />
+		{/if}
+	{/if}
 {/snippet}
 
-<button {id} {type} {form} class={className} {onclick} {disabled} use:maybeRipple>
+<button
+	{id}
+	{type}
+	{form}
+	class="flex items-center justify-center gap-2 {className}"
+	{onclick}
+	{disabled}
+	use:maybeRipple
+>
 	{#if children}
 		{@render children()}
 	{:else}

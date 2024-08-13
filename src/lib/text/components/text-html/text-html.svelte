@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let input: string;
+	let { input }: { input: string } = $props();
 </script>
 
 <span>

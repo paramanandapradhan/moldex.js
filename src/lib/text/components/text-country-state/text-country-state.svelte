@@ -2,10 +2,11 @@
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
 	import { BROWSER } from 'esm-env';
 
-	export let input: string | undefined;
+	let { input }: { input: string } = $props();
 
-	let states: any[] = [];
-	let state: any | null = null;
+	let states: any[] = $state([]);
+	let state: any | null = $state(null);
+
 	let EasyCountryStateData: any;
 
 	async function init() {
@@ -30,7 +31,9 @@
 		init();
 	}
 
-	$: BROWSER && prepare(input, states);
+	$effect(() => {
+		BROWSER && prepare(input, states);
+	});
 </script>
 
 <EasyScriptLoader

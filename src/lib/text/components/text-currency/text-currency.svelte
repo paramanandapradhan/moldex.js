@@ -1,17 +1,23 @@
 <script lang="ts">
 	import { BROWSER } from 'esm-env';
 
-	export let input: number | undefined;
-	export let symbol: string = '$'; //'₹';
-	export let hasSymbol: boolean = true;
+	type PropsType = {
+		input: number;
+		symbol: string;
+		hasSymbol: boolean;
+	};
 
-	let value: string;
+	let { input, symbol = '$', hasSymbol = true }: PropsType = $props();
+
+	let value: string = $state('');
 
 	function prepare(..._: any) {
 		value = Math.abs(input || 0).toFixed(2);
 	}
 
-	$: BROWSER && prepare(input);
+	$effect(() => {
+		BROWSER && prepare(input);
+	});
 </script>
 
 <span>

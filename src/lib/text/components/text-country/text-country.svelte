@@ -2,10 +2,15 @@
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
 	import { BROWSER } from 'esm-env';
 
-	export let input: string | undefined;
+	type PropsType = {
+		input?: string;
+	};
 
-	let countries: any[] = [];
-	let country: any | null = null;
+	let { input }: PropsType = $props();
+
+	let countries: any[] = $state([]);
+	let country: any | null = $state(null);
+
 	let EasyCountryData: any;
 
 	async function init() {
@@ -14,8 +19,8 @@
 		}
 	}
 
-	function handleScriptLoad(ev: CustomEvent) {
-		EasyCountryData = ev.detail;
+	function handleScriptLoad(lib: CustomEvent) {
+		EasyCountryData = lib;
 		init();
 	}
 
@@ -29,13 +34,15 @@
 		}
 	}
 
-	$: BROWSER && prepare(input, countries);
+	$effect(() => {
+		BROWSER && prepare(input, countries);
+	});
 </script>
 
 <EasyScriptLoader
 	scriptName="EasyCountryData"
 	scriptUrl="https://cdn.jsdelivr.net/gh/paramanandapradhan/easy-countrydata@main/dist/index.js"
-	on:load={handleScriptLoad}
+	onload={handleScriptLoad}
 />
 {#if country}
 	<span> {country?.name || ''} </span>
