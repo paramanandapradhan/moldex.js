@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { openDialog } from "$lib/index.js";
+	import { openDialog } from '$lib/index.js';
+	import { openToast } from '$lib/toast/services/toast-service.js';
 
 	function handleOpenDialog() {
 		openDialog({
@@ -13,6 +14,12 @@
 			// formId: 'form1'
 		});
 	}
+
+	function handleOpenToast() {
+		openToast('Success');
+	}
 </script>
 
-<button type="button" onclick={handleOpenDialog}>Open</button>
+<button type="button" onclick={handleOpenDialog}>Open Dialog</button>
+
+<button type="button" onclick={handleOpenToast}>Open Toast</button>

@@ -1,3 +1,4 @@
+import { isTouchDevice } from '$lib/utils/index.js';
 import '../tailwind.css';
 export type RipplePropsType = {
     /**
@@ -102,6 +103,4 @@ export function ripple(node: HTMLElement, { color, light }: RipplePropsType = {}
     };
 }
 
-export function isTouchDevice() {
-    return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || (navigator as any).msMaxTouchPoints > 0 || window.matchMedia("(pointer: coarse)").matches;
-}
+ 
