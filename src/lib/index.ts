@@ -11,4 +11,5 @@ export * from './spinner/index.js';
 export * from './text/index.js';
 export * from './toast/index.js';
 export * from './utils/index.js';
+export * from './progressbar/index.js';
 
