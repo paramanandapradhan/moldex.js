@@ -59,13 +59,13 @@
 	{/if}
 	{#if !onlySpinner}
 		{#if iconPath}
-			<Icon path={iconPath} className={iconClassName} />
+			<Icon path={iconPath} className="w-6 h-6 {iconClassName}" />
 		{/if}
 		{#if label}
 			<span>{label || ''}</span>
 		{/if}
 		{#if rightIconPath}
-			<Icon path={rightIconPath} className={rightIconClassName} />
+			<Icon path={rightIconPath} className="w-6 h-6 {rightIconClassName}" />
 		{/if}
 	{/if}
 {/snippet}

@@ -29,7 +29,7 @@
 		leftIconClassName?: string;
 		rightIconPath?: string;
 		rightIconClassName?: string;
-		label?: string;
+		label?: string | any;
 		labelClassName?: string;
 		dropdownClassName?: string;
 		dropdownStyle?: string;
@@ -149,7 +149,7 @@
 <div class="relative min-h-max {containerClassName}">
 	<button
 		type="button"
-		class="flex items-center flex-nowrap text-start {className}"
+		class="flex items-center justify-center flex-nowrap text-start {className}"
 		{style}
 		{id}
 		aria-expanded={expanded}
@@ -170,14 +170,14 @@
 				{/if}
 				{#if label}
 					<span class="text-nowrap {labelClassName}">
-						{label}
+						{@html label}
 					</span>
 				{/if}
 				{#if rightIconPath}
 					<Icon path={rightIconPath} className=" {rightIconClassName}" />
 				{/if}
 				{#if dropIconPath}
-					<Icon path={dropIconPath} className="text-gray-400 {dropIconClassName}" />
+					<Icon path={dropIconPath} className="w-5 h-5 text-gray-400 {dropIconClassName}" />
 				{/if}
 			{/if}
 		</div>
