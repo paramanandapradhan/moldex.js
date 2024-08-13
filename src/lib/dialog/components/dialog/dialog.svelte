@@ -37,8 +37,8 @@
 		footerOkButtonDisabled?: boolean;
 		submitButtonFormId?: string;
 		bodyClassName?: string;
-		DialogBody?: Component;
-		dialogBodyProps?: any;
+		Component?: ComponetType;
+		props?: any;
 		size?: 'sm' | 'md' | 'lg' | 'full';
 		children?: Snippet;
 		headerChildren?: Snippet<[dialogExports: DialogExportsType]>;
@@ -60,7 +60,7 @@
 	import '../../../tailwind.css';
 	import Button from '$lib/button/components/button/button.svelte';
 	import { mdiArrowLeft, mdiClose } from '$lib/icon/services/icon-path-service.js';
-	import type { Component, Snippet } from 'svelte';
+	import { type Component as ComponetType, type Snippet } from 'svelte';
 
 	let {
 		id = '',
@@ -100,8 +100,8 @@
 		submitButtonFormId = undefined,
 		size = 'sm',
 		bodyClassName = '',
-		DialogBody,
-		dialogBodyProps = {},
+		Component,
+		props = {},
 		children,
 		headerChildren,
 		bodyChildren,
@@ -250,9 +250,8 @@
 				{@render children()}
 			{:else if bodyChildren}
 				{@render bodyChildren(dialogExports)}
-			{:else if DialogBody?.length==2} 
-
-				<DialogBody ...componetProps ...dialogExports />
+			{:else if Component?.length == 2}
+				<Component ...componetProps ...dialogExports />
 			{/if}
 		</div>
 
