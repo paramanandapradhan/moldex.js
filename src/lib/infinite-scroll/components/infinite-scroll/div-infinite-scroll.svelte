@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { BROWSER } from 'esm-env';
 	import type { Snippet } from 'svelte';
-    
+
 	type PropsType = {
 		triggerDistance?: number;
 		children?: Snippet;
+		onMore?: () => void;
 	};
 
-	let { triggerDistance = 400, children }: PropsType = $props();
+	let { triggerDistance = 400, children, onMore }: PropsType = $props();
 	let ref: HTMLDivElement;
 
 	let isTrigger: boolean = false;
@@ -19,7 +20,9 @@
 			if (scrollDistance < triggerDistance) {
 				if (!isTrigger) {
 					isTrigger = true;
-					ref.dispatchEvent(new CustomEvent('loadMore'));
+					if (onMore) {
+						onMore();
+					}
 				}
 			} else {
 				isTrigger = false;
@@ -27,9 +30,9 @@
 		}
 	};
 
-	const handleScroll = () => {
+	function handleScroll() {
 		calculateScroll();
-	};
+	}
 </script>
 
 <div
