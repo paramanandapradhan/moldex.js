@@ -37,7 +37,7 @@
 		footerOkButtonDisabled?: boolean;
 		submitButtonFormId?: string;
 		bodyClassName?: string;
-		Component?: ComponetType;
+		component?: any;
 		props?: any;
 		size?: 'sm' | 'md' | 'lg' | 'full';
 		children?: Snippet;
@@ -100,7 +100,7 @@
 		submitButtonFormId = undefined,
 		size = 'sm',
 		bodyClassName = '',
-		Component,
+		component,
 		props = {},
 		children,
 		headerChildren,
@@ -114,6 +114,9 @@
 
 	let isPlaced: boolean = $state(false);
 	let isOpened: boolean = $state(false);
+
+	let CustomComponent:ComponetType|null = $state(null);
+
 	let result: any;
 
 	let smSizeClassName = 'w-11/12 sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4';
@@ -186,6 +189,10 @@
 			}
 		}
 	}
+
+	$effect(()=>{
+		CustomComponent = component;
+	})
 </script>
 
 {#snippet dialogContent()}
@@ -250,8 +257,8 @@
 				{@render children()}
 			{:else if bodyChildren}
 				{@render bodyChildren(dialogExports)}
-			{:else if Component?.length == 2}
-				<Component ...componetProps ...dialogExports />
+			{:else if CustomComponent?.length == 2}
+				<CustomComponent {...{ ...props }} {...{ ...dialogExports }} />
 			{/if}
 		</div>
 

@@ -74,7 +74,7 @@
 	{id}
 	{type}
 	{form}
-	class="flex items-center justify-center gap-2 hover:bg-gray-100 p-1 px-2 outline-none focus:bg-gray-200 disabled:bg-white disabled:text-gray-400 rounded {className}"
+	class="flex items-center justify-center gap-2 hover:bg-gray-100 p-1 px-3 outline-none focus:bg-gray-200 disabled:bg-white disabled:text-gray-400 rounded {className}"
 	{onclick}
 	{disabled}
 	use:maybeRipple

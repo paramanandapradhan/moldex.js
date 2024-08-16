@@ -14,6 +14,7 @@ let devDependencies = [
 ];
 
 let peerDependencies = [
+    "svelte"
 ];
 
 

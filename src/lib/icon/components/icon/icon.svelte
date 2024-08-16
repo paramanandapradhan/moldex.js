@@ -10,7 +10,7 @@
 
 	let {
 		path,
-		className = 'w-6 h-6',
+		className = '',
 		size = 24,
 		fill = 'currentColor',
 		viewBox = ''
@@ -21,6 +21,6 @@
 	});
 </script>
 
-<svg class=" align-middle {className}" {viewBox} fill="currentColor">
+<svg class="w-6 h-6 align-middle {className}" {viewBox} fill="currentColor">
 	<path d={path} />
 </svg>
