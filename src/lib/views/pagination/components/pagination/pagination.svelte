@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../../../../../tailwind.css';
+	import '../../../../tailwind.css';
 	import { ripple } from '$lib/actions';
 	import ButtonMenu from '$lib/views/button/components/button-menu/button-menu.svelte';
 	import Button from '$lib/views/button/components/button/button.svelte';

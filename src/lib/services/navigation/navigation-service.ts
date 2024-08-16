@@ -1,4 +1,5 @@
 import { goto, pushState } from '$app/navigation';
+import { createRefererStore } from '$lib/stores/referrer-store/referrer-store.svelte';
 
 import { BROWSER } from 'esm-env';
 import { writable } from 'svelte/store';
@@ -11,7 +12,7 @@ export type BackStateType = {
     data?: any
 };
 
-export const referrer = writable('');
+export const referrer = createRefererStore();
 
 let backStateArray: BackStateType[] = [];
 

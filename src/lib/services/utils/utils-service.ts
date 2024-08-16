@@ -1,5 +1,5 @@
 import { BROWSER } from 'esm-env'
-import { toDate } from '../../date/services/date-service.js';
+import { toDate } from '../date/date-service';
 
 
 declare const window: any;
@@ -407,9 +407,6 @@ export async function fetchText(url: string) {
     return text;
 }
 
-export function isTouchDevice() {
-    return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || (navigator as any).msMaxTouchPoints > 0 || window.matchMedia("(pointer: coarse)").matches;
-}
 
 export function toCurrency(value: number = 0, symbol: string = '$') {
     let currency = Math.abs(value);

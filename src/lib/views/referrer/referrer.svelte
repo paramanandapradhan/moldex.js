@@ -6,9 +6,7 @@
 	$effect(() => {
 		if (BROWSER) {
 			const unsubscribe = page.subscribe((_) => {
-				referrer.update((previous:any) => {
-					return previous === location.href ? previous : location.href;
-				});
+				referrer.referer = referrer.referer === location.href ? referrer.referer : location.href;
 			});
 			return () => {
 				unsubscribe && unsubscribe();
