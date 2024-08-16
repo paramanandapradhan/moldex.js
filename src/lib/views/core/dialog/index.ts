@@ -3,6 +3,6 @@ import Dialog, { type DialogExportsType, type DialogPropsType, type DialogSizeEn
 export {
     Dialog,
     type DialogExportsType,
-    type DialogPropsType
+    type DialogPropsType,
     type DialogSizeEnum,
 };
