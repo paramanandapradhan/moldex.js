@@ -1,6 +1,6 @@
 
 import { mount, unmount } from 'svelte';
-import Dialog, { type DialogPropsType } from '../../views/dialog/components/dialog/dialog.svelte';
+import Dialog, { type DialogPropsType } from '../../views/core/dialog/components/dialog/dialog.svelte';
 
 function addDialog(props: DialogPropsType) {
     const dialog = mount(Dialog, { target: document.getElementsByTagName('body')[0]!, props });

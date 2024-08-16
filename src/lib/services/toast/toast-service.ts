@@ -1,5 +1,6 @@
+import type { ToastPropsType } from "$lib/views";
+import Toast from "$lib/views/core/toast/components/toast/toast.svelte";
 import { mount } from "svelte";
-import Toast, { type ToastPropsType } from "../../views/toast/components/toast/toast.svelte";
 
 function addToast(props: ToastPropsType) {
     const toast = mount(Toast, { target: document.getElementsByTagName('body')[0]!, props });

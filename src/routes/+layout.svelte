@@ -1,6 +1,7 @@
 <script lang="ts">
-	import Referrer from '$lib/views/referrer/referrer.svelte';
-	import ScreenDetector from '$lib/views/screen-detector/screen-detector.svelte';
+	import { Referrer, ScreenDetector } from '$lib/views';
+
+	 
 	import '../lib/tailwind.css';
 
 	let { children } = $props();
