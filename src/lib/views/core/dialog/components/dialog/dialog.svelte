@@ -1,4 +1,11 @@
 <script lang="ts" context="module">
+	/**
+	 * Return a Promise<boolean> value, whic=h will indiacate dialog to close or not.
+	 * false -> Dont close Dialog
+	 * true -> Close dialog
+	 */
+	export type DialogCloseButtonClickType = (ev: MouseEvent | TouchEvent) => Promise<boolean>;
+
 	export enum DialogSizeEnum {
 		SM = 'sm',
 		MD = 'md',
@@ -49,8 +56,10 @@
 		headerChildren?: Snippet<[dialogExports: DialogExportsType]>;
 		bodyChildren?: Snippet<[dialogExports: DialogExportsType]>;
 		footerChildren?: Snippet<[dialogExports: DialogExportsType]>;
-		onclose?: () => void;
-		onresult?: (value: any) => void;
+		onClose?: () => void;
+		onResult?: (value: any) => void;
+		onOkClick?: (ev: MouseEvent | TouchEvent, options: DialogExportsType) => void;
+		onCloseClick?: DialogCloseButtonClickType;
 	};
 
 	export type DialogExportsType = {
@@ -58,6 +67,8 @@
 		setResult: (value: any) => void;
 		setOkSpinner: (value: boolean) => void;
 		setOkDisabled: (value: boolean) => void;
+		setOnOkClick: (onclick: (ev: MouseEvent | TouchEvent) => void) => void;
+		setOnCloseClick: (onclick: DialogCloseButtonClickType) => void;
 	};
 </script>
 
@@ -111,11 +122,20 @@
 		headerChildren,
 		bodyChildren,
 		footerChildren,
-		onclose,
-		onresult
+		onClose,
+		onResult,
+		onOkClick,
+		onCloseClick
 	}: DialogPropsType = $props();
 
-	let dialogExports: DialogExportsType = { closeDialog, setResult, setOkSpinner, setOkDisabled };
+	let dialogExports: DialogExportsType = {
+		closeDialog,
+		setResult,
+		setOkSpinner,
+		setOkDisabled,
+		setOnCloseClick,
+		setOnOkClick
+	};
 
 	let isPlaced: boolean = $state(false);
 	let isOpened: boolean = $state(false);
@@ -151,14 +171,13 @@
 		}, 0);
 	}
 
-	export function closeDialog(): Promise<any> {
+	export function closeDialog(value?: any): Promise<any> {
 		return new Promise((resolve) => {
 			isOpened = false;
 			setTimeout(() => {
 				isPlaced = false;
-
-				onclose && onclose();
-				onresult && onresult(result);
+				onClose && onClose();
+				onResult && onResult(result || value);
 				resolve(result);
 			}, 300);
 		});
@@ -176,14 +195,30 @@
 		footerOkButtonSpinner = value;
 	}
 
+	export function setOnOkClick(
+		onclick: (event: MouseEvent | TouchEvent, options: DialogExportsType) => void
+	) {
+		onOkClick = onclick;
+	}
+
+	export function setOnCloseClick(onclick: DialogCloseButtonClickType) {
+		onCloseClick = onclick;
+	}
+
 	function handleBackdropClick() {
 		if (cancelable) {
 			closeDialog();
 		}
 	}
 
-	function handleClose() {
-		closeDialog();
+	async function handleClose(ev: MouseEvent | TouchEvent) {
+		if (onCloseClick) {
+			if (await onCloseClick(ev)) {
+				closeDialog();
+			}
+		} else {
+			closeDialog();
+		}
 	}
 
 	function handleKeyDown(event: KeyboardEvent) {
@@ -192,6 +227,12 @@
 				event.stopPropagation();
 				closeDialog();
 			}
+		}
+	}
+
+	function handleOkClick(event: MouseEvent | TouchEvent) {
+		if (onOkClick) {
+			onOkClick(event, dialogExports);
 		}
 	}
 
@@ -224,7 +265,7 @@
 					{#if hasHeaderBack}
 						<Button
 							iconPath={headerBackIconPath}
-							className="p-3 rounded-full text-gray-500 hover:text-gray-600 hover:bg-gray-50 {headerBackButtonClassName}"
+							className="w-12 h-12 p-3  rounded-full text-gray-500 hover:text-gray-600 hover:bg-gray-50 {headerBackButtonClassName}"
 							iconClassName={headerBackIconClassName}
 							onclick={handleClose}
 						/>
@@ -235,7 +276,7 @@
 						<div class="text-xl {titleClassName}">{title || ''}</div>
 					{/if}
 					{#if hasSubtitle}
-						<div class="text-sm {subtitleClassName}">{subtitle || ''}</div>
+						<div class="text-sm text-gray-500 {subtitleClassName}">{subtitle || ''}</div>
 					{/if}
 				</div>
 				<div class="flex-grow">
@@ -247,7 +288,7 @@
 					{#if hasHeaderClose}
 						<Button
 							id="close"
-							className="p-3 rounded-full text-gray-500 hover:text-gray-600 hover:bg-gray-50 {headerCloseButtonClassName}"
+							className="w-12 h-12 p-3 rounded-full text-gray-500 hover:text-gray-600 hover:bg-gray-50 {headerCloseButtonClassName}"
 							iconPath={headerCloseIconPath}
 							iconClassName={headerCloseIconClassName}
 							onclick={handleClose}
@@ -283,11 +324,12 @@
 						id="btn-ok"
 						form={submitButtonFormId}
 						type={submitButtonFormId ? 'submit' : footerOkButtonType}
-						className="p-2 px-5 rounded bg-indigo-600 hover:bg-indigo-700 text-white {footerOkButtonClassName}"
+						className="p-2 px-5 rounded bg-indigo-600 hover:bg-indigo-700 focus:bg-indigo-700 text-white {footerOkButtonClassName}"
 						label={footerOkLable}
 						disabled={footerOkButtonDisabled}
 						spinner={footerOkButtonSpinner}
 						spinnerClassName="text-white w-4 h-4"
+						onclick={handleOkClick}
 					/>
 				{/if}
 				{#if hasFooterCloseButton}
