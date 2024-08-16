@@ -1,11 +1,16 @@
 <script lang="ts" context="module">
+	export enum DialogSizeEnum {
+		SM = 'sm',
+		MD = 'md',
+		LG = 'lg',
+		FULL = 'full'
+	}
 	export type DialogPropsType = {
 		id?: string;
 		cancelable?: boolean;
 		className?: string;
 		containerClassName?: string;
 		backdropClassName?: string;
-		isFullScreen?: boolean;
 		hasTitle?: boolean;
 		hasSubtitle?: boolean;
 		title?: string;
@@ -39,7 +44,7 @@
 		bodyClassName?: string;
 		component?: any;
 		props?: any;
-		size?: 'sm' | 'md' | 'lg' | 'full';
+		size?: DialogSizeEnum;
 		children?: Snippet;
 		headerChildren?: Snippet<[dialogExports: DialogExportsType]>;
 		bodyChildren?: Snippet<[dialogExports: DialogExportsType]>;
@@ -98,7 +103,7 @@
 		footerOkButtonSpinner = false,
 		footerOkButtonDisabled = false,
 		submitButtonFormId = undefined,
-		size = 'sm',
+		size = DialogSizeEnum.SM,
 		bodyClassName = '',
 		component,
 		props = {},
@@ -115,7 +120,7 @@
 	let isPlaced: boolean = $state(false);
 	let isOpened: boolean = $state(false);
 
-	let CustomComponent:ComponetType|null = $state(null);
+	let CustomComponent: ComponetType | null = $state(null);
 
 	let result: any;
 
@@ -190,9 +195,9 @@
 		}
 	}
 
-	$effect(()=>{
+	$effect(() => {
 		CustomComponent = component;
-	})
+	});
 </script>
 
 {#snippet dialogContent()}
