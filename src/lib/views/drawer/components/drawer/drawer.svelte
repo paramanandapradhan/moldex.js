@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../../../tailwind.css';
+	import '../../../../../tailwind.css';
 	import type { Snippet } from 'svelte';
 
 	type PropsType = {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../../../tailwind.css';
+	import '../../../../../tailwind.css';
 	import Icon from '$lib/views/icon/components/icon/icon.svelte';
 	import {
 		mdiCheckCircle,

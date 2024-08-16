@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../../../tailwind.css';
+	import '../../../../../tailwind.css';
 	import { ripple, type RipplePropsType } from '$lib/actions/ripple.js';
 	import Icon from '$lib/views/icon/components/icon/icon.svelte';
 	import type { Snippet } from 'svelte';

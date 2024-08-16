@@ -4,7 +4,6 @@ export * from './actions/index.js';
 export * from './services/index.js';
 
 export * from './views/button/index.js';
-export * from './views/date/index.js';
 export * from './views/dialog/index.js';
 export * from './views/drawer/index.js';
 export * from './views/icon/index.js';

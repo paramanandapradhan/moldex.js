@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { dateFormat, dateToAgo, toDate } from '$lib/views/date';
+	import { dateFormat, dateToAgo, toDate } from '$lib/services/date';
 
 	import { BROWSER } from 'esm-env';
 
