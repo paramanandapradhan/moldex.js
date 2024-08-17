@@ -1,8 +1,7 @@
 
-import { Dialog, DialogSizeEnum, type DialogPropsType } from '$lib/views';
-import ConfirmDialog from '$lib/views/core/dialog/components/confirm-dialog/confirm-dialog.svelte';
+import { Dialog,   type DialogPropsType } from '$lib/views';
+import MsgDialog from '$lib/views/core/dialog/components/msg-dialog/msg-dialog.svelte';
 import { mount, } from 'svelte';
-import { isMobileScreen } from '../screen/screen-service';
 
 function addDialog(props: DialogPropsType) {
     const dialog = mount(Dialog, { target: document.getElementsByTagName('body')[0]!, props });
@@ -37,7 +36,7 @@ export async function openConfirmDialog(params: DialogPropsType & { msg?: string
     params.footerOkLable = params.footerOkLable || 'Confirm';
 
     return await openDialog({
-        component: ConfirmDialog,
+        component: MsgDialog,
         props: { msg },
         ...params,
         hasTitle: true,

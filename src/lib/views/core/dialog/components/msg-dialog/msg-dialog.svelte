@@ -12,12 +12,10 @@
 		setOnOkClick,
 		setResult,
 		closeDialog,
-		setOkDisabled
 	}: PropsType & DialogExportsType = $props();
 
 	$effect(() => {
 		setOnOkClick(() => {
-			setOkDisabled(true);
 			setResult(true);
 			closeDialog();
 		});
