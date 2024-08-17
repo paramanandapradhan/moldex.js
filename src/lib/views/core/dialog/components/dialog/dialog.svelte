@@ -298,7 +298,7 @@
 			</div>
 		{/if}
 
-		<div class="p-6 flex-grow overflow-y-auto {bodyClassName}">
+		<div class="flex-grow overflow-y-auto {bodyClassName}">
 			{#if children}
 				{@render children()}
 			{:else if bodyChildren}

@@ -1,24 +1,9 @@
 <script lang="ts">
-	import { openDialog } from '$lib';
-	import DialogTest from './_views/dialog-test.svelte';
+	import { openConfirmDialog, openDeleteConfirmDialog } from '$lib';
 
-	function handleOpen() {
-		openDialog({
-			hasHeader: true,
-			hasHeaderBack: true,
-			hasHeaderClose: true,
-			hasFooter: true,
-			hasFooterOkButton: true,
-			hasFooterCloseButton: true,
-			hasTitle: true,
-			hasSubtitle: true,
-			title: 'Dialog',
-			subtitle: 'test subtitle here',
-			component: DialogTest,
-			props: {
-				name: 'param'
-			}
-		});
+	async function handleOpen() {
+		let res = await openDeleteConfirmDialog();
+		console.log(res);
 	}
 </script>
 
