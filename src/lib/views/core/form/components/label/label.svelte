@@ -26,9 +26,7 @@
 
 <label
 	for={forName || ''}
-	class="block mb-2 text-sm font-medium text-gray-900 dark:text-white {hasRequiredSymbol && required
-		? 'required'
-		: ''} {className}"
+	class="block text-sm text-gray-500 {hasRequiredSymbol && required ? 'required' : ''} {className}"
 	style="--requiredSymbolColor:{requiredSymbolColor}; --requiredSymbol: '{requiredSymbol}'; "
 >
 	{#if children}
