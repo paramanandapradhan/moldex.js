@@ -1,7 +1,13 @@
 <script context="module" lang="ts">
 	export type InputFieldTypesType = 'text' | 'number' | 'date';
 	export type InputFieldSizeType = 'lg' | 'md' | 'sm' | 'xs';
-	export type InputFieldAppearanceType = 'normal' | 'box' | 'fill' | 'underline' | 'fill-underline';
+	export type InputFieldAppearanceType =
+		| 'normal'
+		| 'box'
+		| 'fill'
+		| 'underline'
+		| 'fill-underline'
+		| 'none';
 
 	export type InputFieldPropsType = {
 		id?: string;
@@ -201,6 +207,9 @@
 				case 'fill-underline':
 					appearanceClassName =
 						'bg-gray-100 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600';
+					break;
+				case 'none':
+					appearanceClassName = 'hover:bg-gray-100 focus:bg-gray-100 border-0 focus:outline-none focus:ring-0 appearance-none';
 					break;
 			}
 		}

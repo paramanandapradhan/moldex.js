@@ -72,4 +72,15 @@
 			 floatingLabel
 		/>
 	</div>
+
+	<div class="mt-4">
+		<InputField
+			name="namef7"
+			label="User Name"
+			appearance="none"
+			size="sm"
+			 
+			  
+		/>
+	</div>
 </div>
