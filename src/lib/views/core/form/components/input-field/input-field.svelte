@@ -174,7 +174,7 @@
 
 			labelClassName =
 				(labelClassName || '') +
-				`absolute duration-300 transform top-0 rounded -translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-0 peer-placeholder-shown:start-0 peer-focus:start-1 bg-transparent peer-placeholder-shown:bg-transparent peer-focus:bg-white start-1 ${floatingLabelPaddingClassName} ${floatingLabelTextClassName}`;
+				`absolute duration-300 transform top-0 rounded -translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-0 peer-placeholder-shown:start-0 peer-focus:start-1 bg-white peer-placeholder-shown:bg-transparent peer-focus:bg-white start-1 ${floatingLabelPaddingClassName} ${floatingLabelTextClassName}`;
 		}
 	});
 
@@ -228,6 +228,8 @@
 	$effect(() => {
 		if (name && !id) {
 			id = name;
+		} else if (id && !name) {
+			name = id;
 		}
 	});
 
@@ -269,7 +271,7 @@
 		{type}
 		{id}
 		{name}
-		class="block w-full peer ps- {iconPaddingClassName} {appearanceClassName} {floatingLabelClassName}  {sizeClassName}   {className}"
+		class="block w-full peer {iconPaddingClassName} {appearanceClassName} {floatingLabelClassName}  {sizeClassName}   {className}"
 		{placeholder}
 		{required}
 		{disabled}
@@ -280,6 +282,7 @@
 		{max}
 		{step}
 		{pattern}
+		{multiple}
 		{onchange}
 		{oninput}
 		{onfocus}

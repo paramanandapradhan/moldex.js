@@ -66,10 +66,10 @@
 		<InputField
 			name="namef7"
 			label="User Name"
-			appearance="normal"
+			appearance="box"
 			size="xs"
 			iconPath={mdiBellOutline}
-			 
+			 floatingLabel
 		/>
 	</div>
 </div>
