@@ -38,6 +38,8 @@
 		multiple?: boolean;
 		iconPath?: string;
 		iconClassName?: string;
+		leftChildren: Snippet;
+		rightChildren: Snippet;
 		onchange?: (ev: any) => void;
 		oninput?: (ev: any) => void;
 		onfocus?: (ev: any) => void;
@@ -57,6 +59,7 @@
 
 <script lang="ts">
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
+	import type { Snippet } from 'svelte';
 
 	import Label from '../label/label.svelte';
 
@@ -89,6 +92,8 @@
 		multiple = false,
 		iconPath,
 		iconClassName = '',
+		leftChildren,
+		rightChildren,
 		onchange,
 		oninput,
 		onfocus,
@@ -117,7 +122,7 @@
 	let floatingLabelIconTextPaddingClassName = $state('');
 
 	$effect(() => {
-		if (iconPath || floatingLabel) {
+		if (iconPath || floatingLabel || leftChildren != null || rightChildren != null) {
 			containerClassName = (containerClassName || '') + ' relative';
 		}
 	});
@@ -209,7 +214,8 @@
 						'bg-gray-100 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600';
 					break;
 				case 'none':
-					appearanceClassName = 'hover:bg-gray-100 focus:bg-gray-100 border-0 focus:outline-none focus:ring-0 appearance-none';
+					appearanceClassName =
+						'hover:bg-gray-100 focus:bg-gray-100 border-0 focus:outline-none focus:ring-0 appearance-none';
 					break;
 			}
 		}
@@ -273,6 +279,11 @@
 <div class={containerClassName}>
 	{#if iconPath}
 		{@render createIcon()}
+	{/if}
+	{#if leftChildren}
+		<div class="max-w-max" >
+			{@render leftChildren()}
+		</div>
 	{/if}
 	<input
 		bind:this={inputRef}

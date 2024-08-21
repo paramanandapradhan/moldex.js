@@ -12,3 +12,4 @@ export * from './text/index.js';
 export * from './toast/index.js';
 export * from './screen-detector/index.js';
 export * from './referrer/index.js';
+export * from './input/index.js';
