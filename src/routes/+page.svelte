@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { mdiBellOutline } from '$lib';
+	import { mdiBellOutline, ripple } from '$lib';
 	import InputField from '$lib/views/core/input/components/input-field/input-field.svelte';
 </script>
 
@@ -69,18 +69,27 @@
 			appearance="box"
 			size="xs"
 			iconPath={mdiBellOutline}
-			 floatingLabel
+			floatingLabel
 		/>
+	</div>
+
+	<div class="mt-4">
+		<InputField name="namef7" label="User Name" appearance="none" size="sm" />
 	</div>
 
 	<div class="mt-4">
 		<InputField
 			name="namef7"
 			label="User Name"
-			appearance="none"
-			size="sm"
-			 
-			  
+			leftChildren={leftButton}
+			rightChildren={leftButton}
+			className="pl-16"
+			labelClassName="peer-placeholder-shown:pl-16"
+			floatingLabel
 		/>
 	</div>
 </div>
+
+{#snippet leftButton()}
+	<button class="px-5 h-full bg-gray-500 rounded-tl-md rounded-bl-md" use:ripple>+</button>
+{/snippet}

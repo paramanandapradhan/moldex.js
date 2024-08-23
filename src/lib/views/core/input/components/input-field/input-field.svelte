@@ -38,8 +38,10 @@
 		multiple?: boolean;
 		iconPath?: string;
 		iconClassName?: string;
-		leftChildren: Snippet;
-		rightChildren: Snippet;
+		leftChildrenContainerClassName?: string;
+		rightChildrenContainerClassName?: string;
+		leftChildren?: Snippet;
+		rightChildren?: Snippet;
 		onchange?: (ev: any) => void;
 		oninput?: (ev: any) => void;
 		onfocus?: (ev: any) => void;
@@ -90,8 +92,8 @@
 		floatingLabel = false,
 		pattern = '',
 		multiple = false,
-		iconPath,
-		iconClassName = '',
+		leftChildrenContainerClassName = '',
+		rightChildrenContainerClassName = '',
 		leftChildren,
 		rightChildren,
 		onchange,
@@ -117,42 +119,10 @@
 	let floatingLabelClassName = $state('');
 	let floatingLabelPaddingClassName = $state('');
 	let floatingLabelTextClassName = $state('');
-	let iconPaddingClassName = $state();
-	let iconSizeClassName = $state();
-	let floatingLabelIconTextPaddingClassName = $state('');
 
 	$effect(() => {
-		if (iconPath || floatingLabel || leftChildren != null || rightChildren != null) {
+		if (floatingLabel || leftChildren != null || rightChildren != null) {
 			containerClassName = (containerClassName || '') + ' relative';
-		}
-	});
-
-	$effect(() => {
-		if (iconPath) {
-			let flpcn;
-			switch (size) {
-				case 'lg':
-					iconPaddingClassName = 'ps-12';
-					flpcn = ` peer-placeholder-shown:ps-12 `;
-					iconSizeClassName = '!w-8 !h-8';
-					break;
-				case 'md':
-					iconPaddingClassName = 'ps-10';
-					flpcn = ` peer-placeholder-shown:ps-10 `;
-					iconSizeClassName = '!w-6 !h-6';
-					break;
-				case 'sm':
-					iconPaddingClassName = 'ps-9';
-					flpcn = ` peer-placeholder-shown:ps-9 `;
-					iconSizeClassName = '!w-5 !h-5';
-					break;
-				case 'xs':
-					iconPaddingClassName = 'ps-7';
-					flpcn = ` peer-placeholder-shown:ps-7 `;
-					iconSizeClassName = '!w-3 !h-3';
-					break;
-			}
-			floatingLabelIconTextPaddingClassName = flpcn;
 		}
 	});
 
@@ -164,7 +134,6 @@
 					case 'lg':
 						flpcn = ` px-1 peer-focus:px-1 peer-placeholder-shown:px-4 `;
 						floatingLabelTextClassName = 'text-base';
-
 						break;
 					case 'md':
 						flpcn = ' px-1 peer-focus:px-1 peer-placeholder-shown:px-2.5 ';
@@ -180,12 +149,10 @@
 						floatingLabelTextClassName = 'text-xs';
 						break;
 				}
-				floatingLabelPaddingClassName = floatingLabelIconTextPaddingClassName + flpcn;
+				floatingLabelPaddingClassName = flpcn;
 			}
 
-			labelClassName =
-				(labelClassName || '') +
-				`absolute duration-300 transform top-0 rounded -translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-0 peer-placeholder-shown:start-0 peer-focus:start-1 bg-white peer-placeholder-shown:bg-transparent peer-focus:bg-white start-1 ${floatingLabelPaddingClassName} ${floatingLabelTextClassName}`;
+			floatingLabelClassName = `absolute duration-300 transform top-0 rounded -translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-0 peer-placeholder-shown:start-0 peer-focus:start-1 bg-white peer-placeholder-shown:bg-transparent peer-focus:bg-white start-1 ${floatingLabelPaddingClassName} ${floatingLabelTextClassName}`;
 		}
 	});
 
@@ -259,29 +226,22 @@
 	<Label
 		forName={id}
 		{label}
-		className={labelClassName}
+		className="{floatingLabelClassName} {labelClassName}"
 		{required}
 		{requiredSymbolColor}
 		{requiredSymbol}
 		{hasRequiredSymbol}
-	></Label>
+	/>
 {/snippet}
 
-{#snippet createIcon()}
-	<div class="absolute inset-y-0 start-0 flex items-center ps-2.5 pointer-events-none {className}">
-		<Icon path={iconPath!} className="text-gray-500 {iconSizeClassName} {iconClassName}" />
-	</div>
-{/snippet}
-
-{#if !floatingLabel && (label || iconPath)}
+{#if !floatingLabel && label}
 	{@render labelSnippet()}
 {/if}
 <div class={containerClassName}>
-	{#if iconPath}
-		{@render createIcon()}
-	{/if}
 	{#if leftChildren}
-		<div class="max-w-max" >
+		<div
+			class="absolute flex items-center justify-center left-children {leftChildrenContainerClassName}"
+		>
 			{@render leftChildren()}
 		</div>
 	{/if}
@@ -291,7 +251,7 @@
 		{type}
 		{id}
 		{name}
-		class="block w-full peer {iconPaddingClassName} {appearanceClassName} {floatingLabelClassName}  {sizeClassName}   {className}"
+		class="block w-full peer {appearanceClassName}   {sizeClassName}   {className}"
 		{placeholder}
 		{required}
 		{disabled}
@@ -318,6 +278,13 @@
 		{ondrag}
 		{ondragover}
 	/>
+	{#if rightChildren}
+		<div
+			class="absolute flex items-center justify-center right-children {rightChildrenContainerClassName}"
+		>
+			{@render rightChildren()}
+		</div>
+	{/if}
 
 	{#if label && floatingLabel}
 		{@render labelSnippet()}
@@ -325,4 +292,15 @@
 </div>
 
 <style>
+	.left-children {
+		left: 2px;
+		top: 2px;
+		bottom: 2px;
+	}
+
+	.right-children {
+		right: 2px;
+		top: 2px;
+		bottom: 2px;
+	}
 </style>
