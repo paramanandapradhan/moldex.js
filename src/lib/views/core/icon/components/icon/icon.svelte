@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ColorField from '$lib/views/core/input/components/color-field/color-field.svelte';
 	import '../../../../../tailwind.css';
 	type IconPropsType = {
 		path: string;
@@ -6,6 +7,7 @@
 		size?: number;
 		fill?: string;
 		viewBox?: string;
+		color?: string;
 	};
 
 	let {
@@ -13,7 +15,8 @@
 		className = '',
 		size = 24,
 		fill = 'currentColor',
-		viewBox = ''
+		viewBox = '',
+		color
 	}: IconPropsType = $props();
 
 	$effect(() => {
@@ -21,6 +24,6 @@
 	});
 </script>
 
-<svg class="w-6 h-6 align-middle {className}" {viewBox} fill="currentColor">
+<svg class="w-6 h-6 align-middle {className}" {viewBox} fill={color || fill}>
 	<path d={path} />
 </svg>
