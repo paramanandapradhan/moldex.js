@@ -1,5 +1,4 @@
 <script context="module" lang="ts">
-	export type InputFieldTypesType = 'text' | 'number' | 'date';
 	export type InputFieldSizeType = 'lg' | 'md' | 'sm' | 'xs';
 	export type InputFieldAppearanceType =
 		| 'normal'
@@ -15,7 +14,7 @@
 		name?: string;
 		className?: string;
 		value?: string;
-		type?: InputFieldTypesType;
+		type?: HTMLInputTypeAttribute;
 		labelClassName?: string;
 		containerClassName?: string;
 		placeholder?: string;
@@ -60,9 +59,8 @@
 </script>
 
 <script lang="ts">
-	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import type { Snippet } from 'svelte';
-
+	import type { HTMLInputTypeAttribute } from 'svelte/elements';
 	import Label from '../label/label.svelte';
 
 	let {
@@ -248,7 +246,7 @@
 	<input
 		bind:this={inputRef}
 		bind:value
-		{type}
+		type={type}
 		{id}
 		{name}
 		class="block w-full peer {appearanceClassName}   {sizeClassName}   {className}"
