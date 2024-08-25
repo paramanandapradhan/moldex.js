@@ -8,6 +8,7 @@ import FileField from "./components/file-field/file-field.svelte";
 import InputField from "./components/input-field/input-field.svelte";
 import Label from "./components/label/label.svelte";
 import NumberField from "./components/number-field/number-field.svelte";
+import PasswordField from "./components/password-field/password-field.svelte";
 import RangeField from "./components/range-field/range-field.svelte";
 import SearchField from "./components/search-field/search-field.svelte";
 import TextField from "./components/text-field/text-field.svelte";
@@ -31,6 +32,7 @@ export {
     InputField,
     Label,
     NumberField,
+    PasswordField,
     RangeField,
     SearchField,
     TextareaField,
