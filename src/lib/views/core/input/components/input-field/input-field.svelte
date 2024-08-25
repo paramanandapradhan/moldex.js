@@ -13,8 +13,8 @@
 		label?: string;
 		name?: string;
 		className?: string;
-		value?: string|number|Date|null|undefined;
-		type?: HTMLInputTypeAttribute;
+		value?: string | number | Date | null | undefined;
+		type?: HTMLInputTypeAttribute | 'textarea';
 		labelClassName?: string;
 		containerClassName?: string;
 		placeholder?: string;
@@ -39,6 +39,8 @@
 		iconClassName?: string;
 		leftChildrenContainerClassName?: string;
 		rightChildrenContainerClassName?: string;
+		rows?: number;
+		cols?: number;
 		leftChildren?: Snippet;
 		rightChildren?: Snippet;
 		onchange?: (ev: any) => void;
@@ -92,6 +94,8 @@
 		multiple = false,
 		leftChildrenContainerClassName = '',
 		rightChildrenContainerClassName = '',
+		rows = 5,
+		cols,
 		leftChildren,
 		rightChildren,
 		onchange,
@@ -110,7 +114,7 @@
 		ondragover
 	}: InputFieldPropsType = $props();
 
-	let inputRef: HTMLInputElement | null = $state(null);
+	let inputRef: HTMLInputElement | HTMLTextAreaElement | null = $state(null);
 
 	let sizeClassName = $state('');
 	let appearanceClassName = $state('');
@@ -243,39 +247,71 @@
 			{@render leftChildren()}
 		</div>
 	{/if}
-	<input
-		bind:this={inputRef}
-		bind:value
-		type={type}
-		{id}
-		{name}
-		class="block w-full peer {appearanceClassName}   {sizeClassName}   {className}"
-		{placeholder}
-		{required}
-		{disabled}
-		{readonly}
-		{maxlength}
-		{minlength}
-		{min}
-		{max}
-		{step}
-		{pattern}
-		{multiple}
-		{onchange}
-		{oninput}
-		{onfocus}
-		{onblur}
-		{ondblclick}
-		{onclick}
-		{onmousedown}
-		{onmouseup}
-		{onkeydown}
-		{onkeyup}
-		{onkeypress}
-		{ondrop}
-		{ondrag}
-		{ondragover}
-	/>
+	{#if type == 'textarea'}
+		<textarea
+			bind:this={inputRef}
+			bind:value
+			{id}
+			{name}
+			class="block w-full peer {appearanceClassName} {sizeClassName} {className}"
+			{placeholder}
+			{required}
+			{disabled}
+			{readonly}
+			{maxlength}
+			{minlength}
+			{rows}
+			{cols}
+			{onchange}
+			{oninput}
+			{onfocus}
+			{onblur}
+			{ondblclick}
+			{onclick}
+			{onmousedown}
+			{onmouseup}
+			{onkeydown}
+			{onkeyup}
+			{onkeypress}
+			{ondrop}
+			{ondrag}
+			{ondragover}
+		></textarea>
+	{:else}
+		<input
+			bind:this={inputRef}
+			bind:value
+			{type}
+			{id}
+			{name}
+			class="block w-full peer {appearanceClassName} {sizeClassName} {className}"
+			{placeholder}
+			{required}
+			{disabled}
+			{readonly}
+			{maxlength}
+			{minlength}
+			{min}
+			{max}
+			{step}
+			{pattern}
+			{multiple}
+			{onchange}
+			{oninput}
+			{onfocus}
+			{onblur}
+			{ondblclick}
+			{onclick}
+			{onmousedown}
+			{onmouseup}
+			{onkeydown}
+			{onkeyup}
+			{onkeypress}
+			{ondrop}
+			{ondrag}
+			{ondragover}
+		/>
+	{/if}
 	{#if rightChildren}
 		<div
 			class="absolute flex items-center justify-center right-children {rightChildrenContainerClassName}"

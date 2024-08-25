@@ -12,7 +12,9 @@
 		min?: number;
 		max?: number;
 		step?: number;
-		onchange?: (value: number) => void;
+		oninput?: (ev: any) => void;
+		onfocus?: (ev: any) => void;
+		onblur?: (ev: any) => void;
 	};
 
 	let {
@@ -24,20 +26,12 @@
 		name,
 		step,
 		className,
-		onchange
+		oninput,
+		onblur,
+		onfocus
 	}: RangeFieldPropsType = $props();
 
 	let rangeSizeClassName = $state('');
-
-	function handleChange(ev?: Event) {
-		if (ev?.target) {
-			let input: HTMLInputElement = ev?.target as HTMLInputElement;
-			if (input) {
-				let value = parseInt(input.value || '0');
-				onchange && onchange(value);
-			}
-		}
-	}
 
 	$effect(() => {
 		switch (size) {
@@ -61,12 +55,14 @@
 	{id}
 	{name}
 	type="range"
-	class=" w-full bg-gray-200 appearance-none cursor-pointer dark:bg-gray-700 rounded-lg range-lg {rangeSizeClassName} {className}"
+	class=" w-full bg-gray-200 appearance-none cursor-pointer dark:bg-gray-700 rounded-lg range-lg outline-none focus:outline-none {rangeSizeClassName} {className}"
 	{min}
 	{max}
 	{step}
 	bind:value
-	oninput={handleChange}
+	{oninput} 
+	{onfocus}
+	{onblur}
 />
 
 <style>

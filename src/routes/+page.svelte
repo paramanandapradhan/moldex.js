@@ -6,6 +6,7 @@
 	import InputField from '$lib/views/core/input/components/input-field/input-field.svelte';
 	import NumberField from '$lib/views/core/input/components/number-field/number-field.svelte';
 	import RangeField from '$lib/views/core/input/components/range-field/range-field.svelte';
+	import TextareaField from '$lib/views/core/input/components/textarea-field/textarea-field.svelte';
 </script>
 
 <div class="p-10">
@@ -32,5 +33,8 @@
 	</div>
 	<div class="my-3">
 		<RangeField name="range" size="xs" step={10} />
+	</div>
+	<div class="my-3">
+		<TextareaField name="textarea" label="Txtarea" />
 	</div>
 </div>
