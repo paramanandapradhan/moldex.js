@@ -13,7 +13,7 @@
 		label?: string;
 		name?: string;
 		className?: string;
-		value?: string | number | Date | null | undefined;
+		value?: string | number | Date | File | File[] | null | undefined;
 		type?: HTMLInputTypeAttribute | 'textarea';
 		labelClassName?: string;
 		containerClassName?: string;

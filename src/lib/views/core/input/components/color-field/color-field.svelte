@@ -30,10 +30,6 @@
 		}
 	}
 
-	// $effect(() => {
-	// 	value = _value;
-	// });
-
 	$effect(() => {
 		if (isValidHexColor(value)) {
 			colorValue = value;

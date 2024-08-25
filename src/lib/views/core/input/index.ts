@@ -11,6 +11,7 @@ import TimeField from "./components/time-field/time-field.svelte";
 import ColorField from "./components/color-field/color-field.svelte";
 import RangeField from "./components/range-field/range-field.svelte";
 import TextareaField from "./components/textarea-field/textarea-field.svelte";
+import FileField from "./components/file-field/file-field.svelte";
 
 export {
     type InputFieldAppearanceType,
@@ -32,5 +33,6 @@ export {
     ColorField,
     RangeField,
     TextareaField,
+    FileField,
 };
 

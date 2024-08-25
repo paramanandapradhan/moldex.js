@@ -3,6 +3,7 @@
 	import DateField from '$lib/views/core/input/components/date-field/date-field.svelte';
 	import DatetimeField from '$lib/views/core/input/components/datetime-field/datetime-field.svelte';
 	import EmailField from '$lib/views/core/input/components/email-field/email-field.svelte';
+	import FileField from '$lib/views/core/input/components/file-field/file-field.svelte';
 	import InputField from '$lib/views/core/input/components/input-field/input-field.svelte';
 	import NumberField from '$lib/views/core/input/components/number-field/number-field.svelte';
 	import RangeField from '$lib/views/core/input/components/range-field/range-field.svelte';
@@ -36,5 +37,15 @@
 	</div>
 	<div class="my-3">
 		<TextareaField name="textarea" label="Txtarea" />
+	</div>
+
+	<div class="my-3">
+		<FileField name="file1" label="File1" appearance="fill" size="lg" />
+	</div>
+	<div class="my-3">
+		<FileField name="file2" label="File2" appearance="normal" multiple />
+	</div>
+	<div class="my-3">
+		<FileField name="file3" label="File3" appearance="box" size="xs" accept="video/*"  floatingLabel/>
 	</div>
 </div>
