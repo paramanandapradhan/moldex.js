@@ -1,0 +1,60 @@
+<script lang="ts">
+	import { mdiMagnify } from '$lib/views/core/icon';
+	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
+	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
+
+	let {
+		className,
+		placeholder,
+		iconClassName,
+		onSearch,
+		...props
+	}: InputFieldPropsType & { iconClassName?: string; onSearch?: (value: string) => void } =
+		$props();
+
+	const debouncedSearch = debounce(search, 300);
+	let lastQuery: string;
+
+	function handleInput(ev: any) {
+		// console.log(ev);
+		let input: HTMLInputElement = ev?.target;
+		if (input) {
+			let searchText = (input.value || '').toLowerCase().trim();
+			debouncedSearch(searchText);
+		}
+	}
+
+	function search(query: string) {
+		if (lastQuery != query) {
+			onSearch && onSearch(query);
+			lastQuery = query;
+		}
+	}
+
+	function debounce<T extends (...args: any[]) => void>(
+		func: T,
+		wait: number
+	): (...args: Parameters<T>) => void {
+		let timeout: ReturnType<typeof setTimeout>;
+
+		return function (...args: Parameters<T>) {
+			clearTimeout(timeout);
+			timeout = setTimeout(() => {
+				func(...args);
+			}, wait);
+		};
+	}
+</script>
+
+{#snippet searchIcon()}
+	<Icon path={mdiMagnify} className="mx-3 text-gray-400 {iconClassName}"></Icon>
+{/snippet}
+<InputField
+	{...props}
+	type="text"
+	maxlength={props?.maxlength || 200}
+	leftChildren={searchIcon}
+	className=" pl-12 {className}"
+	{placeholder}
+	oninput={handleInput}
+/>

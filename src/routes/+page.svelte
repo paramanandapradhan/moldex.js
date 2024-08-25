@@ -7,6 +7,7 @@
 	import InputField from '$lib/views/core/input/components/input-field/input-field.svelte';
 	import NumberField from '$lib/views/core/input/components/number-field/number-field.svelte';
 	import RangeField from '$lib/views/core/input/components/range-field/range-field.svelte';
+	import SearchField from '$lib/views/core/input/components/search-field/search-field.svelte';
 	import TextareaField from '$lib/views/core/input/components/textarea-field/textarea-field.svelte';
 </script>
 
@@ -46,6 +47,17 @@
 		<FileField name="file2" label="File2" appearance="normal" multiple />
 	</div>
 	<div class="my-3">
-		<FileField name="file3" label="File3" appearance="box" size="xs" accept="video/*"  floatingLabel/>
+		<FileField
+			name="file3"
+			label="File3"
+			appearance="box"
+			size="xs"
+			accept="video/*"
+			floatingLabel
+		/>
+	</div>
+
+	<div class="my-3">
+		<SearchField name="search" placeholder="Search..." onSearch={(value) => console.log(value)} />
 	</div>
 </div>
