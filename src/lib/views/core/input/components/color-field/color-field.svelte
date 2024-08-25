@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ripple } from '$lib/actions';
+	import { colorToHex, isValidHexColor } from '$lib/services';
 	import { mdiSquare } from '$lib/views/core/icon';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
@@ -14,12 +15,33 @@
 	let colorRef: HTMLInputElement;
 	let btnIconSizeClassName: string = $state('');
 	let btnRoundedClassName: string = $state('');
+	let colorValue: string = $state('#000000');
 
 	function handleColorBtnClick() {
 		if (colorRef) {
 			colorRef.click();
 		}
 	}
+
+	function handleColorPickerChange(ev: any) {
+		let input: HTMLInputElement = ev?.target;
+		if (input) {
+			value = input.value;
+		}
+	}
+
+	// $effect(() => {
+	// 	value = _value;
+	// });
+
+	$effect(() => {
+		if (isValidHexColor(value)) {
+			colorValue = value;
+			if (colorRef) {
+				colorRef.value = colorToHex(value);
+			}
+		}
+	});
 
 	$effect(() => {
 		if (size) {
@@ -53,7 +75,7 @@
 		use:ripple
 		onclick={handleColorBtnClick}
 	>
-		<Icon path={mdiSquare} color={value} className=" {btnIconSizeClassName} " />
+		<Icon path={mdiSquare} color={colorValue} className=" {btnIconSizeClassName} " />
 	</button>
 {/snippet}
 
@@ -64,15 +86,16 @@
 		bind:value
 		className="pr-8 {props?.className}"
 		rightChildren={colorButton}
+		maxlength={9}
 	/>
 
 	<input
 		class="color-input"
 		type="color"
-		bind:value
 		placeholder=" "
 		bind:this={colorRef}
 		tabindex={-1}
+		oninput={handleColorPickerChange}
 	/>
 </div>
 

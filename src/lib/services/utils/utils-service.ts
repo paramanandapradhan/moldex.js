@@ -429,4 +429,38 @@ export function pixelToInch(pixels: number) {
     return pixels / 96; // DPI
 }
 
+export function isValidHexColor(hex: string) {
+    const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+    let res = hexRegex.test(hex);
+    return res;
+}
+
+
+export function colorToHex(color: string) {
+    // Create a temporary div element to use its computed style
+    const tempDiv = document.createElement("div");
+    tempDiv.style.color = color;
+    document.body.appendChild(tempDiv);
+
+    // Get the computed color from the div element
+    const computedColor = window.getComputedStyle(tempDiv).color;
+    document.body.removeChild(tempDiv);
+
+    // Convert the computed color to RGB values
+    const rgb = computedColor.match(/\d+/g).map(Number);
+
+    // Convert RGB values to a 6-character hex color
+    const hexColor = rgbToHex(rgb[0], rgb[1], rgb[2]);
+    return hexColor;
+}
+
+export function rgbToHex(r: number, g: number, b: number) {
+    return (
+        "#" +
+        [r, g, b]
+            .map((x) => x.toString(16).padStart(2, "0")) // Convert to hex and ensure two characters
+            .join("")
+            .toUpperCase()
+    );
+}
 

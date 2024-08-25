@@ -29,7 +29,7 @@
 		<TimeField label="Enter Time" name="time" floatingLabel />
 	</div>
 	<div class="my-3">
-		<ColorField label="Enter Color" name="color" size="lg" appearance="normal" />
+		<ColorField label="Enter Color" name="color" size="lg" appearance="normal" value="#00bbcc" />
 	</div>
 	<div class="my-3">
 		<RangeField name="range" size="xs" step={10} />
