@@ -9,6 +9,7 @@ import DateField from "./components/date-field/date-field.svelte";
 import DatetimeField from "./components/datetime-field/datetime-field.svelte";
 import TimeField from "./components/time-field/time-field.svelte";
 import ColorField from "./components/color-field/color-field.svelte";
+import RangeField from "./components/range-field/range-field.svelte";
 
 export {
     type InputFieldAppearanceType,
@@ -28,5 +29,6 @@ export {
     DatetimeField,
     TimeField,
     ColorField,
+    RangeField,
 };
 

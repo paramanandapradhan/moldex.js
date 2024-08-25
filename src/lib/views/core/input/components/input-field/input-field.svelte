@@ -13,7 +13,7 @@
 		label?: string;
 		name?: string;
 		className?: string;
-		value?: string;
+		value?: string|number|Date|null|undefined;
 		type?: HTMLInputTypeAttribute;
 		labelClassName?: string;
 		containerClassName?: string;

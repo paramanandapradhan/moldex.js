@@ -4,7 +4,12 @@
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
 
-	let { size, appearance, value = $bindable('#000000'), ...props }: InputFieldPropsType = $props();
+	let {
+		size,
+		appearance,
+		value = $bindable('#000000'),
+		...props
+	}: InputFieldPropsType & { value?: string } = $props();
 
 	let colorRef: HTMLInputElement;
 	let btnIconSizeClassName: string = $state('');
