@@ -40,7 +40,7 @@
 <EasyScriptLoader
 	scriptName="EasyCountryStateData"
 	scriptUrl="https://cdn.jsdelivr.net/gh/paramanandapradhan/easy-country-state-data@main/dist/index.js"
-	on:load={handleScriptLoad}
+	onLoad={handleScriptLoad}
 />
 
 {#if state}

@@ -22,6 +22,7 @@
 
 	function handleScriptLoad(lib: CustomEvent) {
 		EasyCountryData = lib;
+		console.log('EasyCountryData', EasyCountryData);
 		init();
 	}
 
@@ -43,7 +44,7 @@
 <EasyScriptLoader
 	scriptName="EasyCountryData"
 	scriptUrl="https://cdn.jsdelivr.net/gh/paramanandapradhan/easy-countrydata@main/dist/index.js"
-	onload={handleScriptLoad}
+	onLoad={handleScriptLoad}
 />
 {#if country}
 	<span> {country?.name || ''} </span>
