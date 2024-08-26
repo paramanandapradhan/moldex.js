@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	export type ListItemType = {
 		id?: string;
 		label?: string;
@@ -26,7 +26,12 @@
 	import { ripple } from '$lib/actions/ripple.js';
 
 	import type { Snippet } from 'svelte';
-	import { Icon, mdiCheckCircle, mdiCheckCircleOutline, mdiChevronRight } from '$lib/views/core/icon';
+	import {
+		Icon,
+		mdiCheckCircle,
+		mdiCheckCircleOutline,
+		mdiChevronRight
+	} from '$lib/views/core/icon';
 
 	type PropsType = {
 		item: ListItemType;

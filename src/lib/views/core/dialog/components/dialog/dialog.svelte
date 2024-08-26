@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script module lang="ts">
 	/**
 	 * Return a Promise<boolean> value, whic=h will indiacate dialog to close or not.
 	 * false -> Dont close Dialog

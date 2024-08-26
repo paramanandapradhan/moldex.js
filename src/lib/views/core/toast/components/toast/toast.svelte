@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
 	import type { Snippet } from 'svelte';
 
 	export type ToastPropsType = {
@@ -12,7 +12,7 @@
 
 <script lang="ts">
 	import '../../../../../tailwind.css';
-	
+
 	let isPlaced: boolean = $state(false);
 	let isOpened: boolean = $state(false);
 
