@@ -1,5 +1,6 @@
 
-import { Dialog,   type DialogPropsType } from '$lib/views';
+import { Dialog, type DialogPropsType } from '$lib/views';
+import ListDialog from '$lib/views/core/dialog/components/list-dialog/list-dialog.svelte';
 import MsgDialog from '$lib/views/core/dialog/components/msg-dialog/msg-dialog.svelte';
 import { mount, } from 'svelte';
 
@@ -36,7 +37,7 @@ export async function openConfirmDialog(params: DialogPropsType & { msg?: string
     params.footerOkLable = params.footerOkLable || 'Confirm';
 
     return await openDialog({
-        component: MsgDialog,
+        bodyComponent: MsgDialog,
         props: { msg },
         ...params,
         hasTitle: true,
@@ -53,6 +54,20 @@ export async function openDeleteConfirmDialog(params: DialogPropsType & { msg?: 
         title: 'Delete',
         footerOkLable: 'Delete',
         footerOkButtonClassName: 'bg-red-500 hover:bg-red-700 focus:bg-red-700'
+    })
+}
+
+export async function openListDialog({ items, label, desc, hasArrow, hasCheck, ...params }: DialogPropsType & { items?: any[], label?: string, desc?: string, hasArrow?: boolean, hasCheck?: boolean } = {}) {
+    return await openDialog({
+        component: ListDialog,
+        props: {
+            items,
+            label,
+            desc,
+            hasArrow,
+            hasCheck
+        },
+        ...params
     })
 }
 

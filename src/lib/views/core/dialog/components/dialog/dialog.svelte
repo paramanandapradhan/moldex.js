@@ -1,4 +1,7 @@
 <script module lang="ts">
+	import ButtonBack from '$lib/views/core/button/components/button-back/button-back.svelte';
+	import ButtonClose from '$lib/views/core/button/components/button-close/button-close.svelte';
+
 	/**
 	 * Return a Promise<boolean> value, whic=h will indiacate dialog to close or not.
 	 * false -> Dont close Dialog
@@ -49,6 +52,7 @@
 		footerOkButtonDisabled?: boolean;
 		submitButtonFormId?: string;
 		bodyClassName?: string;
+		bodyComponent?: any;
 		component?: any;
 		props?: any;
 		size?: DialogSizeEnum;
@@ -116,6 +120,7 @@
 		submitButtonFormId = undefined,
 		size = DialogSizeEnum.SM,
 		bodyClassName = '',
+		bodyComponent,
 		component,
 		props = {},
 		children,
@@ -141,6 +146,8 @@
 	let isOpened: boolean = $state(false);
 
 	let CustomComponent: ComponetType | null = $state(null);
+
+	let BodyComponent: ComponetType | null = $state(null);
 
 	let result: any;
 
@@ -237,6 +244,9 @@
 	}
 
 	$effect(() => {
+		BodyComponent = bodyComponent;
+	});
+	$effect(() => {
 		CustomComponent = component;
 	});
 </script>
@@ -255,93 +265,96 @@
 			: 'rounded-lg shadow-xl'} {className}"
 		onclick={(ev: MouseEvent) => ev.stopPropagation()}
 	>
-		{#if hasHeader}
-			<div
-				class="flex items-start gap-4 w-full cursor-default py-2 {hasHeaderShadow
-					? 'border-b shadow-sm'
-					: ''} {headerClassName}"
-			>
-				<div>
-					{#if hasHeaderBack}
+		{#if CustomComponent?.length == 2}
+			<CustomComponent {...{ ...props }} {...{ ...dialogExports }} />
+		{:else}
+			{#if hasHeader}
+				<div
+					class="flex items-start gap-4 w-full cursor-default py-2 {hasHeaderShadow
+						? 'border-b shadow-sm'
+						: ''} {headerClassName}"
+				>
+					<div>
+						{#if hasHeaderBack}
+							<ButtonBack
+								iconPath={headerBackIconPath}
+								iconClassName={headerBackIconClassName}
+								className={headerBackButtonClassName}
+								onClick={handleClose}
+							/>
+						{/if}
+					</div>
+					<div class="py-2">
+						{#if hasTitle}
+							<div class="text-xl {titleClassName}">{title || ''}</div>
+						{/if}
+						{#if hasSubtitle}
+							<div class="text-sm text-gray-500 {subtitleClassName}">{subtitle || ''}</div>
+						{/if}
+					</div>
+					<div class="flex-grow">
+						{#if headerChildren}
+							{@render headerChildren(dialogExports)}
+						{/if}
+					</div>
+					<div>
+						{#if hasHeaderClose}
+							<ButtonClose
+								className={headerCloseButtonClassName}
+								iconPath={headerCloseIconPath}
+								iconClassName={headerCloseIconClassName}
+								onClick={handleClose}
+							/>
+						{/if}
+					</div>
+				</div>
+			{/if}
+
+			<div class="flex-grow overflow-y-auto {bodyClassName}">
+				{#if children}
+					{@render children()}
+				{:else if bodyChildren}
+					{@render bodyChildren(dialogExports)}
+				{:else if BodyComponent?.length == 2}
+					<BodyComponent {...{ ...props }} {...{ ...dialogExports }} />
+				{/if}
+			</div>
+
+			{#if hasFooter}
+				<div
+					class="flex items-center justify-end p-4 gap-4 {hasFooterShadow
+						? 'border-t'
+						: ''} {footerClassName}"
+				>
+					<div class="flex-grow">
+						{#if footerChildren}
+							{@render footerChildren(dialogExports)}
+						{/if}
+					</div>
+					{#if hasFooterOkButton}
 						<Button
-							iconPath={headerBackIconPath}
-							className="w-12 h-12 p-3  rounded-full text-gray-500 hover:text-gray-600 hover:bg-gray-50 {headerBackButtonClassName}"
-							iconClassName={headerBackIconClassName}
-							onclick={handleClose}
+							id="btn-ok"
+							form={submitButtonFormId}
+							type={submitButtonFormId ? 'submit' : footerOkButtonType}
+							className="p-2 px-5 rounded bg-indigo-600 hover:bg-indigo-700 focus:bg-indigo-700 text-white {footerOkButtonClassName}"
+							label={footerOkLable}
+							disabled={footerOkButtonDisabled}
+							spinner={footerOkButtonSpinner}
+							spinnerClassName="text-white w-4 h-4"
+							onClick={handleOkClick}
+						/>
+					{/if}
+					{#if hasFooterCloseButton}
+						<Button
+							id="btn-close"
+							type="button"
+							className="p-2 px-5 rounded bg-gray-100 hover:bg-gray-200 {footerCloseButtonClassName}"
+							label={footerCloseLabel}
+							onClick={handleClose}
 						/>
 					{/if}
 				</div>
-				<div class="py-2">
-					{#if hasTitle}
-						<div class="text-xl {titleClassName}">{title || ''}</div>
-					{/if}
-					{#if hasSubtitle}
-						<div class="text-sm text-gray-500 {subtitleClassName}">{subtitle || ''}</div>
-					{/if}
-				</div>
-				<div class="flex-grow">
-					{#if headerChildren}
-						{@render headerChildren(dialogExports)}
-					{/if}
-				</div>
-				<div>
-					{#if hasHeaderClose}
-						<Button
-							id="close"
-							className="w-12 h-12 p-3 rounded-full text-gray-500 hover:text-gray-600 hover:bg-gray-50 {headerCloseButtonClassName}"
-							iconPath={headerCloseIconPath}
-							iconClassName={headerCloseIconClassName}
-							onclick={handleClose}
-						></Button>
-					{/if}
-				</div>
-			</div>
-		{/if}
-
-		<div class="flex-grow overflow-y-auto {bodyClassName}">
-			{#if children}
-				{@render children()}
-			{:else if bodyChildren}
-				{@render bodyChildren(dialogExports)}
-			{:else if CustomComponent?.length == 2}
-				<CustomComponent {...{ ...props }} {...{ ...dialogExports }} />
 			{/if}
-		</div>
-
-		{#if hasFooter}
-			<div
-				class="flex items-center justify-end p-4 gap-4 {hasFooterShadow
-					? 'border-t'
-					: ''} {footerClassName}"
-			>
-				<div class="flex-grow">
-					{#if footerChildren}
-						{@render footerChildren(dialogExports)}
-					{/if}
-				</div>
-				{#if hasFooterOkButton}
-					<Button
-						id="btn-ok"
-						form={submitButtonFormId}
-						type={submitButtonFormId ? 'submit' : footerOkButtonType}
-						className="p-2 px-5 rounded bg-indigo-600 hover:bg-indigo-700 focus:bg-indigo-700 text-white {footerOkButtonClassName}"
-						label={footerOkLable}
-						disabled={footerOkButtonDisabled}
-						spinner={footerOkButtonSpinner}
-						spinnerClassName="text-white w-4 h-4"
-						onclick={handleOkClick}
-					/>
-				{/if}
-				{#if hasFooterCloseButton}
-					<Button
-						id="btn-close"
-						type="button"
-						className="p-2 px-5 rounded bg-gray-100 hover:bg-gray-200 {footerCloseButtonClassName}"
-						label={footerCloseLabel}
-						onclick={handleClose}
-					/>
-				{/if}
-			</div>
 		{/if}
 	</div>
 {/snippet}

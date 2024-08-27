@@ -1,0 +1,44 @@
+<script lang="ts">
+	import { isSmallScreen } from '$lib/services';
+	import { mdiArrowLeft, mdiChevronRight } from '$lib/views/core/icon';
+	import Button from '../button/button.svelte';
+
+	type PropsType = {
+		iconPath?: string;
+		iconClassName?: string;
+		className?: string;
+		onlyMobile?: boolean;
+		onClick?: (ev: MouseEvent) => void;
+	};
+
+	let {
+		iconPath = mdiArrowLeft,
+		iconClassName = '',
+		className = '',
+		onlyMobile,
+		onClick
+	}: PropsType = $props();
+
+	let isMobileScreen = $state(false);
+
+	$effect(() => {
+		isMobileScreen = isSmallScreen();
+	});
+</script>
+
+{#snippet button()}
+	<Button
+		{iconPath}
+		className="w-12 h-12 p-3 rounded-full text-gray-500 hover:text-gray-600 hover:bg-gray-50 {className}"
+		{iconClassName}
+		{onClick}
+	/>
+{/snippet}
+
+{#if onlyMobile}
+	{#if isMobileScreen}
+		{@render button()}
+	{/if}
+{:else}
+	{@render button()}
+{/if}

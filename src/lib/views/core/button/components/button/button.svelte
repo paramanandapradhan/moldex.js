@@ -21,7 +21,7 @@
 		onlySpinner?: boolean;
 		children?: Snippet;
 		useRipple?: boolean;
-		onclick?: (ev: MouseEvent) => void;
+		onClick?: (ev: MouseEvent) => void;
 	};
 
 	let {
@@ -40,7 +40,7 @@
 		onlySpinner = false,
 		children,
 		useRipple = true,
-		onclick = (ev: MouseEvent) => {}
+		onClick = (ev: MouseEvent) => {}
 	}: PropsType = $props();
 
 	function maybeRipple(node: HTMLElement, options?: RipplePropsType) {
@@ -75,7 +75,7 @@
 	{type}
 	{form}
 	class="flex items-center justify-center gap-2 hover:bg-gray-100 p-1 px-3 outline-none focus:bg-gray-200 disabled:bg-white disabled:text-gray-400 rounded {className}"
-	{onclick}
+	onclick={onClick}
 	{disabled}
 	use:maybeRipple
 >

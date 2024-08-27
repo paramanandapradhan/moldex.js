@@ -36,7 +36,7 @@
 	type PropsType = {
 		item: ListItemType;
 		index: number;
-		listId?: string;
+		id?: string;
 		className?: string;
 		hasCheck?: boolean;
 		checkIconPath?: string;
@@ -52,14 +52,14 @@
 		hasArrow?: boolean;
 		arrowIconPath?: string;
 		arrowClassName?: string;
-		onclick?: (ev: MouseEvent, item: ListItemType, index: number) => void;
+		onClick?: (ev: MouseEvent, item: ListItemType, index: number) => void;
 		children?: Snippet<[ListItemType, number]>;
 	};
 
 	let {
 		item,
 		index,
-		listId = '',
+		id = '',
 		className = '',
 		hasCheck = false,
 		uncheckIconPath = mdiCheckCircleOutline,
@@ -75,8 +75,8 @@
 		hasArrow = false,
 		arrowIconPath = mdiChevronRight,
 		arrowClassName = '',
-		onclick = (ev: MouseEvent, item: ListItemType, index: number) => {},
-		children
+		onClick = (ev: MouseEvent, item: ListItemType, index: number) => {},
+		children,
 	}: PropsType = $props();
 </script>
 
@@ -96,6 +96,7 @@
 				/>
 			</div>
 		{/if}
+
 		<div class="flex-grow">
 			{#if item?.label}
 				<div class="text-ellipsis overflow-hidden {labelClassName} {item?.labelClassName || ''}">
@@ -132,11 +133,11 @@
 
 {#snippet buttonSnippet()}
 	<button
-		id="{listId}-item-item-{index}"
+		id="{id}-item-item-{index}"
 		type="button"
 		class="w-full select-none block px-3 py-2 text-start leading-6 text-gray-900 hover:bg-gray-50 focus:bg-gray-50 focus:outline-none {className} {item.className}"
 		role="menuitem"
-		onclick={(ev) => onclick(ev, item, index)}
+		onclick={(ev) => onClick(ev, item, index)}
 		disabled={item?.disabled}
 		use:ripple
 	>
@@ -146,12 +147,12 @@
 
 {#snippet linkSnippet()}
 	<a
-		id="{listId}-item-item-{index}"
+		id="{id}-item-item-{index}"
 		href={item?.url}
 		class="block select-none px-3 py-1 w-full text-start leading-6 text-gray-900 hover:bg-gray-50 focus:bg-gray-50 focus:outline-none {className} {item.className}"
 		role="menuitem"
 		target={item?.openInNewWindow ? '_blank' : ''}
-		onclick={(ev) => onclick(ev, item, index)}
+		onclick={(ev) => onClick(ev, item, index)}
 		use:ripple
 	>
 		{@render itemInternal()}

@@ -2,6 +2,8 @@
 	import { ripple } from '$lib/actions';
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
 	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
+	import { isMobileScreen, openListDialog } from '$lib/services';
+	import { DialogSizeEnum } from '$lib/views/core/dialog';
 
 	let {
 		size,
@@ -18,10 +20,20 @@
 	let btnRoundedClassName = $state('');
 	let btnIconSizeClassName = $state('');
 
-	function hanleDialCodePicker() {}
+	let EasyCountryData: any;
 
-	function handleCountryData(lib: any) {
+	async function hanleDialCodePicker() {
+		if (EasyCountryData) {
+			let items = EasyCountryData.getCountries();
+			console.log('Countries', items);
+			let size = isMobileScreen() ? DialogSizeEnum.FULL : DialogSizeEnum.SM;
+			let res = await openListDialog({ items, label: 'dialCode', desc: 'name', size , hasCheck:true});
+		}
+	}
+
+	function handleScriptLoad(lib: any) {
 		console.log(lib);
+		EasyCountryData = lib;
 	}
 
 	$effect(() => {
@@ -60,17 +72,11 @@
 	</button>
 {/snippet}
 
-<!-- <EasyScriptLoader
-	onLoad={handleCountryData}
+<EasyScriptLoader
 	scriptName="EasyCountryData"
 	scriptUrl="https://cdn.jsdelivr.net/gh/paramanandapradhan/easy-countrydata@main/dist/index.js"
-/> -->
-<EasyScriptLoader
-	scriptName="Swiper"
-	scriptUrl='https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js'
-	styleUrl='https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css'
-	onLoad={handleCountryData}
-></EasyScriptLoader>
+	onLoad={handleScriptLoad}
+/>
 
 <InputField
 	{...props}
