@@ -9,6 +9,7 @@ import InputField from "./components/input-field/input-field.svelte";
 import Label from "./components/label/label.svelte";
 import NumberField from "./components/number-field/number-field.svelte";
 import PasswordField from "./components/password-field/password-field.svelte";
+import PhoneField from "./components/phone-field/phone-field.svelte";
 import RangeField from "./components/range-field/range-field.svelte";
 import SearchField from "./components/search-field/search-field.svelte";
 import TextField from "./components/text-field/text-field.svelte";
@@ -33,6 +34,7 @@ export {
     Label,
     NumberField,
     PasswordField,
+    PhoneField,
     RangeField,
     SearchField,
     TextareaField,

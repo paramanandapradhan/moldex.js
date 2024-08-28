@@ -1,12 +1,13 @@
 <script lang="ts">
+	import { ButtonListItem } from '$lib/views/core';
+	import ButtonBack from '$lib/views/core/button/components/button-back/button-back.svelte';
+	import ButtonCloseIcon from '$lib/views/core/button/components/button-close-icon/button-close-icon.svelte';
+	import ButtonClose from '$lib/views/core/button/components/button-close/button-close.svelte';
+	import type { ListItemType } from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
+	import ButtonOk from '$lib/views/core/button/components/button-ok/button-ok.svelte';
+	import SearchField from '$lib/views/core/input/components/search-field/search-field.svelte';
 	import type { Snippet } from 'svelte';
 	import type { DialogExportsType } from '../dialog/dialog.svelte';
-	import ButtonBack from '$lib/views/core/button/components/button-back/button-back.svelte';
-	import SearchField from '$lib/views/core/input/components/search-field/search-field.svelte';
-	import { ButtonListItem } from '$lib/views/core';
-	import type { ListItemType } from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
-	import { ripple } from '$lib/actions';
-	import ButtonCloseIcon from '$lib/views/core/button/components/button-close-icon/button-close-icon.svelte';
 
 	type PropsType = {
 		value?: any | any[];
@@ -146,20 +147,13 @@
 		closeDialog();
 	}
 
-	// $effect(() => {
-	// 	console.log('props', { itemTitle, itemSubtitle });
-	// });
-	// $effect(() => {
-	// 	console.log('preparedItems', selectedItemsSet, preparedItems);
-	// });
-
-	// $effect(() => {
-	// 	console.log('filteredItems', filteredItems);
-	// });
+	$effect(() => {
+		setResult(null);
+	});
 </script>
 
 <div class="flex gap-3 p-3">
-	<ButtonBack onlyMobile onClick={closeDialog} />
+	<ButtonBack onlyMobile onClick={handleClose} />
 	<div class="flex-grow">
 		<SearchField
 			name="search"
@@ -168,7 +162,7 @@
 			placeholder="Search..."
 		/>
 	</div>
-	<ButtonCloseIcon onlyWeb onClick={closeDialog} />
+	<ButtonCloseIcon onlyWeb onClick={handleClose} />
 </div>
 <div class="flex-grow overflow-y-auto">
 	{#each filteredItems as item, index}
@@ -182,23 +176,14 @@
 				{hasArrow}
 				{hasCheck}
 				onClick={(ev) => handleItemSelected(ev, item, index)}
+				className="px-4"
 			/>
 		</div>
 	{/each}
 </div>
 {#if multiple}
 	<div class="flex items-center justify-end gap-3 p-4">
-		<button
-			class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded {okButtonClassName}"
-			use:ripple
-			onclick={handleOk}
-		>
-			{okButtonLable}
-		</button>
-		<button
-			class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded {closeButtonLabel}"
-			use:ripple
-			onclick={handleClose}>Close</button
-		>
+		<ButtonOk label={okButtonLable} className={okButtonClassName} onClick={handleOk} />
+		<ButtonClose label={closeButtonLabel} className={closeButtonClassName} onClick={handleClose} />
 	</div>
 {/if}

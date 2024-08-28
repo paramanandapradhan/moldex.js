@@ -1,11 +1,5 @@
-<script lang="ts">
-	import '../../../../../tailwind.css';
-	import { ripple, type RipplePropsType } from '$lib/actions/ripple.js';
-	import type { Snippet } from 'svelte';
-	import { Spinner } from '$lib/views/core/spinner';
-	import { Icon } from '$lib/views/core/icon';
-
-	type PropsType = {
+<script module lang="ts">
+	export type ButtonPropsType = {
 		id?: string;
 		type?: 'button' | 'submit' | 'reset';
 		form?: string | null;
@@ -23,6 +17,14 @@
 		useRipple?: boolean;
 		onClick?: (ev: MouseEvent) => void;
 	};
+</script>
+
+<script lang="ts">
+	import '../../../../../tailwind.css';
+	import { ripple, type RipplePropsType } from '$lib/actions/ripple.js';
+	import type { Snippet } from 'svelte';
+	import { Spinner } from '$lib/views/core/spinner';
+	import { Icon } from '$lib/views/core/icon';
 
 	let {
 		id = '',
@@ -41,7 +43,7 @@
 		children,
 		useRipple = true,
 		onClick = (ev: MouseEvent) => {}
-	}: PropsType = $props();
+	}: ButtonPropsType = $props();
 
 	function maybeRipple(node: HTMLElement, options?: RipplePropsType) {
 		if (useRipple) {
@@ -74,7 +76,7 @@
 	{id}
 	{type}
 	{form}
-	class="flex items-center justify-center gap-2 hover:bg-gray-100 p-1 px-3 outline-none focus:bg-gray-200 disabled:bg-white disabled:text-gray-400 rounded {className}"
+	class="flex items-center justify-center gap-2 outline-none disabled:bg-white disabled:text-gray-400 rounded {className}"
 	onclick={onClick}
 	{disabled}
 	use:maybeRipple

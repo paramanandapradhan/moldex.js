@@ -35,10 +35,10 @@
 				itemSubtitle: 'name',
 				size,
 				hasCheck: true,
-				identity: 'dialCode',
-				value: '+93'
+				identity: 'dialCode'
 			});
 
+			console.log(res);
 			if (res) {
 				dialCode = res;
 				inputFieldRef && inputFieldRef.focus();
