@@ -1,0 +1,204 @@
+<script lang="ts">
+	import type { Snippet } from 'svelte';
+	import type { DialogExportsType } from '../dialog/dialog.svelte';
+	import ButtonBack from '$lib/views/core/button/components/button-back/button-back.svelte';
+	import SearchField from '$lib/views/core/input/components/search-field/search-field.svelte';
+	import { ButtonListItem } from '$lib/views/core';
+	import type { ListItemType } from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
+	import { ripple } from '$lib/actions';
+	import ButtonCloseIcon from '$lib/views/core/button/components/button-close-icon/button-close-icon.svelte';
+
+	type PropsType = {
+		value?: any | any[];
+		multiple?: boolean;
+		items?: any[];
+		itemChildren?: Snippet<[any, number]>;
+		itemTitle?: string;
+		itemSubtitle?: string;
+		search?: string;
+		identity?: string;
+		iconPath?: string;
+		hasCheck?: boolean;
+		hasArrow?: boolean;
+		itemTitleClassName?: string;
+		itemSubtitleClassName?: string;
+		okButtonLable?: string;
+		okButtonClassName?: string;
+		closeButtonLabel?: string;
+		closeButtonClassName?: string;
+	};
+
+	let {
+		value,
+		multiple = false,
+		items,
+		itemTitle,
+		itemSubtitle,
+		hasCheck,
+		hasArrow,
+		search,
+		identity,
+		itemTitleClassName,
+		itemSubtitleClassName,
+		okButtonLable = 'Select',
+		okButtonClassName = '',
+		closeButtonLabel = 'Close',
+		closeButtonClassName = '',
+		itemChildren,
+		closeDialog,
+		setResult
+	}: PropsType &
+		DialogExportsType & {
+			items?: any[];
+			itemChildren?: Snippet<[any, number]>;
+		} = $props();
+
+	let searchText: string = $state('');
+
+	let idField = Symbol('_id');
+	let searchField = Symbol('_search');
+
+	type CustomListItemType = ListItemType & { [key: symbol]: string };
+
+	let selectedItemsSet: Set<any> = $derived.by(() => {
+		let set = new Set<any>();
+		if (value != null) {
+			if (Array.isArray(value)) {
+				value.forEach((v) => set.add(v));
+			} else {
+				set.add(value);
+			}
+		}
+		return set;
+	});
+
+	let preparedItems: any[] = $derived.by(() => {
+		return (items || []).map((item: any, index) => {
+			let res: CustomListItemType = {
+				[idField]: identity && item.hasOwnProperty(identity) ? item[identity] : index
+			};
+			if (itemTitle) {
+				res.title = item.hasOwnProperty(itemTitle) ? item[itemTitle] : itemTitle;
+			}
+			if (itemSubtitle) {
+				res.subtitle = item.hasOwnProperty(itemSubtitle) ? item[itemSubtitle] : itemSubtitle;
+			}
+			if (search) {
+				res[searchField] = (item[search] || '').trim().toLowerCase();
+			} else {
+				res[searchField] = `${res.title || ''} ${res.subtitle || ''}`.trim().toLowerCase();
+			}
+			if (selectedItemsSet.has(res[idField])) {
+				res.checked = true;
+			} else {
+				res.checked = false;
+			}
+
+			return res;
+		});
+	});
+
+	let filteredItems: any[] = $derived.by(() => {
+		if (searchText) {
+			return preparedItems.filter((item: any) => {
+				return item[searchField].indexOf(searchText) >= 0;
+			});
+		} else {
+			return [...preparedItems];
+		}
+	});
+
+	function handleSearch(text: string) {
+		searchText = text;
+	}
+
+	function handleItemSelected(ev: MouseEvent, item: CustomListItemType, index: number) {
+		let id = item[idField];
+		if (multiple) {
+			if (selectedItemsSet.has(id)) {
+				selectedItemsSet.delete(id);
+			} else {
+				selectedItemsSet.add(id);
+			}
+		} else {
+			selectedItemsSet.clear();
+			selectedItemsSet.add(id);
+		}
+
+		items = [...(items || [])];
+
+		if (!multiple) {
+			if (selectedItemsSet.size) {
+				setTimeout(() => {
+					setResult(Array.from(selectedItemsSet)[0]);
+					closeDialog();
+				}, 300);
+			}
+		}
+	}
+
+	function handleClose() {
+		closeDialog();
+	}
+
+	function handleOk() {
+		setResult(Array.from(selectedItemsSet));
+		closeDialog();
+	}
+
+	// $effect(() => {
+	// 	console.log('props', { itemTitle, itemSubtitle });
+	// });
+	// $effect(() => {
+	// 	console.log('preparedItems', selectedItemsSet, preparedItems);
+	// });
+
+	// $effect(() => {
+	// 	console.log('filteredItems', filteredItems);
+	// });
+</script>
+
+<div class="flex gap-3 p-3">
+	<ButtonBack onlyMobile onClick={closeDialog} />
+	<div class="flex-grow">
+		<SearchField
+			name="search"
+			className="rounded-full"
+			onSearch={handleSearch}
+			placeholder="Search..."
+		/>
+	</div>
+	<ButtonCloseIcon onlyWeb onClick={closeDialog} />
+</div>
+<div class="flex-grow overflow-y-auto">
+	{#each filteredItems as item, index}
+		<div>
+			<ButtonListItem
+				{item}
+				id="list"
+				{index}
+				titleClassName={itemTitleClassName}
+				subtitleClassName={itemSubtitleClassName}
+				{hasArrow}
+				{hasCheck}
+				onClick={(ev) => handleItemSelected(ev, item, index)}
+			/>
+		</div>
+	{/each}
+</div>
+{#if multiple}
+	<div class="flex items-center justify-end gap-3 p-4">
+		<button
+			class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded {okButtonClassName}"
+			use:ripple
+			onclick={handleOk}
+		>
+			{okButtonLable}
+		</button>
+		<button
+			class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded {closeButtonLabel}"
+			use:ripple
+			onclick={handleClose}>Close</button
+		>
+	</div>
+{/if}

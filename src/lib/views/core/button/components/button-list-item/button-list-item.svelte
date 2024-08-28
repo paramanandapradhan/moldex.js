@@ -1,12 +1,11 @@
 <script module lang="ts">
 	export type ListItemType = {
 		id?: string;
-		label?: string;
-		labelClassName?: string;
-		desc?: string;
-		descClassName?: string;
+		title?: string;
+		subtitle?: string;
+		titleClassName?: string;
+		subtitleClassName?: string;
 		url?: string;
-		onclick?: (ev: MouseEvent, item: ListItemType) => void;
 		disabled?: boolean;
 		iconPath?: string;
 		iconClassName?: string;
@@ -18,6 +17,8 @@
 		hasArrow?: boolean;
 		arrowIconPath?: string;
 		arrowClassName?: string;
+		checked?: boolean;
+		onclick?: (ev: MouseEvent, item: ListItemType) => void;
 	};
 </script>
 
@@ -46,9 +47,8 @@
 		checkClassName?: string;
 		iconClassName?: string;
 		imgClassName?: string;
-		labelClassName?: string;
-		descClassName?: string;
-		checked?: boolean;
+		titleClassName?: string;
+		subtitleClassName?: string;
 		hasArrow?: boolean;
 		arrowIconPath?: string;
 		arrowClassName?: string;
@@ -68,15 +68,14 @@
 		uncheckIconClassName = '',
 		iconClassName = '',
 		imgClassName = '',
-		labelClassName = '',
-		descClassName = '',
+		titleClassName = '',
+		subtitleClassName = '',
 		checkClassName = '',
-		checked = false,
 		hasArrow = false,
 		arrowIconPath = mdiChevronRight,
 		arrowClassName = '',
-		onClick = (ev: MouseEvent, item: ListItemType, index: number) => {},
-		children,
+		onClick,
+		children
 	}: PropsType = $props();
 </script>
 
@@ -98,25 +97,25 @@
 		{/if}
 
 		<div class="flex-grow">
-			{#if item?.label}
-				<div class="text-ellipsis overflow-hidden {labelClassName} {item?.labelClassName || ''}">
-					{item?.label || ''}
+			{#if item?.title}
+				<div class="text-ellipsis overflow-hidden {titleClassName} {item?.titleClassName || ''}">
+					{item?.title || ''}
 				</div>
 			{/if}
-			{#if item?.desc}
+			{#if item?.subtitle}
 				<div
-					class="text-ellipsis overflow-hidden text-gray-400 text-sm font-light {descClassName} {item?.descClassName ||
+					class="text-ellipsis overflow-hidden text-gray-400 text-sm font-light {subtitleClassName} {item?.subtitleClassName ||
 						''}"
 				>
-					{item?.desc || ''}
+					{item?.subtitle || ''}
 				</div>
 			{/if}
 		</div>
 		{#if hasCheck}
 			<div>
 				<Icon
-					path={checked ? checkIconPath : uncheckIconPath}
-					className="w-5 h-5 {checkClassName} {checked
+					path={item?.checked ? checkIconPath : uncheckIconPath}
+					className="w-5 h-5 {checkClassName} {item?.checked
 						? `text-primary ${checkIconClassName}`
 						: `text-gray-400 ${uncheckIconClassName}`}"
 				/>
@@ -137,7 +136,7 @@
 		type="button"
 		class="w-full select-none block px-3 py-2 text-start leading-6 text-gray-900 hover:bg-gray-50 focus:bg-gray-50 focus:outline-none {className} {item.className}"
 		role="menuitem"
-		onclick={(ev) => onClick(ev, item, index)}
+		onclick={(ev) => onClick && onClick(ev, item, index)}
 		disabled={item?.disabled}
 		use:ripple
 	>
@@ -152,7 +151,7 @@
 		class="block select-none px-3 py-1 w-full text-start leading-6 text-gray-900 hover:bg-gray-50 focus:bg-gray-50 focus:outline-none {className} {item.className}"
 		role="menuitem"
 		target={item?.openInNewWindow ? '_blank' : ''}
-		onclick={(ev) => onClick(ev, item, index)}
+		onclick={(ev) => onClick && onClick(ev, item, index)}
 		use:ripple
 	>
 		{@render itemInternal()}

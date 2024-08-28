@@ -1,6 +1,6 @@
 <script module lang="ts">
 	import ButtonBack from '$lib/views/core/button/components/button-back/button-back.svelte';
-	import ButtonClose from '$lib/views/core/button/components/button-close/button-close.svelte';
+	import ButtonClose from '$lib/views/core/button/components/button-close-icon/button-close-icon.svelte';
 
 	/**
 	 * Return a Promise<boolean> value, whic=h will indiacate dialog to close or not.

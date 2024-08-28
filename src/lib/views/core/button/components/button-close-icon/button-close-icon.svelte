@@ -9,8 +9,7 @@
 		iconClassName?: string;
 		className?: string;
 		onlyWeb?: boolean;
-		onlyIcon?: boolean;
-		onlyLabel?: boolean;
+
 		onClick?: (ev: MouseEvent) => void;
 	};
 
@@ -20,8 +19,6 @@
 		iconClassName = '',
 		className = '',
 		onlyWeb,
-		onlyIcon,
-		onlyLabel,
 		onClick
 	}: PropsType = $props();
 
@@ -34,8 +31,7 @@
 
 {#snippet button()}
 	<Button
-		label={!onlyIcon ? label : undefined}
-		iconPath={onlyIcon || !onlyLabel ? iconPath : undefined}
+		{iconPath}
 		className="w-12 h-12 p-3 rounded-full text-gray-500 hover:text-gray-600 hover:bg-gray-50 {className}"
 		{iconClassName}
 		{onClick}

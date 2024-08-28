@@ -2,10 +2,11 @@
 	import { ripple } from '$lib/actions';
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
 	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
-	import { isMobileScreen, openListDialog } from '$lib/services';
+	import { isMobileScreen, openListPickerDialog } from '$lib/services';
 	import { DialogSizeEnum } from '$lib/views/core/dialog';
 
 	let {
+		value,
 		size,
 		appearance,
 		buttonClassName,
@@ -18,16 +19,30 @@
 	} = $props();
 
 	let btnRoundedClassName = $state('');
-	let btnIconSizeClassName = $state('');
+
+	let inputFieldRef: InputField;
 
 	let EasyCountryData: any;
 
 	async function hanleDialCodePicker() {
 		if (EasyCountryData) {
 			let items = EasyCountryData.getCountries();
-			console.log('Countries', items);
+			// console.log('Countries', items);
 			let size = isMobileScreen() ? DialogSizeEnum.FULL : DialogSizeEnum.SM;
-			let res = await openListDialog({ items, label: 'dialCode', desc: 'name', size , hasCheck:true});
+			let res: string = await openListPickerDialog<string>({
+				items,
+				itemTitle: 'dialCode',
+				itemSubtitle: 'name',
+				size,
+				hasCheck: true,
+				identity: 'dialCode',
+				value: '+93'
+			});
+
+			if (res) {
+				dialCode = res;
+				inputFieldRef && inputFieldRef.focus();
+			}
 		}
 	}
 
@@ -35,25 +50,6 @@
 		console.log(lib);
 		EasyCountryData = lib;
 	}
-
-	$effect(() => {
-		if (size) {
-			switch (size) {
-				case 'lg':
-					btnIconSizeClassName = '!h-7 !w-7';
-					break;
-				case 'md':
-					btnIconSizeClassName = '!h-6 !w-6';
-					break;
-				case 'sm':
-					btnIconSizeClassName = '!h-5 !w-5';
-					break;
-				case 'xs':
-					btnIconSizeClassName = '!h-4 !w-4';
-					break;
-			}
-		}
-	});
 
 	$effect(() => {
 		if (!appearance || appearance == 'normal') {
@@ -79,8 +75,9 @@
 />
 
 <InputField
+	bind:this={inputFieldRef}
 	{...props}
-	type="phone"
+	type="tel"
 	maxlength={props?.maxlength || 12}
 	leftChildren={showPasswordButton}
 	{size}

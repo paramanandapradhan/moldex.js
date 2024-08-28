@@ -122,6 +122,10 @@
 	let floatingLabelPaddingClassName = $state('');
 	let floatingLabelTextClassName = $state('');
 
+	export function focus() {
+		inputRef && inputRef.focus();
+	}
+
 	$effect(() => {
 		if (floatingLabel || leftChildren != null || rightChildren != null) {
 			containerClassName = (containerClassName || '') + ' relative';

@@ -1,8 +1,24 @@
 
 import { Dialog, type DialogPropsType } from '$lib/views';
-import ListDialog from '$lib/views/core/dialog/components/list-dialog/list-dialog.svelte';
+import ListDialog from '$lib/views/core/dialog/components/list-dialog/list-picker-dialog.svelte';
 import MsgDialog from '$lib/views/core/dialog/components/msg-dialog/msg-dialog.svelte';
 import { mount, } from 'svelte';
+
+export type PickerDialogPropsType = {
+    items?: any[],
+    itemTitle?: string,
+    itemSubtitle?: string,
+    hasArrow?: boolean,
+    hasCheck?: boolean,
+    multiple?: boolean,
+    okButtonLabel?: string,
+    okButtonClassName?: string,
+    closeButtonLabel?: string;
+    closeButtonClassName?: string;
+    identity?: string;
+    value?: any | any[],
+    search?:string;
+}
 
 function addDialog(props: DialogPropsType) {
     const dialog = mount(Dialog, { target: document.getElementsByTagName('body')[0]!, props });
@@ -57,15 +73,37 @@ export async function openDeleteConfirmDialog(params: DialogPropsType & { msg?: 
     })
 }
 
-export async function openListDialog({ items, label, desc, hasArrow, hasCheck, ...params }: DialogPropsType & { items?: any[], label?: string, desc?: string, hasArrow?: boolean, hasCheck?: boolean } = {}) {
-    return await openDialog({
+export async function openListPickerDialog<R>({
+    items,
+    itemTitle,
+    itemSubtitle,
+    hasArrow,
+    hasCheck,
+    okButtonClassName,
+    okButtonLabel,
+    closeButtonClassName,
+    closeButtonLabel,
+    multiple,
+    identity,
+    value,
+    search,
+    ...params }: DialogPropsType & PickerDialogPropsType = {}) {
+    return await openDialog<R>({
         component: ListDialog,
         props: {
             items,
-            label,
-            desc,
+            itemTitle,
+            itemSubtitle,
             hasArrow,
-            hasCheck
+            hasCheck,
+            okButtonClassName,
+            okButtonLabel,
+            closeButtonClassName,
+            closeButtonLabel,
+            multiple,
+            identity,
+            value,
+            search
         },
         ...params
     })

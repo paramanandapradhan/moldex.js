@@ -19,15 +19,15 @@
 		screenOnlyDesc?: string;
 		style?: string;
 		disabled?: boolean | undefined | null;
-		imgSrc?: string;
+		imgSrc?:string;
 		imgClassName?: string;
 		imgAlt?: string;
 		leftIconPath?: string;
 		leftIconClassName?: string;
 		rightIconPath?: string;
 		rightIconClassName?: string;
-		label?: string | any;
-		labelClassName?: string;
+		title?: string | any;
+		titleClassName?: string;
 		dropdownClassName?: string;
 		dropdownStyle?: string;
 		hasCheck?: boolean;
@@ -44,8 +44,8 @@
 		checkClassName?: string;
 		listIconClassName?: string;
 		listImgClassName?: string;
-		listLabelClassName?: string;
-		listDescClassName?: string;
+		listTitleClassName?: string;
+		listSubtitleClassName?: string;
 		dividerClassName?: string;
 		dropIconPath?: string;
 		dropIconClassName?: string;
@@ -70,8 +70,8 @@
 		rightIconClassName = '',
 		dropIconPath = mdiChevronDown,
 		dropIconClassName = '',
-		labelClassName = '',
-		label = 'Button',
+		titleClassName = '',
+		title = 'Button',
 		dropdownStyle = '',
 		dropdownClassName = '',
 		hasCheck = false,
@@ -88,8 +88,8 @@
 		checkClassName = '',
 		listIconClassName = '',
 		listImgClassName = '',
-		listLabelClassName = '',
-		listDescClassName = '',
+		listTitleClassName = '',
+		listSubtitleClassName = '',
 		dividerClassName = '',
 		onmenuclick = (ev: MouseEvent, item: string | ListItemType, index: number) => {},
 		children,
@@ -165,9 +165,9 @@
 				{#if leftIconPath}
 					<Icon path={leftIconPath} className={leftIconClassName} />
 				{/if}
-				{#if label}
-					<span class="text-nowrap {labelClassName}">
-						{@html label}
+				{#if title}
+					<span class="text-nowrap {titleClassName}">
+						{@html title}
 					</span>
 				{/if}
 				{#if rightIconPath}
@@ -211,9 +211,8 @@
 					<ButtonListItem
 						item={menu}
 						{index}
-						checked={selectedMenu == menu}
 						{hasCheck}
-						listId={id}
+						id={id}
 						className={menuItemClassName}
 						{uncheckIconPath}
 						{checkIconPath}
@@ -222,10 +221,10 @@
 						{checkClassName}
 						iconClassName={listIconClassName}
 						imgClassName={listImgClassName}
-						labelClassName={listLabelClassName}
-						descClassName={listDescClassName}
+						titleClassName={listTitleClassName}
+						subtitleClassName={listSubtitleClassName}
 						children={menuItemInnerChildren}
-						onclick={handlemenuItemClick}
+						onClick={handlemenuItemClick}
 					/>
 				{/if}
 			{/each}

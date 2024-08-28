@@ -74,11 +74,11 @@
 				className="h-full px-2 text-gray-500 hover:text-gray-600 {drawerButtonClassName}"
 				iconPath={drawerIconPath}
 				disabled={!ondrawer}
-				onclick={ondrawer}
+				onClick={ondrawer}
 			></Button>
 		{/if}
 		{#if hasLogo}
-			<Button className="h-full px-2 {logoButtonClassName}" disabled={!onlogo} onclick={onlogo}>
+			<Button className="h-full px-2 {logoButtonClassName}" disabled={!onlogo} onClick={onlogo}>
 				{#if logoIconPath}
 					<Icon path={logoIconPath} className="h-10 w-10 {logoIconClassName}" />
 				{/if}
