@@ -14,7 +14,7 @@
 		name?: string;
 		className?: string;
 		value?: string | number | Date | File | File[] | null | undefined;
-		type?: HTMLInputTypeAttribute | 'textarea';
+		type?: HTMLInputTypeAttribute | 'textarea' | 'combobox';
 		labelClassName?: string;
 		containerClassName?: string;
 		placeholder?: string;
@@ -114,7 +114,7 @@
 		ondragover
 	}: InputFieldPropsType = $props();
 
-	let inputRef: HTMLInputElement | HTMLTextAreaElement | null = $state(null);
+	let inputRef: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | null = $state(null);
 
 	let sizeClassName = $state('');
 	let appearanceClassName = $state('');
@@ -251,13 +251,36 @@
 			{@render leftChildren()}
 		</div>
 	{/if}
-	{#if type == 'textarea'}
+	{#if type == 'combobox'}
+		<button
+			bind:this={inputRef}
+			class="block w-full peer {appearanceClassName} {sizeClassName} {className}"
+			{id}
+			{name}
+			{placeholder}
+			{disabled}
+			{onchange}
+			{oninput}
+			{onfocus}
+			{onblur}
+			{ondblclick}
+			{onclick}
+			{onmousedown}
+			{onmouseup}
+			{onkeydown}
+			{onkeyup}
+			{onkeypress}
+			{ondrop}
+			{ondrag}
+			{ondragover}
+		></button>
+	{:else if type == 'textarea'}
 		<textarea
 			bind:this={inputRef}
 			bind:value
+			class="block w-full peer {appearanceClassName} {sizeClassName} {className}"
 			{id}
 			{name}
-			class="block w-full peer {appearanceClassName} {sizeClassName} {className}"
 			{placeholder}
 			{required}
 			{disabled}
@@ -285,10 +308,10 @@
 		<input
 			bind:this={inputRef}
 			bind:value
+			class="block w-full peer {appearanceClassName} {sizeClassName} {className}"
 			{type}
 			{id}
 			{name}
-			class="block w-full peer {appearanceClassName} {sizeClassName} {className}"
 			{placeholder}
 			{required}
 			{disabled}
