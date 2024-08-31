@@ -1,6 +1,6 @@
 <script lang="ts" module>
 	export type RadioValuetype = string | boolean | number | Date;
-	export type RadioItemType = { label: string; value: any };
+	export type RadioItemType = { value: any; label: string };
 	export type RadioItemsType = (RadioValuetype | RadioItemType)[];
 	export type RadioPositionType = 'left' | 'right';
 	export type RadioDirationType = 'vertical' | 'horizontal';
@@ -27,6 +27,7 @@
 
 <script lang="ts">
 	let {
+		direction = 'vertical',
 		className,
 		groupContainerClassName,
 		hasPrimitiveItemsData,
@@ -89,7 +90,11 @@
 		<p class="mt-1 text-sm leading-6 text-gray-600 {subtitleClassName}">{subtitle}</p>
 	{/if}
 
-	<div class="space-y-2 {title || subtitle ? 'mt-6' : ''} {groupContainerClassName} ">
+	<div
+		class="{title || subtitle ? 'mt-6' : ''} {direction == 'vertical'
+			? 'space-y-4'
+			: 'space-x-6 flex items-center'} {groupContainerClassName} "
+	>
 		{#each preparedItems || [] as item, index}
 			<div class="flex items-center {radioContainerClassName}">
 				{#if position == 'right'}
