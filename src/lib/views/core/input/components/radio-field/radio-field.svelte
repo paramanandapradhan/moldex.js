@@ -1,42 +1,49 @@
-<script lang="ts">
-	type Valuetype = string | boolean | number | Date;
-	type ItemType = { label: string; value: any };
-	type ItemsType = (Valuetype | ItemType)[];
-	type PropsType = {
-		id?: string;
-		name?: string;
-		value?: Valuetype;
-		items?: ItemsType;
-		hasPrimitiveItemsData?: boolean;
-		title?: string;
-		subtitle?: string;
-		titleClassName?: string;
-		subtitleClassName?: string;
-		label?: string;
-		labelClassName?: string;
+<script lang="ts" module>
+	export type RadioValuetype = string | boolean | number | Date;
+	export type RadioItemType = { label: string; value: any };
+	export type RadioItemsType = (RadioValuetype | RadioItemType)[];
+	export type RadioPositionType = 'left' | 'right';
+	export type RadioDirationType = 'vertical' | 'horizontal';
+	export type RadioPropsType = {
 		className?: string;
-		containerClassName?: string;
+		groupContainerClassName?: string;
+		hasPrimitiveItemsData?: boolean;
+		id?: string;
+		items?: RadioItemsType;
+		labelClassName?: string;
+		name?: string;
+		position?: RadioPositionType;
+		direction?: RadioDirationType;
+		radioContainerClassName?: string;
 		required?: boolean;
-		position?: 'left' | 'right';
+		subtitle?: string;
+		subtitleClassName?: string;
+		title?: string;
+		titleClassName?: string;
+		value?: RadioValuetype;
+		onChange?: (value: RadioValuetype) => void;
 	};
+</script>
 
+<script lang="ts">
 	let {
-		id,
-		name,
-		title,
-		subtitle,
-		value,
-		items = [],
-		titleClassName,
-		subtitleClassName,
-		label,
-		labelClassName,
 		className,
-		containerClassName,
-		required,
+		groupContainerClassName,
+		hasPrimitiveItemsData,
+		id,
+		items = [],
+		labelClassName,
+		name,
 		position = 'left',
-		hasPrimitiveItemsData
-	}: PropsType = $props();
+		radioContainerClassName,
+		required,
+		subtitle,
+		subtitleClassName,
+		title,
+		titleClassName,
+		value = $bindable(),
+		onChange
+	}: RadioPropsType = $props();
 
 	let fieldsetId = $derived.by(() => {
 		if (id) {
@@ -46,26 +53,29 @@
 		}
 	});
 
-	let preparedItems: ItemType[] = $derived.by(() => {
+	let preparedItems: RadioItemType[] = $derived.by(() => {
 		if (items?.length) {
 			if (hasPrimitiveItemsData) {
-				return items.map((item) => ({ label: item, value: item }) as ItemType);
+				return items.map((item) => ({ label: item, value: item }) as RadioItemType);
 			} else {
-				return items as ItemType[];
+				return items as RadioItemType[];
 			}
 		}
 		return [];
 	});
 
-	function handleChange(ev: any) {
-		console.log(ev);
+	function handleChange(ev: Event, item: RadioItemType) {
+		value = item.value;
+		if (onChange && value) {
+			onChange(value);
+		}
 	}
 </script>
 
-{#snippet labelSnippet(item: ItemType, index: number)}
+{#snippet labelSnippet(item: RadioItemType, index: number)}
 	<label
 		for="option-{index}"
-		class="ml-3 block text-sm font-medium leading-6 text-gray-900 flex-grow {required
+		class="ml-3 block text-sm font-medium leading-6 text-gray-900 flex-grow cursor-pointer select-none {required
 			? 'required'
 			: ''} {labelClassName}">{item.label || ''}</label
 	>
@@ -78,9 +88,10 @@
 	{#if subtitle}
 		<p class="mt-1 text-sm leading-6 text-gray-600 {subtitleClassName}">{subtitle}</p>
 	{/if}
-	<div class={title || subtitle ? 'mt-6 space-y-6' : ''}>
+
+	<div class="space-y-2 {title || subtitle ? 'mt-6' : ''} {groupContainerClassName} ">
 		{#each preparedItems || [] as item, index}
-			<div class="flex items-center {containerClassName}">
+			<div class="flex items-center {radioContainerClassName}">
 				{#if position == 'right'}
 					{@render labelSnippet(item, index)}
 				{/if}
@@ -90,9 +101,9 @@
 					{name}
 					type="radio"
 					value={item.value}
-					checked={value == item.value}
-					class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600 {className}"
-					onchange={(ev) => handleChange(ev)}
+					checked={value === item.value}
+					class="h-4 w-4 cursor-pointer select-none border-gray-300 text-indigo-600 focus:ring-indigo-600 {className}"
+					onchange={(ev) => handleChange(ev, item)}
 				/>
 
 				{#if position == 'left'}
