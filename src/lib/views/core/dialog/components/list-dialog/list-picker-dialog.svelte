@@ -13,7 +13,7 @@
 		value?: any | any[];
 		multiple?: boolean;
 		items?: any[];
-		itemChildren?: Snippet<[any, number]>;
+		itemSnippet?: Snippet<[any, number]>;
 		itemTitle?: string;
 		itemSubtitle?: string;
 		search?: string;
@@ -45,13 +45,13 @@
 		okButtonClassName = '',
 		closeButtonLabel = 'Close',
 		closeButtonClassName = '',
-		itemChildren,
+		itemSnippet,
 		closeDialog,
 		setResult
 	}: PropsType &
 		DialogExportsType & {
 			items?: any[];
-			itemChildren?: Snippet<[any, number]>;
+			itemSnippet?: Snippet<[any, number]>;
 		} = $props();
 
 	let searchText: string = $state('');

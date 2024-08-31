@@ -53,7 +53,7 @@
 	{...props}
 	type="text"
 	maxlength={props?.maxlength || 200}
-	leftChildren={searchIcon}
+	leftSnippet={searchIcon}
 	className=" pl-12 {className}"
 	{placeholder}
 	oninput={handleInput}

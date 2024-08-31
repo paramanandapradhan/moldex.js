@@ -79,7 +79,7 @@
 	{...props}
 	type="tel"
 	maxlength={props?.maxlength || 12}
-	leftChildren={showPasswordButton}
+	leftSnippet={showPasswordButton}
 	{size}
 	{appearance}
 	className="pl-16 {className}"

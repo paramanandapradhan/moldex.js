@@ -70,7 +70,7 @@
 	{...props}
 	{type}
 	maxlength={props?.maxlength || 200}
-	rightChildren={showPasswordButton}
+	rightSnippet={showPasswordButton}
 	{size}
 	{appearance}
 />

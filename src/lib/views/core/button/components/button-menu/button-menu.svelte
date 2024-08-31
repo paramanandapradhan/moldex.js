@@ -51,9 +51,9 @@
 		dropIconClassName?: string;
 		onmenuclick?: (ev: MouseEvent, item: string | ListItemType, index: number) => void;
 		children?: Snippet;
-		buttonChildren?: Snippet;
-		menuItemChildren?: Snippet<[ListItemType, number]>;
-		menuItemInnerChildren?: Snippet<[ListItemType, number]>;
+		buttonSnippet?: Snippet;
+		menuItemSnippet?: Snippet<[ListItemType, number]>;
+		menuItemInnerSnippet?: Snippet<[ListItemType, number]>;
 	};
 
 	let {
@@ -93,9 +93,9 @@
 		dividerClassName = '',
 		onmenuclick = (ev: MouseEvent, item: string | ListItemType, index: number) => {},
 		children,
-		buttonChildren,
-		menuItemChildren,
-		menuItemInnerChildren
+		buttonSnippet,
+		menuItemSnippet,
+		menuItemInnerSnippet
 	}: PropsType = $props();
 
 	let expanded = $state(false);
@@ -156,8 +156,8 @@
 	>
 		<span class="sr-only">{screenOnlyDesc}</span>
 		<div class="flex items-center flex-nowrap gap-2">
-			{#if buttonChildren}
-				{@render buttonChildren()}
+			{#if buttonSnippet}
+				{@render buttonSnippet()}
 			{:else}
 				{#if imgSrc}
 					<img class="h-8 w-8 rounded-full bg-gray-50 {imgClassName}" src={imgSrc} alt={imgAlt} />
@@ -205,8 +205,8 @@
 			{#each options as menu, index (menu.id || index)}
 				{#if menu?.divider}
 					<div class="border-t border-gray-200 {dividerClassName}"></div>
-				{:else if menuItemChildren}
-					{@render menuItemChildren(menu, index)}
+				{:else if menuItemSnippet}
+					{@render menuItemSnippet(menu, index)}
 				{:else}
 					<ButtonListItem
 						item={menu}
@@ -223,7 +223,7 @@
 						imgClassName={listImgClassName}
 						titleClassName={listTitleClassName}
 						subtitleClassName={listSubtitleClassName}
-						children={menuItemInnerChildren}
+						children={menuItemInnerSnippet}
 						onClick={handlemenuItemClick}
 					/>
 				{/if}

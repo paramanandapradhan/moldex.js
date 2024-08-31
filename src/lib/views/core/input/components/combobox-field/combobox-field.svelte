@@ -10,9 +10,9 @@
 		dropdownHeaderClassName?: string;
 		dropdownBodyClassName?: string;
 		dropdownFooterClassName?: string;
-		dropdownHeaderChildren?:Snippet;
-		dropdownBodyChildren?:Snippet;
-		dropdownFooterChildren?:Snippet;
+		dropdownHeaderSnippet?:Snippet;
+		dropdownBodySnippet?:Snippet;
+		dropdownFooterSnippet?:Snippet;
 	};
 	let {
 		className,
@@ -89,8 +89,8 @@
 		role="combobox"
 		onclick={handleInputClick}
 		className="pr-8 text-transparent {className}"
-		rightChildren={rightIcon}
-		rightChildrenContainerClassName="pointer-events-none"
+		rightSnippet={rightIcon}
+		rightSnippetContainerClassName="pointer-events-none"
 		readonly
 		{size}
 		{appearance}

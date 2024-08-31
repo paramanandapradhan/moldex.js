@@ -81,7 +81,7 @@
 		type="text"
 		bind:value
 		className="pr-8 {props?.className}"
-		rightChildren={colorButton}
+		rightSnippet={colorButton}
 		maxlength={9}
 	/>
 

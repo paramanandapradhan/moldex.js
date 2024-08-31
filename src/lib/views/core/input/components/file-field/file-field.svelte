@@ -81,5 +81,5 @@
 	className="pr-14 {className}"
 	type="text"
 	readonly
-	rightChildren={fileButton}
+	rightSnippet={fileButton}
 />

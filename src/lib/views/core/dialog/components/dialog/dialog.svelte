@@ -57,9 +57,9 @@
 		props?: any;
 		size?: DialogSizeEnum;
 		children?: Snippet;
-		headerChildren?: Snippet<[dialogExports: DialogExportsType]>;
-		bodyChildren?: Snippet<[dialogExports: DialogExportsType]>;
-		footerChildren?: Snippet<[dialogExports: DialogExportsType]>;
+		headerSnippet?: Snippet<[dialogExports: DialogExportsType]>;
+		bodySnippet?: Snippet<[dialogExports: DialogExportsType]>;
+		footerSnippet?: Snippet<[dialogExports: DialogExportsType]>;
 		onClose?: () => void;
 		onResult?: (value: any) => void;
 		onOkClick?: (ev: MouseEvent | TouchEvent, options: DialogExportsType) => void;
@@ -124,9 +124,9 @@
 		component,
 		props = {},
 		children,
-		headerChildren,
-		bodyChildren,
-		footerChildren,
+		headerSnippet,
+		bodySnippet,
+		footerSnippet,
 		onClose,
 		onResult,
 		onOkClick,
@@ -293,8 +293,8 @@
 						{/if}
 					</div>
 					<div class="flex-grow">
-						{#if headerChildren}
-							{@render headerChildren(dialogExports)}
+						{#if headerSnippet}
+							{@render headerSnippet(dialogExports)}
 						{/if}
 					</div>
 					<div>
@@ -313,8 +313,8 @@
 			<div class="flex-grow overflow-y-auto {bodyClassName}">
 				{#if children}
 					{@render children()}
-				{:else if bodyChildren}
-					{@render bodyChildren(dialogExports)}
+				{:else if bodySnippet}
+					{@render bodySnippet(dialogExports)}
 				{:else if BodyComponent?.length == 2}
 					<BodyComponent {...{ ...props }} {...{ ...dialogExports }} />
 				{/if}
@@ -327,8 +327,8 @@
 						: ''} {footerClassName}"
 				>
 					<div class="flex-grow">
-						{#if footerChildren}
-							{@render footerChildren(dialogExports)}
+						{#if footerSnippet}
+							{@render footerSnippet(dialogExports)}
 						{/if}
 					</div>
 					{#if hasFooterOkButton}

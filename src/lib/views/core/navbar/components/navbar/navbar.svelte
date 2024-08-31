@@ -26,9 +26,9 @@
 		hasTitle?: boolean;
 		hasSubtitle?: boolean;
 		children?: Snippet;
-		leftChildren?: Snippet;
-		centerChildren?: Snippet;
-		rightChildren?: Snippet;
+		leftSnippet?: Snippet;
+		centerSnippet?: Snippet;
+		rightSnippet?: Snippet;
 		ondrawer?: () => void;
 		onlogo?: () => void;
 	};
@@ -36,9 +36,9 @@
 	let {
 		id = '',
 		children,
-		leftChildren,
-		centerChildren,
-		rightChildren,
+		leftSnippet,
+		centerSnippet,
+		rightSnippet,
 		className = '',
 		drawerIconPath = mdiMenu,
 		drawerButtonClassName = '',
@@ -97,18 +97,18 @@
 		{/if}
 	</div>
 	<div class={leftContainerClassName}>
-		{#if leftChildren}
-			{@render leftChildren()}
+		{#if leftSnippet}
+			{@render leftSnippet()}
 		{/if}
 	</div>
 	<div class="flex-grow flex justify-center {centerContainerClassName}">
-		{#if centerChildren}
-			{@render centerChildren()}
+		{#if centerSnippet}
+			{@render centerSnippet()}
 		{/if}
 	</div>
 	<div class={rightContainerClassName}>
-		{#if rightChildren}
-			{@render rightChildren()}
+		{#if rightSnippet}
+			{@render rightSnippet()}
 		{/if}
 	</div>
 </div>

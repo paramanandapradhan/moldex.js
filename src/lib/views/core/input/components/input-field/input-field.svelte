@@ -37,15 +37,15 @@
 		multiple?: boolean;
 		iconPath?: string;
 		iconClassName?: string;
-		leftChildrenContainerClassName?: string;
-		rightChildrenContainerClassName?: string;
+		leftSnippetContainerClassName?: string;
+		rightSnippetContainerClassName?: string;
 		rows?: number;
 		cols?: number;
 		role?: AriaRole;
 		ariaControls?: string;
 		ariaExpanded?: boolean;
-		leftChildren?: Snippet;
-		rightChildren?: Snippet;
+		leftSnippet?: Snippet;
+		rightSnippet?: Snippet;
 		onchange?: (ev: any) => void;
 		oninput?: (ev: any) => void;
 		onfocus?: (ev: any) => void;
@@ -95,15 +95,15 @@
 		floatingLabel = false,
 		pattern = '',
 		multiple = false,
-		leftChildrenContainerClassName = '',
-		rightChildrenContainerClassName = '',
+		leftSnippetContainerClassName = '',
+		rightSnippetContainerClassName = '',
 		rows = 5,
 		cols,
 		role,
 		ariaControls,
 		ariaExpanded,
-		leftChildren,
-		rightChildren,
+		leftSnippet,
+		rightSnippet,
 		onchange,
 		oninput,
 		onfocus,
@@ -133,7 +133,7 @@
 	}
 
 	$effect(() => {
-		if (floatingLabel || leftChildren != null || rightChildren != null) {
+		if (floatingLabel || leftSnippet != null || rightSnippet != null) {
 			containerClassName = (containerClassName || '') + ' relative';
 		}
 	});
@@ -250,11 +250,11 @@
 	{@render labelSnippet()}
 {/if}
 <div class={containerClassName}>
-	{#if leftChildren}
+	{#if leftSnippet}
 		<div
-			class="absolute flex items-center justify-center left-children {leftChildrenContainerClassName}"
+			class="absolute flex items-center justify-center left-children {leftSnippetContainerClassName}"
 		>
-			{@render leftChildren()}
+			{@render leftSnippet()}
 		</div>
 	{/if}
 
@@ -326,11 +326,11 @@
 			aria-expanded={ariaExpanded}
 		/>
 	{/if}
-	{#if rightChildren}
+	{#if rightSnippet}
 		<div
-			class="absolute flex items-center justify-center right-children {rightChildrenContainerClassName}"
+			class="absolute flex items-center justify-center right-children {rightSnippetContainerClassName}"
 		>
-			{@render rightChildren()}
+			{@render rightSnippet()}
 		</div>
 	{/if}
 
