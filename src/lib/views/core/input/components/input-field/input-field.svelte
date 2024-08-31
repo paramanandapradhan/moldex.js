@@ -14,7 +14,7 @@
 		name?: string;
 		className?: string;
 		value?: string | number | Date | File | File[] | null | undefined;
-		type?: HTMLInputTypeAttribute | 'textarea' | 'combobox';
+		type?: HTMLInputTypeAttribute | 'textarea';
 		labelClassName?: string;
 		containerClassName?: string;
 		placeholder?: string;
@@ -41,6 +41,9 @@
 		rightChildrenContainerClassName?: string;
 		rows?: number;
 		cols?: number;
+		role?: AriaRole;
+		ariaControls?: string;
+		ariaExpanded?: boolean;
 		leftChildren?: Snippet;
 		rightChildren?: Snippet;
 		onchange?: (ev: any) => void;
@@ -62,7 +65,7 @@
 
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import type { HTMLInputTypeAttribute } from 'svelte/elements';
+	import type { HTMLInputTypeAttribute, AriaRole } from 'svelte/elements';
 	import Label from '../label/label.svelte';
 
 	let {
@@ -96,6 +99,9 @@
 		rightChildrenContainerClassName = '',
 		rows = 5,
 		cols,
+		role,
+		ariaControls,
+		ariaExpanded,
 		leftChildren,
 		rightChildren,
 		onchange,
@@ -251,30 +257,8 @@
 			{@render leftChildren()}
 		</div>
 	{/if}
-	{#if type == 'combobox'}
-		<button
-			bind:this={inputRef}
-			class="block w-full peer {appearanceClassName} {sizeClassName} {className}"
-			{id}
-			{name}
-			{placeholder}
-			{disabled}
-			{onchange}
-			{oninput}
-			{onfocus}
-			{onblur}
-			{ondblclick}
-			{onclick}
-			{onmousedown}
-			{onmouseup}
-			{onkeydown}
-			{onkeyup}
-			{onkeypress}
-			{ondrop}
-			{ondrag}
-			{ondragover}
-		></button>
-	{:else if type == 'textarea'}
+
+	{#if type == 'textarea'}
 		<textarea
 			bind:this={inputRef}
 			bind:value
@@ -323,6 +307,7 @@
 			{step}
 			{pattern}
 			{multiple}
+			{role}
 			{onchange}
 			{oninput}
 			{onfocus}
@@ -337,6 +322,8 @@
 			{ondrop}
 			{ondrag}
 			{ondragover}
+			aria-controls={ariaControls}
+			aria-expanded={ariaExpanded}
 		/>
 	{/if}
 	{#if rightChildren}
