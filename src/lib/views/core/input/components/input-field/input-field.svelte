@@ -28,6 +28,8 @@
 		className?: string;
 		cols?: number;
 		containerClassName?: string;
+		contentSnippet?: Snippet;
+		contentSnippetClassName?: string;
 		disabled?: boolean;
 		floatingLabel?: boolean;
 		hasRequiredSymbol?: boolean;
@@ -44,6 +46,7 @@
 		minlength?: number;
 		multiple?: boolean;
 		name?: string;
+		title?: string;
 		onblur?: (ev: any) => void;
 		onchange?: (ev: any) => void;
 		onclick?: (ev: MouseEvent) => void;
@@ -88,6 +91,8 @@
 		className = '',
 		cols,
 		containerClassName = '',
+		contentSnippet,
+		contentSnippetClassName,
 		disabled = false,
 		floatingLabel = false,
 		hasRequiredSymbol = true,
@@ -102,6 +107,7 @@
 		minlength,
 		multiple = false,
 		name = '',
+		title,
 		onblur,
 		onchange,
 		onclick,
@@ -261,6 +267,7 @@
 {#if !floatingLabel && label}
 	{@render labelSnippet()}
 {/if}
+
 <div class="w-full {containerClassName}">
 	{#if leftSnippet}
 		<div
@@ -275,6 +282,7 @@
 			bind:this={inputRef}
 			bind:value
 			class="block w-full peer {appearanceClassName} {sizeClassName} {className}"
+			{title}
 			{id}
 			{name}
 			{placeholder}
@@ -305,6 +313,7 @@
 			bind:this={inputRef}
 			bind:value
 			class="block w-full peer {appearanceClassName} {sizeClassName} {className}"
+			{title}
 			{type}
 			{id}
 			{name}
@@ -337,6 +346,13 @@
 			aria-controls={ariaControls}
 			aria-expanded={ariaExpanded}
 		/>
+	{/if}
+	{#if contentSnippet}
+		<div
+			class="absolute inset-0 pointer-events-none block w-full overflow-hidden {appearanceClassName} {sizeClassName}   {contentSnippetClassName}"
+		>
+			{@render contentSnippet()}
+		</div>
 	{/if}
 	{#if rightSnippet}
 		<div

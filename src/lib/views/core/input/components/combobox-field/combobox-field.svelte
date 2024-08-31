@@ -14,6 +14,9 @@
 		comboboxIconPath?: string;
 		createButtonClassName?: string;
 		createButtonLabel?: string;
+		displayFieldName?: string;
+		displayClassName?: string;
+		displayItemsCount?: number;
 		dropdownBodyClassName?: string;
 		dropdownBodySnippet?: Snippet;
 		dropdownClassName?: string;
@@ -23,7 +26,7 @@
 		dropdownHeaderSnippet?: Snippet;
 		emptyMessage?: string;
 		emptyMessageSnippet?: Snippet;
-		hasCheckbox?: boolean;
+		hasItemsCheckbox?: boolean;
 		hasComboboxIcon?: boolean;
 		hasDropdownFooter?: boolean;
 		hasDropdownFooterCreateButton?: boolean;
@@ -46,13 +49,18 @@
 		titleClassName?: string;
 		titleFieldName?: string;
 	};
+
 	let {
 		appearance,
 		className,
 		comboboxIconClassName,
 		comboboxIconPath = mdiUnfoldMoreHorizontal,
 		createButtonClassName,
-		createButtonLabel,
+		createButtonLabel = 'Add',
+		contentSnippet,
+		displayFieldName,
+		displayClassName,
+		displayItemsCount,
 		dropdownBodyClassName,
 		dropdownBodySnippet,
 		dropdownClassName,
@@ -62,8 +70,8 @@
 		dropdownHeaderSnippet,
 		emptyMessage = 'No items exists!',
 		emptyMessageSnippet,
-		hasCheckbox,
-		hasComboboxIcon,
+		hasItemsCheckbox,
+		hasComboboxIcon = true,
 		hasDropdownFooter,
 		hasDropdownFooterCreateButton,
 		hasDropdownHeader,
@@ -99,16 +107,55 @@
 	let searchFieldRef: SearchField | null = $state(null);
 
 	let comboboxIconSizeClassName = $state('');
-	let _value = $state('');
+
 	let isPlaced = $state(false);
 	let searchText: string = $state('');
+
+	let itemsIdentityMap: any = {};
+	let displayItemsTitle = $state('');
+
+	let _value = $derived.by(() => {
+		return selectedItemsSet?.size ? '&nbsp;' : '';
+	});
+
+	let displayText: string = $derived.by(() => {
+		let array = Array.from(selectedItemsSet);
+		let results = array.map((id) => {
+			if (hasPrimitiveData) {
+				return id;
+			} else {
+				let item = itemsIdentityMap[id];
+				if (item) {
+					if (displayFieldName && item.hasOwnProperty(displayFieldName)) {
+						return item[displayFieldName];
+					}
+				}
+			}
+		});
+		if (results?.length) {
+			if (multiple) {
+				displayItemsTitle = results.join(', ');
+				let res: string = results.join(', ');
+				if (displayItemsCount != null && displayItemsCount > 1) {
+					res = results.slice(0, displayItemsCount).join(', ');
+					if (results.length > displayItemsCount) {
+						res += `<span class="text-gray-400 px-2">+ ${results.length - displayItemsCount} </span>`;
+					}
+				}
+				return res;
+			} else {
+				return results[0] || '';
+			}
+		}
+		return '';
+	});
 
 	let selectedItemsSet: Set<any> = $derived.by(() => {
 		let set = new Set<any>();
 		if (value != null) {
 			if (Array.isArray(value)) {
 				value.forEach((v) => set.add(v));
-			} else {
+			} else if (value) {
 				set.add(value);
 			}
 		}
@@ -118,22 +165,24 @@
 	let preparedItems: CustomListItemType[] = $derived.by(() => {
 		return (items || []).map((item, index) => {
 			let res: CustomListItemType = {};
-
 			if (hasPrimitiveData) {
 				res.title = item;
 				res[idFieldSymbol] = item;
 				res[searchFieldSymbol] = ('' + item).toLowerCase().trim();
 			} else {
+				if (identityFieldName && item.hasOwnProperty(identityFieldName)) {
+					res[idFieldSymbol] = item[identityFieldName];
+				} else {
+					res[idFieldSymbol] = index;
+				}
+
+				itemsIdentityMap[res[idFieldSymbol]] = item;
+
 				if (titleFieldName && item.hasOwnProperty(titleFieldName)) {
 					res.title = item[titleFieldName];
 				}
-
 				if (subtitleFieldName && item.hasOwnProperty(subtitleFieldName)) {
 					res.subtitle = item[subtitleFieldName];
-				}
-
-				if (identityFieldName && item.hasOwnProperty(identityFieldName)) {
-					res[idFieldSymbol] = item[identityFieldName];
 				}
 
 				if (searchFieldName) {
@@ -189,7 +238,20 @@
 	}
 
 	function toggleDropdown() {
-		isPlaced = !isPlaced;
+		if (isPlaced) {
+			closeDropdown();
+		} else {
+			openDropdown();
+		}
+	}
+
+	function closeDropdown() {
+		searchText = '';
+		isPlaced = false;
+	}
+
+	function openDropdown() {
+		isPlaced = true;
 	}
 
 	function handleInputClick() {
@@ -200,14 +262,18 @@
 		toggleDropdown();
 	}
 
-	function handleKeypress(event: KeyboardEvent) {
-		console.log('handleKeypress');
-		if (event.key === 'Enter' || event.key === ' ') {
+	function handleKeyDown(event: KeyboardEvent) {
+		if (event.key === 'Escape') {
+			closeDropdown();
+		} else if (event.key === 'Enter' || event.key === ' ') {
 			event.preventDefault(); // Prevent default action for spacebar to avoid scrolling
 			toggleDropdown();
 		} else if (/^[a-zA-Z0-9]$/.test(event.key)) {
-			searchText += event.key;
 			searchFieldRef && searchFieldRef.focus();
+		} else if (event.key === 'Backspace' || event.key === 'Delete') {
+			event.preventDefault(); // Prevent default action for these keys if necessary
+			selectedItemsSet.clear();
+			value = null;
 		}
 	}
 
@@ -238,14 +304,10 @@
 		}
 
 		if (!multiple) {
-			isPlaced = false;
+			closeDropdown();
 		}
 
 		// console.log('handleItemSelected', selectedItemsSet, value);
-	}
-
-	function handleBackdropKeypress() {
-		console.log('handleBackdropKeypress');
 	}
 </script>
 
@@ -260,10 +322,20 @@
 	</div>
 {/snippet}
 
+{#snippet comboboxContentSnippet()}
+	{#if contentSnippet}
+		{@render contentSnippet()}
+	{:else}
+		<div class="flex items-center {displayClassName}" title={displayItemsTitle}>
+			{@html displayText}
+		</div>
+	{/if}
+{/snippet}
+
 <div class="relative">
 	<InputField
 		{...props}
-		bind:value={_value}
+		value={_value}
 		type="text"
 		role="combobox"
 		onclick={handleInputClick}
@@ -275,18 +347,17 @@
 		{appearance}
 		ariaControls="options"
 		ariaExpanded={isPlaced}
-		onkeypress={handleKeypress}
+		onkeydown={handleKeyDown}
+		contentSnippet={comboboxContentSnippet}
+		title={displayItemsTitle || ''}
 	/>
 	{#if isPlaced}
-		<button
-			id="backdrop"
-			class="fixed inset-0"
-			onclick={handleBackdropClick}
-			tabindex="-1"
-			onkeypress={handleBackdropKeypress}
+		<button id="backdrop" class="fixed inset-0" onclick={handleBackdropClick} tabindex="-1"
 		></button>
 		<div
-			class="absolute mt-1 py-1 max-h-96 w-full flex flex-col rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm {dropdownClassName}"
+			class="absolute mt-1 max-h-80 w-full flex flex-col rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm {hasDropdownHeader
+				? ''
+				: 'pt-1'} {hasDropdownFooter ? '' : 'pb-1'} {dropdownClassName}"
 			id="options"
 			role="listbox"
 		>
@@ -300,6 +371,7 @@
 					{:else if hasDropdownHeaderSearch}
 						<SearchField
 							bind:this={searchFieldRef}
+							value={searchText}
 							name="search"
 							placeholder={searchPlaceholder}
 							className="w-full {searchClassName}"
@@ -324,7 +396,7 @@
 								<ButtonListItem
 									{item}
 									{index}
-									{hasCheckbox}
+									hasCheckbox={hasItemsCheckbox}
 									className=" {itemClassName}"
 									titleClassName=" {titleClassName}"
 									subtitleClassName=" {subtitleClassName}"
@@ -347,7 +419,7 @@
 					{:else if hasDropdownFooterCreateButton}
 						<Button
 							label={createButtonLabel}
-							className={createButtonClassName}
+							className="px-3 py-1 {createButtonClassName}"
 							onClick={onCreateButtonClick}
 						></Button>
 					{/if}

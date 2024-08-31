@@ -1,7 +1,6 @@
 <script lang="ts">
 	import ComboboxField from '$lib/views/core/input/components/combobox-field/combobox-field.svelte';
 	import PasswordField from '$lib/views/core/input/components/password-field/password-field.svelte';
-	import PhoneField from '$lib/views/core/input/components/phone-field/phone-field.svelte';
 	let comboValue: string = $state('');
 	let comboItems = [
 		'Item1',
@@ -31,14 +30,13 @@
 			name="combobox"
 			items={comboItems}
 			hasPrimitiveData
-			hasCheckbox
+			hasItemsCheckbox
 			hasDropdownHeaderSearch
 			hasDropdownHeader
 			searchClassName="!rounded-full"
+			floatingLabel
+			displayItemsCount={2}
 			multiple
 		/>
-	</div>
-	<div>
-		{comboValue}
 	</div>
 </div>

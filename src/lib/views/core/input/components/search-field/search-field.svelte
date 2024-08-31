@@ -56,8 +56,9 @@
 	<Icon path={mdiMagnify} className="mx-3 text-gray-400 {iconClassName}"></Icon>
 {/snippet}
 <InputField
+	bind:this={inputFieldRef}
 	{...props}
-	type="text"
+	type="search"
 	maxlength={props?.maxlength || 200}
 	leftSnippet={searchIcon}
 	className=" pl-12 {className}"
