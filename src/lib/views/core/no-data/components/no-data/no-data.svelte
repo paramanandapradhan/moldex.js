@@ -15,7 +15,7 @@
 	};
 
 	let {
-		message = 'No data found',
+		message = 'No data found!',
 		className = '',
 		iconPath = '',
 		iconClassName = '',
@@ -38,7 +38,7 @@
 </script>
 
 <div
-	class="flex items-center justify-center gap-3 text-gray-500 {iconPlacementClassName}  {className}"
+	class="flex items-center justify-center gap-3 text-gray-500 p-4 {iconPlacementClassName}  {className}"
 >
 	{#if children}
 		{@render children()}

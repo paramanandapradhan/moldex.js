@@ -8,12 +8,24 @@
 		| 'fill-underline'
 		| 'none';
 
+	export type InputValueType =
+		| string
+		| string[]
+		| number
+		| number[]
+		| Date
+		| Date[]
+		| File
+		| File[]
+		| null
+		| undefined;
+
 	export type InputFieldPropsType = {
 		id?: string;
 		label?: string;
 		name?: string;
 		className?: string;
-		value?: string | number | Date | File | File[] | null | undefined;
+		value?: InputValueType;
 		type?: HTMLInputTypeAttribute | 'textarea';
 		labelClassName?: string;
 		containerClassName?: string;
@@ -249,7 +261,7 @@
 {#if !floatingLabel && label}
 	{@render labelSnippet()}
 {/if}
-<div class={containerClassName}>
+<div class="w-full {containerClassName}">
 	{#if leftSnippet}
 		<div
 			class="absolute flex items-center justify-center left-children {leftSnippetContainerClassName}"

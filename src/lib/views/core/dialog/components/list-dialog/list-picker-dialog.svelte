@@ -19,7 +19,7 @@
 		search?: string;
 		identity?: string;
 		iconPath?: string;
-		hasCheck?: boolean;
+		hasCheckbox?: boolean;
 		hasArrow?: boolean;
 		itemTitleClassName?: string;
 		itemSubtitleClassName?: string;
@@ -35,7 +35,7 @@
 		items,
 		itemTitle,
 		itemSubtitle,
-		hasCheck,
+		hasCheckbox,
 		hasArrow,
 		search,
 		identity,
@@ -90,9 +90,9 @@
 				res[searchField] = `${res.title || ''} ${res.subtitle || ''}`.trim().toLowerCase();
 			}
 			if (selectedItemsSet.has(res[idField])) {
-				res.checked = true;
+				res.isChecked = true;
 			} else {
-				res.checked = false;
+				res.isChecked = false;
 			}
 
 			return res;
@@ -174,7 +174,7 @@
 				titleClassName={itemTitleClassName}
 				subtitleClassName={itemSubtitleClassName}
 				{hasArrow}
-				{hasCheck}
+				{hasCheckbox}
 				onClick={(ev) => handleItemSelected(ev, item, index)}
 				className="px-4"
 			/>

@@ -17,7 +17,7 @@
 		hasArrow?: boolean;
 		arrowIconPath?: string;
 		arrowClassName?: string;
-		checked?: boolean;
+		isChecked?: boolean;
 		onclick?: (ev: MouseEvent, item: ListItemType) => void;
 	};
 </script>
@@ -39,7 +39,7 @@
 		index: number;
 		id?: string;
 		className?: string;
-		hasCheck?: boolean;
+		hasCheckbox?: boolean;
 		checkIconPath?: string;
 		uncheckIconPath?: string;
 		checkIconClassName?: string;
@@ -61,7 +61,7 @@
 		index,
 		id = '',
 		className = '',
-		hasCheck = false,
+		hasCheckbox = false,
 		uncheckIconPath = mdiCheckCircleOutline,
 		checkIconPath = mdiCheckCircle,
 		checkIconClassName = '',
@@ -111,11 +111,11 @@
 				</div>
 			{/if}
 		</div>
-		{#if hasCheck}
+		{#if hasCheckbox}
 			<div>
 				<Icon
-					path={item?.checked ? checkIconPath : uncheckIconPath}
-					className="w-5 h-5 {checkClassName} {item?.checked
+					path={item?.isChecked ? checkIconPath : uncheckIconPath}
+					className="w-5 h-5 {checkClassName} {item?.isChecked
 						? `text-primary ${checkIconClassName}`
 						: `text-gray-400 ${uncheckIconClassName}`}"
 				/>
