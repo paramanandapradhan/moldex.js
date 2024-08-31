@@ -1,15 +1,17 @@
 <script lang="ts">
+	import type { ListItemType } from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
+	import ButtonListItem from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
+	import Button from '$lib/views/core/button/components/button/button.svelte';
 	import { mdiUnfoldMoreHorizontal } from '$lib/views/core/icon';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
+	import NoData from '$lib/views/core/no-data/components/no-data/no-data.svelte';
 	import type { Snippet } from 'svelte';
 	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
 	import SearchField from '../search-field/search-field.svelte';
-	import Button from '$lib/views/core/button/components/button/button.svelte';
-	import type { ListItemType } from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
-	import NoData from '$lib/views/core/no-data/components/no-data/no-data.svelte';
-	import ButtonListItem from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
 
 	type PropsType = {
+		comboboxIconClassName?: string;
+		comboboxIconPath?: string;
 		createButtonClassName?: string;
 		createButtonLabel?: string;
 		dropdownBodyClassName?: string;
@@ -20,13 +22,14 @@
 		dropdownHeaderClassName?: string;
 		dropdownHeaderSnippet?: Snippet;
 		emptyMessage?: string;
+		emptyMessageSnippet?: Snippet;
 		hasCheckbox?: boolean;
+		hasComboboxIcon?: boolean;
 		hasDropdownFooter?: boolean;
 		hasDropdownFooterCreateButton?: boolean;
 		hasDropdownHeader?: boolean;
 		hasDropdownHeaderSearch?: boolean;
 		hasPrimitiveData?: boolean;
-		iconClassName?: string;
 		iconPathClassName?: string;
 		iconPathFieldName?: string;
 		identityFieldName?: string;
@@ -46,6 +49,8 @@
 	let {
 		appearance,
 		className,
+		comboboxIconClassName,
+		comboboxIconPath = mdiUnfoldMoreHorizontal,
 		createButtonClassName,
 		createButtonLabel,
 		dropdownBodyClassName,
@@ -56,13 +61,14 @@
 		dropdownHeaderClassName,
 		dropdownHeaderSnippet,
 		emptyMessage = 'No items exists!',
+		emptyMessageSnippet,
 		hasCheckbox,
+		hasComboboxIcon,
 		hasDropdownFooter,
 		hasDropdownFooterCreateButton,
 		hasDropdownHeader,
 		hasDropdownHeaderSearch,
 		hasPrimitiveData,
-		iconClassName,
 		iconPathClassName,
 		iconPathFieldName,
 		id,
@@ -92,7 +98,7 @@
 
 	let searchFieldRef: SearchField | null = $state(null);
 
-	let btnIconSizeClassName = $state('');
+	let comboboxIconSizeClassName = $state('');
 	let _value = $state('');
 	let isPlaced = $state(false);
 	let searchText: string = $state('');
@@ -161,16 +167,16 @@
 		if (size) {
 			switch (size) {
 				case 'lg':
-					btnIconSizeClassName = '!h-7 !w-7';
+					comboboxIconSizeClassName = '!h-7 !w-7';
 					break;
 				case 'md':
-					btnIconSizeClassName = '!h-6 !w-6';
+					comboboxIconSizeClassName = '!h-6 !w-6';
 					break;
 				case 'sm':
-					btnIconSizeClassName = '!h-5 !w-5';
+					comboboxIconSizeClassName = '!h-5 !w-5';
 					break;
 				case 'xs':
-					btnIconSizeClassName = '!h-4 !w-4';
+					comboboxIconSizeClassName = '!h-4 !w-4';
 					break;
 			}
 		}
@@ -245,10 +251,12 @@
 
 {#snippet rightIcon()}
 	<div class="px-1">
-		<Icon
-			path={mdiUnfoldMoreHorizontal}
-			className=" text-gray-500 {btnIconSizeClassName} {iconClassName}"
-		/>
+		{#if hasComboboxIcon}
+			<Icon
+				path={comboboxIconPath}
+				className=" text-gray-500 {comboboxIconSizeClassName} {comboboxIconClassName}"
+			/>
+		{/if}
 	</div>
 {/snippet}
 
@@ -325,6 +333,8 @@
 							</li>
 						{/each}
 					</ul>
+				{:else if emptyMessageSnippet}
+					{@render emptyMessageSnippet()}
 				{:else}
 					<NoData message={emptyMessage} />
 				{/if}
