@@ -134,7 +134,7 @@
 	<button
 		id="{id}-item-item-{index}"
 		type="button"
-		class="w-full select-none block px-3 py-2 text-start leading-6 text-gray-900 hover:bg-gray-50 focus:bg-gray-50 focus:outline-none {className} {item.className}"
+		class="w-full select-none block px-3 py-2 text-start leading-normal text-gray-900 hover:bg-gray-50 focus:bg-gray-50 focus:outline-none {className} {item.className}"
 		role="menuitem"
 		onclick={(ev) => onClick && onClick(ev, item, index)}
 		disabled={item?.disabled}
@@ -148,7 +148,7 @@
 	<a
 		id="{id}-item-item-{index}"
 		href={item?.url}
-		class="block select-none px-3 py-1 w-full text-start leading-6 text-gray-900 hover:bg-gray-50 focus:bg-gray-50 focus:outline-none {className} {item.className}"
+		class="block select-none px-3 py-1 w-full text-start leading-normal text-gray-900 hover:bg-gray-50 focus:bg-gray-50 focus:outline-none {className} {item.className}"
 		role="menuitem"
 		target={item?.openInNewWindow ? '_blank' : ''}
 		onclick={(ev) => onClick && onClick(ev, item, index)}

@@ -10,12 +10,13 @@
 	import SearchField from '../search-field/search-field.svelte';
 
 	type PropsType = {
+		chipClassName?: string;
 		comboboxIconClassName?: string;
 		comboboxIconPath?: string;
 		createButtonClassName?: string;
 		createButtonLabel?: string;
-		displayFieldName?: string;
 		displayClassName?: string;
+		displayFieldName?: string;
 		displayItemsCount?: number;
 		dropdownBodyClassName?: string;
 		dropdownBodySnippet?: Snippet;
@@ -26,12 +27,12 @@
 		dropdownHeaderSnippet?: Snippet;
 		emptyMessage?: string;
 		emptyMessageSnippet?: Snippet;
-		hasItemsCheckbox?: boolean;
 		hasComboboxIcon?: boolean;
 		hasDropdownFooter?: boolean;
 		hasDropdownFooterCreateButton?: boolean;
 		hasDropdownHeader?: boolean;
 		hasDropdownHeaderSearch?: boolean;
+		hasItemsCheckbox?: boolean;
 		hasPrimitiveData?: boolean;
 		iconPathClassName?: string;
 		iconPathFieldName?: string;
@@ -44,22 +45,24 @@
 		searchClassName?: string;
 		searchFieldName?: string;
 		searchPlaceholder?: string;
-		subtitleClassName?: string;
-		subtitleFieldName?: string;
-		titleClassName?: string;
-		titleFieldName?: string;
+		showChip?: boolean;
+		itemSubtitleClassName?: string;
+		itemSubtitleFieldName?: string;
+		itemTitleClassName?: string;
+		itemTitleFieldName?: string;
 	};
 
 	let {
 		appearance,
+		chipClassName,
 		className,
 		comboboxIconClassName,
 		comboboxIconPath = mdiUnfoldMoreHorizontal,
+		contentSnippet,
 		createButtonClassName,
 		createButtonLabel = 'Add',
-		contentSnippet,
-		displayFieldName,
 		displayClassName,
+		displayFieldName,
 		displayItemsCount,
 		dropdownBodyClassName,
 		dropdownBodySnippet,
@@ -70,12 +73,12 @@
 		dropdownHeaderSnippet,
 		emptyMessage = 'No items exists!',
 		emptyMessageSnippet,
-		hasItemsCheckbox,
 		hasComboboxIcon = true,
 		hasDropdownFooter,
 		hasDropdownFooterCreateButton,
 		hasDropdownHeader,
 		hasDropdownHeaderSearch,
+		hasItemsCheckbox,
 		hasPrimitiveData,
 		iconPathClassName,
 		iconPathFieldName,
@@ -90,11 +93,12 @@
 		searchClassName,
 		searchFieldName,
 		searchPlaceholder = 'Search...',
+		showChip,
 		size,
-		subtitleClassName,
-		subtitleFieldName,
-		titleClassName,
-		titleFieldName,
+		itemSubtitleClassName,
+		itemSubtitleFieldName,
+		itemTitleClassName,
+		itemTitleFieldName,
 		value = $bindable(),
 		...props
 	}: InputFieldPropsType & PropsType = $props();
@@ -112,17 +116,16 @@
 	let searchText: string = $state('');
 
 	let itemsIdentityMap: any = {};
-	let displayItemsTitle = $state('');
 
 	let _value = $derived.by(() => {
 		return selectedItemsSet?.size ? '&nbsp;' : '';
 	});
 
-	let displayText: string = $derived.by(() => {
+	let displayItems: string[] = $derived.by(() => {
 		let array = Array.from(selectedItemsSet);
 		let results = array.map((id) => {
 			if (hasPrimitiveData) {
-				return id;
+				return [id];
 			} else {
 				let item = itemsIdentityMap[id];
 				if (item) {
@@ -132,21 +135,30 @@
 				}
 			}
 		});
-		if (results?.length) {
-			if (multiple) {
-				displayItemsTitle = results.join(', ');
-				let res: string = results.join(', ');
-				if (displayItemsCount != null && displayItemsCount > 1) {
-					res = results.slice(0, displayItemsCount).join(', ');
-					if (results.length > displayItemsCount) {
-						res += `<span class="text-gray-400 px-2">+ ${results.length - displayItemsCount} </span>`;
+		return results;
+	});
+
+	let displayItemsTitle = $derived(displayItems.join(', '));
+
+	let displayText: string = $derived.by(() => {
+		let results: string[] = displayItems;
+		if (!showChip) {
+			if (results?.length) {
+				if (multiple) {
+					let res: string = results.join(', ');
+					if (displayItemsCount != null && displayItemsCount > 1) {
+						res = results.slice(0, displayItemsCount).join(', ');
+						if (results.length > displayItemsCount) {
+							res += `<span class="text-gray-400 px-2">+ ${results.length - displayItemsCount} </span>`;
+						}
 					}
+					return res;
+				} else {
+					return results[0] || '';
 				}
-				return res;
-			} else {
-				return results[0] || '';
 			}
 		}
+
 		return '';
 	});
 
@@ -178,11 +190,11 @@
 
 				itemsIdentityMap[res[idFieldSymbol]] = item;
 
-				if (titleFieldName && item.hasOwnProperty(titleFieldName)) {
-					res.title = item[titleFieldName];
+				if (itemTitleFieldName && item.hasOwnProperty(itemTitleFieldName)) {
+					res.title = item[itemTitleFieldName];
 				}
-				if (subtitleFieldName && item.hasOwnProperty(subtitleFieldName)) {
-					res.subtitle = item[subtitleFieldName];
+				if (itemSubtitleFieldName && item.hasOwnProperty(itemSubtitleFieldName)) {
+					res.subtitle = item[itemSubtitleFieldName];
 				}
 
 				if (searchFieldName) {
@@ -248,6 +260,7 @@
 	function closeDropdown() {
 		searchText = '';
 		isPlaced = false;
+		focus();
 	}
 
 	function openDropdown() {
@@ -274,6 +287,12 @@
 			event.preventDefault(); // Prevent default action for these keys if necessary
 			selectedItemsSet.clear();
 			value = null;
+		}
+	}
+
+	function handleDropdownKeyDown(event: KeyboardEvent) {
+		if (event.key === 'Escape') {
+			closeDropdown();
 		}
 	}
 
@@ -325,6 +344,19 @@
 {#snippet comboboxContentSnippet()}
 	{#if contentSnippet}
 		{@render contentSnippet()}
+	{:else if showChip}
+		<div class="flex items-center {displayClassName}" title={displayItemsTitle}>
+			{#each displayItems?.slice(0, displayItemsCount) as item, index}
+				<div
+					class="inline-flex items-center bg-gray-200 text-gray-700 text-sm font-medium px-2 mx-1 rounded-full text-nowrap {chipClassName}"
+				>
+					{item}
+				</div>
+			{/each}
+			{#if displayItemsCount && displayItems?.length > (displayItemsCount || 1)}
+				<div class="px-2 text-gray-400">+ {displayItems?.length - (displayItemsCount || 1)}</div>
+			{/if}
+		</div>
 	{:else}
 		<div class="flex items-center {displayClassName}" title={displayItemsTitle}>
 			{@html displayText}
@@ -334,6 +366,7 @@
 
 <div class="relative">
 	<InputField
+		bind:this={inputFieldRef}
 		{...props}
 		value={_value}
 		type="text"
@@ -343,6 +376,8 @@
 		rightSnippet={rightIcon}
 		rightSnippetContainerClassName="pointer-events-none"
 		readonly
+		{id}
+		{name}
 		{size}
 		{appearance}
 		ariaControls="options"
@@ -352,14 +387,16 @@
 		title={displayItemsTitle || ''}
 	/>
 	{#if isPlaced}
-		<button id="backdrop" class="fixed inset-0" onclick={handleBackdropClick} tabindex="-1"
+		<button id="backdrop" class="fixed inset-0 z-10" onclick={handleBackdropClick} tabindex="-1"
 		></button>
+		<!-- svelte-ignore a11y_interactive_supports_focus -->
 		<div
-			class="absolute mt-1 max-h-80 w-full flex flex-col rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm {hasDropdownHeader
+			class="absolute z-10 mt-1 max-h-80 w-full flex flex-col rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm {hasDropdownHeader
 				? ''
 				: 'pt-1'} {hasDropdownFooter ? '' : 'pb-1'} {dropdownClassName}"
 			id="options"
 			role="listbox"
+			onkeydown={handleDropdownKeyDown}
 		>
 			{#if hasDropdownHeader}
 				<div
@@ -398,8 +435,8 @@
 									{index}
 									hasCheckbox={hasItemsCheckbox}
 									className=" {itemClassName}"
-									titleClassName=" {titleClassName}"
-									subtitleClassName=" {subtitleClassName}"
+									titleClassName=" {itemTitleClassName}"
+									subtitleClassName=" {itemSubtitleClassName}"
 									onClick={(ev) => handleItemSelected(ev, item, index)}
 								/>
 							</li>
