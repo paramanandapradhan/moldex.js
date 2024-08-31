@@ -9,12 +9,8 @@
 	 */
 	export type DialogCloseButtonClickType = (ev: MouseEvent | TouchEvent) => Promise<boolean>;
 
-	export enum DialogSizeEnum {
-		SM = 'sm',
-		MD = 'md',
-		LG = 'lg',
-		FULL = 'full'
-	}
+	export type DialogSizeType = 'sm' | 'md' | 'lg' | 'full';
+
 	export type DialogPropsType = {
 		id?: string;
 		cancelable?: boolean;
@@ -55,7 +51,7 @@
 		bodyComponent?: any;
 		component?: any;
 		props?: any;
-		size?: DialogSizeEnum;
+		size?: DialogSizeType;
 		children?: Snippet;
 		headerSnippet?: Snippet<[dialogExports: DialogExportsType]>;
 		bodySnippet?: Snippet<[dialogExports: DialogExportsType]>;
@@ -118,7 +114,7 @@
 		footerOkButtonSpinner = false,
 		footerOkButtonDisabled = false,
 		submitButtonFormId = undefined,
-		size = DialogSizeEnum.SM,
+		size = 'sm',
 		bodyClassName = '',
 		bodyComponent,
 		component,

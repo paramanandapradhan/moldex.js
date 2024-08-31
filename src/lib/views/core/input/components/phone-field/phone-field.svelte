@@ -3,7 +3,7 @@
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
 	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
 	import { isMobileScreen, openListPickerDialog } from '$lib/services';
-	import { DialogSizeEnum } from '$lib/views/core/dialog';
+	import type { DialogSizeType } from '$lib/views/core/dialog';
 
 	let {
 		value,
@@ -20,8 +20,6 @@
 
 	let btnRoundedClassName = $state('');
 
-	 
-
 	let EasyCountryData: any;
 
 	let inputFieldRef: InputField | null = $state(null);
@@ -34,7 +32,7 @@
 		if (EasyCountryData) {
 			let items = EasyCountryData.getCountries();
 			// console.log('Countries', items);
-			let size = isMobileScreen() ? DialogSizeEnum.FULL : DialogSizeEnum.SM;
+			let size: DialogSizeType = isMobileScreen() ? 'full' : 'sm';
 			let res: string = await openListPickerDialog<string>({
 				items,
 				itemTitle: 'dialCode',
