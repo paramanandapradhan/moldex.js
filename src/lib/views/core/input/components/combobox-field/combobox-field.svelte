@@ -33,7 +33,7 @@
 		hasDropdownHeader?: boolean;
 		hasDropdownHeaderSearch?: boolean;
 		hasItemsCheckbox?: boolean;
-		hasPrimitiveData?: boolean;
+		hasPrimitiveItemsData?: boolean;
 		iconPathClassName?: string;
 		iconPathFieldName?: string;
 		identityFieldName?: string;
@@ -79,7 +79,7 @@
 		hasDropdownHeader,
 		hasDropdownHeaderSearch,
 		hasItemsCheckbox,
-		hasPrimitiveData,
+		hasPrimitiveItemsData,
 		iconPathClassName,
 		iconPathFieldName,
 		id,
@@ -124,7 +124,7 @@
 	let displayItems: string[] = $derived.by(() => {
 		let array = Array.from(selectedItemsSet);
 		let results = array.map((id) => {
-			if (hasPrimitiveData) {
+			if (hasPrimitiveItemsData) {
 				return [id];
 			} else {
 				let item = itemsIdentityMap[id];
@@ -177,7 +177,7 @@
 	let preparedItems: CustomListItemType[] = $derived.by(() => {
 		return (items || []).map((item, index) => {
 			let res: CustomListItemType = {};
-			if (hasPrimitiveData) {
+			if (hasPrimitiveItemsData) {
 				res.title = item;
 				res[idFieldSymbol] = item;
 				res[searchFieldSymbol] = ('' + item).toLowerCase().trim();
