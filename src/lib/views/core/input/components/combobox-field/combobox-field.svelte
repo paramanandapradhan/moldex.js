@@ -10,85 +10,87 @@
 	import ButtonListItem from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
 
 	type PropsType = {
-		iconClassName?: string;
-		dropdownClassName?: string;
-		dropdownHeaderClassName?: string;
+		createButtonClassName?: string;
+		createButtonLabel?: string;
 		dropdownBodyClassName?: string;
-		dropdownFooterClassName?: string;
-		dropdownHeaderSnippet?: Snippet;
 		dropdownBodySnippet?: Snippet;
+		dropdownClassName?: string;
+		dropdownFooterClassName?: string;
 		dropdownFooterSnippet?: Snippet;
-		hasDropdownHeader?: boolean;
+		dropdownHeaderClassName?: string;
+		dropdownHeaderSnippet?: Snippet;
+		emptyMessage?: string;
+		hasCheckbox?: boolean;
 		hasDropdownFooter?: boolean;
 		hasDropdownFooterCreateButton?: boolean;
-		createButtonLabel?: string;
-		createButtonClassName?: string;
+		hasDropdownHeader?: boolean;
 		hasDropdownHeaderSearch?: boolean;
-		searchPlaceholder?: string;
-		searchFieldName?: string;
-		searchClassName?: string;
-		hasCheckbox?: boolean;
-		items?: any[];
-		itemClassName?: string;
-		identityFieldName?: string;
-		titleFieldName?: string;
-		subtitleFieldName?: string;
-		titleClassName?: string;
-		subtitleClassName?: string;
-		iconPathFieldName?: string;
-		iconPathClassName?: string;
 		hasPrimitiveData?: boolean;
-		emptyMessage?: string;
+		iconClassName?: string;
+		iconPathClassName?: string;
+		iconPathFieldName?: string;
+		identityFieldName?: string;
+		itemClassName?: string;
+		items?: any[];
+		multiple?: boolean;
 		onCreateButtonClick?: (ev: MouseEvent) => void;
 		onSearch?: (value: string) => void;
+		searchClassName?: string;
+		searchFieldName?: string;
+		searchPlaceholder?: string;
+		subtitleClassName?: string;
+		subtitleFieldName?: string;
+		titleClassName?: string;
+		titleFieldName?: string;
 	};
 	let {
-		value,
-		className,
-		size,
 		appearance,
-		iconClassName,
-		id,
-		name,
-		dropdownClassName,
-		dropdownHeaderClassName,
+		className,
+		createButtonClassName,
+		createButtonLabel,
 		dropdownBodyClassName,
+		dropdownBodySnippet,
+		dropdownClassName,
 		dropdownFooterClassName,
-		hasDropdownHeader,
+		dropdownFooterSnippet,
+		dropdownHeaderClassName,
+		dropdownHeaderSnippet,
+		emptyMessage = 'No items exists!',
+		hasCheckbox,
 		hasDropdownFooter,
 		hasDropdownFooterCreateButton,
-		createButtonLabel,
-		createButtonClassName,
+		hasDropdownHeader,
 		hasDropdownHeaderSearch,
-		searchPlaceholder,
-		searchFieldName,
-		searchClassName,
 		hasPrimitiveData,
-		hasCheckbox,
-		items,
-		itemClassName,
-		identityFieldName,
-		titleFieldName,
-		subtitleFieldName,
-		titleClassName,
-		subtitleClassName,
-		iconPathFieldName,
+		iconClassName,
 		iconPathClassName,
-		emptyMessage = 'No items exists!',
+		iconPathFieldName,
+		id,
+		identityFieldName,
+		itemClassName,
+		items,
+		multiple,
+		name,
 		onCreateButtonClick,
 		onSearch,
-		dropdownHeaderSnippet,
-		dropdownBodySnippet,
-		dropdownFooterSnippet,
+		searchClassName,
+		searchFieldName,
+		searchPlaceholder = 'Search...',
+		size,
+		subtitleClassName,
+		subtitleFieldName,
+		titleClassName,
+		titleFieldName,
+		value = $bindable(),
 		...props
 	}: InputFieldPropsType & PropsType = $props();
-
-	let idFieldSymbol = Symbol('_id');
-	let searchFieldSymbol = Symbol('_search');
-
 	type CustomListItemType = ListItemType & {
 		[key: symbol]: string | number;
 	};
+	let idFieldSymbol = Symbol('_id');
+	let searchFieldSymbol = Symbol('_search');
+
+	let searchFieldRef: SearchField | null = $state(null);
 
 	let btnIconSizeClassName = $state('');
 	let _value = $state('');
@@ -135,12 +137,11 @@
 				} else {
 					res[searchFieldSymbol] = `${item.title || ''} ${item.subtitle || ''}`;
 				}
-
-				if (selectedItemsSet.has(res[idFieldSymbol])) {
-					res.isChecked = true;
-				} else {
-					res.isChecked = false;
-				}
+			}
+			if (selectedItemsSet.has(res[idFieldSymbol])) {
+				res.isChecked = true;
+			} else {
+				res.isChecked = false;
 			}
 			return res;
 		});
@@ -175,6 +176,12 @@
 		}
 	});
 
+	let inputFieldRef: InputField | null = $state(null);
+
+	export function focus() {
+		inputFieldRef?.focus();
+	}
+
 	function toggleDropdown() {
 		isPlaced = !isPlaced;
 	}
@@ -192,11 +199,47 @@
 		if (event.key === 'Enter' || event.key === ' ') {
 			event.preventDefault(); // Prevent default action for spacebar to avoid scrolling
 			toggleDropdown();
+		} else if (/^[a-zA-Z0-9]$/.test(event.key)) {
+			searchText += event.key;
+			searchFieldRef && searchFieldRef.focus();
 		}
 	}
 
 	function handleSearch(value: string) {
 		searchText = value;
+	}
+
+	function handleItemSelected(ev: MouseEvent, item: CustomListItemType, index: number) {
+		let id = item[idFieldSymbol];
+		if (multiple) {
+			if (selectedItemsSet.has(id)) {
+				selectedItemsSet.delete(id);
+			} else {
+				selectedItemsSet.add(id);
+			}
+		} else {
+			selectedItemsSet.clear();
+			selectedItemsSet.add(id);
+		}
+
+		items = [...(items || [])];
+
+		let array = Array.from(selectedItemsSet);
+		if (array.length) {
+			value = multiple ? array : array[0];
+		} else {
+			value = null;
+		}
+
+		if (!multiple) {
+			isPlaced = false;
+		}
+
+		// console.log('handleItemSelected', selectedItemsSet, value);
+	}
+
+	function handleBackdropKeypress() {
+		console.log('handleBackdropKeypress');
 	}
 </script>
 
@@ -227,7 +270,12 @@
 		onkeypress={handleKeypress}
 	/>
 	{#if isPlaced}
-		<button id="backdrop" class="fixed inset-0" onclick={handleBackdropClick} tabindex="-1"
+		<button
+			id="backdrop"
+			class="fixed inset-0"
+			onclick={handleBackdropClick}
+			tabindex="-1"
+			onkeypress={handleBackdropKeypress}
 		></button>
 		<div
 			class="absolute mt-1 py-1 max-h-96 w-full flex flex-col rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm {dropdownClassName}"
@@ -243,11 +291,11 @@
 						{@render dropdownHeaderSnippet()}
 					{:else if hasDropdownHeaderSearch}
 						<SearchField
+							bind:this={searchFieldRef}
 							name="search"
 							placeholder={searchPlaceholder}
-							className="w-full !rounded-full {searchClassName}"
+							className="w-full {searchClassName}"
 							onSearch={handleSearch}
-							
 						/>
 					{/if}
 				</div>
@@ -272,6 +320,7 @@
 									className=" {itemClassName}"
 									titleClassName=" {titleClassName}"
 									subtitleClassName=" {subtitleClassName}"
+									onClick={(ev) => handleItemSelected(ev, item, index)}
 								/>
 							</li>
 						{/each}

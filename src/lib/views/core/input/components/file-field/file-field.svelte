@@ -23,6 +23,12 @@
 	let btnIconSizeClassName = $state('');
 	let fileNameDisplay = $state('');
 
+	let inputFieldRef: InputField | null = $state(null);
+
+	export function focus() {
+		inputFieldRef?.focus();
+	}
+
 	async function handleFileAttachment() {
 		let res: File | File[] = await openFilePicker({ accept, multiple });
 		if (res) {
@@ -74,6 +80,7 @@
 {/snippet}
 
 <InputField
+	bind:this={inputFieldRef}
 	{...props}
 	{appearance}
 	{size}

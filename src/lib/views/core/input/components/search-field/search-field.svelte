@@ -15,6 +15,12 @@
 	const debouncedSearch = debounce(search, 300);
 	let lastQuery: string;
 
+	let inputFieldRef: InputField | null = $state(null);
+
+	export function focus() {
+		inputFieldRef?.focus();
+	}
+
 	function handleInput(ev: any) {
 		// console.log(ev);
 		let input: HTMLInputElement = ev?.target;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {
+	import InputField, {
 		type InputFieldSizeType
 	} from '../input-field/input-field.svelte';
 
@@ -33,7 +33,7 @@
 
 	let rangeSizeClassName = $state('');
 
-	$effect(() => {
+	 	$effect(() => {
 		switch (size) {
 			case 'lg':
 				rangeSizeClassName = 'h-3 ';

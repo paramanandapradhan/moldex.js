@@ -20,9 +20,15 @@
 
 	let btnRoundedClassName = $state('');
 
-	let inputFieldRef: InputField;
+	 
 
 	let EasyCountryData: any;
+
+	let inputFieldRef: InputField | null = $state(null);
+
+	export function focus() {
+		inputFieldRef?.focus();
+	}
 
 	async function hanleDialCodePicker() {
 		if (EasyCountryData) {

@@ -21,57 +21,57 @@
 		| undefined;
 
 	export type InputFieldPropsType = {
-		id?: string;
-		label?: string;
-		name?: string;
-		className?: string;
-		value?: InputValueType;
-		type?: HTMLInputTypeAttribute | 'textarea';
-		labelClassName?: string;
-		containerClassName?: string;
-		placeholder?: string;
-		required?: boolean;
-		disabled?: boolean;
-		autofocus?: boolean;
-		readonly?: boolean;
-		maxlength?: number;
-		minlength?: number;
-		min?: number;
-		max?: number;
-		step?: number;
-		requiredSymbolColor?: string;
-		requiredSymbol?: string;
-		hasRequiredSymbol?: boolean;
-		size?: InputFieldSizeType;
 		appearance?: InputFieldAppearanceType;
-		floatingLabel?: boolean;
-		pattern?: string;
-		multiple?: boolean;
-		iconPath?: string;
-		iconClassName?: string;
-		leftSnippetContainerClassName?: string;
-		rightSnippetContainerClassName?: string;
-		rows?: number;
-		cols?: number;
-		role?: AriaRole;
 		ariaControls?: string;
 		ariaExpanded?: boolean;
+		autofocus?: boolean;
+		className?: string;
+		cols?: number;
+		containerClassName?: string;
+		disabled?: boolean;
+		floatingLabel?: boolean;
+		hasRequiredSymbol?: boolean;
+		iconClassName?: string;
+		iconPath?: string;
+		id?: string;
+		label?: string;
+		labelClassName?: string;
 		leftSnippet?: Snippet;
-		rightSnippet?: Snippet;
-		onchange?: (ev: any) => void;
-		oninput?: (ev: any) => void;
-		onfocus?: (ev: any) => void;
+		leftSnippetContainerClassName?: string;
+		max?: number;
+		maxlength?: number;
+		min?: number;
+		minlength?: number;
+		multiple?: boolean;
+		name?: string;
 		onblur?: (ev: any) => void;
-		ondblclick?: (ev: MouseEvent) => void;
+		onchange?: (ev: any) => void;
 		onclick?: (ev: MouseEvent) => void;
-		onmousedown?: (ev: MouseEvent) => void;
-		onmouseup?: (ev: MouseEvent) => void;
-		onkeydown?: (ev: KeyboardEvent) => void;
-		onkeyup?: (ev: KeyboardEvent) => void;
-		onkeypress?: (ev: KeyboardEvent) => void;
-		ondrop?: (ev: DragEvent) => void;
+		ondblclick?: (ev: MouseEvent) => void;
 		ondrag?: (ev: DragEvent) => void;
 		ondragover?: (ev: DragEvent) => void;
+		ondrop?: (ev: DragEvent) => void;
+		onfocus?: (ev: any) => void;
+		oninput?: (ev: any) => void;
+		onkeydown?: (ev: KeyboardEvent) => void;
+		onkeypress?: (ev: KeyboardEvent) => void;
+		onkeyup?: (ev: KeyboardEvent) => void;
+		onmousedown?: (ev: MouseEvent) => void;
+		onmouseup?: (ev: MouseEvent) => void;
+		pattern?: string;
+		placeholder?: string;
+		readonly?: boolean;
+		required?: boolean;
+		requiredSymbol?: string;
+		requiredSymbolColor?: string;
+		rightSnippet?: Snippet;
+		rightSnippetContainerClassName?: string;
+		role?: AriaRole;
+		rows?: number;
+		size?: InputFieldSizeType;
+		step?: number;
+		type?: HTMLInputTypeAttribute | 'textarea';
+		value?: InputValueType;
 	};
 </script>
 
@@ -81,55 +81,55 @@
 	import Label from '../label/label.svelte';
 
 	let {
-		id = '',
-		name = '',
-		value = $bindable(''),
-		className = '',
-		label = '',
-		type = 'text',
-		labelClassName = '',
-		containerClassName = '',
-		placeholder = '',
-		required = false,
-		requiredSymbolColor = 'red',
-		requiredSymbol = '*',
-		hasRequiredSymbol = true,
-		disabled = false,
-		autofocus = false,
-		readonly = false,
-		maxlength,
-		minlength,
-		min,
-		max,
-		step,
-		size = 'md',
 		appearance = 'normal',
-		floatingLabel = false,
-		pattern = '',
-		multiple = false,
-		leftSnippetContainerClassName = '',
-		rightSnippetContainerClassName = '',
-		rows = 5,
-		cols,
-		role,
 		ariaControls,
 		ariaExpanded,
+		autofocus = false,
+		className = '',
+		cols,
+		containerClassName = '',
+		disabled = false,
+		floatingLabel = false,
+		hasRequiredSymbol = true,
+		id = '',
+		label = '',
+		labelClassName = '',
 		leftSnippet,
-		rightSnippet,
-		onchange,
-		oninput,
-		onfocus,
+		leftSnippetContainerClassName = '',
+		max,
+		maxlength,
+		min,
+		minlength,
+		multiple = false,
+		name = '',
 		onblur,
-		ondblclick,
+		onchange,
 		onclick,
+		ondblclick,
+		ondrag,
+		ondragover,
+		ondrop,
+		onfocus,
+		oninput,
+		onkeydown,
+		onkeypress,
+		onkeyup,
 		onmousedown,
 		onmouseup,
-		onkeydown,
-		onkeyup,
-		onkeypress,
-		ondrop,
-		ondrag,
-		ondragover
+		pattern = '',
+		placeholder = '',
+		readonly = false,
+		required = false,
+		requiredSymbol = '*',
+		requiredSymbolColor = 'red',
+		rightSnippet,
+		rightSnippetContainerClassName = '',
+		role,
+		rows = 5,
+		size = 'md',
+		step,
+		type = 'text',
+		value = $bindable('')
 	}: InputFieldPropsType = $props();
 
 	let inputRef: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | null = $state(null);

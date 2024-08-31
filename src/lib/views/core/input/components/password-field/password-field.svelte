@@ -19,6 +19,12 @@
 	let btnRoundedClassName = $state('');
 	let btnIconSizeClassName = $state('');
 
+	let inputFieldRef: InputField | null = $state(null);
+
+	export function focus() {
+		inputFieldRef?.focus();
+	}
+
 	function handleTogglePassword() {
 		if (type == 'password') {
 			type = 'text';
@@ -67,6 +73,7 @@
 {/snippet}
 
 <InputField
+	bind:this={inputFieldRef}
 	{...props}
 	{type}
 	maxlength={props?.maxlength || 200}
