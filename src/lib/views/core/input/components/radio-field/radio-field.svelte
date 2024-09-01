@@ -1,6 +1,6 @@
 <script lang="ts" module>
 	export type RadioValuetype = string | boolean | number | Date;
-	export type RadioItemType = { value: any; label: string };
+	export type RadioItemType = { value: any; label: string; desc?: string };
 	export type RadioItemsType = (RadioValuetype | RadioItemType)[];
 	export type RadioPositionType = 'left' | 'right';
 	export type RadioDirationType = 'vertical' | 'horizontal';
@@ -21,6 +21,7 @@
 		title?: string;
 		titleClassName?: string;
 		value?: RadioValuetype;
+		descClassName?: string;
 		onChange?: (value: RadioValuetype) => void;
 	};
 </script>
@@ -43,6 +44,7 @@
 		title,
 		titleClassName,
 		value = $bindable(),
+		descClassName,
 		onChange
 	}: RadioPropsType = $props();
 
@@ -74,17 +76,27 @@
 </script>
 
 {#snippet labelSnippet(item: RadioItemType, index: number)}
-	<label
-		for="option-{index}"
-		class="ml-3 block text-sm font-medium leading-6 text-gray-900 flex-grow cursor-pointer select-none {required
-			? 'required'
-			: ''} {labelClassName}">{item.label || ''}</label
-	>
+	<div class="leading-6">
+		<div
+			class="ml-4 block text-sm font-medium text-gray-900 flex-grow {labelClassName}"
+		>
+			{item.label || ''}
+		</div>
+		{#if item.desc}
+			<div class="ml-4 block text-xs text-gray-500 flex-grow {descClassName}">
+				{item.desc || ''}
+			</div>
+		{/if}
+	</div>
 {/snippet}
 
 <fieldset id={fieldsetId}>
 	{#if title}
-		<legend class="text-sm font-semibold leading-6 text-gray-900 {titleClassName}">{title}</legend>
+		<legend
+			class="text-sm font-semibold leading-6 text-gray-900 {required
+				? 'required'
+				: ''} {titleClassName}">{title}</legend
+		>
 	{/if}
 	{#if subtitle}
 		<p class="mt-1 text-sm leading-6 text-gray-600 {subtitleClassName}">{subtitle}</p>
@@ -96,7 +108,10 @@
 			: 'space-x-6 flex items-center'} {groupContainerClassName} "
 	>
 		{#each preparedItems || [] as item, index}
-			<div class="flex items-center {radioContainerClassName}">
+			<label
+				class="flex items-center cursor-pointer select-none {radioContainerClassName}"
+				for="option-{index}"
+			>
 				{#if position == 'right'}
 					{@render labelSnippet(item, index)}
 				{/if}
@@ -114,7 +129,7 @@
 				{#if position == 'left'}
 					{@render labelSnippet(item, index)}
 				{/if}
-			</div>
+			</label>
 		{/each}
 	</div>
 </fieldset>
