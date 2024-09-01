@@ -21,6 +21,7 @@
 	let btnRoundedClassName = $state('');
 
 	let EasyCountryData: any;
+	let libphonenumber: any;
 
 	let inputFieldRef: InputField | null = $state(null);
 
@@ -50,9 +51,12 @@
 		}
 	}
 
-	function handleScriptLoad(lib: any) {
-		console.log(lib);
+	function handleEasyCountryDataScriptLoad(lib: any) {
 		EasyCountryData = lib;
+	}
+
+	function handleLibphonenumberScriptLoad(lib: any) {
+		libphonenumber = lib;
 	}
 
 	$effect(() => {
@@ -75,7 +79,13 @@
 <EasyScriptLoader
 	scriptName="EasyCountryData"
 	scriptUrl="https://cdn.jsdelivr.net/gh/paramanandapradhan/easy-countrydata@main/dist/index.js"
-	onLoad={handleScriptLoad}
+	onLoad={handleEasyCountryDataScriptLoad}
+/>
+
+<EasyScriptLoader
+	scriptName="libphonenumber"
+	scriptUrl="https://unpkg.com/libphonenumber-js@1.11.7/bundle/libphonenumber-min.js"
+	onLoad={handleLibphonenumberScriptLoad}
 />
 
 <InputField
