@@ -1,7 +1,7 @@
 <script lang="ts">
-	import ComboboxField from '$lib/views/core/input/components/combobox-field/combobox-field.svelte';
-	import PasswordField from '$lib/views/core/input/components/password-field/password-field.svelte';
+	import CheckboxField from '$lib/views/core/input/components/checkbox-field/checkbox-field.svelte';
 	import RadioField from '$lib/views/core/input/components/radio-field/radio-field.svelte';
+	let opt: boolean = $state(false);
 	const options = [
 		{
 			label: 'Option 1',
@@ -33,11 +33,16 @@
 
 <div class="p-10">
 	<div class="my-3">
-		<RadioField
-			items={options}
+		<RadioField items={options} position="left" value={'Male'} direction="vertical" />
+	</div>
+	<div class="my-3">
+		<CheckboxField
+			onChange={(v) => console.log('value', v)}
+			name="option1"
 			position="left"
-			value={'Male'}
-			direction="vertical"
+			label="Option1"
+			bind:value={opt}
+			desc="This is the description for Option 1, which explains the first choice in detail."
 		/>
 	</div>
 </div>
