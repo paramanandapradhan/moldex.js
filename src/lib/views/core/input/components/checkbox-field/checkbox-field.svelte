@@ -35,7 +35,7 @@
 {#snippet labelSnippet()}
 	<div class="text-sm leading-6 mx-4 flex-grow">
 		<div class="font-medium text-sm text-gray-900">{label || ''}</div>
-		<div class="text-xs text-gray-400">{desc || ''}</div>
+		<div class="text-xs text-gray-500">{desc || ''}</div>
 	</div>
 {/snippet}
 <div class=" {containerClassName}">
