@@ -78,7 +78,7 @@
 	async function hanleDialCodePicker() {
 		if (EasyCountryData) {
 			let items = EasyCountryData.getCountries();
-			console.log('Countries', items);
+			// console.log('Countries', items);
 			let size: DialogSizeType = isMobileScreen() ? 'full' : 'sm';
 			let res: string = await openListPickerDialog<string>({
 				items,
@@ -132,6 +132,22 @@
 			}
 		}
 	}
+
+	function handleNumberKeyDown(ev: KeyboardEvent) {
+		if (
+			!(
+				(ev.key >= '0' && ev.key <= '9') || // Numbers 0-9
+				ev.key === 'Backspace' || // Backspace key
+				ev.key === 'Delete' || // Delete key
+				ev.key === 'ArrowLeft' || // Left arrow key
+				ev.key === 'ArrowRight' || // Right arrow key
+				ev.key === 'ArrowUp' || // Up arrow key
+				ev.key === 'ArrowDown'
+			) // Down arrow key
+		) {
+			ev.preventDefault();
+		}
+	}
 </script>
 
 {#snippet showPasswordButton()}
@@ -167,4 +183,5 @@
 	{appearance}
 	className="pl-16 {className}"
 	oninput={handleNumberInput}
+	onkeydown={handleNumberKeyDown}
 />
