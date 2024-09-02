@@ -136,14 +136,14 @@
 	function handleNumberKeyDown(ev: KeyboardEvent) {
 		if (
 			!(
-				(ev.key >= '0' && ev.key <= '9') || // Numbers 0-9
-				ev.key === 'Backspace' || // Backspace key
-				ev.key === 'Delete' || // Delete key
-				ev.key === 'ArrowLeft' || // Left arrow key
-				ev.key === 'ArrowRight' || // Right arrow key
-				ev.key === 'ArrowUp' || // Up arrow key
+				(ev.key >= '0' && ev.key <= '9') ||
+				ev.key === 'Backspace' ||
+				ev.key === 'Delete' ||
+				ev.key === 'ArrowLeft' ||
+				ev.key === 'ArrowRight' ||
+				ev.key === 'ArrowUp' ||
 				ev.key === 'ArrowDown'
-			) // Down arrow key
+			)
 		) {
 			ev.preventDefault();
 		}
