@@ -1,3 +1,26 @@
+<script module lang="ts">
+	export type LibPhoneNumberParseType = {
+		isValid: () => boolean;
+		nationalNumber: string;
+		countryCallingCode: string;
+	};
+
+	export type LibPhoneNumberType = {
+		parsePhoneNumber: (phoneNumber: string, dialCode?: string) => LibPhoneNumberParseType;
+	};
+
+	export type CountryType = {
+		name: string;
+		dialCode: string;
+		isoCode: string;
+	};
+
+	export type EasyCountryDataType = {
+		getCountries: () => CountryType[];
+		getCountry: (params: { name?: string; dialCode?: string; isoCode?: string }) => CountryType;
+	};
+</script>
+
 <script lang="ts">
 	import { ripple } from '$lib/actions';
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
@@ -6,7 +29,7 @@
 	import type { DialogSizeType } from '$lib/views/core/dialog';
 
 	let {
-		value,
+		value = $bindable(''),
 		size,
 		appearance,
 		buttonClassName,
@@ -18,12 +41,35 @@
 		dialCode?: string;
 	} = $props();
 
-	let btnRoundedClassName = $state('');
-
-	let EasyCountryData: any;
-	let libphonenumber: any;
-
+	let EasyCountryData: EasyCountryDataType;
+	let LibPhonenumber: LibPhoneNumberType | null = $state(null);
 	let inputFieldRef: InputField | null = $state(null);
+
+	let _dailCode: string = $state('');
+	let _phoneNumber: string = $state('');
+
+	$effect(() => {
+		if (!_dailCode && !_phoneNumber && LibPhonenumber) {
+			try {
+				if (dialCode) {
+					_dailCode = '+' + dialCode || '';
+				}
+				if (value) {
+					let parsed = LibPhonenumber?.parsePhoneNumber(value as string);
+					if (parsed && parsed.isValid()) {
+						_phoneNumber = parsed.nationalNumber || '';
+						_dailCode = '+' + parsed.countryCallingCode || '';
+					}
+				}
+			} catch (error) {}
+		}
+	});
+
+	let btnRoundedClassName = $derived.by(() => {
+		if (!appearance || appearance == 'normal') {
+			return 'rounded-tl-lg rounded-bl-lg';
+		}
+	});
 
 	export function focus() {
 		inputFieldRef?.focus();
@@ -32,7 +78,7 @@
 	async function hanleDialCodePicker() {
 		if (EasyCountryData) {
 			let items = EasyCountryData.getCountries();
-			// console.log('Countries', items);
+			console.log('Countries', items);
 			let size: DialogSizeType = isMobileScreen() ? 'full' : 'sm';
 			let res: string = await openListPickerDialog<string>({
 				items,
@@ -40,30 +86,52 @@
 				itemSubtitle: 'name',
 				size,
 				hasCheck: true,
-				identity: 'dialCode'
+				identity: 'dialCode',
+				search: ['name', 'dialCode', 'isoCode']
 			});
 
 			console.log(res);
 			if (res) {
-				dialCode = res;
+				_dailCode = res;
+				dialCode = _dailCode;
+				updatePhonenumber(_dailCode, _phoneNumber);
 				inputFieldRef && inputFieldRef.focus();
 			}
 		}
 	}
 
-	function handleEasyCountryDataScriptLoad(lib: any) {
+	function handleEasyCountryDataScriptLoad(lib: EasyCountryDataType) {
 		EasyCountryData = lib;
 	}
 
-	function handleLibphonenumberScriptLoad(lib: any) {
-		libphonenumber = lib;
+	function handleLibphonenumberScriptLoad(lib: LibPhoneNumberType) {
+		LibPhonenumber = lib;
 	}
 
-	$effect(() => {
-		if (!appearance || appearance == 'normal') {
-			btnRoundedClassName = 'rounded-tl-lg rounded-bl-lg';
+	function handleNumberInput(ev: InputEvent) {
+		let target: HTMLInputElement = ev.target as HTMLInputElement;
+		let _phoneNumber: string = target?.value || '';
+		updatePhonenumber(_dailCode, _phoneNumber);
+	}
+
+	function updatePhonenumber(_dialCode: string, _phoneNumber: string) {
+		if (LibPhonenumber) {
+			if (_phoneNumber) {
+				try {
+					// console.log('updatePhonenumber', { dialCode, phoneNumber });
+					let parsed = LibPhonenumber.parsePhoneNumber(_dialCode + _phoneNumber);
+					if (parsed && parsed.isValid()) {
+						dialCode = _dialCode;
+						value = _dialCode + _phoneNumber;
+					} else {
+						value = '';
+					}
+				} catch (error) {
+					value = '';
+				}
+			}
 		}
-	});
+	}
 </script>
 
 {#snippet showPasswordButton()}
@@ -72,7 +140,7 @@
 		use:ripple
 		onclick={hanleDialCodePicker}
 	>
-		{dialCode}
+		{_dailCode}
 	</button>
 {/snippet}
 
@@ -89,12 +157,14 @@
 />
 
 <InputField
-	bind:this={inputFieldRef}
 	{...props}
+	bind:this={inputFieldRef}
+	value={_phoneNumber}
 	type="tel"
 	maxlength={props?.maxlength || 12}
 	leftSnippet={showPasswordButton}
 	{size}
 	{appearance}
 	className="pl-16 {className}"
+	oninput={handleNumberInput}
 />

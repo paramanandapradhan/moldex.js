@@ -16,7 +16,7 @@
 		itemSnippet?: Snippet<[any, number]>;
 		itemTitle?: string;
 		itemSubtitle?: string;
-		search?: string;
+		search?: string | string[];
 		identity?: string;
 		iconPath?: string;
 		hasCheckbox?: boolean;
@@ -85,7 +85,13 @@
 				res.subtitle = item.hasOwnProperty(itemSubtitle) ? item[itemSubtitle] : itemSubtitle;
 			}
 			if (search) {
-				res[searchField] = (item[search] || '').trim().toLowerCase();
+				if (typeof search === 'string') {
+					res[searchField] = (item[search] || '').trim().toLowerCase();
+				} else {
+					res[searchField] = (search.map((fieldName) => item[fieldName]).join(' ') || '')
+						.trim()
+						.toLowerCase();
+				}
 			} else {
 				res[searchField] = `${res.title || ''} ${res.subtitle || ''}`.trim().toLowerCase();
 			}

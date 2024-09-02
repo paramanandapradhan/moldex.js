@@ -17,7 +17,7 @@ export type PickerDialogPropsType = {
     closeButtonClassName?: string;
     identity?: string;
     value?: any | any[],
-    search?:string;
+    search?:string|string[];
 }
 
 function addDialog(props: DialogPropsType) {
