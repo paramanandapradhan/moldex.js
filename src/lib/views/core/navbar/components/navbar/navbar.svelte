@@ -29,8 +29,8 @@
 		leftSnippet?: Snippet;
 		centerSnippet?: Snippet;
 		rightSnippet?: Snippet;
-		ondrawer?: () => void;
-		onlogo?: () => void;
+		onDrawer?: () => void;
+		onLogo?: () => void;
 	};
 
 	let {
@@ -58,12 +58,12 @@
 		subtitleClassName = '',
 		hasTitle = false,
 		hasSubtitle = false,
-		ondrawer,
-		onlogo
+		onDrawer,
+		onLogo
 	}: PropsType = $props();
 </script>
 
-<div
+<nav
 	class="sticky top-0 z-10 flex h-16 shrink-0 items-center px-2 border-b border-gray-200 bg-white shadow-sm {className}"
 >
 	{#if children}
@@ -73,12 +73,12 @@
 			<Button
 				className="h-full px-2 text-gray-500 hover:text-gray-600 {drawerButtonClassName}"
 				iconPath={drawerIconPath}
-				disabled={!ondrawer}
-				onClick={ondrawer}
+				disabled={!onDrawer}
+				onClick={onDrawer}
 			></Button>
 		{/if}
 		{#if hasLogo}
-			<Button className="h-full px-2 {logoButtonClassName}" disabled={!onlogo} onClick={onlogo}>
+			<Button className="h-full px-2 {logoButtonClassName}" disabled={!onLogo} onClick={onLogo}>
 				{#if logoIconPath}
 					<Icon path={logoIconPath} className="h-10 w-10 {logoIconClassName}" />
 				{/if}
@@ -90,10 +90,10 @@
 	{/if}
 	<div>
 		{#if hasTitle}
-			<div class="font-bold {titleClassName}">{title || ''}</div>
+			<div class="font-bold px-2 {titleClassName}">{title || ''}</div>
 		{/if}
 		{#if hasSubtitle}
-			<div class="text-sm text-gray-400 {subtitleClassName}">{subtitle || ''}</div>
+			<div class="text-sm px-2 text-gray-400 {subtitleClassName}">{subtitle || ''}</div>
 		{/if}
 	</div>
 	<div class={leftContainerClassName}>
@@ -111,4 +111,4 @@
 			{@render rightSnippet()}
 		{/if}
 	</div>
-</div>
+</nav>

@@ -1,0 +1,13 @@
+npm run build
+rm -rf public
+mkdir public
+cp -R ./dist ./public/dist
+cp ./readme.md ./public
+node create-library-package-json.js
+cd ./public
+npm link
+cd ..
+echo ""
+echo "Link done! Visit to project forlder and  "
+echo "run 'npm link @cloudparker/moldex.js; npm i;'"
+echo ""
