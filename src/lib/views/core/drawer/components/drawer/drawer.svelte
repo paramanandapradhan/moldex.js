@@ -1,6 +1,9 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+
 	import '../../../../../tailwind.css';
+
+	type PositionType = 'left' | 'right' | 'top' | 'bottom';
 
 	type PropsType = {
 		backdropClassName?: string;
@@ -10,6 +13,7 @@
 		drawerClassName?: string;
 		floatingSnippet?: Snippet;
 		id?: string;
+		position?: PositionType;
 	};
 
 	let {
@@ -19,7 +23,8 @@
 		containerClassName = '',
 		drawerClassName = '',
 		floatingSnippet,
-		id = ''
+		id = '',
+		position = 'left'
 	}: PropsType = $props();
 
 	let isPlaced: boolean = $state(false);
@@ -62,11 +67,24 @@
 			aria-hidden="true"
 		></div>
 		<!-- Drawer -->
-		<div class="fixed inset-0 flex">
+		<div
+			class="fixed inset-0 flex
+				{position === 'right' ? 'flex-row' : ''}
+				{position === 'right' ? 'flex-row-reverse' : ''}
+				{position === 'top' ? 'flex-col' : ''}
+				{position === 'bottom' ? 'flex-col-reverse' : ''}"
+		>
 			<div
-				class="relative flex transition ease-in-out duration-300 transform {isOpened
-					? 'translate-x-0'
-					: '-translate-x-full'} {drawerClassName}  "
+				class="relative flex transition ease-in-out duration-300 transform
+				{position === 'right' ? 'flex-row' : ''}
+				{position === 'right' ? 'flex-row-reverse' : ''}
+				{position === 'top' ? 'flex-col' : ''}
+				{position === 'bottom' ? 'flex-col-reverse' : ''}
+				{position === 'left' ? (isOpened ? 'translate-x-0' : '-translate-x-full') : ''}
+				{position === 'right' ? (isOpened ? 'translate-x-0' : 'translate-x-full') : ''}
+				{position === 'top' ? (isOpened ? 'translate-y-0' : '-translate-y-full') : ''}
+				{position === 'bottom' ? (isOpened ? 'translate-y-0' : 'translate-y-full') : ''}
+				{drawerClassName} "
 			>
 				<div class="grow w-72 bg-white {className}">
 					{#if children}
