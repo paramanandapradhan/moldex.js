@@ -9,5 +9,5 @@ npm link
 cd ..
 echo ""
 echo "Link done! Visit to project forlder and  "
-echo "run 'npm link @cloudparker/moldex.js; npm i;'"
+echo "run 'npm link @cloudparker/moldex.js;'"
 echo ""
