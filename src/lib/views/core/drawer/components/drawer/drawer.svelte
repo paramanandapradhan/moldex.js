@@ -58,7 +58,7 @@
 </script>
 
 {#if isPlaced}
-	<div {id} class="relative z-50 {containerClassName}" role="dialog" aria-modal="true">
+	<div {id} class="relative z-30 {containerClassName}" role="dialog" aria-modal="true">
 		<!-- Backdrop -->
 		<div
 			class="fixed inset-0 bg-gray-900/10 transition-opacity ease-linear duration-300 {isOpened

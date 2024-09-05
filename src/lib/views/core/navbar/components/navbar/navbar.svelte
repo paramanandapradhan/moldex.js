@@ -66,33 +66,33 @@
 </script>
 
 <nav
-	class="sticky top-0 z-10 flex h-16 shrink-0 items-center px-2 border-b border-gray-200 bg-white shadow-sm {className}"
+	class="sticky top-0 z-20 flex h-16 shrink-0 items-center px-2 border-b border-gray-200 bg-white shadow-sm {className}"
 >
+	{#if hasMore && morePosition === 'left'}
+		<div class="h-full">
+			<Button
+				className="h-full px-2 text-gray-500 hover:text-gray-600 {drawerButtonClassName}"
+				iconPath={moreIconPath}
+				disabled={!onMore}
+				onClick={onMore}
+			/>
+		</div>
+	{/if}
+	{#if hasLogo}
+		<div class="h-full">
+			<Button className="h-full px-2 {logoButtonClassName}" disabled={!onLogo} onClick={onLogo}>
+				{#if logoIconPath}
+					<Icon path={logoIconPath} className="h-10 w-10 {logoIconClassName}" />
+				{/if}
+				{#if logoImgSrc}
+					<img src={logoImgSrc} class="h-8 w-8 bg-gray-50 {logoImgClassName}" alt="logo" />
+				{/if}
+			</Button>
+		</div>
+	{/if}
 	{#if children}
 		{@render children()}
 	{:else}
-		{#if hasMore && morePosition === 'left'}
-			<div class="h-full">
-				<Button
-					className="h-full px-2 text-gray-500 hover:text-gray-600 {drawerButtonClassName}"
-					iconPath={moreIconPath}
-					disabled={!onMore}
-					onClick={onMore}
-				/>
-			</div>
-		{/if}
-		{#if hasLogo}
-			<div class="h-full">
-				<Button className="h-full px-2 {logoButtonClassName}" disabled={!onLogo} onClick={onLogo}>
-					{#if logoIconPath}
-						<Icon path={logoIconPath} className="h-10 w-10 {logoIconClassName}" />
-					{/if}
-					{#if logoImgSrc}
-						<img src={logoImgSrc} class="h-8 w-8 bg-gray-50 {logoImgClassName}" alt="logo" />
-					{/if}
-				</Button>
-			</div>
-		{/if}
 		<div class="h-full flex items-center">
 			<div>
 				{#if hasTitle}
@@ -118,15 +118,15 @@
 				{@render rightSnippet()}
 			{/if}
 		</div>
-		{#if hasMore && morePosition === 'right'}
-			<div class="h-full">
-				<Button
-					className="h-full px-2 text-gray-500 hover:text-gray-600 {drawerButtonClassName}"
-					iconPath={moreIconPath}
-					disabled={!onMore}
-					onClick={onMore}
-				/>
-			</div>
-		{/if}
+	{/if}
+	{#if hasMore && morePosition === 'right'}
+		<div class="h-full">
+			<Button
+				className="h-full px-2 text-gray-500 hover:text-gray-600 {drawerButtonClassName}"
+				iconPath={moreIconPath}
+				disabled={!onMore}
+				onClick={onMore}
+			/>
+		</div>
 	{/if}
 </nav>
