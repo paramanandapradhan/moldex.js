@@ -3,23 +3,23 @@
 	import '../../../../../tailwind.css';
 
 	type PropsType = {
-		children?: Snippet;
-		id?: string;
 		backdropClassName?: string;
+		children?: Snippet;
 		className?: string;
 		containerClassName?: string;
-		drawerContainerClassName?: string;
 		drawerClassName?: string;
+		floatingSnippet?: Snippet;
+		id?: string;
 	};
 
 	let {
-		id = '',
-		children,
 		backdropClassName = '',
-		className = 'bg-indigo-600 text-white',
+		children,
+		className = '',
 		containerClassName = '',
-		drawerContainerClassName = '',
-		drawerClassName = ''
+		drawerClassName = '',
+		floatingSnippet,
+		id = ''
 	}: PropsType = $props();
 
 	let isPlaced: boolean = $state(false);
@@ -62,18 +62,24 @@
 			aria-hidden="true"
 		></div>
 		<!-- Drawer -->
-		<div class="fixed inset-0 flex {drawerContainerClassName}">
+		<div class="fixed inset-0 flex">
 			<div
-				class="relative flex w-full max-w-xs flex-1 transition ease-in-out duration-300 transform {isOpened
+				class="relative flex transition ease-in-out duration-300 transform {isOpened
 					? 'translate-x-0'
-					: '-translate-x-full'} {drawerClassName}"
+					: '-translate-x-full'} {drawerClassName}  "
 			>
-				<div class="flex grow flex-col gap-y-5 overflow-y-auto w-72 {className}">
+				<div class="grow w-72 bg-white {className}">
 					{#if children}
 						{@render children()}
 					{/if}
 				</div>
+				<div class=" ">
+					{#if floatingSnippet}
+						{@render floatingSnippet()}
+					{/if}
+				</div>
 			</div>
+
 			<button class="flex-grow cursor-auto" type="button" onclick={handelBackdropClick}></button>
 		</div>
 	</div>
