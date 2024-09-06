@@ -122,7 +122,7 @@
 		onkeyup,
 		onmousedown,
 		onmouseup,
-		pattern = '',
+		pattern,
 		placeholder = '',
 		readonly = false,
 		required = false,

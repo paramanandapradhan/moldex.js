@@ -12,54 +12,54 @@
 	export type DialogSizeType = 'sm' | 'md' | 'lg' | 'full';
 
 	export type DialogPropsType = {
-		id?: string;
-		cancelable?: boolean;
-		className?: string;
-		containerClassName?: string;
 		backdropClassName?: string;
-		hasTitle?: boolean;
-		hasSubtitle?: boolean;
-		title?: string;
-		subtitle?: string;
-		titleClassName?: string;
-		subtitleClassName?: string;
-		hasHeader?: boolean;
-		hasHeaderShadow?: boolean;
-		headerClassName?: string;
-		hasHeaderClose?: boolean;
-		headerCloseButtonClassName?: string;
-		headerCloseIconPath?: string;
-		headerCloseIconClassName?: string;
-		hasHeaderBack?: boolean;
-		headerBackButtonClassName?: string;
-		headerBackIconPath?: string;
-		headerBackIconClassName?: string;
-		hasFooter?: boolean;
-		hasFooterShadow?: boolean;
-		hasFooterCloseButton?: boolean;
-		hasFooterOkButton?: boolean;
-		footerClassName?: string;
-		footerCloseLabel?: string;
-		footerCloseButtonClassName?: string;
-		footerOkLable?: string;
-		footerOkButtonClassName?: string;
-		footerOkButtonType?: 'button' | 'submit' | 'reset';
-		footerOkButtonSpinner?: boolean;
-		footerOkButtonDisabled?: boolean;
-		submitButtonFormId?: string;
 		bodyClassName?: string;
 		bodyComponent?: any;
+		bodySnippet?: Snippet<[dialogExports: DialogExportsType]>;
+		cancelable?: boolean;
+		children?: Snippet;
+		className?: string;
 		component?: any;
+		containerClassName?: string;
+		footerClassName?: string;
+		footerCloseButtonClassName?: string;
+		footerCloseLabel?: string;
+		footerOkButtonClassName?: string;
+		footerOkButtonDisabled?: boolean;
+		footerOkButtonSpinner?: boolean;
+		footerOkButtonType?: 'button' | 'submit' | 'reset';
+		footerOkLable?: string;
+		footerSnippet?: Snippet<[dialogExports: DialogExportsType]>;
+		hasFooter?: boolean;
+		hasFooterCloseButton?: boolean;
+		hasFooterOkButton?: boolean;
+		hasFooterShadow?: boolean;
+		hasHeader?: boolean;
+		hasHeaderBack?: boolean;
+		hasHeaderClose?: boolean;
+		hasHeaderShadow?: boolean;
+		hasSubtitle?: boolean;
+		hasTitle?: boolean;
+		headerBackButtonClassName?: string;
+		headerBackIconClassName?: string;
+		headerBackIconPath?: string;
+		headerClassName?: string;
+		headerCloseButtonClassName?: string;
+		headerCloseIconClassName?: string;
+		headerCloseIconPath?: string;
+		headerSnippet?: Snippet<[dialogExports: DialogExportsType]>;
+		id?: string;
+		onClose?: () => void;
+		onCloseClick?: DialogCloseButtonClickType;
+		onOkClick?: (ev: MouseEvent | TouchEvent, options: DialogExportsType) => void;
+		onResult?: (value: any) => void;
 		props?: any;
 		size?: DialogSizeType;
-		children?: Snippet;
-		headerSnippet?: Snippet<[dialogExports: DialogExportsType]>;
-		bodySnippet?: Snippet<[dialogExports: DialogExportsType]>;
-		footerSnippet?: Snippet<[dialogExports: DialogExportsType]>;
-		onClose?: () => void;
-		onResult?: (value: any) => void;
-		onOkClick?: (ev: MouseEvent | TouchEvent, options: DialogExportsType) => void;
-		onCloseClick?: DialogCloseButtonClickType;
+		submitButtonFormId?: string;
+		subtitle?: string;
+		subtitleClassName?: string;
+		title?: string;
+		titleClassName?: string;
 	};
 
 	export type DialogExportsType = {
@@ -79,54 +79,54 @@
 	import { mdiArrowLeft, mdiClose } from '$lib/views/core/icon';
 
 	let {
-		id = '',
-		cancelable = true,
-		className = '',
-		containerClassName = '',
 		backdropClassName = '',
-		hasHeaderShadow = false,
-		hasTitle = false,
-		hasSubtitle = false,
-		title = '',
-		subtitle = '',
-		titleClassName = '',
-		subtitleClassName = '',
-		hasHeader = false,
-		headerClassName = '',
-		hasHeaderClose = false,
-		headerCloseButtonClassName = '',
-		headerCloseIconPath = mdiClose,
-		headerCloseIconClassName = '',
-		hasHeaderBack = false,
-		headerBackButtonClassName = '',
-		headerBackIconPath = mdiArrowLeft,
-		headerBackIconClassName = '',
-		hasFooter = false,
-		hasFooterShadow = false,
-		hasFooterCloseButton = false,
-		hasFooterOkButton = false,
-		footerClassName = '',
-		footerCloseLabel = 'Close',
-		footerCloseButtonClassName = '',
-		footerOkLable = 'Save',
-		footerOkButtonClassName = '',
-		footerOkButtonType = 'button',
-		footerOkButtonSpinner = false,
-		footerOkButtonDisabled = false,
-		submitButtonFormId = undefined,
-		size = 'sm',
 		bodyClassName = '',
 		bodyComponent,
-		component,
-		props = {},
-		children,
-		headerSnippet,
 		bodySnippet,
+		cancelable = true,
+		children,
+		className = '',
+		component,
+		containerClassName = '',
+		footerClassName = '',
+		footerCloseButtonClassName = '',
+		footerCloseLabel = 'Close',
+		footerOkButtonClassName = '',
+		footerOkButtonDisabled = false,
+		footerOkButtonSpinner = false,
+		footerOkButtonType = 'button',
+		footerOkLable = 'Save',
 		footerSnippet,
+		hasFooter = false,
+		hasFooterCloseButton = false,
+		hasFooterOkButton = false,
+		hasFooterShadow = false,
+		hasHeader = false,
+		hasHeaderBack = false,
+		hasHeaderClose = false,
+		hasHeaderShadow = false,
+		hasSubtitle = false,
+		hasTitle = false,
+		headerBackButtonClassName = '',
+		headerBackIconClassName = '',
+		headerBackIconPath = mdiArrowLeft,
+		headerClassName = '',
+		headerCloseButtonClassName = '',
+		headerCloseIconClassName = '',
+		headerCloseIconPath = mdiClose,
+		headerSnippet,
+		id = '',
 		onClose,
-		onResult,
+		onCloseClick,
 		onOkClick,
-		onCloseClick
+		onResult,
+		props = {},
+		size = 'sm',
+		submitButtonFormId = undefined,
+		subtitle = '',
+		subtitleClassName = '',
+		title = '',
+		titleClassName = ''
 	}: DialogPropsType = $props();
 
 	let dialogExports: DialogExportsType = {

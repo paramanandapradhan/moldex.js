@@ -23,5 +23,5 @@
 </script>
 
 <div class="p-6 {className}">
-	<div>{@html msg}</div>
+	<div>{@html (msg ||'')}</div>
 </div>
