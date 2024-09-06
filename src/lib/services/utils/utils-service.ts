@@ -216,11 +216,19 @@ export function dataUrlToFile(url: string, givenFileName?: string, givenMimeType
             // Get Content-Disposition header and extract filename
             const contentDisposition = res.headers.get('Content-Disposition');
             let fileName: string = "";
+
             if (contentDisposition) {
+                // Try to extract filename from the Content-Disposition header
                 const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
                 if (filenameMatch && filenameMatch[1]) {
                     fileName = filenameMatch[1].replace(/['"]/g, '');
                 }
+            }
+
+            // Fallback to filename from URL if Content-Disposition is missing or doesn't contain filename
+            if (!fileName) {
+                const urlParts = url.split('/');
+                fileName = urlParts[urlParts.length - 1] || "";
             }
 
             // Get Content-Type header (MIME type)

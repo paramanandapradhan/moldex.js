@@ -203,24 +203,22 @@ export async function openLoadingDialog({
  * @returns 
  */
 export async function openCropperDialog<T, R>({
-    width,
-    height,
-    format = 'webp',
-    quality = 0.8,
-    blob,
-    file,
+    outputWidth,
+    outputFormat = 'webp',
+    outputQuality = 0.8,
+    outputType = 'file',
+    inputImageFile,
     className,
     ...params
 }: DialogPropsType & CropperDialogPropsType): Promise<R | string | File> {
     return await openDialog<R>({
         bodyComponent: CropperDialog,
         props: {
-            width,
-            height,
-            format,
-            quality,
-            blob,
-            file,
+            outputWidth,
+            outputFormat,
+            outputQuality,
+            outputType,
+            inputImageFile,
             className,
         },
         ...params,

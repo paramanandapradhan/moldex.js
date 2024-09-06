@@ -1,6 +1,6 @@
 {
 	"name": "@cloudparker/moldex.js",
-	"version": "0.0.35",
+	"version": "0.0.36",
 	"description": "A Tailwindcss Component Library",
 	"license": "MIT",
 	"author": "cloudparker.com",
@@ -42,7 +42,7 @@
 		"svelte": "^5.0.0-next.1"
 	},
 	"devDependencies": {
-		"@cloudparker/easy-cropperjs-svelte": "^2.0.3",
+		"@cloudparker/easy-cropperjs-svelte": "^2.4.0",
 		"@cloudparker/easy-script-loader-svelte": "^4.0.0",
 		"@playwright/test": "^1.46.1",
 		"@sveltejs/adapter-auto": "^3.2.4",

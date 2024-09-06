@@ -1,11 +1,11 @@
 <script module lang="ts">
 	export type CropperDialogPropsType = {
-		width?: number;
-		height?: number;
-		format?: 'png' | 'jpeg' | 'webp';
-		quality?: number;
-		blob?: boolean;
-		file?: File | null;
+		outputAspectRatio?: number;
+		outputWidth?: number;
+		outputFormat?: 'png' | 'jpeg' | 'webp';
+		outputQuality?: number;
+		outputType?: 'file' | 'base64';
+		inputImageFile?: File | null;
 		className?: string;
 	};
 </script>
@@ -15,12 +15,11 @@
 	import type { DialogExportsType } from '../dialog/dialog.svelte';
 
 	let {
-		width,
-		height,
-		format = 'webp',
-		quality = 0.8,
-		blob,
-		file,
+		outputWidth,
+		outputFormat = 'webp',
+		outputQuality = 0.8,
+		outputType = 'file',
+		inputImageFile,
 		className,
 		setOnOkClick,
 		setResult,
@@ -31,19 +30,26 @@
 
 	let easyCropperjsRef: EasyCropperjs | null = $state(null);
 
-	setOnOkClick(() => {
-		console.log('OK Clicked');
+	setOnOkClick(async () => {
+		console.log('setOnOkClick', easyCropperjsRef);
 		if (easyCropperjsRef) {
-			easyCropperjsRef.crop({ width, height, format, quality, blob });
+			let res = await easyCropperjsRef.crop({
+				outputWidth,
+				outputFormat,
+				outputQuality,
+				outputType
+			});
+			console.log('res', res);
 		}
 	});
 
 	function handleCropped(result: any) {
+		console.log('handleCropped', result);
 		setResult(result);
 		closeDialog();
 	}
 </script>
 
 <div class="h-full w-full overflow-hidden {className}">
-	<EasyCropperjs bind:this={easyCropperjsRef} {file} onCrop={handleCropped} />
+	<EasyCropperjs bind:this={easyCropperjsRef} {inputImageFile} onCrop={handleCropped} />
 </div>
