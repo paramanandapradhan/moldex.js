@@ -8,8 +8,15 @@
 		className?: string;
 		id?: string;
 		responsiveBreakpoint?: BreakpointType;
+		position?: 'left' | 'right';
 	};
-	let { children, className, id, responsiveBreakpoint = 'md' }: PropsType = $props();
+	let {
+		children,
+		className,
+		id,
+		responsiveBreakpoint = 'md',
+		position = 'left'
+	}: PropsType = $props();
 
 	let responsiveClassName = $derived.by(() => {
 		switch (responsiveBreakpoint) {
@@ -29,7 +36,12 @@
 	});
 </script>
 
-<div {id} class="hidden bg-white pt-16 {responsiveClassName} {className}">
+<div
+	{id}
+	class="hidden bg-white pt-16 {responsiveClassName} {position == 'right'
+		? 'right-0'
+		: ''} {className}"
+>
 	{#if children}
 		{@render children()}
 	{/if}
