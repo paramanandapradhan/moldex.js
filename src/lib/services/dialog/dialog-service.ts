@@ -1,11 +1,13 @@
 
-import { Dialog, type DialogPropsType, type InputFieldAppearanceType, type InputFieldPropsType, type InputFieldSizeType } from '$lib/views';
+import { Dialog, type DialogPropsType, type InputFieldPropsType } from '$lib/views';
 import ListDialog from '$lib/views/core/dialog/components/list-dialog/list-picker-dialog.svelte';
+import LoadingDialog from '$lib/views/core/dialog/components/loading-dialog/loading-dialog.svelte';
 import MsgDialog from '$lib/views/core/dialog/components/msg-dialog/msg-dialog.svelte';
 import TextFieldDialog from '$lib/views/core/dialog/components/text-field-dialog/text-field-dialog.svelte';
+import TextareaFieldDialog from '$lib/views/core/dialog/components/textarea-field-dialog/textarea-field-dialog.svelte';
 import { mount, } from 'svelte';
 import { isMobileScreen } from '../screen/screen-service';
-import TextareaFieldDialog from '$lib/views/core/dialog/components/textarea-field-dialog/textarea-field-dialog.svelte';
+import CropperDialog, { type CropperDialogPropsType } from '$lib/views/core/dialog/components/cropper-dialog/cropper-dialog.svelte';
 
 export type PickerDialogPropsType = {
     items?: any[],
@@ -25,13 +27,13 @@ export type PickerDialogPropsType = {
 
 function addDialog(props: DialogPropsType) {
     const dialog = mount(Dialog, { target: document.getElementsByTagName('body')[0]!, props });
-    dialog.openDialog();
     return dialog;
 }
 
 export async function openDialog<R>(props: DialogPropsType = {}): Promise<R> {
     return new Promise((resolve) => {
         let dialog = addDialog({ ...props, onClose, onResult, });
+        dialog.openDialog();
         function onClose() {
             if (dialog) {
                 if (props.onClose) {
@@ -53,7 +55,7 @@ export async function openDialog<R>(props: DialogPropsType = {}): Promise<R> {
 export async function openConfirmDialog(params: DialogPropsType & { msg?: string } = {}) {
     let msg = params.msg || 'Are you sure?';
     params.title = params.title || 'Confirm';
-    params.footerOkLable = params.footerOkLable || 'Confirm';
+    params.footerOkButtonLable = params.footerOkButtonLable || 'Confirm';
 
     return await openDialog({
         bodyComponent: MsgDialog,
@@ -67,11 +69,30 @@ export async function openConfirmDialog(params: DialogPropsType & { msg?: string
     })
 }
 
+
+export async function openAlertDialog(params: DialogPropsType & { msg?: string } = {}) {
+    let msg = params.msg || 'Alert Information?';
+    params.title = params.title || 'Alert';
+    params.footerOkButtonLable = params.footerOkButtonLable || 'Confirm';
+
+    return await openDialog({
+        bodyComponent: MsgDialog,
+        props: { msg },
+        ...params,
+        hasTitle: true,
+        hasHeader: true,
+        hasFooter: true,
+        hasFooterCloseButton: true,
+        hasFooterOkButton: false,
+        footerCloseButtonLabel: 'OK'
+    })
+}
+
 export async function openDeleteConfirmDialog(params: DialogPropsType & { msg?: string } = {}) {
     return await openConfirmDialog({
         msg: 'Are you sure to delete?',
         title: 'Delete',
-        footerOkLable: 'Delete',
+        footerOkButtonLable: 'Delete',
         footerOkButtonClassName: 'bg-red-500 hover:bg-red-700 focus:bg-red-700'
     })
 }
@@ -113,11 +134,11 @@ export async function openListPickerDialog<R>({
 }
 
 
-export async function openTextFieldDialog({ title, value, label, name, maxlength, className, autofocus, required, appearance, size, floatingLabel, ...params }: DialogPropsType & InputFieldPropsType = {}) {
+export async function openTextFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, ...params }: DialogPropsType & InputFieldPropsType & { fieldClassName?: string } = {}) {
 
     return await openDialog({
         bodyComponent: TextFieldDialog,
-        props: { value, label, name, maxlength, className, autofocus, required, appearance, size, floatingLabel, },
+        props: { value, label, name, maxlength, className: fieldClassName, autofocus, required, appearance, size, floatingLabel, },
         ...params,
         hasHeader: true,
         hasHeaderBack: isMobileScreen(),
@@ -133,11 +154,11 @@ export async function openTextFieldDialog({ title, value, label, name, maxlength
     })
 }
 
-export async function openTextareaFieldDialog({ title, value, label, name, maxlength, className, autofocus, required, appearance, size, floatingLabel, rows, ...params }: DialogPropsType & InputFieldPropsType = {}) {
+export async function openTextareaFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, rows, ...params }: DialogPropsType & InputFieldPropsType & { fieldClassName?: string } = {}) {
 
     return await openDialog({
         bodyComponent: TextareaFieldDialog,
-        props: { value, label, name, maxlength, className, autofocus, required, appearance, size, floatingLabel, rows },
+        props: { value, label, name, maxlength, className: fieldClassName, autofocus, required, appearance, size, floatingLabel, rows },
         ...params,
         hasHeader: true,
         hasHeaderBack: isMobileScreen(),
@@ -151,4 +172,68 @@ export async function openTextareaFieldDialog({ title, value, label, name, maxle
         footerOkButtonType: 'submit',
         submitButtonFormId: 'textarea-field-dialog-form'
     })
+}
+
+export async function openLoadingDialog({
+    msg = "Please wait...",
+    loadingDialogContainerClassName,
+    loadingDialogClassName,
+    loadingDialogSpinnerClassName,
+    loadingDialogMsgClassName,
+    ...params }: DialogPropsType
+    & { msg?: string, loadingDialogContainerClassName?: string, loadingDialogClassName?: string, loadingDialogSpinnerClassName?: string, loadingDialogMsgClassName?: string, } = {}) {
+    let props: DialogPropsType = {
+        bodyComponent: LoadingDialog,
+        props: { msg, className: loadingDialogClassName, containerClassName: loadingDialogContainerClassName, spinnerClassName: loadingDialogSpinnerClassName, msgClassName: loadingDialogMsgClassName },
+        ...params,
+        hasHeader: false,
+        hasFooter: false,
+        size: 'xs',
+    }
+
+    let dialog = addDialog(props);
+    dialog.openDialog();
+
+    return dialog;
+}
+
+/**
+ * Return Cropped Image DataUrl
+ * @param props 
+ * @returns 
+ */
+export async function openCropperDialog<T, R>({
+    width,
+    height,
+    format = 'webp',
+    quality = 0.8,
+    blob,
+    file,
+    className,
+    ...params
+}: DialogPropsType & CropperDialogPropsType): Promise<R | string | File> {
+    return await openDialog<R>({
+        bodyComponent: CropperDialog,
+        props: {
+            width,
+            height,
+            format,
+            quality,
+            blob,
+            file,
+            className,
+        },
+        ...params,
+        hasHeader: true,
+        hasFooter: true,
+        hasFooterOkButton: true,
+        hasFooterCloseButton: true,
+        footerOkButtonLable: params.footerOkButtonLable || 'CROP',
+        hasTitle: true,
+        title: params.title || 'Crop Image',
+        hasHeaderBack: isMobileScreen(),
+        hasHeaderClose: !isMobileScreen(),
+        size: isMobileScreen() ? 'full' : 'lg',
+
+    });
 }

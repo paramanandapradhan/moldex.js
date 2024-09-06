@@ -1,9 +1,14 @@
-<script>
-	import { openTextareaFieldDialog, openTextFieldDialog } from '$lib';
+<script lang="ts">
+	import { fileToDataURL, openCropperDialog, openLoadingDialog, urlToFile } from '$lib';
+
+	let file: any;
 
 	async function handleGetText() {
-		let res = await openTextareaFieldDialog({ name: 'address', label: 'Enter Address' });
-		console.log(res);
+		 file = await urlToFile('/icons/web/icon-512-maskable.png');
+		 if(file){
+			let res = await openCropperDialog({file, blob:true});
+			console.log(res);
+		 }
 	}
 </script>
 

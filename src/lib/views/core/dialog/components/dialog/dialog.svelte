@@ -9,7 +9,7 @@
 	 */
 	export type DialogCloseButtonClickType = (ev: MouseEvent | TouchEvent) => Promise<boolean>;
 
-	export type DialogSizeType = 'sm' | 'md' | 'lg' | 'full';
+	export type DialogSizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
 	export type DialogPropsType = {
 		backdropClassName?: string;
@@ -23,12 +23,12 @@
 		containerClassName?: string;
 		footerClassName?: string;
 		footerCloseButtonClassName?: string;
-		footerCloseLabel?: string;
+		footerCloseButtonLabel?: string;
 		footerOkButtonClassName?: string;
 		footerOkButtonDisabled?: boolean;
 		footerOkButtonSpinner?: boolean;
 		footerOkButtonType?: 'button' | 'submit' | 'reset';
-		footerOkLable?: string;
+		footerOkButtonLable?: string;
 		footerSnippet?: Snippet<[dialogExports: DialogExportsType]>;
 		hasFooter?: boolean;
 		hasFooterCloseButton?: boolean;
@@ -53,6 +53,7 @@
 		onCloseClick?: DialogCloseButtonClickType;
 		onOkClick?: (ev: MouseEvent | TouchEvent, options: DialogExportsType) => void;
 		onResult?: (value: any) => void;
+		onData?: (data: any) => void;
 		props?: any;
 		size?: DialogSizeType;
 		submitButtonFormId?: string;
@@ -69,6 +70,7 @@
 		setOkDisabled: (value: boolean) => void;
 		setOnOkClick: (onclick: (ev: MouseEvent | TouchEvent) => void) => void;
 		setOnCloseClick: (onclick: DialogCloseButtonClickType) => void;
+		setOnData: (listener: (data: any) => void) => void;
 	};
 </script>
 
@@ -90,12 +92,12 @@
 		containerClassName = '',
 		footerClassName = '',
 		footerCloseButtonClassName = '',
-		footerCloseLabel = 'Close',
+		footerCloseButtonLabel = 'Close',
 		footerOkButtonClassName = '',
 		footerOkButtonDisabled = false,
 		footerOkButtonSpinner = false,
 		footerOkButtonType = 'button',
-		footerOkLable = 'Save',
+		footerOkButtonLable = 'Save',
 		footerSnippet,
 		hasFooter = false,
 		hasFooterCloseButton = false,
@@ -120,6 +122,7 @@
 		onCloseClick,
 		onOkClick,
 		onResult,
+		onData,
 		props = {},
 		size = 'sm',
 		submitButtonFormId = undefined,
@@ -135,7 +138,8 @@
 		setOkSpinner,
 		setOkDisabled,
 		setOnCloseClick,
-		setOnOkClick
+		setOnOkClick,
+		setOnData
 	};
 
 	let isPlaced: boolean = $state(false);
@@ -147,15 +151,19 @@
 
 	let result: any;
 
-	let smSizeClassName = 'w-11/12 sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4';
-	let mdSizeClassName = 'w-11/12 sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-1/3';
-	let lgSizeClassName = 'w-11/12 sm:w-3/4 md:w-3/4 lg:w-2/3 xl:w-1/2';
+	let xsSizeClassName = 'w-64';
+	let smSizeClassName = 'w-96';
+	let mdSizeClassName = 'w-1/3';
+	let lgSizeClassName = 'w-1/2';
+	let xlSizeClassName = 'w-7/10';
 	let fullSizeClassName = 'fixed inset-0 w-screen h-screen ';
 
 	let screenSizeClassNameMap: { [key: string]: string } = {
+		xs: xsSizeClassName,
 		sm: smSizeClassName,
 		md: mdSizeClassName,
 		lg: lgSizeClassName,
+		xl: xlSizeClassName,
 		full: fullSizeClassName
 	};
 
@@ -198,6 +206,10 @@
 		footerOkButtonSpinner = value;
 	}
 
+	export function setOnData(listener: (data: any) => void) {
+		onData = listener;
+	}
+
 	export function setOnOkClick(
 		onclick: (event: MouseEvent | TouchEvent, options: DialogExportsType) => void
 	) {
@@ -206,6 +218,10 @@
 
 	export function setOnCloseClick(onclick: DialogCloseButtonClickType) {
 		onCloseClick = onclick;
+	}
+
+	export function postData(data: any) {
+		onData && onData(data);
 	}
 
 	function handleBackdropClick() {
@@ -333,7 +349,7 @@
 							form={submitButtonFormId}
 							type={submitButtonFormId ? 'submit' : footerOkButtonType}
 							className="p-2 px-5 rounded bg-indigo-600 hover:bg-indigo-700 focus:bg-indigo-700 text-white {footerOkButtonClassName}"
-							label={footerOkLable}
+							label={footerOkButtonLable}
 							disabled={footerOkButtonDisabled}
 							spinner={footerOkButtonSpinner}
 							spinnerClassName="text-white w-4 h-4"
@@ -345,7 +361,7 @@
 							id="btn-close"
 							type="button"
 							className="p-2 px-5 rounded bg-gray-100 hover:bg-gray-200 {footerCloseButtonClassName}"
-							label={footerCloseLabel}
+							label={footerCloseButtonLabel}
 							onClick={handleClose}
 						/>
 					{/if}

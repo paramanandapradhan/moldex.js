@@ -10,7 +10,10 @@ let dependencies = [
 ];
 
 let devDependencies = [
-    '@cloudparker/easy-script-loader-svelte', 'esm-env', 'moment',
+    '@cloudparker/easy-script-loader-svelte',
+    '@cloudparker/easy-cropperjs-svelte',
+    'esm-env',
+    'moment',
 ];
 
 let peerDependencies = [
