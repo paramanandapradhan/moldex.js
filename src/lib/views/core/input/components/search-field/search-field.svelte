@@ -7,10 +7,10 @@
 		className,
 		placeholder,
 		iconClassName,
+value=$bindable(''),
 		onSearch,
 		...props
-	}: InputFieldPropsType & { iconClassName?: string; onSearch?: (value: string) => void } =
-		$props();
+	}: InputFieldPropsType & { iconClassName?: string; onSearch?: (value: string) => void } = $props();
 
 	const debouncedSearch = debounce(search, 300);
 	let lastQuery: string;
@@ -64,4 +64,5 @@
 	className=" pl-12 {className}"
 	{placeholder}
 	oninput={handleInput}
+	bind:value
 />

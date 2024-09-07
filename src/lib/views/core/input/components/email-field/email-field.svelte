@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
 
-	let props: InputFieldPropsType = $props();
+	let { value = $bindable(''), ...props }: InputFieldPropsType = $props();
 	let inputFieldRef: InputField | null = $state(null);
 
 	export function focus() {
@@ -9,4 +9,10 @@
 	}
 </script>
 
-<InputField bind:this={inputFieldRef} {...props} type="email" maxlength={props?.maxlength || 80} />
+<InputField
+	bind:this={inputFieldRef}
+	{...props}
+	type="email"
+	maxlength={props?.maxlength || 80}
+	bind:value
+/>

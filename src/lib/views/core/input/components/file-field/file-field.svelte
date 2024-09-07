@@ -11,12 +11,12 @@
 		className,
 		accept = '',
 		multiple = false,
-		value,
+		value = $bindable(null),
 		...props
 	}: InputFieldPropsType & {
 		accept?: string;
 		multiple?: boolean;
-		value?: File | File[];
+		value?: File | File[] | null;
 	} = $props();
 
 	let btnRoundedClassName = $state('');

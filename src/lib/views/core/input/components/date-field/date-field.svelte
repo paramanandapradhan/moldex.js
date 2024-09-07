@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
 
-	let props: InputFieldPropsType = $props();
+	let { value = $bindable(null), ...props }: InputFieldPropsType = $props();
 
 	let inputFieldRef: InputField | null = $state(null);
 
@@ -10,4 +10,4 @@
 	}
 </script>
 
-<InputField bind:this={inputFieldRef} {...props} type="date" />
+<InputField bind:this={inputFieldRef} {...props} type="date" bind:value />

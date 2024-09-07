@@ -135,7 +135,7 @@
 		size = 'md',
 		step,
 		type = 'text',
-		value = $bindable('')
+		value = $bindable()
 	}: InputFieldPropsType = $props();
 
 	let inputRef: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | null = $state(null);

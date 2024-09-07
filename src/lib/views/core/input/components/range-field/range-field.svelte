@@ -19,7 +19,7 @@
 
 	let {
 		id,
-		value = $bindable(50),
+		value = $bindable(0),
 		size = 'md',
 		min = 0,
 		max = 100,

@@ -85,11 +85,11 @@
 	<InputField
 		{...props}
 		type="text"
-		bind:value
 		bind:this={inputFieldRef}
 		className="pr-8 {props?.className}"
 		rightSnippet={colorButton}
 		maxlength={9}
+		bind:value={value as string}
 	/>
 
 	<input

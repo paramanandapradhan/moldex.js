@@ -14,4 +14,5 @@
 	{...props}
 	type="textarea"
 	maxlength={props?.maxlength || 300}
+	bind:value
 />

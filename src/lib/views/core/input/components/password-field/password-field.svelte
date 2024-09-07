@@ -10,6 +10,7 @@
 		appearance,
 		buttonClassName,
 		iconClassName,
+		value = $bindable(),
 		...props
 	}: InputFieldPropsType & {
 		buttonClassName?: string;
@@ -80,4 +81,5 @@
 	rightSnippet={showPasswordButton}
 	{size}
 	{appearance}
+	bind:value
 />
