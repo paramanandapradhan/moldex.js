@@ -35,6 +35,8 @@
 		buttonClassName,
 		className,
 		dialCode = $bindable('+1'),
+		floatingLabel,
+		labelClassName,
 		...props
 	}: InputFieldPropsType & {
 		buttonClassName?: string;
@@ -52,13 +54,13 @@
 		if (!_dailCode && !_phoneNumber && LibPhonenumber) {
 			try {
 				if (dialCode) {
-					_dailCode = '+' + dialCode || '';
+					_dailCode = formatDialCode(dialCode);
 				}
 				if (value) {
 					let parsed = LibPhonenumber?.parsePhoneNumber(value as string);
 					if (parsed && parsed.isValid()) {
 						_phoneNumber = parsed.nationalNumber || '';
-						_dailCode = '+' + parsed.countryCallingCode || '';
+						_dailCode = formatDialCode(parsed.countryCallingCode);
 					}
 				}
 			} catch (error) {}
@@ -73,6 +75,14 @@
 
 	export function focus() {
 		inputFieldRef?.focus();
+	}
+
+	function formatDialCode(dialcode: string) {
+		dialcode = `${dialCode}`.trim();
+		if (!dialCode.startsWith('+')) {
+			dialcode = `+${dialCode}`;
+		}
+		return dialcode;
 	}
 
 	async function hanleDialCodePicker() {
@@ -117,6 +127,7 @@
 	function updatePhonenumber(_dialCode: string, _phoneNumber: string) {
 		if (LibPhonenumber) {
 			if (_phoneNumber) {
+				_dialCode = formatDialCode(_dialCode);
 				try {
 					// console.log('updatePhonenumber', { dialCode, phoneNumber });
 					let parsed = LibPhonenumber.parsePhoneNumber(_dialCode + _phoneNumber);
@@ -152,6 +163,8 @@
 
 {#snippet showPasswordButton()}
 	<button
+		id="btn-dialcode-picker"
+		type="button"
 		class="w-16 h-full hover:bg-gray-100 font-bold text-gray-400 {btnRoundedClassName} {buttonClassName}"
 		use:ripple
 		onclick={hanleDialCodePicker}
@@ -181,7 +194,9 @@
 	leftSnippet={showPasswordButton}
 	{size}
 	{appearance}
-	className="pl-16 {className}"
+	{floatingLabel}
+	className="pl-16  {className}"
+	labelClassName=" {floatingLabel ? 'peer-placeholder-shown:ps-16' : ''} {labelClassName}"
 	oninput={handleNumberInput}
 	onkeydown={handleNumberKeyDown}
 />

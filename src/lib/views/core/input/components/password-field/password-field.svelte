@@ -62,6 +62,8 @@
 
 {#snippet showPasswordButton()}
 	<button
+		id="btn-eye"
+		type="button"
 		class="px-3 h-full hover:bg-gray-100 {btnRoundedClassName} {buttonClassName}"
 		use:ripple
 		onclick={handleTogglePassword}

@@ -3,13 +3,17 @@
 	import Button from '$lib/views/core/button/components/button/button.svelte';
 	import type { Snippet } from 'svelte';
 	import { Icon, mdiMenu } from '$lib/views/core/icon';
+	import ButtonBack from '$lib/views/core/button/components/button-back/button-back.svelte';
 
 	type PropsType = {
+		backIconPath?: string;
+		backButtonClassName?: string;
 		centerContainerClassName?: string;
 		centerSnippet?: Snippet;
 		children?: Snippet;
 		className?: String;
 		drawerButtonClassName?: string;
+		hasBack?: boolean;
 		hasLogo?: boolean;
 		hasMore?: boolean;
 		hasSubtitle?: boolean;
@@ -26,6 +30,7 @@
 		morePosition?: 'left' | 'right';
 		onLogo?: () => void;
 		onMore?: () => void;
+		onBack?: () => void;
 		rightContainerClassName?: string;
 		rightSnippet?: Snippet;
 		subtitle?: string;
@@ -35,11 +40,14 @@
 	};
 
 	let {
+		backButtonClassName,
+		backIconPath,
 		centerContainerClassName = '',
 		centerSnippet,
 		children,
 		className = '',
 		drawerButtonClassName = '',
+		hasBack = false,
 		hasLogo = false,
 		hasMore = false,
 		hasSubtitle = false,
@@ -56,6 +64,7 @@
 		morePosition = 'left',
 		onLogo,
 		onMore,
+		onBack,
 		rightContainerClassName = '',
 		rightSnippet,
 		subtitle = '',
@@ -68,6 +77,15 @@
 <nav
 	class="sticky top-0 z-20 flex h-16 shrink-0 items-center px-2 border-b border-gray-200 bg-white shadow-sm {className}"
 >
+	{#if hasBack}
+		<div class="h-full flex items-center">
+			<ButtonBack
+				iconPath={backIconPath}
+				className=" {backButtonClassName}"
+				onClick={onBack}
+			/>
+		</div>
+	{/if}
 	{#if hasMore && morePosition === 'left'}
 		<div class="h-full">
 			<Button

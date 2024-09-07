@@ -73,6 +73,8 @@
 
 {#snippet colorButton()}
 	<button
+		id="btn-color-picker"
+		type="button"
 		class="px-2 h-full hover:bg-gray-100 {btnRoundedClassName}"
 		use:ripple
 		onclick={handleColorBtnClick}
