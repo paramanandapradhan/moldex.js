@@ -182,7 +182,7 @@
 				floatingLabelPaddingClassName = flpcn;
 			}
 
-			floatingLabelClassName = `absolute duration-300 transform top-0 rounded -translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-0 peer-placeholder-shown:start-0 peer-focus:start-1 bg-white peer-placeholder-shown:bg-transparent peer-focus:bg-white start-1 ${floatingLabelPaddingClassName} ${floatingLabelTextClassName}`;
+			floatingLabelClassName = `absolute duration-300 transform top-0 rounded -translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-0 peer-placeholder-shown:start-0 peer-focus:start-1 bg-white peer-focus:bg-white dark:bg-base-700 peer-focus:bg-base-800 peer-placeholder-shown:bg-transparent  start-1 ${floatingLabelPaddingClassName} ${floatingLabelTextClassName}`;
 		}
 	});
 
@@ -191,28 +191,27 @@
 			switch (appearance) {
 				case 'normal':
 					appearanceClassName =
-						'border rounded-lg bg-base-50 dark:bg-base-950 border-base-300 dark:border-base-700 text-base-950 dark:text-base-50 focus:ring-primary-500 focus:border-primary-500';
+						'border rounded-lg bg-base-100 dark:bg-base-700 border-base-300 dark:border-base-500 text-base-950 dark:text-base-50 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 focus:bg-white dark:focus:bg-base-800 ';
 					break;
 				case 'box':
 					appearanceClassName =
-						'border bg-base-50 dark:bg-base-950  border-base-300 dark:border-base-700 text-base-900 dark:text-base-50 focus:ring-primary-500 focus:border-primary-500 ';
+						'border bg-base-100 dark:bg-base-700 border-base-300 dark:border-base-500 text-base-950 dark:text-base-50 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 focus:bg-white dark:focus:bg-base-800 ';
 					break;
 				case 'fill':
 					appearanceClassName =
-						' border-0 appearance-none focus:outline-none focus:ring-0 bg-base-100 focus:bg-base-200 bdark:focus:bg-base-700'; 
+						' border-0 appearance-none  focus:ring-0 bg-base-100 dark:bg-base-700 text-base-950 dark:text-base-50 focus:bg-white dark:focus:bg-base-800 ';
 					break;
-
 				case 'underline':
 					appearanceClassName =
-						'bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 border-base-300 dark:border-base-700  focus:border-primary-500';
+						'bg-transparent border-0 border-b-2 appearance-none focus:ring-0 text-base-950 dark:text-base-50 border-base-300 dark:border-base-700 focus:border-primary-500 dark:focus:border-primary-500';
 					break;
 				case 'fill-underline':
 					appearanceClassName =
-						'border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 bg-base-100 dark:bg-base-900  border-base-300 dark:border-base-700  focus:border-primary-500';
+						'border-0 border-b-2 appearance-none ring-0 text-base-950 dark:text-base-50 bg-base-100 dark:bg-base-700 border-base-300 dark:border-base-500 focus:border-primary-500 dark:focus:border-primary-500 ';
 					break;
 				case 'none':
 					appearanceClassName =
-						'border-0 focus:outline-none focus:ring-0 appearance-none hover:bg-base-100 dark:hover:bg-base-900 focus:bg-base-100 dark:focus:bg-base-900';
+						'border-0 focus:ring-0 appearance-none text-base-950 dark:text-base-50 bg-transparent dark:bg-transparent focus:bg-base-100 dark:focus:bg-base-800 hover:bg-base-100 dark:hover:bg-base-800';
 					break;
 			}
 		}
@@ -256,7 +255,7 @@
 	<Label
 		forName={id}
 		{label}
-		className="{floatingLabelClassName} {labelClassName}"
+		className=" {floatingLabel ? '' : 'mb-1 '} {floatingLabelClassName} {labelClassName}"
 		{required}
 		{requiredSymbolColor}
 		{requiredSymbol}
@@ -281,7 +280,7 @@
 		<textarea
 			bind:this={inputRef}
 			bind:value
-			class="block w-full peer {appearanceClassName} {sizeClassName} {className}"
+			class="block w-full peer outline-none {appearanceClassName} {sizeClassName} {className}"
 			{title}
 			{id}
 			{name}
@@ -312,7 +311,7 @@
 		<input
 			bind:this={inputRef}
 			bind:value
-			class="block w-full peer {appearanceClassName} {sizeClassName} {className}"
+			class="block w-full peer outline-none {appearanceClassName} {sizeClassName} {className}"
 			{title}
 			{type}
 			{id}
