@@ -10,6 +10,8 @@
 		appearance,
 		buttonClassName,
 		iconClassName,
+		name,
+		id,
 		value = $bindable(),
 		...props
 	}: InputFieldPropsType & {
@@ -62,7 +64,7 @@
 
 {#snippet showPasswordButton()}
 	<button
-		id="btn-eye"
+		id="btn-eye-{name || id}"
 		type="button"
 		class="px-3 h-full hover:bg-gray-100 {btnRoundedClassName} {buttonClassName}"
 		use:ripple
@@ -79,6 +81,8 @@
 	bind:this={inputFieldRef}
 	{...props}
 	{type}
+	{id}
+	{name}
 	maxlength={props?.maxlength || 200}
 	rightSnippet={showPasswordButton}
 	{size}

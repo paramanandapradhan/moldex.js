@@ -1,101 +1,109 @@
+<script lang="ts" module>
+</script>
+
 <script lang="ts">
 	import '../../../../../tailwind.css';
-	 
+
 	import { ripple } from '$lib/actions/ripple.js';
-	 
-	import { Icon, mdiCheckCircle, mdiCheckCircleOutline, mdiChevronDown } from '$lib/views/core/icon';
+
+	import {
+		Icon,
+		mdiCheckCircle,
+		mdiCheckCircleOutline,
+		mdiChevronDown
+	} from '$lib/views/core/icon';
 	import type { Snippet } from 'svelte';
 	import type { ListItemType } from '../button-list-item/button-list-item.svelte';
 	import ButtonListItem from '../button-list-item/button-list-item.svelte';
 
-	enum MenuStateEnum {
-		OPENED,
-		CLOSED
+	class MenuStateEnum {
+		static OPENED = 'OPENED';
+		static CLOSED = 'CLOSED';
 	}
 
 	type PropsType = {
-		id?: string;
-		className?: string;
-		screenOnlyDesc?: string;
-		style?: string;
-		disabled?: boolean | undefined | null;
-		imgSrc?:string;
-		imgClassName?: string;
-		imgAlt?: string;
-		leftIconPath?: string;
-		leftIconClassName?: string;
-		rightIconPath?: string;
-		rightIconClassName?: string;
-		title?: string | any;
-		titleClassName?: string;
-		dropdownClassName?: string;
-		dropdownStyle?: string;
-		hasCheck?: boolean;
-		checkIconPath?: string;
-		checkIconClassName?: string;
-		menus?: string[] | ListItemType[];
-		containerClassName?: string;
 		backgropClassName?: string;
-		menuItemClassName?: string;
-		uncheckIconPath?: string;
-		uncheckIconClassName?: string;
-		dropdownOpenClassName?: string;
-		dropdownCloseClassName?: string;
+		buttonSnippet?: Snippet;
 		checkClassName?: string;
+		checkIconClassName?: string;
+		checkIconPath?: string;
+		children?: Snippet;
+		className?: string;
+		containerClassName?: string;
+		disabled?: boolean | undefined | null;
+		dividerClassName?: string;
+		dropdownClassName?: string;
+		dropdownCloseClassName?: string;
+		dropdownOpenClassName?: string;
+		dropdownStyle?: string;
+		dropIconClassName?: string;
+		dropIconPath?: string;
+		hasCheckbox?: boolean;
+		id?: string;
+		imgAlt?: string;
+		imgClassName?: string;
+		imgSrc?: string;
+		leftIconClassName?: string;
+		leftIconPath?: string;
 		listIconClassName?: string;
 		listImgClassName?: string;
-		listTitleClassName?: string;
 		listSubtitleClassName?: string;
-		dividerClassName?: string;
-		dropIconPath?: string;
-		dropIconClassName?: string;
-		onmenuclick?: (ev: MouseEvent, item: string | ListItemType, index: number) => void;
-		children?: Snippet;
-		buttonSnippet?: Snippet;
-		menuItemSnippet?: Snippet<[ListItemType, number]>;
+		listTitleClassName?: string;
+		menuItemClassName?: string;
 		menuItemInnerSnippet?: Snippet<[ListItemType, number]>;
+		menuItemSnippet?: Snippet<[ListItemType, number]>;
+		menus?: string[] | ListItemType[];
+		onmenuclick?: (ev: MouseEvent, item: string | ListItemType, index: number) => void;
+		rightIconClassName?: string;
+		rightIconPath?: string;
+		screenOnlyDesc?: string;
+		style?: string;
+		title?: string | any;
+		titleClassName?: string;
+		uncheckIconClassName?: string;
+		uncheckIconPath?: string;
 	};
 
 	let {
-		id = 'menu',
-		className = '',
-		screenOnlyDesc = 'Menu',
-		style = '',
-		imgSrc = '',
-		imgClassName = '',
-		imgAlt = 'Menu',
-		leftIconPath = '',
-		leftIconClassName = '',
-		rightIconPath = '',
-		rightIconClassName = '',
-		dropIconPath = mdiChevronDown,
-		dropIconClassName = '',
-		titleClassName = '',
-		title = 'Button',
-		dropdownStyle = '',
-		dropdownClassName = '',
-		hasCheck = false,
-		uncheckIconPath = mdiCheckCircleOutline,
-		checkIconPath = mdiCheckCircle,
-		checkIconClassName = '',
-		containerClassName = '',
 		backgropClassName = '',
-		menus = [],
-		menuItemClassName = '',
-		uncheckIconClassName = '',
-		dropdownOpenClassName = '',
-		dropdownCloseClassName = '',
+		buttonSnippet,
 		checkClassName = '',
+		checkIconClassName = '',
+		checkIconPath = mdiCheckCircle,
+		children,
+		className = '',
+		containerClassName = '',
+		dividerClassName = '',
+		dropdownClassName = '',
+		dropdownCloseClassName = '',
+		dropdownOpenClassName = '',
+		dropdownStyle = '',
+		dropIconClassName = '',
+		dropIconPath = mdiChevronDown,
+		hasCheckbox = false,
+		id = 'menu',
+		imgAlt = 'Menu',
+		imgClassName = '',
+		imgSrc = '',
+		leftIconClassName = '',
+		leftIconPath = '',
 		listIconClassName = '',
 		listImgClassName = '',
-		listTitleClassName = '',
 		listSubtitleClassName = '',
-		dividerClassName = '',
-		onmenuclick = (ev: MouseEvent, item: string | ListItemType, index: number) => {},
-		children,
-		buttonSnippet,
+		listTitleClassName = '',
+		menuItemClassName = '',
+		menuItemInnerSnippet,
 		menuItemSnippet,
-		menuItemInnerSnippet
+		menus = [],
+		onmenuclick = (ev: MouseEvent, item: string | ListItemType, index: number) => {},
+		rightIconClassName = '',
+		rightIconPath = '',
+		screenOnlyDesc = 'Menu',
+		style = '',
+		title = 'Button',
+		titleClassName = '',
+		uncheckIconClassName = '',
+		uncheckIconPath = mdiCheckCircleOutline
 	}: PropsType = $props();
 
 	let expanded = $state(false);
@@ -176,7 +184,7 @@
 				{#if dropIconPath}
 					<Icon path={dropIconPath} className="w-5 h-5 text-gray-400 {dropIconClassName}" />
 				{/if}
-			{/if}ß
+			{/if}
 		</div>
 	</button>
 	{#if dropdownState == MenuStateEnum.OPENED}
@@ -211,8 +219,8 @@
 					<ButtonListItem
 						item={menu}
 						{index}
-						{hasCheck}
-						id={id}
+						{hasCheckbox}
+						{id}
 						className={menuItemClassName}
 						{uncheckIconPath}
 						{checkIconPath}

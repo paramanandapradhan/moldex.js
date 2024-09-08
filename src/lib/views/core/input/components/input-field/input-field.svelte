@@ -191,28 +191,28 @@
 			switch (appearance) {
 				case 'normal':
 					appearanceClassName =
-						'bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 ';
+						'border rounded-lg bg-base-50 dark:bg-base-950 border-base-300 dark:border-base-700 text-base-950 dark:text-base-50 focus:ring-primary-500 focus:border-primary-500';
 					break;
 				case 'box':
 					appearanceClassName =
-						'bg-gray-50 border border-gray-300 text-gray-900 focus:ring-indigo-500 focus:border-indigo-500   ';
+						'border bg-base-50 dark:bg-base-950  border-base-300 dark:border-base-700 text-base-900 dark:text-base-50 focus:ring-primary-500 focus:border-primary-500 ';
 					break;
 				case 'fill':
 					appearanceClassName =
-						'bg-gray-100 border-0 appearance-none focus:bg-gray-200 focus:outline-none focus:ring-0';
+						' border-0 appearance-none focus:outline-none focus:ring-0 bg-base-100 focus:bg-base-200 bdark:focus:bg-base-700'; 
 					break;
 
 				case 'underline':
 					appearanceClassName =
-						'bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600';
+						'bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 border-base-300 dark:border-base-700  focus:border-primary-500';
 					break;
 				case 'fill-underline':
 					appearanceClassName =
-						'bg-gray-100 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600';
+						'border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 bg-base-100 dark:bg-base-900  border-base-300 dark:border-base-700  focus:border-primary-500';
 					break;
 				case 'none':
 					appearanceClassName =
-						'hover:bg-gray-100 focus:bg-gray-100 border-0 focus:outline-none focus:ring-0 appearance-none';
+						'border-0 focus:outline-none focus:ring-0 appearance-none hover:bg-base-100 dark:hover:bg-base-900 focus:bg-base-100 dark:focus:bg-base-900';
 					break;
 			}
 		}

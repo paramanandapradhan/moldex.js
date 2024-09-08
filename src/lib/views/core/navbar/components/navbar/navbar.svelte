@@ -1,15 +1,15 @@
 <script lang="ts">
-	import '../../../../../tailwind.css';
-	import Button from '$lib/views/core/button/components/button/button.svelte';
-	import type { Snippet } from 'svelte';
-	import { Icon, mdiMenu } from '$lib/views/core/icon';
 	import ButtonBack from '$lib/views/core/button/components/button-back/button-back.svelte';
+	import Button from '$lib/views/core/button/components/button/button.svelte';
+	import { Icon, mdiMenu } from '$lib/views/core/icon';
+	import type { Snippet } from 'svelte';
+	import '../../../../../tailwind.css';
 
 	type PropsType = {
 		backIconPath?: string;
 		backButtonClassName?: string;
 		centerContainerClassName?: string;
-		centerSnippet?: Snippet;
+		centerSnippet?: Snippet<[]>;
 		children?: Snippet;
 		className?: String;
 		drawerButtonClassName?: string;
@@ -20,7 +20,7 @@
 		hasTitle?: boolean;
 		id?: string;
 		leftContainerClassName?: string;
-		leftSnippet?: Snippet;
+		leftSnippet?: Snippet<[]>;
 		logoButtonClassName?: string;
 		logoIconClassName?: string;
 		logoIconPath?: string;
@@ -32,7 +32,7 @@
 		onMore?: () => void;
 		onBack?: () => void;
 		rightContainerClassName?: string;
-		rightSnippet?: Snippet;
+		rightSnippet?: Snippet<[]>;
 		subtitle?: string;
 		subtitleClassName?: string;
 		title?: string;
@@ -75,13 +75,13 @@
 </script>
 
 <nav
-	class="sticky top-0 z-20 flex h-16 shrink-0 items-center px-2 border-b border-gray-200 bg-white shadow-sm {className}"
+	class="sticky top-0 z-20 flex h-16 shrink-0 items-center px-2 border-b border-base-400 dark:border-base-700 bg-base-200 dark:bg-base-800 shadow-sm {className}"
 >
 	{#if hasBack}
 		<div class="h-full flex items-center">
 			<ButtonBack
 				iconPath={backIconPath}
-				className=" {backButtonClassName}"
+				className=" text-base-800 dark:text-base-100 {backButtonClassName}"
 				onClick={onBack}
 			/>
 		</div>
@@ -89,7 +89,8 @@
 	{#if hasMore && morePosition === 'left'}
 		<div class="h-full">
 			<Button
-				className="h-full px-2 text-gray-500 hover:text-gray-600 {drawerButtonClassName}"
+				className="h-full px-2 text-base-800 dark:text-base-100 {drawerButtonClassName}"
+				iconClassName=""
 				iconPath={moreIconPath}
 				disabled={!onMore}
 				onClick={onMore}
@@ -98,12 +99,12 @@
 	{/if}
 	{#if hasLogo}
 		<div class="h-full">
-			<Button className="h-full px-2 {logoButtonClassName}" disabled={!onLogo} onClick={onLogo}>
+			<Button className="h-full px-2 text-base-800 dark:text-base-100 {logoButtonClassName}" disabled={!onLogo} onClick={onLogo}>
 				{#if logoIconPath}
 					<Icon path={logoIconPath} className="h-10 w-10 {logoIconClassName}" />
 				{/if}
 				{#if logoImgSrc}
-					<img src={logoImgSrc} class="h-8 w-8 bg-gray-50 {logoImgClassName}" alt="logo" />
+					<img src={logoImgSrc} class="h-8 w-8 bg-base-50 {logoImgClassName}" alt="logo" />
 				{/if}
 			</Button>
 		</div>
@@ -114,10 +115,14 @@
 		<div class="h-full flex items-center">
 			<div>
 				{#if hasTitle}
-					<div class="font-bold px-2 {titleClassName}">{title || ''}</div>
+					<div class="font-bold px-2 text-base-800 dark:text-base-100 {titleClassName}">
+						{title || ''}
+					</div>
 				{/if}
 				{#if hasSubtitle}
-					<div class="text-sm px-2 text-gray-400 {subtitleClassName}">{subtitle || ''}</div>
+					<div class="text-sm px-2 text-base-600 dark:text-base-500 {subtitleClassName}">
+						{subtitle || ''}
+					</div>
 				{/if}
 			</div>
 		</div>
@@ -140,7 +145,7 @@
 	{#if hasMore && morePosition === 'right'}
 		<div class="h-full">
 			<Button
-				className="h-full px-2 text-gray-500 hover:text-gray-600 {drawerButtonClassName}"
+				className="h-full px-2 text-base-800 dark:text-base-100 {drawerButtonClassName}"
 				iconPath={moreIconPath}
 				disabled={!onMore}
 				onClick={onMore}

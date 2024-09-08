@@ -61,7 +61,7 @@
 	<div {id} class="relative z-30 {containerClassName}" role="dialog" aria-modal="true">
 		<!-- Backdrop -->
 		<div
-			class="fixed inset-0 bg-gray-900/10 transition-opacity ease-linear duration-300 {isOpened
+			class="fixed inset-0 bg-base-900/10 bg-base-50/10 transition-opacity ease-linear duration-300 {isOpened
 				? 'opacity-100'
 				: 'opacity-0'}  {backdropClassName}"
 			aria-hidden="true"
@@ -86,7 +86,9 @@
 				{position === 'bottom' ? (isOpened ? 'translate-y-0' : 'translate-y-full') : ''}
 				{drawerClassName} "
 			>
-				<div class="grow w-72 bg-white {className}">
+				<div
+					class="grow w-72 bg-base-200 dark:bg-base-800 text-base-800 dark:text-base-200 border-base-400 dark:border-base-700 {className}"
+				>
 					{#if children}
 						{@render children()}
 					{/if}

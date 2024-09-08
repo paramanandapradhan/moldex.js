@@ -6,6 +6,8 @@
 	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
 
 	let {
+		id,
+		name,
 		size,
 		appearance,
 		value = $bindable('#000000'),
@@ -73,7 +75,7 @@
 
 {#snippet colorButton()}
 	<button
-		id="btn-color-picker"
+		id="btn-color-picker-{name || id}"
 		type="button"
 		class="px-2 h-full hover:bg-gray-100 {btnRoundedClassName}"
 		use:ripple
@@ -87,6 +89,8 @@
 	<InputField
 		{...props}
 		type="text"
+		{id}
+		{name}
 		bind:this={inputFieldRef}
 		className="pr-8 {props?.className}"
 		rightSnippet={colorButton}

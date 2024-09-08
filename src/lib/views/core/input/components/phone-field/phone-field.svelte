@@ -29,6 +29,8 @@
 	import type { DialogSizeType } from '$lib/views/core/dialog';
 
 	let {
+		id,
+		name,
 		value = $bindable(''),
 		size,
 		appearance,
@@ -153,7 +155,8 @@
 				ev.key === 'ArrowLeft' ||
 				ev.key === 'ArrowRight' ||
 				ev.key === 'ArrowUp' ||
-				ev.key === 'ArrowDown'
+				ev.key === 'ArrowDown'||
+				ev.key === 'Tab'
 			)
 		) {
 			ev.preventDefault();
@@ -163,7 +166,7 @@
 
 {#snippet showPasswordButton()}
 	<button
-		id="btn-dialcode-picker"
+		id="btn-dialcode-picker-{name || id}"
 		type="button"
 		class="w-16 h-full hover:bg-gray-100 font-bold text-gray-400 {btnRoundedClassName} {buttonClassName}"
 		use:ripple
@@ -190,6 +193,8 @@
 	bind:this={inputFieldRef}
 	value={_phoneNumber}
 	type="tel"
+	{id}
+	{name}
 	maxlength={props?.maxlength || 12}
 	leftSnippet={showPasswordButton}
 	{size}

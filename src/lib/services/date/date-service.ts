@@ -2,19 +2,19 @@
 import moment, { type unitOfTime } from "moment";
 
 
-export enum PeriodEnum {
-    TODAY = 1,
-    TOMORROW,
-    YESTERDAY,
-    THIS_WEEK,
-    LAST_WEEK,
-    NEXT_WEEK,
-    THIS_MONTH,
-    LAST_MONTH,
-    NEXT_MONTH,
-    THIS_YEAR,
-    LAST_YEAR,
-    NEXT_YEAR,
+export class PeriodEnum {
+    static TODAY = 1;
+    static TOMORROW = 2;
+    static YESTERDAY = 3;
+    static THIS_WEEK = 4;
+    static LAST_WEEK = 5;
+    static NEXT_WEEK = 6;
+    static THIS_MONTH = 7;
+    static LAST_MONTH = 8;
+    static NEXT_MONTH = 9;
+    static THIS_YEAR = 10;
+    static LAST_YEAR = 11;
+    static NEXT_YEAR = 12;
 }
 
 export type FirestoreTimestamp = { seconds: number, nanoseconds: number };
