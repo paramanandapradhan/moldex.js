@@ -1,28 +1,26 @@
 import { isTouchDevice } from '$lib/services';
 import '../tailwind.css';
+
 export type RipplePropsType = {
     /**
      * The color of the ripple effect, default is rgba(0, 0, 0, 0.12)
      */
-    color?: string;
+    color?: string | 'light' | 'dark';
 
-    /**
-     * If true, the ripple effect will be light color rgba(255, 255, 255, 0.12), default is false.
-     */
-    light?: boolean;
+
 }
 
-export const DARK_RIPPLE_COLOR = 'rgba(0, 0, 0, 0.12)';
-export const LIGHT_RIPPLE_COLOR = 'rgba(255, 255, 255, 0.12)';
+const DARK_RIPPLE_COLOR = 'rgba(0, 0, 0, 0.12)';
+const LIGHT_RIPPLE_COLOR = 'rgba(255, 255, 255, 0.12)';
 
-export function ripple(node: HTMLElement, { color, light }: RipplePropsType = {}) {
+export function ripple(node: HTMLElement, { color }: RipplePropsType = {}) {
     let containerRemoveTimer: any;
     const isTouchEnabled = isTouchDevice();
     let timeoutInstance: any;
 
     function scheduleStartRipple(event: MouseEvent | TouchEvent) {
         if ((node as any).disabled) return;
-        
+
         if (timeoutInstance) {
             clearTimeout(timeoutInstance);
         }
@@ -39,7 +37,15 @@ export function ripple(node: HTMLElement, { color, light }: RipplePropsType = {}
 
     function startRipple(event: MouseEvent | TouchEvent) {
 
-        const rippleColor = light ? LIGHT_RIPPLE_COLOR : color || DARK_RIPPLE_COLOR;
+        let isDarkMOde = document.documentElement.classList.contains('dark') || document.body.classList.contains('dark');
+
+        let rippleColor = color || (isDarkMOde ? LIGHT_RIPPLE_COLOR : DARK_RIPPLE_COLOR);
+        if (color == 'light') {
+            rippleColor = LIGHT_RIPPLE_COLOR
+        }
+        if (color == 'dark') {
+            rippleColor = DARK_RIPPLE_COLOR;
+        }
 
         const circle = document.createElement('span');
         const diameter = Math.max(node.clientWidth, node.clientHeight);
@@ -103,4 +109,3 @@ export function ripple(node: HTMLElement, { color, light }: RipplePropsType = {}
     };
 }
 
- 

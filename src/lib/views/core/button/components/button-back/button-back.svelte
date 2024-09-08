@@ -29,7 +29,7 @@
 {#snippet button()}
 	<Button
 		{iconPath}
-		className="w-12 h-12 p-3 rounded-full text-gray-500 hover:text-gray-600 hover:bg-gray-50 {className}"
+		className="w-12 h-12 p-3 rounded-full hover:bg-gray-50 dark:hover:bg-gray-900 {className}"
 		{iconClassName}
 		{onClick}
 	/>

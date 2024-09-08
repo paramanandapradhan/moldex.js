@@ -14,7 +14,8 @@
 		spinnerClassName?: string;
 		onlySpinner?: boolean;
 		children?: Snippet;
-		useRipple?: boolean;
+		hasRipple?: boolean;
+		rippleColor?: string | 'light' | 'dark';
 		onClick?: (ev: MouseEvent) => void;
 	};
 </script>
@@ -41,12 +42,14 @@
 		spinnerClassName = '',
 		onlySpinner = false,
 		children,
-		useRipple = true,
+		hasRipple = true,
+		rippleColor,
 		onClick = (ev: MouseEvent) => {}
 	}: ButtonPropsType = $props();
 
 	function maybeRipple(node: HTMLElement, options?: RipplePropsType) {
-		if (useRipple) {
+		if (hasRipple) {
+			options = options || { color: rippleColor   };
 			return ripple(node, options);
 		}
 		return {

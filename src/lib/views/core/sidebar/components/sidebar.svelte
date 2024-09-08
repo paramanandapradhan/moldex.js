@@ -38,7 +38,7 @@
 
 <div
 	{id}
-	class="hidden bg-base-200 dark:bg-base-800 text-base-800 dark:text-base-200 border-base-400 dark:border-base-700 pt-16 {responsiveClassName} {position == 'right'
+	class="hidden bg-white dark:bg-base-800 text-base-800 dark:text-base-200 border-base-100 dark:border-base-700 pt-16 {responsiveClassName} {position == 'right'
 		? 'right-0'
 		: ''} {className}"
 >

@@ -75,7 +75,7 @@
 </script>
 
 <nav
-	class="sticky top-0 z-20 flex h-16 shrink-0 items-center px-2 border-b border-base-400 dark:border-base-700 bg-base-200 dark:bg-base-800 shadow-sm {className}"
+	class="sticky top-0 z-20 flex h-16 shrink-0 items-center px-2 border-b border-base-100 dark:border-base-700 bg-white dark:bg-base-800 shadow-sm {className}"
 >
 	{#if hasBack}
 		<div class="h-full flex items-center">

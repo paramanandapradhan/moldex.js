@@ -87,7 +87,7 @@
 				{drawerClassName} "
 			>
 				<div
-					class="grow w-72 bg-base-200 dark:bg-base-800 text-base-800 dark:text-base-200 border-base-400 dark:border-base-700 {className}"
+					class="grow w-72 bg-white dark:bg-base-800 text-base-800 dark:text-base-200 border-base-100 dark:border-base-700 {className}"
 				>
 					{#if children}
 						{@render children()}
