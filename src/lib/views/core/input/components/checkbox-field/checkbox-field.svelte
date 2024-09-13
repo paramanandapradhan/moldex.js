@@ -1,5 +1,6 @@
 <script lang="ts">
 	type CheckboxPropsType = {
+		className?: string;
 		containerClassName?: string;
 		desc?: string;
 		descClassName?: string;
@@ -13,6 +14,7 @@
 	};
 
 	let {
+		className,
 		containerClassName,
 		desc,
 		descClassName,
@@ -51,7 +53,7 @@
 			aria-describedby="comments-description"
 			name={name || id}
 			type="checkbox"
-			class="w-4 h-4 rounded focus:ring-2 text-pimary-600 dark:text-pimary-600 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:ring-pimary-500 dark:focus:ring-pimary-600"
+			class="h-6 w-6 appearance-none rounded bg-base-200 dark:bg-base-700 dark:checked:bg-primary checked:bg-primary outline-primary border-base-300 dark:border-base-600   {className}"
 			onchange={(ev) => handleChange(ev)}
 		/>
 		{#if position == 'left'}
@@ -59,3 +61,12 @@
 		{/if}
 	</label>
 </div>
+
+<style>
+	[type='checkbox']:checked {
+		background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+		background-size: 100% 100%;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+</style>
