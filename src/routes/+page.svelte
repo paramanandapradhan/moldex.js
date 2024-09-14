@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fileToDataURL, openCropperDialog, openLoadingDialog, urlToFile } from '$lib';
+	import { Button, fileToDataURL, openCropperDialog, openLoadingDialog, urlToFile } from '$lib';
 
 	let file: any;
 
@@ -19,5 +19,5 @@
 </script>
 
 <div class="min-h-full">
-	<button onclick={handleGetText}>Get Text</button>
+	 
 </div>

@@ -1,7 +1,17 @@
 <script module lang="ts">
+	export type ButtonAppearanceType =
+		| 'none'
+		| 'primary'
+		| 'base'
+		| 'border'
+		| 'border-base'
+		| 'border-primary';
+	export type ButtonSizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 	export type ButtonPropsType = {
 		id?: string;
 		type?: 'button' | 'submit' | 'reset';
+		appearance?: ButtonAppearanceType;
+		size?: ButtonSizeType;
 		form?: string | null;
 		className?: string;
 		iconPath?: string;
@@ -28,6 +38,7 @@
 	import { Icon } from '$lib/views/core/icon';
 
 	let {
+		appearance = 'none',
 		id = '',
 		form = undefined,
 		type = 'button',
@@ -39,6 +50,7 @@
 		rightIconClassName = '',
 		spinner = false,
 		disabled = false,
+		size = 'md',
 		spinnerClassName = '',
 		onlySpinner = false,
 		children,
@@ -47,9 +59,42 @@
 		onClick = (ev: MouseEvent) => {}
 	}: ButtonPropsType = $props();
 
+	let btnAppearanceClassName = $derived.by(() => {
+		switch (appearance) {
+			case 'none':
+				return 'text-base-800 dark:text-base-300 hover:text-base-900 disabled:text-base-400 dark:disabled:text-base-500 dark:hover:text-base-200';
+			case 'base':
+				return 'text-base-800 dark:text-base-300 hover:text-base-900 disabled:text-base-400 dark:disabled:text-base-500 dark:hover:text-base-200 bg-base-200 dark:bg-base-700 hover:bg-base-300 dark:hover:bg-base-600 disabled:hover:bg-base-200 dark:disabled:hover:bg-base-700 ';
+			case 'primary':
+				return 'text-primary-100 hover:text-primary-50 bg-primary-600 hover:bg-primary-500 disabled:text-base-400 dark:disabled:text-base-500 disabled:bg-base-200 dark:disabled:bg-base-700 disabled:hover:bg-base-200 dark:disabled:hover:bg-base-700  ';
+			case 'border':
+			case 'border-base':
+				return 'border-2 text-base-800 dark:text-base-300 hover:text-base-900 disabled:text-base-400 dark:disabled:text-base-500 dark:hover:text-base-200 border-base-200 hover:border-base-300 dark:border-base-700 dark:hover:border-base-600 dark:disabled:border-base-200 dark:disabled:hover:border-base-200 dark:disabled:border-base-700 dark:disabled:hover:border-base-700  ';
+			case 'border-primary':
+				return 'border-2 text-primary hover:text-primary-500 disabled:text-base-400 dark:disabled:text-base-500 border-primary hover:border-primary-500 dark:border-primary-600 dark:hover:border-primary-500 dark:disabled:border-base-200 dark:disabled:hover:border-base-200 dark:disabled:border-base-700 dark:disabled:hover:border-base-700  ';
+		}
+	});
+
+	let btnSizeClassName = $derived.by(() => {
+		switch (size) {
+			case 'xs':
+				return 'px-1 py-0 text-xs';
+			case 'sm':
+				return 'px-3 py-1 text-sm';
+			case 'md':
+				return 'px-4 py-2';
+			case 'lg':
+				return 'px-6 py-3 text-lg';
+			case 'xl':
+				return 'px-8 py-4 text-xl';
+			case '2xl':
+				return 'px-10 py-6 text-2xl';
+		}
+	});
+
 	function maybeRipple(node: HTMLElement, options?: RipplePropsType) {
 		if (hasRipple) {
-			options = options || { color: rippleColor   };
+			options = options || { color: rippleColor };
 			return ripple(node, options);
 		}
 		return {
@@ -79,7 +124,7 @@
 	{id}
 	{type}
 	{form}
-	class="flex items-center justify-center gap-2 outline-none disabled:bg-white disabled:text-gray-400 rounded {className}"
+	class="flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded {btnSizeClassName} {btnAppearanceClassName} {className}"
 	onclick={onClick}
 	{disabled}
 	use:maybeRipple
