@@ -73,7 +73,7 @@
 	<button
 		id="btn-file-picker"
 		type="button"
-		class="px-3 h-full hover:bg-gray-100 {btnRoundedClassName} "
+		class="px-3 h-full hover:bg-gray-100 focus:outline-primary {btnRoundedClassName} "
 		use:ripple
 		onclick={handleFileAttachment}
 	>

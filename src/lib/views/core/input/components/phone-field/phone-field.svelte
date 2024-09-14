@@ -168,7 +168,7 @@
 	<button
 		id="btn-dialcode-picker-{name || id}"
 		type="button"
-		class="w-16 h-full hover:bg-gray-100 font-bold text-gray-400 {btnRoundedClassName} {buttonClassName}"
+		class="w-16 h-full hover:bg-gray-100 font-bold text-gray-400 focus:outline-primary {btnRoundedClassName} {buttonClassName}"
 		use:ripple
 		onclick={hanleDialCodePicker}
 	>

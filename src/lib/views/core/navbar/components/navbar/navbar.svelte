@@ -81,32 +81,39 @@
 		<div class="h-full flex items-center">
 			<ButtonBack
 				iconPath={backIconPath}
-				className=" text-base-800 dark:text-base-100 {backButtonClassName}"
+				className="text-base-800 dark:text-base-100 {backButtonClassName}"
 				onClick={onBack}
 			/>
 		</div>
 	{/if}
 	{#if hasMore && morePosition === 'left'}
 		<div class="h-full">
-			<Button
-				className="h-full px-2 text-base-800 dark:text-base-100 {drawerButtonClassName}"
-				iconClassName=""
-				iconPath={moreIconPath}
+			<button
+				type="button"
+				class="h-full px-2 text-base-800 dark:text-base-100 {drawerButtonClassName}"
 				disabled={!onMore}
-				onClick={onMore}
-			/>
+				onclick={onMore}
+			>
+				<Icon path={moreIconPath} />
+			</button>
 		</div>
 	{/if}
 	{#if hasLogo}
 		<div class="h-full">
-			<Button className="h-full px-2 text-base-800 dark:text-base-100 {logoButtonClassName}" disabled={!onLogo} onClick={onLogo}>
+			<button
+				id="btn-more"
+				type="button"
+				class="h-full px-2 rounded-0 text-base-800 dark:text-base-100 {logoButtonClassName}"
+				disabled={!onLogo}
+				onclick={onLogo}
+			>
 				{#if logoIconPath}
 					<Icon path={logoIconPath} className="h-10 w-10 {logoIconClassName}" />
 				{/if}
 				{#if logoImgSrc}
-					<img src={logoImgSrc} class="h-8 w-8 bg-base-50 {logoImgClassName}" alt="logo" />
+					<img src={logoImgSrc} class="h-8 w-8 {logoImgClassName}" alt="logo" />
 				{/if}
-			</Button>
+			</button>
 		</div>
 	{/if}
 	{#if children}
@@ -144,12 +151,17 @@
 	{/if}
 	{#if hasMore && morePosition === 'right'}
 		<div class="h-full">
-			<Button
-				className="h-full px-2 text-base-800 dark:text-base-100 {drawerButtonClassName}"
-				iconPath={moreIconPath}
-				disabled={!onMore}
-				onClick={onMore}
-			/>
+			<div class="h-full">
+				<button
+					id="btn-more"
+					type="button"
+					class="h-full px-2 text-base-800 dark:text-base-100 {drawerButtonClassName}"
+					disabled={!onMore}
+					onclick={onMore}
+				>
+					<Icon path={moreIconPath} />
+				</button>
+			</div>
 		</div>
 	{/if}
 </nav>

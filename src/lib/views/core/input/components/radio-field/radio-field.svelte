@@ -31,7 +31,6 @@
 		direction = 'vertical',
 		className,
 		groupContainerClassName,
-		hasPrimitiveItemsData,
 		id,
 		items = [],
 		labelClassName,
@@ -47,6 +46,16 @@
 		descClassName,
 		onChange
 	}: RadioPropsType = $props();
+
+	let hasPrimitiveItemsData = $derived.by(() => {
+		if (items?.length) {
+			let item = items[0];
+			if (typeof item === 'object' && item !== null) {
+				return false;
+			}
+		}
+		return true;
+	});
 
 	let fieldsetId = $derived.by(() => {
 		if (id) {
@@ -77,9 +86,7 @@
 
 {#snippet labelSnippet(item: RadioItemType, index: number)}
 	<div class="leading-6">
-		<div
-			class="ml-4 block text-sm font-medium text-gray-900 flex-grow {labelClassName}"
-		>
+		<div class="ml-4 block text-sm font-medium text-gray-900 flex-grow {labelClassName}">
 			{item.label || ''}
 		</div>
 		{#if item.desc}
@@ -122,7 +129,7 @@
 					type="radio"
 					value={item.value}
 					checked={value === item.value}
-					class="h-4 w-4 cursor-pointer select-none border-gray-300 text-indigo-600 focus:ring-indigo-600 {className}"
+					class="h-6 w-6 appearance-none rounded-full bg-base-200 dark:bg-base-700 dark:checked:bg-primary checked:bg-primary outline-primary border-base-300 dark:border-base-600 {className}"
 					onchange={(ev) => handleChange(ev, item)}
 				/>
 
@@ -133,3 +140,12 @@
 		{/each}
 	</div>
 </fieldset>
+
+<style>
+	[type='radio']:checked {
+		background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
+		background-size: 100% 100%;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+</style>
