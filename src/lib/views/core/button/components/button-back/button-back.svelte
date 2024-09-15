@@ -28,8 +28,9 @@
 
 {#snippet button()}
 	<Button
+		appearance="none"
 		{iconPath}
-		className="w-12 h-12 p-3 rounded-full hover:bg-gray-50 dark:hover:bg-gray-900 {className}"
+		className="w-12 h-12 !p-0 rounded-full hover:bg-gray-50 dark:hover:bg-gray-900 {className}"
 		{iconClassName}
 		{onClick}
 	/>

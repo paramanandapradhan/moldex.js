@@ -6,6 +6,7 @@
 	import '../../../../../tailwind.css';
 
 	type PropsType = {
+		disabledLogo?: boolean;
 		backIconPath?: string;
 		backButtonClassName?: string;
 		centerContainerClassName?: string;
@@ -40,6 +41,7 @@
 	};
 
 	let {
+		disabledLogo,
 		backButtonClassName,
 		backIconPath,
 		centerContainerClassName = '',
@@ -91,7 +93,7 @@
 			<button
 				type="button"
 				class="h-full px-2 text-base-800 dark:text-base-100 {drawerButtonClassName}"
-				disabled={!onMore}
+				disabled={disabledLogo}
 				onclick={onMore}
 			>
 				<Icon path={moreIconPath} />
