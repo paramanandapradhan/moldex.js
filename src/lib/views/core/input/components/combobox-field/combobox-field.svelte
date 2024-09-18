@@ -335,7 +335,7 @@
 		{#if hasComboboxIcon}
 			<Icon
 				path={comboboxIconPath}
-				className=" text-gray-500 {comboboxIconSizeClassName} {comboboxIconClassName}"
+				className=" text-base-500 {comboboxIconSizeClassName} {comboboxIconClassName}"
 			/>
 		{/if}
 	</div>
@@ -348,13 +348,13 @@
 		<div class="flex items-center {displayClassName}" title={displayItemsTitle}>
 			{#each displayItems?.slice(0, displayItemsCount) as item, index}
 				<div
-					class="inline-flex items-center bg-gray-200 text-gray-700 text-sm font-medium px-2 mx-1 rounded-full text-nowrap {chipClassName}"
+					class="inline-flex items-center bg-base-200 text-base-700 text-sm font-medium px-2 mx-1 rounded-full text-nowrap {chipClassName}"
 				>
 					{item}
 				</div>
 			{/each}
 			{#if displayItemsCount && displayItems?.length > (displayItemsCount || 1)}
-				<div class="px-2 text-gray-400">+ {displayItems?.length - (displayItemsCount || 1)}</div>
+				<div class="px-2 text-base-400">+ {displayItems?.length - (displayItemsCount || 1)}</div>
 			{/if}
 		</div>
 	{:else}
@@ -371,7 +371,7 @@
 		value={_value}
 		type="text"
 		role="combobox"
-		onclick={handleInputClick}
+		onClick={handleInputClick}
 		className="pr-8 text-transparent {className}"
 		rightSnippet={rightIcon}
 		rightSnippetContainerClassName="pointer-events-none"
@@ -382,7 +382,7 @@
 		{appearance}
 		ariaControls="options"
 		ariaExpanded={isPlaced}
-		onkeydown={handleKeyDown}
+		onKeyDown={handleKeyDown}
 		contentSnippet={comboboxContentSnippet}
 		title={displayItemsTitle || ''}
 	/>

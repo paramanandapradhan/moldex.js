@@ -19,10 +19,18 @@
 	let btnRoundedClassName: string = $state('');
 	let colorValue: string = $state('#000000');
 
-	let inputFieldRef: InputField | null = $state(null);
+	let inputRef: InputField | null = $state(null);
 
 	export function focus() {
-		inputFieldRef?.focus();
+		inputRef?.focus();
+	}
+
+	export function getElement() {
+		return inputRef;
+	}
+
+	export function select() {
+		return inputRef && (inputRef as InputField).select();
 	}
 
 	function handleColorBtnClick() {
@@ -91,7 +99,7 @@
 		type="text"
 		{id}
 		{name}
-		bind:this={inputFieldRef}
+		bind:this={inputRef}
 		className="pr-8 {props?.className}"
 		rightSnippet={colorButton}
 		maxlength={9}

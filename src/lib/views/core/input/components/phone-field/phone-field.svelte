@@ -79,6 +79,14 @@
 		inputFieldRef?.focus();
 	}
 
+	export function getElement(){
+		return inputFieldRef;
+	}
+
+	export function select(){
+		  inputFieldRef && inputFieldRef.select();
+	}
+
 	function formatDialCode(dialcode: string) {
 		dialcode = `${dialCode}`.trim();
 		if (!dialCode.startsWith('+')) {
@@ -202,6 +210,6 @@
 	{floatingLabel}
 	className="pl-16  {className}"
 	labelClassName=" {floatingLabel ? 'peer-placeholder-shown:ps-16' : ''} {labelClassName}"
-	oninput={handleNumberInput}
-	onkeydown={handleNumberKeyDown}
+	onInput={handleNumberInput}
+	onKeyDown={handleNumberKeyDown}
 />

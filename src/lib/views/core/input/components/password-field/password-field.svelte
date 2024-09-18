@@ -28,6 +28,14 @@
 		inputFieldRef?.focus();
 	}
 
+	export function getElement(){
+		return inputFieldRef;
+	}
+
+	export function select(){
+		  inputFieldRef && inputFieldRef.select();
+	}
+
 	function handleTogglePassword() {
 		if (type == 'password') {
 			type = 'text';
@@ -66,7 +74,7 @@
 	<button
 		id="btn-eye-{name || id}"
 		type="button"
-		class="px-3 h-full hover:bg-gray-100 focus:outline-primary {btnRoundedClassName} {buttonClassName}"
+		class="px-3 h-full hover:bg-base-100 focus:outline-primary {btnRoundedClassName} {buttonClassName}"
 		use:ripple
 		onclick={handleTogglePassword}
 	>

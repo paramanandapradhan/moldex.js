@@ -8,6 +8,14 @@
 	export function focus() {
 		inputFieldRef?.focus();
 	}
+
+	export function getElement(){
+		return inputFieldRef;
+	}
+
+	export function select(){
+		  inputFieldRef && inputFieldRef.select();
+	}
 </script>
 
 <InputField bind:this={inputFieldRef} {...props} type="number" bind:value />

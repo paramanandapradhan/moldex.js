@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { isSmallScreen } from '$lib/services';
-	import { mdiArrowLeft, mdiChevronRight } from '$lib/views/core/icon';
+	import { mdiArrowLeft } from '$lib/views/core/icon';
 	import Button from '../button/button.svelte';
 
 	type PropsType = {
+		id?: string;
 		iconPath?: string;
 		iconClassName?: string;
 		className?: string;
@@ -12,6 +13,7 @@
 	};
 
 	let {
+		id,
 		iconPath = mdiArrowLeft,
 		iconClassName = '',
 		className = '',
@@ -28,9 +30,11 @@
 
 {#snippet button()}
 	<Button
+		{id}
 		appearance="none"
+		size="none"
 		{iconPath}
-		className="w-12 h-12 !p-0 rounded-full hover:bg-gray-50 dark:hover:bg-gray-900 {className}"
+		className="w-12 h-12 rounded-full hover:bg-gray-50 dark:hover:bg-gray-900 {className}"
 		{iconClassName}
 		{onClick}
 	/>

@@ -46,6 +46,7 @@
 		descClassName,
 		onChange
 	}: RadioPropsType = $props();
+ 
 
 	let hasPrimitiveItemsData = $derived.by(() => {
 		if (items?.length) {
@@ -75,7 +76,7 @@
 		}
 		return [];
 	});
-
+ 
 	function handleChange(ev: Event, item: RadioItemType) {
 		value = item.value;
 		if (onChange && value) {

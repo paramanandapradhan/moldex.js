@@ -7,10 +7,13 @@
 		className,
 		placeholder,
 		iconClassName,
-value=$bindable(''),
+		value = $bindable(''),
 		onSearch,
 		...props
-	}: InputFieldPropsType & { iconClassName?: string; onSearch?: (value: string) => void } = $props();
+	}: InputFieldPropsType & {
+		iconClassName?: string;
+		onSearch?: (value: string) => void;
+	} = $props();
 
 	const debouncedSearch = debounce(search, 300);
 	let lastQuery: string;
@@ -19,6 +22,13 @@ value=$bindable(''),
 
 	export function focus() {
 		inputFieldRef?.focus();
+	}
+
+	export function getElement() {
+		return inputFieldRef;
+	}
+	export function select() {
+		inputFieldRef && inputFieldRef.select();
 	}
 
 	function handleInput(ev: any) {
@@ -56,13 +66,13 @@ value=$bindable(''),
 	<Icon path={mdiMagnify} className="mx-3 text-gray-400 {iconClassName}"></Icon>
 {/snippet}
 <InputField
+	bind:value
 	bind:this={inputFieldRef}
 	{...props}
 	type="search"
 	maxlength={props?.maxlength || 200}
 	leftSnippet={searchIcon}
-	className=" pl-12 {className}"
+	className="pl-12 {className}"
 	{placeholder}
-	oninput={handleInput}
-	bind:value
+	onInput={handleInput}
 />

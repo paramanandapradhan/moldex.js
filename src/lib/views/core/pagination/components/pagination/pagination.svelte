@@ -100,11 +100,11 @@
 	});
 </script>
 
-{#snippet pageButton({ onclick, disabled, icon }: any)}
+{#snippet pageButton({ onClick, disabled, icon }: any)}
 	<Button
 		className="hover:bg-gray-100 p-1 px-2 outline-none focus:bg-gray-200 disabled:bg-white disabled:text-gray-400 rounded"
 		{disabled}
-		{onclick}
+		onClick={onClick}
 		iconPath={icon}
 	/>
 {/snippet}
@@ -116,7 +116,7 @@
 		<div class="">
 			<ButtonMenu
 				className="px-3 py-2 rounded hover:bg-gray-100 outline-none focus:bg-gray-200"
-				label={pageSize}
+				title={pageSize}
 				dropdownClassName="w-20"
 			>
 				{#each pageSizeOptions as opt, index (index)}

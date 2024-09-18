@@ -47,20 +47,20 @@
 		multiple?: boolean;
 		name?: string;
 		title?: string;
-		onblur?: (ev: any) => void;
-		onchange?: (ev: any) => void;
-		onclick?: (ev: MouseEvent) => void;
-		ondblclick?: (ev: MouseEvent) => void;
-		ondrag?: (ev: DragEvent) => void;
-		ondragover?: (ev: DragEvent) => void;
-		ondrop?: (ev: DragEvent) => void;
-		onfocus?: (ev: any) => void;
-		oninput?: (ev: any) => void;
-		onkeydown?: (ev: KeyboardEvent) => void;
-		onkeypress?: (ev: KeyboardEvent) => void;
-		onkeyup?: (ev: KeyboardEvent) => void;
-		onmousedown?: (ev: MouseEvent) => void;
-		onmouseup?: (ev: MouseEvent) => void;
+		onBlur?: (ev: any) => void;
+		onChange?: (ev: any) => void;
+		onClick?: (ev: MouseEvent) => void;
+		onDblClick?: (ev: MouseEvent) => void;
+		onDrag?: (ev: DragEvent) => void;
+		onDragOver?: (ev: DragEvent) => void;
+		onDrop?: (ev: DragEvent) => void;
+		onFocus?: (ev: any) => void;
+		onInput?: (ev: any) => void;
+		onKeyDown?: (ev: KeyboardEvent) => void;
+		onKeyPress?: (ev: KeyboardEvent) => void;
+		onKeyUp?: (ev: KeyboardEvent) => void;
+		onMouseDown?: (ev: MouseEvent) => void;
+		onMouseUp?: (ev: MouseEvent) => void;
 		pattern?: string;
 		placeholder?: string;
 		readonly?: boolean;
@@ -108,20 +108,20 @@
 		multiple = false,
 		name = '',
 		title,
-		onblur,
-		onchange,
-		onclick,
-		ondblclick,
-		ondrag,
-		ondragover,
-		ondrop,
-		onfocus,
-		oninput,
-		onkeydown,
-		onkeypress,
-		onkeyup,
-		onmousedown,
-		onmouseup,
+		onBlur,
+		onChange,
+		onClick,
+		onDblClick,
+		onDrag,
+		onDragOver,
+		onDrop,
+		onFocus,
+		onInput,
+		onKeyDown,
+		onKeyPress,
+		onKeyUp,
+		onMouseDown,
+		onMouseUp,
 		pattern,
 		placeholder = '',
 		readonly = false,
@@ -138,7 +138,7 @@
 		value = $bindable()
 	}: InputFieldPropsType = $props();
 
-	let inputRef: HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement | null = $state(null);
+	let inputRef: HTMLInputElement | HTMLTextAreaElement | null = $state(null);
 
 	let sizeClassName = $state('');
 	let appearanceClassName = $state('');
@@ -148,6 +148,14 @@
 
 	export function focus() {
 		inputRef && inputRef.focus();
+	}
+
+	export function getElement() {
+		return inputRef;
+	}
+
+	export function select() {
+		return inputRef && (inputRef as HTMLInputElement).select();
 	}
 
 	$effect(() => {
@@ -292,20 +300,20 @@
 			{minlength}
 			{rows}
 			{cols}
-			{onchange}
-			{oninput}
-			{onfocus}
-			{onblur}
-			{ondblclick}
-			{onclick}
-			{onmousedown}
-			{onmouseup}
-			{onkeydown}
-			{onkeyup}
-			{onkeypress}
-			{ondrop}
-			{ondrag}
-			{ondragover}
+			onchange={onChange}
+			oninput={onInput}
+			onfocus={onFocus}
+			onblur={onBlur}
+			ondblclick={onDblClick}
+			onclick={onClick}
+			onmousedown={onMouseDown}
+			onmouseup={onMouseUp}
+			onkeydown={onKeyDown}
+			onkeyup={onKeyUp}
+			onkeypress={onKeyPress}
+			ondrop={onDrop}
+			ondrag={onDrag}
+			ondragover={onDragOver}
 		></textarea>
 	{:else}
 		<input
@@ -328,20 +336,20 @@
 			{pattern}
 			{multiple}
 			{role}
-			{onchange}
-			{oninput}
-			{onfocus}
-			{onblur}
-			{ondblclick}
-			{onclick}
-			{onmousedown}
-			{onmouseup}
-			{onkeydown}
-			{onkeyup}
-			{onkeypress}
-			{ondrop}
-			{ondrag}
-			{ondragover}
+			onchange={onChange}
+			oninput={onInput}
+			onfocus={onFocus}
+			onblur={onBlur}
+			ondblclick={onDblClick}
+			onclick={onClick}
+			onmousedown={onMouseDown}
+			onmouseup={onMouseUp}
+			onkeydown={onKeyDown}
+			onkeyup={onKeyUp}
+			onkeypress={onKeyPress}
+			ondrop={onDrop}
+			ondrag={onDrag}
+			ondragover={onDragOver}
 			aria-controls={ariaControls}
 			aria-expanded={ariaExpanded}
 		/>

@@ -6,7 +6,9 @@
 		| 'border'
 		| 'border-base'
 		| 'border-primary';
-	export type ButtonSizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+
+	export type ButtonSizeType = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+
 	export type ButtonPropsType = {
 		id?: string;
 		type?: 'button' | 'submit' | 'reset';
@@ -27,15 +29,17 @@
 		hasRipple?: boolean;
 		rippleColor?: string | 'light' | 'dark';
 		onClick?: (ev: MouseEvent) => void;
+		url?: string;
+		target?: string;
 	};
 </script>
 
 <script lang="ts">
-	import '../../../../../tailwind.css';
 	import { ripple, type RipplePropsType } from '$lib/actions/ripple.js';
-	import type { Snippet } from 'svelte';
-	import { Spinner } from '$lib/views/core/spinner';
 	import { Icon } from '$lib/views/core/icon';
+	import { Spinner } from '$lib/views/core/spinner';
+	import type { Snippet } from 'svelte';
+	import '../../../../../tailwind.css';
 
 	let {
 		appearance = 'none',
@@ -56,7 +60,9 @@
 		children,
 		hasRipple = true,
 		rippleColor,
-		onClick = (ev: MouseEvent) => {}
+		onClick = (ev: MouseEvent) => {},
+		url,
+		target
 	}: ButtonPropsType = $props();
 
 	let btnAppearanceClassName = $derived.by(() => {
@@ -77,6 +83,8 @@
 
 	let btnSizeClassName = $derived.by(() => {
 		switch (size) {
+			case 'none':
+				return '';
 			case 'xs':
 				return 'px-1 py-0 text-xs';
 			case 'sm':
@@ -92,7 +100,7 @@
 		}
 	});
 
-	function maybeRipple(node: HTMLElement, options?: RipplePropsType) {
+	function handleRipple(node: HTMLElement, options?: RipplePropsType) {
 		if (hasRipple) {
 			options = options || { color: rippleColor };
 			return ripple(node, options);
@@ -120,18 +128,35 @@
 	{/if}
 {/snippet}
 
-<button
-	{id}
-	{type}
-	{form}
-	class="flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded {btnSizeClassName} {btnAppearanceClassName} {className}"
-	onclick={onClick}
-	{disabled}
-	use:maybeRipple
->
-	{#if children}
-		{@render children()}
-	{:else}
-		{@render buttonContent()}
-	{/if}
-</button>
+{#if url}
+	<a
+		{id}
+		href={url}
+		{target}
+		class="relative flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded {btnSizeClassName} {btnAppearanceClassName} {className}"
+		onclick={onClick}
+		use:handleRipple
+	>
+		{#if children}
+			{@render children()}
+		{:else}
+			{@render buttonContent()}
+		{/if}
+	</a>
+{:else}
+	<button
+		{id}
+		{type}
+		{form}
+		class="relative flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded {btnSizeClassName} {btnAppearanceClassName} {className}"
+		onclick={onClick}
+		{disabled}
+		use:handleRipple
+	>
+		{#if children}
+			{@render children()}
+		{:else}
+			{@render buttonContent()}
+		{/if}
+	</button>
+{/if}

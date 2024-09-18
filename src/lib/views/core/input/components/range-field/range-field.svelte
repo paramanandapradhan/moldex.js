@@ -1,7 +1,5 @@
 <script lang="ts">
-	import InputField, {
-		type InputFieldSizeType
-	} from '../input-field/input-field.svelte';
+	import InputField, { type InputFieldSizeType } from '../input-field/input-field.svelte';
 
 	type RangeFieldPropsType = {
 		id?: string;
@@ -33,7 +31,7 @@
 
 	let rangeSizeClassName = $state('');
 
-	 	$effect(() => {
+	$effect(() => {
 		switch (size) {
 			case 'lg':
 				rangeSizeClassName = 'h-3 ';
@@ -49,9 +47,25 @@
 				break;
 		}
 	});
+
+	let inputRef: HTMLInputElement | null = $state(null);
+
+	export function getElement() {
+		return inputRef;
+	}
+
+	export function focus() {
+		return inputRef && inputRef.focus();
+	}
+
+	export function select() {
+		return inputRef && inputRef.select();
+	}
 </script>
 
 <input
+	bind:this={inputRef}
+	bind:value
 	{id}
 	{name}
 	type="range"
@@ -59,8 +73,7 @@
 	{min}
 	{max}
 	{step}
-	bind:value
-	{oninput} 
+	{oninput}
 	{onfocus}
 	{onblur}
 />

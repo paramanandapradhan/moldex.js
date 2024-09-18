@@ -29,6 +29,14 @@
 		inputFieldRef?.focus();
 	}
 
+	export function getElement(){
+		return inputFieldRef;
+	}
+
+	export function select(){
+		  inputFieldRef && inputFieldRef.select();
+	}
+
 	async function handleFileAttachment() {
 		let res: File | File[] = await openFilePicker({ accept, multiple });
 		if (res) {

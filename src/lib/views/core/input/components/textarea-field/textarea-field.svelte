@@ -7,6 +7,14 @@
 	export function focus() {
 		inputFieldRef?.focus();
 	}
+
+	export function getElement(){
+		return inputFieldRef;
+	}
+
+	export function select(){
+		return inputFieldRef && inputFieldRef.select();
+	}
 </script>
 
 <InputField

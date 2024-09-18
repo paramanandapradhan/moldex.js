@@ -4,7 +4,7 @@
 	import Button from '../button/button.svelte';
 
 	type PropsType = {
-		label?: string;
+		id?: string;
 		iconPath?: string;
 		iconClassName?: string;
 		className?: string;
@@ -14,7 +14,7 @@
 	};
 
 	let {
-		label = 'Close',
+		id,
 		iconPath = mdiClose,
 		iconClassName = '',
 		className = '',
@@ -31,6 +31,7 @@
 
 {#snippet button()}
 	<Button
+		{id}
 		{iconPath}
 		className="w-12 h-12 rounded-full text-gray-500 hover:text-gray-600 hover:bg-gray-50 {className}"
 		{iconClassName}
