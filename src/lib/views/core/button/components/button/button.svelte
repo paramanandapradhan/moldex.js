@@ -31,12 +31,15 @@
 		onClick?: (ev: MouseEvent) => void;
 		url?: string;
 		target?: string;
+		hasOpenInNew?: boolean;
+		openInNewIconClassName?: string;
+		openInNewIcon?: string;
 	};
 </script>
 
 <script lang="ts">
 	import { ripple, type RipplePropsType } from '$lib/actions/ripple.js';
-	import { Icon } from '$lib/views/core/icon';
+	import { Icon, mdiOpenInNew } from '$lib/views/core/icon';
 	import { Spinner } from '$lib/views/core/spinner';
 	import type { Snippet } from 'svelte';
 	import '../../../../../tailwind.css';
@@ -62,7 +65,10 @@
 		rippleColor,
 		onClick = (ev: MouseEvent) => {},
 		url,
-		target
+		target,
+		hasOpenInNew,
+		openInNewIconClassName,
+		openInNewIcon = mdiOpenInNew
 	}: ButtonPropsType = $props();
 
 	let btnAppearanceClassName = $derived.by(() => {
@@ -141,6 +147,9 @@
 			{@render children()}
 		{:else}
 			{@render buttonContent()}
+		{/if}
+		{#if hasOpenInNew}
+			<Icon path={openInNewIcon} className=" {openInNewIconClassName}" sizeClassName="w-4 h-4" />
 		{/if}
 	</a>
 {:else}

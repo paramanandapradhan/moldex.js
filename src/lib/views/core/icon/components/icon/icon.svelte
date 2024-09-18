@@ -4,6 +4,7 @@
 	type IconPropsType = {
 		path: string;
 		className?: string;
+		sizeClassName?: string;
 		size?: number;
 		fill?: string;
 		viewBox?: string;
@@ -16,7 +17,8 @@
 		size = 24,
 		fill = 'currentColor',
 		viewBox = '',
-		color
+		color,
+		sizeClassName = 'w-6 h-6'
 	}: IconPropsType = $props();
 
 	$effect(() => {
@@ -24,6 +26,6 @@
 	});
 </script>
 
-<svg class="w-6 h-6 align-middle {className}" {viewBox} fill={color || fill}>
+<svg class="align-middle {sizeClassName} {className}" {viewBox} fill={color || fill}>
 	<path d={path} />
 </svg>
