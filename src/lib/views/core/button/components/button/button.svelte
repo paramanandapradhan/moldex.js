@@ -139,7 +139,7 @@
 		{id}
 		href={url}
 		{target}
-		class="relative flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded {btnSizeClassName} {btnAppearanceClassName} {className}"
+		class="relative w-max flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded {btnSizeClassName} {btnAppearanceClassName} {className}"
 		onclick={onClick}
 		use:handleRipple
 	>
