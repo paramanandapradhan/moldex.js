@@ -268,7 +268,7 @@
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		tabindex="-1"
-		class="relative flex flex-col max-h-screen transform overflow-hidden bg-white text-left transition-all outline-none {screenSizeClassNameMap[
+		class="relative flex flex-col max-h-screen transform overflow-hidden bg-base-50 dark:bg-base-800 text-left transition-all outline-none {screenSizeClassNameMap[
 			size
 		]} {isOpened
 			? 'ease-out duration-300 opacity-100 translate-y-0 sm:scale-100'
@@ -298,10 +298,10 @@
 					</div>
 					<div class="py-2">
 						{#if hasTitle}
-							<div class="text-xl {titleClassName}">{title || ''}</div>
+							<div class="text-xl text-base-800 dark:text-base-300 {titleClassName}">{title || ''}</div>
 						{/if}
 						{#if hasSubtitle}
-							<div class="text-sm text-gray-500 {subtitleClassName}">{subtitle || ''}</div>
+							<div class="text-sm text-gray-500 dark:text-base-500 {subtitleClassName}">{subtitle || ''}</div>
 						{/if}
 					</div>
 					<div class="flex-grow">
@@ -348,7 +348,8 @@
 							id="btn-ok"
 							form={submitButtonFormId}
 							type={submitButtonFormId ? 'submit' : footerOkButtonType}
-							className="p-2 px-5 rounded bg-indigo-600 hover:bg-indigo-700 focus:bg-indigo-700 text-white {footerOkButtonClassName}"
+							appearance="primary"
+							className=" {footerOkButtonClassName}"
 							label={footerOkButtonLable}
 							disabled={footerOkButtonDisabled}
 							spinner={footerOkButtonSpinner}
@@ -360,7 +361,8 @@
 						<Button
 							id="btn-close"
 							type="button"
-							className="p-2 px-5 rounded bg-gray-100 hover:bg-gray-200 {footerCloseButtonClassName}"
+							appearance="base"
+							className=" {footerCloseButtonClassName}"
 							label={footerCloseButtonLabel}
 							onClick={handleClose}
 						/>
@@ -381,7 +383,7 @@
 	>
 		<div
 			id="backdrop"
-			class="fixed inset-0 bg-gray-500/20 transition-opacity {isOpened
+			class="fixed inset-0 bg-gray-500/20 dark:bg-gray-900/30 transition-opacity {isOpened
 				? 'ease-out duration-300 opacity-100'
 				: 'ease-in duration-200 opacity-0'} {backdropClassName}"
 			aria-hidden="true"

@@ -9,6 +9,7 @@
 		| 'none';
 
 	export type InputValueType =
+		any
 		| string
 		| string[]
 		| number
@@ -40,9 +41,9 @@
 		labelClassName?: string;
 		leftSnippet?: Snippet;
 		leftSnippetContainerClassName?: string;
-		max?: number;
+		max?: number | string;
 		maxlength?: number;
-		min?: number;
+		min?: number | string;
 		minlength?: number;
 		multiple?: boolean;
 		name?: string;

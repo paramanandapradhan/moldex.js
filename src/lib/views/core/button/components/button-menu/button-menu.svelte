@@ -15,6 +15,7 @@
 	import type { Snippet } from 'svelte';
 	import type { ListItemType } from '../button-list-item/button-list-item.svelte';
 	import ButtonListItem from '../button-list-item/button-list-item.svelte';
+	import Button from '../button/button.svelte';
 
 	class MenuStateEnum {
 		static OPENED = 'OPENED';
@@ -53,11 +54,11 @@
 		menuItemInnerSnippet?: Snippet<[ListItemType, number]>;
 		menuItemSnippet?: Snippet<[ListItemType, number]>;
 		menus?: string[] | ListItemType[];
-		onmenuclick?: (ev: MouseEvent, item: string | ListItemType, index: number) => void;
+		omMenu?: (ev: MouseEvent, item: string | ListItemType, index?: number) => void;
 		rightIconClassName?: string;
 		rightIconPath?: string;
 		screenOnlyDesc?: string;
-		style?: string;
+
 		title?: string | any;
 		titleClassName?: string;
 		uncheckIconClassName?: string;
@@ -95,12 +96,12 @@
 		menuItemInnerSnippet,
 		menuItemSnippet,
 		menus = [],
-		onmenuclick = (ev: MouseEvent, item: string | ListItemType, index: number) => {},
+		omMenu = (ev: MouseEvent, item: string | ListItemType, index?: number) => {},
 		rightIconClassName = '',
 		rightIconPath = '',
 		screenOnlyDesc = 'Menu',
-		style = '',
-		title = 'Button',
+
+		title = '',
 		titleClassName = '',
 		uncheckIconClassName = '',
 		uncheckIconPath = mdiCheckCircleOutline
@@ -108,8 +109,26 @@
 
 	let expanded = $state(false);
 	let dropdownState: MenuStateEnum = $state(MenuStateEnum.CLOSED);
-	let options: ListItemType[] = $state([]);
+
 	let selectedMenu: ListItemType | null | undefined = $state(null);
+
+	let options: ListItemType[] = $derived.by(() => {
+		if (menus?.length) {
+			let item = menus[0];
+			if (typeof item == 'string') {
+				return menus.map((str) => {
+					if (str == '-' || str == '') {
+						return { divider: true } as ListItemType;
+					} else {
+						return { title: str } as ListItemType;
+					}
+				});
+			} else {
+				return [...menus] as ListItemType[];
+			}
+		}
+		return [];
+	});
 
 	function hendleToggleDropdown(ev: MouseEvent) {
 		ev && ev.stopPropagation();
@@ -122,45 +141,23 @@
 
 	function handlemenuItemClick(ev: MouseEvent, menu: ListItemType, index: number) {
 		hendleToggleDropdown(ev);
-		if (onmenuclick) {
+		if (omMenu) {
 			let item = menus[index];
 
 			if (item) {
-				onmenuclick(ev, item, index);
+				omMenu(ev, item, index);
 			}
 			selectedMenu = menu;
 		}
 	}
-
-	$effect(() => {
-		if (menus?.length) {
-			let item = menus[0];
-			if (typeof item == 'string') {
-				options = menus.map((str) => {
-					if (str == '-' || str == '') {
-						return { divider: true } as ListItemType;
-					} else {
-						return { label: str } as ListItemType;
-					}
-				});
-			} else {
-			}
-		} else {
-			options = [];
-		}
-	});
 </script>
 
 <div class="relative min-h-max {containerClassName}">
-	<button
+	<Button
 		type="button"
-		class="flex items-center justify-center flex-nowrap text-start {className}"
-		{style}
+		className="flex items-center justify-center flex-nowrap text-start {className}"
 		{id}
-		aria-expanded={expanded}
-		aria-haspopup="true"
-		onclick={hendleToggleDropdown}
-		use:ripple
+		onClick={hendleToggleDropdown}
 	>
 		<span class="sr-only">{screenOnlyDesc}</span>
 		<div class="flex items-center flex-nowrap gap-2">
@@ -186,7 +183,7 @@
 				{/if}
 			{/if}
 		</div>
-	</button>
+	</Button>
 	{#if dropdownState == MenuStateEnum.OPENED}
 		<button
 			type="button"
@@ -197,7 +194,7 @@
 		></button>
 	{/if}
 	<div
-		class="absolute mt-1 z-10 w-60 max-h-1/2vh overflow-y-auto origin-top-left rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none transition ease-out duration-100 {dropdownClassName} {dropdownState ==
+		class="absolute mt-1 z-10 min-w-40 max-h-1/2vh overflow-y-auto origin-top-right right-0 rounded-md bg-base-50 dark:bg-base-800 py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none transition ease-out duration-100 {dropdownClassName} {dropdownState ==
 		MenuStateEnum.CLOSED
 			? `invisible transform opacity-0 scale-95 ${dropdownOpenClassName}`
 			: `transform opacity-100 scale-100 ${dropdownCloseClassName}`}"
@@ -212,7 +209,7 @@
 		{:else}
 			{#each options as menu, index (menu.id || index)}
 				{#if menu?.divider}
-					<div class="border-t border-gray-200 {dividerClassName}"></div>
+					<div class="border-t border-gray-200 dark:border-gray-700 {dividerClassName}"></div>
 				{:else if menuItemSnippet}
 					{@render menuItemSnippet(menu, index)}
 				{:else}
