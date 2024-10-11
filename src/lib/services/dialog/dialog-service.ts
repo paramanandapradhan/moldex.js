@@ -245,7 +245,7 @@ export async function openCropperDialog<T, R>({
  * @param multiple - A boolean indicating if multiple files can be selected.
  * @returns A promise that resolves to a File or an array of File objects, or null if no files were selected.
  */
-export async function openFilePickerDialog<T extends File | File[]>({ accepts = '*/*', multiple = false }: { accepts: string | string[], multiple: boolean }): Promise<T | null> {
+export async function openFilePickerDialog<T extends File | File[]>(accepts: string | string[] = '*/*', options: { multiple: boolean } = { multiple: false }): Promise<T | null> {
     // Check if the browser supports the required File API and input element
     if (typeof window === 'undefined' || typeof document === 'undefined' || !window.File || !window.FileList || !window.FileReader) {
         console.error('File APIs are not fully supported in this browser.');
@@ -267,14 +267,14 @@ export async function openFilePickerDialog<T extends File | File[]>({ accepts = 
             }
 
             // Set multiple attribute based on the parameter
-            inputElement.multiple = multiple;
+            inputElement.multiple = options.multiple;
 
             // Listen for changes (i.e., when files are selected)
             inputElement.addEventListener('change', () => {
                 // Check if files were selected
                 if (inputElement.files) {
                     // If multiple is true, return an array of File objects
-                    if (multiple) {
+                    if (options.multiple) {
                         resolve(Array.from(inputElement.files) as T);
                     } else {
                         // Otherwise, return the first selected File
@@ -305,7 +305,7 @@ export async function openFilePickerDialog<T extends File | File[]>({ accepts = 
  * @param options - Additional options for capturing images (e.g., required resolution, file size, output format).
  * @returns A promise that resolves to a processed File object or an array of File objects, or null if no file was selected.
  */
-export async function openImagePickerDialog(
+export async function openImagePickerDialog<T extends File | File[]>(
     accepts: string | string[] = 'image/*',
     options?: {
         multiple?: boolean; // Allow selecting multiple images
@@ -316,7 +316,7 @@ export async function openImagePickerDialog(
         outputFormat?: 'image/webp' | 'image/jpeg' | 'image/png'; // Output image format
         quality?: number; // Image quality (0 to 1), default is 0.8 (80%)
     }
-): Promise<File | File[] | null> {
+): Promise<T | null> {
     return new Promise((resolve, reject) => {
         try {
             // Create an input element of type 'file'
@@ -347,9 +347,9 @@ export async function openImagePickerDialog(
 
                     // Return a single file or an array of files based on the multiple option
                     if (options?.multiple) {
-                        resolve(processedFiles);
+                        resolve(processedFiles as T);
                     } else {
-                        resolve(processedFiles[0] || null);
+                        resolve((processedFiles[0] || null) as T);
                     }
                 } catch (error) {
                     reject(error);

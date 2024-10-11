@@ -37,15 +37,9 @@
 		inputFieldRef && inputFieldRef.select();
 	}
 
-	async function handleFileAttachment() {
+	async function handleFileAttachment<T extends File | File[]>() {
 		let res: File | File[] | null = null;
-
-		if (multiple) {
-			res = await openFilePickerDialog<File[]>({ accepts, multiple });
-		} else {
-			res = await openFilePickerDialog<File>({ accepts, multiple });
-		}
-
+		res = await openFilePickerDialog<T>(accepts, { multiple: multiple || false });
 		if (res) {
 			value = res;
 			if (multiple) {
