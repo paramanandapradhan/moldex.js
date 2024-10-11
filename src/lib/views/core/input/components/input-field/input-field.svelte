@@ -9,7 +9,7 @@
 		| 'none';
 
 	export type InputValueType =
-		any
+		| any
 		| string
 		| string[]
 		| number
@@ -254,9 +254,11 @@
 	});
 
 	$effect(() => {
-		if (inputRef && autofocus) {
-			inputRef.focus();
-		}
+		setTimeout(() => {
+			if (inputRef && autofocus) {
+				inputRef.focus();
+			}
+		}, 300);
 	});
 </script>
 

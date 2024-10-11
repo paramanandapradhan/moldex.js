@@ -28,12 +28,20 @@
 		children?: Snippet;
 		hasRipple?: boolean;
 		rippleColor?: string | 'light' | 'dark';
-		onClick?: (ev: MouseEvent) => void;
 		url?: string;
 		target?: string;
 		hasOpenInNew?: boolean;
 		openInNewIconClassName?: string;
 		openInNewIcon?: string;
+		onClick?: (ev: MouseEvent) => void;
+		onDblClick?: (ev: MouseEvent) => void;
+		onContextMenu?: (ev: MouseEvent) => void;
+		onDrop?: (ev: MouseEvent) => void;
+		onDragStart?: (ev: MouseEvent) => void;
+		onDragEnd?: (ev: MouseEvent) => void;
+		onDragEnter?: (ev: MouseEvent) => void;
+		onDragLeave?: (ev: MouseEvent) => void;
+		onDragOver?: (ev: MouseEvent) => void;
 	};
 </script>
 
@@ -68,7 +76,15 @@
 		target,
 		hasOpenInNew,
 		openInNewIconClassName,
-		openInNewIcon = mdiOpenInNew
+		openInNewIcon = mdiOpenInNew,
+		onDblClick,
+		onContextMenu,
+		onDrop,
+		onDragStart,
+		onDragEnd,
+		onDragEnter,
+		onDragLeave,
+		onDragOver
 	}: ButtonPropsType = $props();
 
 	let btnAppearanceClassName = $derived.by(() => {
@@ -142,6 +158,14 @@
 		class="relative w-max flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded {btnSizeClassName} {btnAppearanceClassName} {className}"
 		onclick={onClick}
 		use:handleRipple
+		ondblclick={onDblClick}
+		oncontextmenu={onContextMenu}
+		ondrop={onDrop}
+		ondragstart={onDragStart}
+		ondragend={onDragEnd}
+		ondragenter={onDragEnter}
+		ondragleave={onDragLeave}
+		ondragover={onDragOver}
 	>
 		{#if children}
 			{@render children()}
@@ -158,9 +182,17 @@
 		{type}
 		{form}
 		class="relative flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded {btnSizeClassName} {btnAppearanceClassName} {className}"
-		onclick={onClick}
 		{disabled}
 		use:handleRipple
+		onclick={onClick}
+		ondblclick={onDblClick}
+		oncontextmenu={onContextMenu}
+		ondrop={onDrop}
+		ondragstart={onDragStart}
+		ondragend={onDragEnd}
+		ondragenter={onDragEnter}
+		ondragleave={onDragLeave}
+		ondragover={onDragOver}
 	>
 		{#if children}
 			{@render children()}
