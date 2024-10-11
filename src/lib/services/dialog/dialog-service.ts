@@ -8,6 +8,7 @@ import TextareaFieldDialog from '$lib/views/core/dialog/components/textarea-fiel
 import { mount, } from 'svelte';
 import { isMobileScreen } from '../screen/screen-service';
 import CropperDialog, { type CropperDialogPropsType } from '$lib/views/core/dialog/components/cropper-dialog/cropper-dialog.svelte';
+import { processImageFile } from '../utils/image-service';
 
 export type PickerDialogPropsType = {
     items?: any[],
@@ -233,5 +234,134 @@ export async function openCropperDialog<T, R>({
         hasHeaderClose: !isMobileScreen(),
         size: isMobileScreen() ? 'full' : 'lg',
 
+    });
+}
+
+
+/**
+ * Opens a file picker dialog and returns the selected file or files.
+ * This function uses native browser APIs to ensure compatibility across different browsers.
+ * @param accepts - A string or array of accepted file types (e.g., 'image/*', '.pdf').
+ * @param multiple - A boolean indicating if multiple files can be selected.
+ * @returns A promise that resolves to a File or an array of File objects, or null if no files were selected.
+ */
+export async function openFilePickerDialog<T extends File | File[]>({ accepts = '*/*', multiple = false }: { accepts: string | string[], multiple: boolean }): Promise<T | null> {
+    // Check if the browser supports the required File API and input element
+    if (typeof window === 'undefined' || typeof document === 'undefined' || !window.File || !window.FileList || !window.FileReader) {
+        console.error('File APIs are not fully supported in this browser.');
+        return null;
+    }
+
+    return new Promise<T | null>((resolve, reject) => {
+        try {
+            // Create an input element of type 'file'
+            const inputElement = document.createElement('input');
+            inputElement.type = 'file';
+            inputElement.style.display = 'none'; // Hide the input element
+
+            // Set accepted file types if provided
+            if (Array.isArray(accepts)) {
+                inputElement.accept = accepts.join(',');
+            } else {
+                inputElement.accept = accepts;
+            }
+
+            // Set multiple attribute based on the parameter
+            inputElement.multiple = multiple;
+
+            // Listen for changes (i.e., when files are selected)
+            inputElement.addEventListener('change', () => {
+                // Check if files were selected
+                if (inputElement.files) {
+                    // If multiple is true, return an array of File objects
+                    if (multiple) {
+                        resolve(Array.from(inputElement.files) as T);
+                    } else {
+                        // Otherwise, return the first selected File
+                        resolve(inputElement.files[0] as T);
+                    }
+                } else {
+                    resolve(null); // No files selected
+                }
+            });
+
+            // Append the input element to the body and simulate a click to open the dialog
+            document.body.appendChild(inputElement);
+            inputElement.click();
+
+            // Remove the input element from the DOM after use to prevent memory leaks
+            document.body.removeChild(inputElement);
+        } catch (error) {
+            console.error('An error occurred while opening the file picker dialog:', error);
+            reject(error); // Handle any unexpected errors
+        }
+    });
+}
+
+/**
+ * Opens an image picker dialog that supports mobile devices, camera capture, gallery selection, and file explorer.
+ * Allows the user to specify output format and quality for the selected images.
+ * @param accepts - A string or array of accepted file types (e.g., 'image/*').
+ * @param options - Additional options for capturing images (e.g., required resolution, file size, output format).
+ * @returns A promise that resolves to a processed File object or an array of File objects, or null if no file was selected.
+ */
+export async function openImagePickerDialog(
+    accepts: string | string[] = 'image/*',
+    options?: {
+        multiple?: boolean; // Allow selecting multiple images
+        capture?: 'user' | 'environment'; // Camera direction: 'user' for front, 'environment' for back
+        maxWidth?: number; // Maximum width for the resized image
+        maxHeight?: number; // Maximum height for the resized image
+        maxSizeInBytes?: number; // Maximum file size in bytes after compression
+        outputFormat?: 'image/webp' | 'image/jpeg' | 'image/png'; // Output image format
+        quality?: number; // Image quality (0 to 1), default is 0.8 (80%)
+    }
+): Promise<File | File[] | null> {
+    return new Promise((resolve, reject) => {
+        try {
+            // Create an input element of type 'file'
+            const inputElement = document.createElement('input');
+            inputElement.type = 'file';
+            inputElement.accept = Array.isArray(accepts) ? accepts.join(',') : accepts;
+            inputElement.multiple = options?.multiple || false;
+            inputElement.style.display = 'none';
+
+            // Set capture attribute if specified
+            if (options?.capture) {
+                inputElement.setAttribute('capture', options.capture);
+            }
+
+            // Listen for file selection
+            inputElement.addEventListener('change', async () => {
+                if (!inputElement.files) {
+                    resolve(null); // No files selected
+                    return;
+                }
+
+                const files = Array.from(inputElement.files);
+                try {
+                    // Process each selected file and resize/compress/convert if required
+                    const processedFiles = await Promise.all(
+                        files.map((file) => processImageFile(file, options))
+                    );
+
+                    // Return a single file or an array of files based on the multiple option
+                    if (options?.multiple) {
+                        resolve(processedFiles);
+                    } else {
+                        resolve(processedFiles[0] || null);
+                    }
+                } catch (error) {
+                    reject(error);
+                }
+            });
+
+            // Append and trigger the file picker
+            document.body.appendChild(inputElement);
+            inputElement.click();
+            document.body.removeChild(inputElement);
+        } catch (error) {
+            reject(error);
+        }
     });
 }

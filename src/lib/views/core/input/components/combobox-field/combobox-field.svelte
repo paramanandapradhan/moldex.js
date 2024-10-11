@@ -108,7 +108,7 @@
 	let idFieldSymbol = Symbol('_id');
 	let searchFieldSymbol = Symbol('_search');
 
-	let searchFieldRef: SearchField | null = $state(null);
+	let searchFieldRef: any | null = $state(null);
 
 	let comboboxIconSizeClassName = $state('');
 
@@ -243,7 +243,7 @@
 		}
 	});
 
-	let inputFieldRef: InputField | null = $state(null);
+	let inputFieldRef: any | null = $state(null);
 
 	export function focus() {
 		inputFieldRef?.focus();

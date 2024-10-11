@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../../../../../tailwind.css';
 	import Button from '$lib/views/core/button/components/button/button.svelte';
-	import { copyText, showToast } from '$lib/services/index.js';
+	import {   copyToClipboard, showToast } from '$lib/services/index.js';
 	import { mdiContentCopy } from '$lib/views/core/icon';
 
 	type PropsType = {
@@ -22,7 +22,7 @@
 
 	function handleCopy() {
 		if (input) {
-			copyText(input);
+			copyToClipboard(input);
 			showToast('Copied!');
 		}
 	}
@@ -32,7 +32,7 @@
 	<span>{input || ''}</span>
 	{#if input}
 		<Button
-			onclick={handleCopy}
+			onClick={handleCopy}
 			className="ms-1 p-1 rounded text-gray-500 hover:text-gray-700 hover:bg-gray-100 {buttonClassName}"
 			iconClassName="w-4 h-4 {iconClassName}"
 			{iconPath}

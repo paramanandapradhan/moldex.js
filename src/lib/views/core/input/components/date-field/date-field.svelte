@@ -16,7 +16,7 @@
 		}
 	});
 
-	let inputFieldRef: InputField | null = $state(null);
+	let inputFieldRef: any | null = $state(null);
 
 	export function focus() {
 		inputFieldRef?.focus();

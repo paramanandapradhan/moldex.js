@@ -19,7 +19,7 @@
 	let btnRoundedClassName: string = $state('');
 	let colorValue: string = $state('#000000');
 
-	let inputRef: InputField | null = $state(null);
+	let inputRef: any | null = $state(null);
 
 	export function focus() {
 		inputRef?.focus();
@@ -30,7 +30,7 @@
 	}
 
 	export function select() {
-		return inputRef && (inputRef as InputField).select();
+		return inputRef && inputRef.select();
 	}
 
 	function handleColorBtnClick() {

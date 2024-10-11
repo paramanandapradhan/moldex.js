@@ -47,7 +47,7 @@
 
 	let EasyCountryData: EasyCountryDataType;
 	let LibPhonenumber: LibPhoneNumberType | null = $state(null);
-	let inputFieldRef: InputField | null = $state(null);
+	let inputFieldRef: any | null = $state(null);
 
 	let _dailCode: string = $state('');
 	let _phoneNumber: string = $state('');

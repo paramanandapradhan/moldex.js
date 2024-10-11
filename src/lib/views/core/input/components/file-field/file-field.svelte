@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ripple } from '$lib/actions';
-	import { openFilePicker } from '$lib/services';
+	import { openFilePickerDialog } from '$lib/services';
 	import { mdiAttachment } from '$lib/views/core/icon';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
@@ -9,12 +9,12 @@
 		appearance,
 		size,
 		className,
-		accept = '',
+		accepts = '',
 		multiple = false,
 		value = $bindable(null),
 		...props
 	}: InputFieldPropsType & {
-		accept?: string;
+		accepts?: string;
 		multiple?: boolean;
 		value?: File | File[] | null;
 	} = $props();
@@ -23,22 +23,29 @@
 	let btnIconSizeClassName = $state('');
 	let fileNameDisplay = $state('');
 
-	let inputFieldRef: InputField | null = $state(null);
+	let inputFieldRef: any | null = $state(null);
 
 	export function focus() {
 		inputFieldRef?.focus();
 	}
 
-	export function getElement(){
+	export function getElement() {
 		return inputFieldRef;
 	}
 
-	export function select(){
-		  inputFieldRef && inputFieldRef.select();
+	export function select() {
+		inputFieldRef && inputFieldRef.select();
 	}
 
 	async function handleFileAttachment() {
-		let res: File | File[] = await openFilePicker({ accept, multiple });
+		let res: File | File[] | null = null;
+
+		if (multiple) {
+			res = await openFilePickerDialog<File[]>({ accepts, multiple });
+		} else {
+			res = await openFilePickerDialog<File>({ accepts, multiple });
+		}
+
 		if (res) {
 			value = res;
 			if (multiple) {

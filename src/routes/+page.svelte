@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { Button, fileToDataURL, openCropperDialog, openLoadingDialog, urlToFile } from '$lib';
+	import { openCropperDialog,   } from '$lib';
+	import { readUrlAsFile } from '$lib/services/utils/file-service';
 
 	let file: any;
 
 	async function handleGetText() {
-		file = await urlToFile('/icons/web/icon-512-maskable.png');
+		file = await readUrlAsFile('/icons/web/icon-512-maskable.png');
 		if (file) {
 			let res = await openCropperDialog({
 				inputImageFile: file,

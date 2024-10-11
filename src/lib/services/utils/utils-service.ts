@@ -1,183 +1,49 @@
-import { BROWSER } from 'esm-env'
 import { toDate } from '../date/date-service';
 
 
-declare const window: any;
-
-const KEY_GEO_INFO = 'geo.info';
-
-export const FILE_VIEWER_HOST = 'https://viewer.cloudparker.com';
-
-export const CODE_FILE_EXTENTIONS = [
-    "java", "js", "ts", "json", "c", "cpp", "cs", "py", "ts", "php", "rb", "swift", "go",
-    "rs", "kt", "scala", "pl", "lua", "hs", "sh", "ps1", "dart", "jl", "m", "f90", "txt",
-    "r", "groovy", "asm", "pas", "ada", "sql", "md", "html", "css", "xml", "yaml", "xml",
-    "bat",
-]
-
-export const ACCEPT_IMAGE_FILES: string = ".png,.PNG,.jpg,.jpg,.jepg,.JPEG,.webp,.WEBP";
-
+/**
+ * Generates a random number between the specified minimum and maximum values (inclusive of the minimum and exclusive of the maximum).
+ * 
+ * @param min - The minimum value (inclusive) of the random number range.
+ * @param max - The maximum value (exclusive) of the random number range.
+ * @returns A random number between `min` (inclusive) and `max` (exclusive).
+ * 
+ * @example
+ * // Generate a random number between 1 (inclusive) and 5 (exclusive)
+ * const randomNumber = random(1, 5); // Possible values: 1.0, 2.4, 3.6, etc.
+ * 
+ * @example
+ * // Generate a random number between 10 (inclusive) and 20 (exclusive)
+ * const randomNumber = random(10, 20); // Possible values: 10.0, 15.3, 19.8, etc.
+ */
 export function random(min: number, max: number): number {
+    if (min >= max) {
+        throw new Error('The "max" value must be greater than the "min" value.');
+    }
     return min + Math.random() * (max - min);
-}
-
-export function openFilePicker(opt: { accept?: string, multiple?: boolean }): Promise<File | File[]> {
-    return new Promise(resolve => {
-        let input: HTMLInputElement = document.createElement('input');
-        input.type = 'file';
-        input.multiple = opt.multiple || false;
-        input.accept = opt.accept || ACCEPT_IMAGE_FILES;
-        input.onchange = _ => {
-            let files: File[] = Array.from(input.files as any);
-            if (opt.multiple) {
-                resolve(files);
-            }
-            else {
-                resolve(files[0]);
-            }
-            document.body.removeChild(input);
-        };
-        input.style.display = 'none';
-        document.body.appendChild(input);
-        input.click();
-    });
 }
 
 
 /**
- * Default quality 1.0
- * @param opt 
- * @returns 
+ * Strips the Base64 content from a Data URL string.
+ * 
+ * This function removes the `data:[<mediatype>][;base64],` prefix from a Data URL string,
+ * leaving only the Base64 content. If the input is not a valid Data URL, the original input is returned.
+ * 
+ * @param dataUrl - The Data URL string to be stripped.
+ * @returns The stripped Base64 content, or the original string if it is not a valid Data URL.
+ * 
+ * @example
+ * // Remove the prefix from a Data URL string
+ * const dataUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...';
+ * const base64Content = stripDataUrl(dataUrl);
+ * console.log(base64Content); // Output: "iVBORw0KGgoAAAANSUhEUgAA..."
  */
-export function resizeImage(opt: {
-    file: File,
-    width: number,
-    height?: number,
-    fileName?: string,
-    quality?: number, // 1.0
-    type?: string,
-}): Promise<File> {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(opt.file);
-        reader.onload = (event: any) => {
-            const img = new Image();
-            img.src = event.target.result as string;
-            img.onload = () => {
-                const elem = document.createElement('canvas');
-                let width = opt.width;
-                let height = opt.height || opt.width;
-
-                elem.width = width;
-                elem.height = height;
-                const ctx: CanvasRenderingContext2D | null = elem.getContext('2d');
-                if (ctx) {
-                    ctx.drawImage(img, 0, 0, width, height);
-                    ctx.canvas.toBlob((blob: any) => {
-                        const f = new File([blob], opt.fileName || opt.file
-                            .name, {
-                            type: opt.type || 'image/webp',
-                            lastModified: Date.now()
-                        });
-                        resolve(f);
-                    }, opt.type || 'image/webp', opt.quality ? (opt.quality / 100) : 0.8);
-                }
-            },
-                reader.onerror = error => console.log(error);
-        };
-    })
-}
-
-
-export async function downloadURI(uri: string, name: string): Promise<void> {
-    const res = await fetch(uri);
-    const link = document.createElement("a");
-    link.download = name;
-    link.href = URL.createObjectURL(await res.blob());
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
-export async function downloadFile(file: File): Promise<void> {
-    const link = document.createElement("a");
-    link.download = file.name;
-    link.href = URL.createObjectURL(file);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
-export function downloadBlob(blob: Blob, name: string): Promise<void> {
-    return downloadFile(new File([blob], name));
-}
-
-
-export async function fileToDataURL(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = function () {
-            const base64data = reader.result as string;
-            //console.log(base64data);
-            resolve(base64data);
-        }
-        reader.readAsDataURL(file);
-    })
-}
-
-export async function fileToText(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = function () {
-            const text = reader.result as string;
-            //console.log(base64data);
-            resolve(text);
-        }
-        reader.readAsText(file);
-    })
-}
-
-export async function fileToBuffer(file: File): Promise<ArrayBuffer> {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = function () {
-            resolve(reader.result as ArrayBuffer);
-        }
-        reader.readAsArrayBuffer(file);
-    })
-}
-
-
-
-export async function fileToImage(file: File): Promise<HTMLImageElement> {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            var imgObj = new Image();
-            imgObj.src = reader.result as string;
-            imgObj.onload = () => {
-                resolve(imgObj);
-            }
-        }
-        reader.readAsDataURL(file);
-    })
-}
-
-export async function dataUrlToImage(base64: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-        var imgObj = new Image();
-        imgObj.src = base64;
-        imgObj.onload = () => {
-            resolve(imgObj);
-        }
-    })
-}
-
-export function stripBase64(data: string): string {
-    if (data) {
-        return data.split(',')[1];
+export function stripDataUrl(dataUrl: string): string {
+    if (typeof dataUrl === 'string' && dataUrl.startsWith('data:')) {
+        return dataUrl.split(',')[1] || '';
     }
-    return data;
+    return dataUrl;
 }
 
 /**
@@ -185,7 +51,7 @@ export function stripBase64(data: string): string {
 * @param url - The URL to download the content from.
 * @returns A promise that resolves to the Base64-encoded string of the downloaded content.
 */
-export async function urlToBase64(url: string,): Promise<string> {
+export async function readUrlAsBase64(url: string,): Promise<string> {
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -206,269 +72,375 @@ export async function urlToBase64(url: string,): Promise<string> {
     }
 }
 
-export function urlToFile(url: string, givenFileName?: string, givenMimeType?: string): Promise<File> {
-    return dataUrlToFile(url, givenFileName, givenMimeType);
+/**
+ * Validates if a given string is a valid email address.
+ * 
+ * This function uses a regular expression to validate email addresses based on common patterns.
+ * 
+ * @param email - The email address string to validate.
+ * @returns A boolean indicating whether the email is valid.
+ * 
+ * @example
+ * const isValid = isValidEmailAddress('test@example.com');
+ * console.log(isValid); // Output: true
+ */
+export function isValidEmailAddress(email: string): boolean {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email.toLowerCase());
 }
 
-export function dataUrlToFile(url: string, givenFileName?: string, givenMimeType?: string): Promise<File> {
-    return (fetch(url)
-        .then(async (res) => {
-            // Get Content-Disposition header and extract filename
-            const contentDisposition = res.headers.get('Content-Disposition');
-            let fileName: string = "";
+/**
+ * Validates if a given string is a valid URL.
+ * 
+ * This function uses a regular expression to validate URLs based on common URL patterns.
+ * 
+ * @param url - The URL string to validate.
+ * @returns A boolean indicating whether the URL is valid.
+ * 
+ * @example
+ * const isValid = isValidUrl('https://www.example.com');
+ * console.log(isValid); // Output: true
+ */
+export function isValidUrl(url: string): boolean {
+    const urlPattern = new RegExp(
+        '^(https?:\\/\\/)?' + // Protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // Domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR IP (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // Port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // Query string
+        '(\\#[-a-z\\d_]*)?$',
+        'i'
+    ); // Fragment locator
+    return urlPattern.test(url);
+}
 
-            if (contentDisposition) {
-                // Try to extract filename from the Content-Disposition header
-                const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
-                if (filenameMatch && filenameMatch[1]) {
-                    fileName = filenameMatch[1].replace(/['"]/g, '');
-                }
+/**
+ * Creates a mailto URI and opens it in the user's default email client.
+ * 
+ * This function constructs a mailto URI based on the provided email details and opens it using `window.open`.
+ * It supports specifying the recipient, subject, and body of the email.
+ * 
+ * @param param - An object containing the email details:
+ *    - `to`: The recipient email address.
+ *    - `body`: Optional. The body content of the email.
+ *    - `subject`: Optional. The subject of the email.
+ * 
+ * @example
+ * // Create a mailto link with recipient, subject, and body
+ * createMailtoLink({
+ *     to: 'recipient@example.com',
+ *     subject: 'Hello',
+ *     body: 'This is a sample email message.'
+ * });
+ */
+export function createMailtoLink({ to, body = '', subject = '' }: { to: string; body?: string; subject?: string }): void {
+    const mailtoUri = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(mailtoUri, '_self');
+}
+
+/**
+ * Copies the provided text or HTML content to the clipboard.
+ * 
+ * This function handles copying both plain text and rich text (HTML) content.
+ * It uses the Clipboard API where available and falls back to older methods for unsupported browsers.
+ * 
+ * @param content - The content to be copied to the clipboard. It can be either a string (plain text) or an HTMLElement (rich text).
+ * @returns A promise that resolves to `true` if the copy operation is successful, or `false` otherwise.
+ * 
+ * @example
+ * // Copy plain text to clipboard
+ * copyToClipboard('Hello, World!').then((success) => {
+ *     console.log(success ? 'Copied successfully!' : 'Failed to copy.');
+ * });
+ * 
+ * @example
+ * // Copy rich text (HTML element) to clipboard
+ * const element = document.getElementById('myElement');
+ * if (element) {
+ *     copyToClipboard(element).then((success) => {
+ *         console.log(success ? 'Copied successfully!' : 'Failed to copy.');
+ *     });
+ * }
+ */
+export async function copyToClipboard(content: string | HTMLElement): Promise<boolean> {
+    try {
+        // If content is a string, attempt to copy it using the Clipboard API
+        if (typeof content === 'string') {
+            if (navigator.clipboard) {
+                await navigator.clipboard.writeText(content);
+                return true;
+            } else {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = content;
+                textarea.setAttribute('readonly', '');
+                textarea.style.position = 'absolute';
+                textarea.style.left = '-9999px';
+                document.body.appendChild(textarea);
+                textarea.select();
+                textarea.setSelectionRange(0, 99999); // For mobile devices
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textarea);
+                return successful;
             }
+        }
 
-            // Fallback to filename from URL if Content-Disposition is missing or doesn't contain filename
-            if (!fileName) {
-                const urlParts = url.split('/');
-                fileName = urlParts[urlParts.length - 1] || "";
-            }
+        // If content is an HTML element, copy its contents as rich text
+        if (content instanceof HTMLElement) {
+            const range = document.createRange();
+            range.selectNodeContents(content);
+            const selection = window.getSelection();
+            if (!selection) return false;
 
-            // Get Content-Type header (MIME type)
-            const mimeType: string = res.headers.get('Content-Type') || '';
-            const buffer = await res.arrayBuffer();
-            return { buffer, fileName, mimeType };
-        })
-        .then(({ buffer, fileName, mimeType }) => {
-            return new File([buffer], givenFileName || fileName, {
-                type: givenMimeType || mimeType
-            });
-        })
-    );
-}
+            selection.removeAllRanges();
+            selection.addRange(range);
 
-export async function bufferToFile(buffer: ArrayBuffer, filename: string, mimeType: string): Promise<File> {
-    return new File([buffer], filename, {
-        type: mimeType
-    });
-}
+            // Execute the copy command
+            const successful = document.execCommand('copy');
+            selection.removeAllRanges();
 
-export async function postData(url: string = '', data = {}) {
-    // Default options are marked with *
-    const response = await fetch(url, {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-            'Content-Type': 'application/json'
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        redirect: 'follow', // manual, *follow, error
-        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(data) // body data type must match "Content-Type" header
-    });
-    return response.json(); // parses JSON response into native JavaScript objects
-}
+            return successful;
+        }
 
-export function fileNameAndExt(filename: string): { name: string, ext: string | undefined } {
-    let arr: Array<string> = (filename || '').split('.');
-    let ext = arr.pop();
-    let name = arr.join('.');
-    return { name, ext };
-}
-
-export function isValidateEmail(email: string) {
-    const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return reg.test(String(email).toLowerCase());
-}
-
-export function isValidURL(str: string) {
-    var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-    return !!pattern.test(str);
-}
-
-export function mailto({ to, body = '', subject = '' }: { to: string, body: string, subject: string }) {
-    var uri = `mailto:${to || ''}?subject=${encodeURIComponent(subject || '')}&body=${encodeURIComponent(body || '')}`;
-    window.open(uri);
-}
-
-export function copyText(str: string) {
-    const el = document.createElement('textarea');
-    el.value = str;
-    el.setAttribute('readonly', '');
-    el.style.position = 'absolute';
-    el.style.left = '-9999px';
-    document.body.appendChild(el);
-    el.select();
-    el.setSelectionRange(0, 99999); /* For mobile devices */
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(str);
-    } else {
-        document.execCommand('copy', false);
-    }
-    document.body.removeChild(el);
-};
-
-export function copyRichText(node: HTMLElement) {
-    if (BROWSER) {
-        let r = document.createRange();
-        r.selectNode(node);
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(r);
-        document.execCommand("copy");
-        window.getSelection().removeAllRanges();
+        return false; // Unsupported content type
+    } catch (error) {
+        console.error('Failed to copy content to clipboard:', error);
+        return false;
     }
 }
 
-export function download(data: string, filename: string, type: string) {
-    const blob = new Blob([data], { type: type || 'application/octet-stream' });
-    const elem = window.document.createElement('a');
-    elem.href = window.URL.createObjectURL(blob);
-    elem.download = filename;
-    document.body.appendChild(elem);
-    elem.click();
-    document.body.removeChild(elem);
+
+/**
+ * Formats a string by replacing placeholders `{index}` with corresponding arguments.
+ * 
+ * This function replaces placeholders in the format `{0}`, `{1}`, etc., in the provided string
+ * with the corresponding values from the `args` array.
+ * 
+ * @param str - The string containing placeholders.
+ * @param args - The values to replace the placeholders with.
+ * @returns A formatted string with the placeholders replaced by the corresponding arguments.
+ * 
+ * @example
+ * const formatted = formatString('Hello, {0}!', 'World');
+ * console.log(formatted); // Output: "Hello, World!"
+ */
+export function formatString(str: string, ...args: any[]): string {
+    return args.reduce((formatted, arg, index) => {
+        const regexp = new RegExp(`\\{${index}\\}`, 'g');
+        return formatted.replace(regexp, arg);
+    }, str);
 }
 
-export function formatString(str: string, ...args: any[]) {
-    var formatted = str;
-    for (var i = 0; i < args.length; i++) {
-        var regexp = new RegExp('\\{' + i + '\\}', 'gi');
-        formatted = formatted.replace(regexp, args[i]);
-    }
-    return formatted;
+/**
+ * Delays the execution of code for a specified number of milliseconds.
+ * 
+ * This function returns a promise that resolves after the specified delay.
+ * 
+ * @param milliseconds - The number of milliseconds to wait before resolving the promise. Default is 0.
+ * @returns A promise that resolves after the specified delay.
+ * 
+ * @example
+ * delay(1000).then(() => console.log('1 second later'));
+ */
+export function delay(milliseconds: number = 0): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export function fileSizeString(size: number): string {
-    var i = size == 0 ? 0 : Math.floor(Math.log(size) / Math.log(1024));
-    return parseInt((size / Math.pow(1024, i)).toFixed(2)) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
-}
+/**
+ * Sorts an array of objects or values based on a specified field or value.
+ * 
+ * This function sorts an array of objects based on a specified field or directly sorts an array of values.
+ * It supports both ascending and descending orders and can handle date values.
+ * 
+ * @typeParam T - The type of elements in the array.
+ * @param param - An object containing the array to sort, the field to sort by (optional), 
+ *                whether to sort in descending order, and whether to sort as date values.
+ * @param param.array - The array of objects or values to sort.
+ * @param param.field - Optional. The field of the objects to sort by.
+ * @param param.desc - Optional. If true, sorts in descending order. Default is false (ascending).
+ * @param param.isDate - Optional. If true, sorts the values as dates.
+ * @returns The sorted array.
+ * 
+ * @example
+ * const arr = [{ name: 'Alice' }, { name: 'Bob' }];
+ * const sortedArr = sort({ array: arr, field: 'name', desc: true });
+ * console.log(sortedArr); // Output: [{ name: 'Bob' }, { name: 'Alice' }]
+ */
+export function sort<T>({ array, field, desc = false, isDate = false }:
+    { array: T[], field?: keyof T, desc?: boolean, isDate?: boolean }): T[] {
+    return array.sort((a, b) => {
+        let valA: any = field ? a[field] : a;
+        let valB: any = field ? b[field] : b;
 
-export function delay(mills: number = 0) {
-    return new Promise((resolve: any) => {
-        setTimeout(() => {
-            resolve();
-        }, mills)
-    });
-}
-
-
-export function sort<T>({ array, field, desc, isDate }: { array: T[], field?: string, desc?: boolean, isDate?: boolean }) {
-    return array.sort((a: any, b: any) => {
-        let valA = typeof a === 'object' && field ? a[field] : a;
-        let valB = typeof b === 'object' && field ? b[field] : b;
-
+        // Convert to Date objects if sorting by date
         if (isDate) {
-            valA = toDate(valA);
-            valB = toDate(valB);
+            valA = toDate(valA as any);
+            valB = toDate(valB as any);
         } else {
-            // Case-insensitive string comparison
+            // Convert to lowercase for case-insensitive string comparison
             if (typeof valA === 'string') valA = valA.toLowerCase();
             if (typeof valB === 'string') valB = valB.toLowerCase();
         }
 
-        if (valA < valB) {
-            return desc ? 1 : -1;
-        } else if (valA > valB) {
-            return desc ? -1 : 1;
-        }
+        // Perform comparison and adjust for descending order if specified
+        if (valA < valB) return desc ? 1 : -1;
+        if (valA > valB) return desc ? -1 : 1;
         return 0;
     });
 }
 
-
-
-export function vibrate(value: number | number[] = 20) {
-    if (window?.navigator?.vibrate) {
-        window.navigator.vibrate(value);
+/**
+ * Triggers a vibration effect on supported devices.
+ * 
+ * This function uses the Vibration API to trigger a vibration effect. If the Vibration API is not
+ * supported or if permissions are not granted, the function will have no effect.
+ * 
+ * @param value - A single number representing the duration of the vibration in milliseconds, or
+ *                an array of numbers representing vibration patterns.
+ * 
+ * @example
+ * // Single vibration for 200 milliseconds
+ * vibrate(200);
+ * 
+ * @example
+ * // Vibration pattern: 200ms on, 100ms off, 200ms on
+ * vibrate([200, 100, 200]);
+ */
+export function vibrate(value: number | number[] = 20): void {
+    if (navigator?.vibrate) {
+        navigator.vibrate(value);
     }
 }
 
-export function playClickEffect() {
-    vibrate();
+/**
+ * Plays a simple click effect using the vibration API (if supported).
+ * 
+ * This function triggers a short vibration effect to simulate a click or feedback action on devices
+ * that support the Vibration API.
+ * 
+ * @example
+ * playClickEffect(); // Triggers a short vibration effect.
+ */
+export function playClickEffect(): void {
+    vibrate(20);
 }
 
-export function toArrayByKey(key: string, obj: any = {}) {
-    return Object.keys(obj).map((k) => {
-        let data = obj[k];
-        if (data) {
-            data[key] = k;
-        }
-        return data;
-    }).filter(o => o) || []
+/**
+ * Converts an object into an array of its values, attaching a specified key to each value.
+ * 
+ * This function takes an object and converts it into an array of its values, where each value is
+ * augmented with a new property specified by the `key` parameter. The property is set to the key
+ * of the original object.
+ * 
+ * @param key - The property name to attach to each value.
+ * @param obj - The object to be converted to an array.
+ * @returns An array of values with the specified key attached.
+ * 
+ * @example
+ * const obj = { a: { name: 'Alice' }, b: { name: 'Bob' } };
+ * const array = toArrayByKey('id', obj);
+ * console.log(array); // Output: [{ name: 'Alice', id: 'a' }, { name: 'Bob', id: 'b' }]
+ */
+export function toArrayByKey(key: string, obj: Record<string, any> = {}): any[] {
+    return Object.keys(obj)
+        .map((k) => {
+            const data = obj[k];
+            if (data) {
+                data[key] = k;
+            }
+            return data;
+        })
+        .filter((item) => item !== undefined);
 }
 
-
-export function convertNumToAlphabates(num: number) {
-    let alphabates = 'abcdefghij'.split('');
-    let numArray = num.toString().split('').map((o) => parseInt(o));
-    return numArray.map((i) => alphabates[i]).join('');
+/**
+ * Converts a numeric string into its corresponding alphabets (0-9 => a-j).
+ * 
+ * This function maps each digit in the provided number to its corresponding alphabet:
+ * - 0 => a, 1 => b, 2 => c, ... , 9 => j.
+ * 
+ * @param num - The number to be converted to a string of alphabets.
+ * @returns A string representing the number converted to alphabets.
+ * 
+ * @example
+ * const result = convertNumToAlphabets(123); // "bcd"
+ * console.log(result); // Output: "bcd"
+ */
+export function convertNumToAlphabets(num: number): string {
+    const alphabets = 'abcdefghij';
+    return num
+        .toString()
+        .split('')
+        .map((digit) => alphabets[parseInt(digit, 10)] || '')
+        .join('');
 }
 
-export async function fetchText(url: string) {
-    const response = await fetch(url);
-    let text = await response.text();
-    // console.log(text)
-    return text;
+/**
+ * Converts a number to a currency-formatted string.
+ * 
+ * This function formats a given number as a currency string, using a specified currency symbol
+ * (default is '$'). It handles negative values by adding a '-' sign in front of the formatted value.
+ * 
+ * @param value - The numeric value to format as currency.
+ * @param symbol - The currency symbol to use. Default is '$'.
+ * @returns A formatted string representing the currency value.
+ * 
+ * @example
+ * const formattedValue = toCurrency(1234.56, '$');
+ * console.log(formattedValue); // Output: "$ 1234.56"
+ * 
+ * @example
+ * const formattedNegative = toCurrency(-1234.56, '€');
+ * console.log(formattedNegative); // Output: "- € 1234.56"
+ */
+export function toCurrency(value: number = 0, symbol: string = '$'): string {
+    const isNegative = value < 0;
+    const currencyValue = Math.abs(value).toFixed(2);
+    return `${isNegative ? '- ' : ''}${symbol} ${currencyValue}`;
 }
 
-
-export function toCurrency(value: number = 0, symbol: string = '$') {
-    let currency = Math.abs(value);
-    let result = '';
-    if (value < 0) {
-        result += '- ';
+/**
+ * Converts a length in inches to pixels based on a DPI of 96.
+ * 
+ * This function converts inches to pixels assuming a screen DPI (Dots Per Inch) of 96.
+ * It is useful for calculating dimensions in pixels when working with different units of measurement.
+ * 
+ * @param inches - The length in inches to be converted to pixels.
+ * @returns The length in pixels corresponding to the provided inches.
+ * 
+ * @throws An error if the input is not a valid number or is negative.
+ * 
+ * @example
+ * const pixels = inchToPixel(1); // 1 inch to pixels
+ * console.log(pixels); // Output: 96
+ */
+export function inchToPixel(inches: number): number {
+    if (typeof inches !== 'number' || isNaN(inches) || inches < 0) {
+        throw new Error('Invalid input: Inches must be a non-negative number.');
     }
-    if (symbol) {
-        result += `${symbol} `;
+    const DPI = 96; // Default DPI for screen resolution
+    return inches * DPI;
+}
+
+/**
+ * Converts a length in pixels to inches based on a DPI of 96.
+ * 
+ * This function converts pixels to inches assuming a screen DPI (Dots Per Inch) of 96.
+ * It is useful for converting pixel measurements to physical dimensions.
+ * 
+ * @param pixels - The length in pixels to be converted to inches.
+ * @returns The length in inches corresponding to the provided pixels.
+ * 
+ * @throws An error if the input is not a valid number or is negative.
+ * 
+ * @example
+ * const inches = pixelToInch(96); // 96 pixels to inches
+ * console.log(inches); // Output: 1
+ */
+export function pixelToInch(pixels: number): number {
+    if (typeof pixels !== 'number' || isNaN(pixels) || pixels < 0) {
+        throw new Error('Invalid input: Pixels must be a non-negative number.');
     }
-    result += currency.toFixed(2);
-    return result;
+    const DPI = 96; // Default DPI for screen resolution
+    return pixels / DPI;
 }
-
-export function inchToPixel(inches: number) {
-    return inches * 96; // DPI
-}
-
-export function pixelToInch(pixels: number) {
-    return pixels / 96; // DPI
-}
-
-export function isValidHexColor(hex: string) {
-    const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
-    let res = hexRegex.test(hex);
-    return res;
-}
-
-
-export function colorToHex(color: string) {
-    // Create a temporary div element to use its computed style
-    const tempDiv = document.createElement("div");
-    tempDiv.style.color = color;
-    document.body.appendChild(tempDiv);
-
-    // Get the computed color from the div element
-    const computedColor = window.getComputedStyle(tempDiv).color;
-    document.body.removeChild(tempDiv);
-
-    // Convert the computed color to RGB values
-    const rgb = computedColor.match(/\d+/g).map(Number);
-
-    // Convert RGB values to a 6-character hex color
-    const hexColor = rgbToHex(rgb[0], rgb[1], rgb[2]);
-    return hexColor;
-}
-
-export function rgbToHex(r: number, g: number, b: number) {
-    return (
-        "#" +
-        [r, g, b]
-            .map((x) => x.toString(16).padStart(2, "0")) // Convert to hex and ensure two characters
-            .join("")
-            .toUpperCase()
-    );
-}
-
