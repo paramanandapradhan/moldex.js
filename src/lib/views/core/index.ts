@@ -9,7 +9,6 @@ export * from './navbar/index.js';
 export * from './no-data/index.js';
 export * from './pagination/index.js';
 export * from './progressbar/index.js';
-// export * from './referrer/index.js';
 export * from './ruler/index.js';
 export * from './sidebar/index.js';
 export * from './screen-detector/index.js';

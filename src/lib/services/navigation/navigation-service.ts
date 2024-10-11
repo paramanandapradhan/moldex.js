@@ -1,4 +1,4 @@
-import { goto, pushState } from '$app/navigation';
+// import { goto, pushState } from '$app/navigation';
 import { createRefererStore } from '$lib/stores/referrer-store/referrer-store.svelte';
 
 import { BROWSER } from 'esm-env';
@@ -26,7 +26,7 @@ export const popBackState = (): BackStateType | undefined => {
 export const registerBackPress = (state: BackStateType) => {
     if (BROWSER) {
         pushBackState(state);
-        pushState('', {});
+        window.history.pushState({}, '');
     }
 }
 
@@ -36,11 +36,11 @@ export const addBackKeyListener = (callback: (event?: PopStateEvent) => boolean)
             if (callback) {
                 let result = callback(event);
                 if (result) {
-                    pushState('', {});
+                    window.history.pushState({}, ''); 
                 }
             }
         }
-        pushState('', {});
+        window.history.pushState({}, '');
         window.addEventListener('popstate', listener);
         return listener;
     }
@@ -57,7 +57,7 @@ export function goBack() {
 }
 
 export function goHome() {
-    goto('/', { replaceState: true });
+    history.back();
 };
 
 export function createRedirectUrl(): string | null {
