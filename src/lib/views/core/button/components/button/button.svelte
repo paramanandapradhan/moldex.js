@@ -36,12 +36,12 @@
 		onClick?: (ev: MouseEvent) => void;
 		onDblClick?: (ev: MouseEvent) => void;
 		onContextMenu?: (ev: MouseEvent) => void;
-		onDrop?: (ev: MouseEvent) => void;
-		onDragStart?: (ev: MouseEvent) => void;
-		onDragEnd?: (ev: MouseEvent) => void;
-		onDragEnter?: (ev: MouseEvent) => void;
-		onDragLeave?: (ev: MouseEvent) => void;
-		onDragOver?: (ev: MouseEvent) => void;
+		onDrop?: (ev: DragEvent) => void;
+		onDragStart?: (ev: DragEvent) => void;
+		onDragEnd?: (ev: DragEvent) => void;
+		onDragEnter?: (ev: DragEvent) => void;
+		onDragLeave?: (ev: DragEvent) => void;
+		onDragOver?: (ev: DragEvent) => void;
 	};
 </script>
 

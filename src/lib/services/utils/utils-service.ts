@@ -376,30 +376,6 @@ export function convertNumToAlphabets(num: number): string {
 }
 
 /**
- * Converts a number to a currency-formatted string.
- * 
- * This function formats a given number as a currency string, using a specified currency symbol
- * (default is '$'). It handles negative values by adding a '-' sign in front of the formatted value.
- * 
- * @param value - The numeric value to format as currency.
- * @param symbol - The currency symbol to use. Default is '$'.
- * @returns A formatted string representing the currency value.
- * 
- * @example
- * const formattedValue = toCurrency(1234.56, '$');
- * console.log(formattedValue); // Output: "$ 1234.56"
- * 
- * @example
- * const formattedNegative = toCurrency(-1234.56, '€');
- * console.log(formattedNegative); // Output: "- € 1234.56"
- */
-export function toCurrency(value: number = 0, symbol: string = '$'): string {
-    const isNegative = value < 0;
-    const currencyValue = Math.abs(value).toFixed(2);
-    return `${isNegative ? '- ' : ''}${symbol} ${currencyValue}`;
-}
-
-/**
  * Converts a length in inches to pixels based on a DPI of 96.
  * 
  * This function converts inches to pixels assuming a screen DPI (Dots Per Inch) of 96.

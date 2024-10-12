@@ -9,4 +9,5 @@ export * from './utils/download-service.js';
 export * from './utils/file-service.js';
 export * from './utils/http-service.js';
 export * from './utils/image-service.js';
+export * from './utils/currency-service.js';
 
