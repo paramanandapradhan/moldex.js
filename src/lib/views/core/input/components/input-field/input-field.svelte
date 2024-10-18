@@ -200,15 +200,15 @@
 			switch (appearance) {
 				case 'normal':
 					appearanceClassName =
-						'border rounded-lg bg-base-100 dark:bg-base-700 border-base-300 dark:border-base-500 text-base-950 dark:text-base-50 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 focus:bg-white dark:focus:bg-base-800 ';
+						'border rounded-lg bg-base-100 dark:bg-base-700 border-base-300 dark:border-base-500 text-base-950 dark:text-base-50 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 focus:bg-base-50 dark:focus:bg-base-800 ';
 					break;
 				case 'box':
 					appearanceClassName =
-						'border bg-base-100 dark:bg-base-700 border-base-300 dark:border-base-500 text-base-950 dark:text-base-50 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 focus:bg-white dark:focus:bg-base-800 ';
+						'border bg-base-100 dark:bg-base-700 border-base-300 dark:border-base-500 text-base-950 dark:text-base-50 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 focus:bg-base-50 dark:focus:bg-base-800 ';
 					break;
 				case 'fill':
 					appearanceClassName =
-						' border-0 appearance-none  focus:ring-0 bg-base-100 dark:bg-base-700 text-base-950 dark:text-base-50 focus:bg-white dark:focus:bg-base-800 ';
+						' border-0 appearance-none  focus:ring-0 bg-base-100 dark:bg-base-700 text-base-950 dark:text-base-50 focus:bg-base-50 dark:focus:bg-base-800 ';
 					break;
 				case 'underline':
 					appearanceClassName =

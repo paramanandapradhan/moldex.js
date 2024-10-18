@@ -85,3 +85,23 @@ export function toCurrency(value: number = 0, symbol: string = '$'): string {
     return `${isNegative ? '- ' : ''}${symbol} ${currencyValue}`;
 }
 
+
+/**
+ * Formats a number into Indian currency format with commas
+ * Example: 1234567890.50 -> "1,23,45,67,890.50"
+ * 
+ * @param amount - The number to format (can include decimals).
+ * @returns A string formatted with commas as per the Indian numbering system.
+ */
+export function formatIndianCurrency(amount: number | string): string {
+    let amountStr = typeof amount === 'number' ? amount.toFixed(2) : parseFloat(amount).toFixed(2);
+    let [integerPart, decimalPart] = amountStr.split(".");
+    let lastThreeDigits = integerPart.slice(-3);
+    let otherDigits = integerPart.slice(0, -3);
+    if (otherDigits !== "") {
+        otherDigits = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+    }
+    
+    return otherDigits + (otherDigits ? "," : "") + lastThreeDigits + "." + decimalPart;
+}
+
