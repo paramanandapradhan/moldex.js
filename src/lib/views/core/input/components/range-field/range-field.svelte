@@ -10,6 +10,8 @@
 		min?: number;
 		max?: number;
 		step?: number;
+		thumbSize?: string;
+		thumbColor?: string;
 		oninput?: (ev: any) => void;
 		onfocus?: (ev: any) => void;
 		onblur?: (ev: any) => void;
@@ -24,6 +26,8 @@
 		name,
 		step,
 		className,
+		thumbSize = '16px',
+		thumbColor = '#dc2626',
 		oninput,
 		onblur,
 		onfocus
@@ -69,10 +73,11 @@
 	{id}
 	{name}
 	type="range"
-	class=" w-full bg-gray-200 appearance-none cursor-pointer dark:bg-gray-700 rounded-lg range-lg outline-none focus:outline-none {rangeSizeClassName} {className}"
+	class="range-slider w-full bg-gray-200 appearance-none cursor-pointer dark:bg-gray-700 rounded-lg range-lg outline-none focus:outline-none {rangeSizeClassName} {className}"
 	{min}
 	{max}
 	{step}
+	style="--thumbSize: {thumbSize}; --thumbColor: {thumbColor};"
 	{oninput}
 	{onfocus}
 	{onblur}
@@ -81,5 +86,35 @@
 <style>
 	.h-2-px {
 		height: 2px;
+	}
+
+	.range-slider {
+		appearance: none;
+		-webkit-appearance: none;
+	}
+	.range-slider::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		width: var(--thumbSize);
+		height: var(--thumbSize);
+		background-color: var(--thumbColor);
+		border-radius: 50%;
+	}
+
+	/* Thumb styling for Firefox */
+	.range-slider::-moz-range-thumb {
+		-moz-appearance: none;
+		width: var(--thumbSize);
+		height: var(--thumbSize);
+		background-color: var(--thumbColor);
+		border-radius: 50%;
+	}
+
+	/* Thumb styling for Edge */
+	.range-slider::-ms-thumb {
+		-ms-appearance: none;
+		width: var(--thumbSize);
+		height: var(--thumbSize);
+		background-color: var(--thumbColor);
+		border-radius: 50%;
 	}
 </style>
