@@ -387,7 +387,7 @@
 		title={displayItemsTitle || ''}
 	/>
 	{#if isPlaced}
-		<button id="backdrop" class="fixed inset-0 z-10" onclick={handleBackdropClick} tabindex="-1"
+		<button id="backdrop" class="fixed inset-0 z-10" onclick={handleBackdropClick} tabindex="-1" aria-label="backdrop"
 		></button>
 		<!-- svelte-ignore a11y_interactive_supports_focus -->
 		<div
