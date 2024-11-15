@@ -27,7 +27,6 @@
 		step,
 		className,
 		thumbSize = '16px',
-		thumbColor = '#dc2626',
 		oninput,
 		onblur,
 		onfocus
@@ -77,7 +76,7 @@
 	{min}
 	{max}
 	{step}
-	style="--thumbSize: {thumbSize}; --thumbColor: {thumbColor};"
+	style="--thumbSize: {thumbSize};"
 	{oninput}
 	{onfocus}
 	{onblur}
@@ -96,7 +95,7 @@
 		-webkit-appearance: none;
 		width: var(--thumbSize);
 		height: var(--thumbSize);
-		background-color: var(--thumbColor);
+		background-color: var(--color-primary-600);
 		border-radius: 50%;
 	}
 
@@ -105,7 +104,7 @@
 		-moz-appearance: none;
 		width: var(--thumbSize);
 		height: var(--thumbSize);
-		background-color: var(--thumbColor);
+		background-color: var(--color-primary-600);
 		border-radius: 50%;
 	}
 
@@ -114,7 +113,7 @@
 		-ms-appearance: none;
 		width: var(--thumbSize);
 		height: var(--thumbSize);
-		background-color: var(--thumbColor);
+		background-color: var(--color-primary-600);
 		border-radius: 50%;
 	}
 </style>

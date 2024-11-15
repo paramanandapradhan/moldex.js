@@ -4,43 +4,34 @@ export default {
   theme: {
     extend: {
       colors: {
-        /**
-         * Primary color will be used fro highlight colors for both the theme light or dark
-         */
-        // Green Color : https://tailwindcss.com/docs/customizing-colors
         primary: {
-          'DEFAULT': "#0ea5e9", // 500
-          "50": "#f0f9ff",
-          "100": "#e0f2fe",
-          "200": "#bae6fd",
-          "300": "#7dd3fc",
-          "400": "#38bdf8",
-          "500": "#0ea5e9",
-          "600": "#0284c7",
-          "700": "#0369a1",
-          "800": "#075985",
-          "900": "#0c4a6e",
-          "950": "#082f49"
+          DEFAULT: "var(--color-primary-500)",
+          50: "var(--color-primary-50)",
+          100: "var(--color-primary-100)",
+          200: "var(--color-primary-200)",
+          300: "var(--color-primary-300)",
+          400: "var(--color-primary-400)",
+          500: "var(--color-primary-500)",
+          600: "var(--color-primary-600)",
+          700: "var(--color-primary-700)",
+          800: "var(--color-primary-800)",
+          900: "var(--color-primary-900)",
+          950: "var(--color-primary-950)",
         },
-
-        /**
-         * Base color used for normal text, bg, border color for both the theme light or dark
-         */
-        // Slate Color : https://tailwindcss.com/docs/customizing-colors
         base: {
-          'DEFAULT': "#64748b", // 500
-          "50": "#f8fafc",
-          "100": "#f1f5f9",
-          "200": "#e2e8f0",
-          "300": "#cbd5e1",
-          "400": "#94a3b8",
-          "500": "#64748b",
-          "600": "#475569",
-          "700": "#334155",
-          "800": "#1e293b",
-          "900": "#0f172a",
-          "950": "#020617"
-        }
+          DEFAULT: "var(--color-base-500)",
+          50: "var(--color-base-50)",
+          100: "var(--color-base-100)",
+          200: "var(--color-base-200)",
+          300: "var(--color-base-300)",
+          400: "var(--color-base-400)",
+          500: "var(--color-base-500)",
+          600: "var(--color-base-600)",
+          700: "var(--color-base-700)",
+          800: "var(--color-base-800)",
+          900: "var(--color-base-900)",
+          950: "var(--color-base-950)",
+        },
       },
 
       fontSize: {
