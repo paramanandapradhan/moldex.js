@@ -64,7 +64,7 @@
 			aria-describedby="comments-description"
 			name={name || id}
 			type="checkbox"
-			class="h-6 w-6 appearance-none cursor-pointer rounded color-primary hover:color-primary-500 bg-base-200 dark:bg-base-700 dark:checked:bg-primary checked:bg-primary outline-primary border-base-300 dark:border-base-600 {className}"
+			class="h-6 w-6 appearance-none cursor-pointer rounded color-primary hover:color-primary bg-base-200 dark:bg-base-700 dark:checked:bg-primary checked:bg-primary checked:focus:bg-primary checked:hover:bg-primary focus:ring-primary focus:shadow-primary outline-primary border-base-300 dark:border-base-600 {className}"
 			onchange={(ev) => handleChange(ev)}
 		/>
 		{#if position == 'left'}
