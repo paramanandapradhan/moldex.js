@@ -1,28 +1,6 @@
 <script lang="ts" module>
-</script>
-
-<script lang="ts">
-	import '../../../../../tailwind.css';
-
-	import { ripple } from '$lib/actions/ripple.js';
-
-	import {
-		Icon,
-		mdiCheckCircle,
-		mdiCheckCircleOutline,
-		mdiChevronDown
-	} from '$lib/views/core/icon';
-	import type { Snippet } from 'svelte';
-	import type { ListItemType } from '../button-list-item/button-list-item.svelte';
-	import ButtonListItem from '../button-list-item/button-list-item.svelte';
-	import Button from '../button/button.svelte';
-
-	class MenuStateEnum {
-		static OPENED = 'OPENED';
-		static CLOSED = 'CLOSED';
-	}
-
-	type PropsType = {
+	export type ButtonMenuProps = {
+		innerClassName?: string;
 		backgropClassName?: string;
 		buttonSnippet?: Snippet;
 		checkClassName?: string;
@@ -64,6 +42,28 @@
 		uncheckIconClassName?: string;
 		uncheckIconPath?: string;
 	};
+</script>
+
+<script lang="ts">
+	import '../../../../../tailwind.css';
+
+	import { ripple } from '$lib/actions/ripple.js';
+
+	import {
+		Icon,
+		mdiCheckCircle,
+		mdiCheckCircleOutline,
+		mdiChevronDown
+	} from '$lib/views/core/icon';
+	import type { Snippet } from 'svelte';
+	import type { ListItemType } from '../button-list-item/button-list-item.svelte';
+	import ButtonListItem from '../button-list-item/button-list-item.svelte';
+	import Button from '../button/button.svelte';
+
+	class MenuStateEnum {
+		static OPENED = 'OPENED';
+		static CLOSED = 'CLOSED';
+	}
 
 	let {
 		backgropClassName = '',
@@ -73,6 +73,7 @@
 		checkIconPath = mdiCheckCircle,
 		children,
 		className = '',
+		innerClassName = '',
 		containerClassName = '',
 		dividerClassName = '',
 		dropdownClassName = '',
@@ -105,7 +106,7 @@
 		titleClassName = '',
 		uncheckIconClassName = '',
 		uncheckIconPath = mdiCheckCircleOutline
-	}: PropsType = $props();
+	}: ButtonMenuProps = $props();
 
 	let expanded = $state(false);
 	let dropdownState: MenuStateEnum = $state(MenuStateEnum.CLOSED);
@@ -160,7 +161,7 @@
 		onClick={hendleToggleDropdown}
 	>
 		<span class="sr-only">{screenOnlyDesc}</span>
-		<div class="flex items-center flex-nowrap gap-2">
+		<div class="flex items-center flex-nowrap {innerClassName}">
 			{#if buttonSnippet}
 				{@render buttonSnippet()}
 			{:else}
@@ -186,6 +187,7 @@
 	</Button>
 	{#if dropdownState == MenuStateEnum.OPENED}
 		<button
+			aria-label="backdrop"
 			type="button"
 			id="{id}-menu-backdrop"
 			class="cursor-auto fixed inset-0 z-10 {backgropClassName}"

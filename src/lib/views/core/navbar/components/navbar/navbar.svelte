@@ -1,11 +1,5 @@
-<script lang="ts">
-	import ButtonBack from '$lib/views/core/button/components/button-back/button-back.svelte';
-	import Button from '$lib/views/core/button/components/button/button.svelte';
-	import { Icon, mdiMenu } from '$lib/views/core/icon';
-	import type { Snippet } from 'svelte';
-	import '../../../../../tailwind.css';
-
-	type PropsType = {
+<script module lang="ts">
+	export type NavbarProps = {
 		disabledLogo?: boolean;
 		backIconPath?: string;
 		backButtonClassName?: string;
@@ -39,6 +33,14 @@
 		title?: string;
 		titleClassName?: string;
 	};
+</script>
+
+<script lang="ts">
+	import ButtonBack from '$lib/views/core/button/components/button-back/button-back.svelte';
+	import Button from '$lib/views/core/button/components/button/button.svelte';
+	import { Icon, mdiMenu } from '$lib/views/core/icon';
+	import type { Snippet } from 'svelte';
+	import '../../../../../tailwind.css';
 
 	let {
 		disabledLogo,
@@ -73,7 +75,7 @@
 		subtitleClassName = '',
 		title = '',
 		titleClassName = ''
-	}: PropsType = $props();
+	}: NavbarProps = $props();
 </script>
 
 <nav
