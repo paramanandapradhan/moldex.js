@@ -32,7 +32,7 @@
 		menuItemInnerSnippet?: Snippet<[ListItemType, number]>;
 		menuItemSnippet?: Snippet<[ListItemType, number]>;
 		menus?: string[] | ListItemType[];
-		omMenu?: (ev: MouseEvent, item: string | ListItemType, index?: number) => void;
+		onMenu?: (ev: MouseEvent, item: string | ListItemType, index?: number) => void;
 		rightIconClassName?: string;
 		rightIconPath?: string;
 		screenOnlyDesc?: string;
@@ -97,7 +97,7 @@
 		menuItemInnerSnippet,
 		menuItemSnippet,
 		menus = [],
-		omMenu = (ev: MouseEvent, item: string | ListItemType, index?: number) => {},
+		onMenu = (ev: MouseEvent, item: string | ListItemType, index?: number) => {},
 		rightIconClassName = '',
 		rightIconPath = '',
 		screenOnlyDesc = 'Menu',
@@ -142,11 +142,11 @@
 
 	function handlemenuItemClick(ev: MouseEvent, menu: ListItemType, index: number) {
 		hendleToggleDropdown(ev);
-		if (omMenu) {
+		if (onMenu) {
 			let item = menus[index];
 
 			if (item) {
-				omMenu(ev, item, index);
+				onMenu(ev, item, index);
 			}
 			selectedMenu = menu;
 		}
