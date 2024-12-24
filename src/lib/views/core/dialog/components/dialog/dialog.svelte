@@ -95,7 +95,7 @@
 		footerCloseButtonClassName = '',
 		footerCloseButtonLabel = 'Close',
 		footerOkButtonClassName = '',
-		footerOkButtonEnabled = false,
+		footerOkButtonEnabled = true,
 		footerOkButtonSpinner = false,
 		footerOkButtonType = 'button',
 		footerOkButtonLable = 'Save',
