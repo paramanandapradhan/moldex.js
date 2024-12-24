@@ -117,14 +117,14 @@
 					path={item?.isChecked ? checkIconPath : uncheckIconPath}
 					className="w-5 h-5 {checkClassName} {item?.isChecked
 						? `text-primary ${checkIconClassName}`
-						: `text-gray-400 ${uncheckIconClassName}`}"
+						: `text-base-400 ${uncheckIconClassName}`}"
 				/>
 			</div>
 		{/if}
 
 		{#if hasArrow}
 			<div>
-				<Icon path={arrowIconPath} className="w-5 h-5 text-gray-500 {arrowClassName}  " />
+				<Icon path={arrowIconPath} className="w-5 h-5 text-base-500 {arrowClassName}  " />
 			</div>
 		{/if}
 	</div>
@@ -134,7 +134,7 @@
 	<button
 		id="{id}-item-item-{index}"
 		type="button"
-		class="w-full select-none block px-3 py-2 text-start leading-normal text-gray-900 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 focus:bg-gray-50 dark:focus:bg-gray-700 focus:outline-none {className} {item.className}"
+		class="w-full select-none block px-3 py-2 text-start leading-normal text-base-900 dark:text-base-200 hover:bg-base-100 dark:hover:bg-base-700 focus:bg-base-50 dark:focus:bg-base-700 focus:outline-none {className} {item.className}"
 		role="menuitem"
 		onclick={(ev) => onClick && onClick(ev, item, index)}
 		disabled={item?.disabled}
@@ -148,7 +148,7 @@
 	<a
 		id="{id}-item-item-{index}"
 		href={item?.url}
-		class="block select-none px-3 py-1 w-full text-start leading-normal text-gray-900 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 focus:bg-gray-50 dark:focus:bg-gray-700 focus:outline-none {className} {item.className}"
+		class="block select-none px-3 py-1 w-full text-start leading-normal text-base-900 dark:text-base-200 hover:bg-base-100 dark:hover:bg-base-700 focus:bg-base-50 dark:focus:bg-base-700 focus:outline-none {className} {item.className}"
 		role="menuitem"
 		target={item?.openInNewWindow ? '_blank' : ''}
 		onclick={(ev) => onClick && onClick(ev, item, index)}

@@ -59,6 +59,7 @@
 	import type { ListItemType } from '../button-list-item/button-list-item.svelte';
 	import ButtonListItem from '../button-list-item/button-list-item.svelte';
 	import Button from '../button/button.svelte';
+	import { stopPropagation } from 'svelte/legacy';
 
 	class MenuStateEnum {
 		static OPENED = 'OPENED';
@@ -131,7 +132,7 @@
 		return [];
 	});
 
-	function hendleToggleDropdown(ev: MouseEvent) {
+	function handleToggleDropdown(ev: MouseEvent) {
 		ev && ev.stopPropagation();
 		if (dropdownState == MenuStateEnum.CLOSED) {
 			dropdownState = MenuStateEnum.OPENED;
@@ -141,7 +142,7 @@
 	}
 
 	function handlemenuItemClick(ev: MouseEvent, menu: ListItemType, index: number) {
-		hendleToggleDropdown(ev);
+		handleToggleDropdown(ev);
 		if (onMenu) {
 			let item = menus[index];
 
@@ -158,7 +159,7 @@
 		type="button"
 		className="flex items-center justify-center flex-nowrap text-start {className}"
 		{id}
-		onClick={hendleToggleDropdown}
+		onClick={handleToggleDropdown}
 	>
 		<span class="sr-only">{screenOnlyDesc}</span>
 		<div class="flex items-center flex-nowrap {innerClassName}">
@@ -191,7 +192,8 @@
 			type="button"
 			id="{id}-menu-backdrop"
 			class="cursor-auto fixed inset-0 z-10 {backgropClassName}"
-			onclick={hendleToggleDropdown}
+			use:ripple
+			onclick={handleToggleDropdown}
 			tabindex="-1"
 		></button>
 	{/if}

@@ -13,6 +13,7 @@ export type RipplePropsType = {
 const DARK_RIPPLE_COLOR = 'rgba(0, 0, 0, 0.12)';
 const LIGHT_RIPPLE_COLOR = 'rgba(255, 255, 255, 0.12)';
 
+
 export function ripple(node: HTMLElement, { color }: RipplePropsType = {}) {
     let containerRemoveTimer: any;
     const isTouchEnabled = isTouchDevice();
@@ -27,23 +28,27 @@ export function ripple(node: HTMLElement, { color }: RipplePropsType = {}) {
         timeoutInstance = setTimeout(() => {
             startRipple(event);
         }, 100);
+        // Prevent the event from propagating to parents
+        event.stopPropagation();
     }
 
-    function mouseMove() {
+    function mouseMove(event: MouseEvent | TouchEvent) {
         if (timeoutInstance) {
             clearTimeout(timeoutInstance);
         }
+        // Prevent mousemove from propagating
+        event.stopPropagation();
     }
 
     function startRipple(event: MouseEvent | TouchEvent) {
+        event.stopPropagation(); // Stop propagation again for safety
 
-        let isDarkMOde = document.documentElement.classList.contains('dark') || document.body.classList.contains('dark');
-
-        let rippleColor = color || (isDarkMOde ? LIGHT_RIPPLE_COLOR : DARK_RIPPLE_COLOR);
-        if (color == 'light') {
-            rippleColor = LIGHT_RIPPLE_COLOR
+        const isDarkMode = document.documentElement.classList.contains('dark') || document.body.classList.contains('dark');
+        let rippleColor = color || (isDarkMode ? LIGHT_RIPPLE_COLOR : DARK_RIPPLE_COLOR);
+        if (color === 'light') {
+            rippleColor = LIGHT_RIPPLE_COLOR;
         }
-        if (color == 'dark') {
+        if (color === 'dark') {
             rippleColor = DARK_RIPPLE_COLOR;
         }
 
@@ -62,18 +67,13 @@ export function ripple(node: HTMLElement, { color }: RipplePropsType = {}) {
         circle.style.setProperty('--ripple-color', rippleColor);
         circle.classList.add('ripple');
 
-
-        const newClassList: string[] = [];
-
         if (!node.classList.contains('relative')) {
-            newClassList.push('relative')
+            node.classList.add('relative');
         }
-
         if (!node.classList.contains('overflow-hidden')) {
-            newClassList.push('overflow-hidden')
+            node.classList.add('overflow-hidden');
         }
 
-        node.classList.add(...newClassList);
         node.appendChild(circle);
 
         setTimeout(() => {
@@ -84,7 +84,8 @@ export function ripple(node: HTMLElement, { color }: RipplePropsType = {}) {
             clearTimeout(containerRemoveTimer);
         }
         containerRemoveTimer = setTimeout(() => {
-            node.classList.remove(...newClassList);
+            // Cleanup classes only if they were added dynamically
+            node.classList.remove('relative', 'overflow-hidden');
         }, 500);
     }
 
@@ -105,7 +106,6 @@ export function ripple(node: HTMLElement, { color }: RipplePropsType = {}) {
                 node.removeEventListener('touchstart', scheduleStartRipple);
                 node.removeEventListener('touchmove', mouseMove);
             }
-        }
+        },
     };
 }
-
