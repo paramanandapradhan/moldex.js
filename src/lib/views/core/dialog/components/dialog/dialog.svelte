@@ -25,7 +25,7 @@
 		footerCloseButtonClassName?: string;
 		footerCloseButtonLabel?: string;
 		footerOkButtonClassName?: string;
-		footerOkButtonDisabled?: boolean;
+		footerOkButtonEnabled?: boolean;
 		footerOkButtonSpinner?: boolean;
 		footerOkButtonType?: 'button' | 'submit' | 'reset';
 		footerOkButtonLable?: string;
@@ -56,7 +56,7 @@
 		onData?: (data: any) => void;
 		props?: any;
 		size?: DialogSizeType;
-		submitButtonFormId?: string;
+		targetFormId?: string;
 		subtitle?: string;
 		subtitleClassName?: string;
 		title?: string;
@@ -67,7 +67,7 @@
 		closeDialog: () => void;
 		setResult: (value: any) => void;
 		setOkSpinner: (value: boolean) => void;
-		setOkDisabled: (value: boolean) => void;
+		setOkEnabled: (value: boolean) => void;
 		setOnOkClick: (onclick: (ev: MouseEvent | TouchEvent) => void) => void;
 		setOnCloseClick: (onclick: DialogCloseButtonClickType) => void;
 		setOnData: (listener: (data: any) => void) => void;
@@ -79,6 +79,7 @@
 	import { type Component as ComponetType, type Snippet } from 'svelte';
 	import '../../../../../tailwind.css';
 	import { mdiArrowLeft, mdiClose } from '$lib/views/core/icon';
+	import { isMobileScreen } from '$lib/services';
 
 	let {
 		backdropClassName = '',
@@ -94,7 +95,7 @@
 		footerCloseButtonClassName = '',
 		footerCloseButtonLabel = 'Close',
 		footerOkButtonClassName = '',
-		footerOkButtonDisabled = false,
+		footerOkButtonEnabled = false,
 		footerOkButtonSpinner = false,
 		footerOkButtonType = 'button',
 		footerOkButtonLable = 'Save',
@@ -104,8 +105,7 @@
 		hasFooterOkButton = false,
 		hasFooterShadow = false,
 		hasHeader = false,
-		hasHeaderBack = false,
-		hasHeaderClose = false,
+
 		hasHeaderShadow = false,
 		hasSubtitle = false,
 		hasTitle = false,
@@ -116,6 +116,9 @@
 		headerCloseButtonClassName = '',
 		headerCloseIconClassName = '',
 		headerCloseIconPath = mdiClose,
+		hasHeaderBack = isMobileScreen(),
+		hasHeaderClose = !isMobileScreen(),
+		size = isMobileScreen() ? 'full' : 'sm',
 		headerSnippet,
 		id = '',
 		onClose,
@@ -124,8 +127,7 @@
 		onResult,
 		onData,
 		props = {},
-		size = 'sm',
-		submitButtonFormId = undefined,
+		targetFormId = undefined,
 		subtitle = '',
 		subtitleClassName = '',
 		title = '',
@@ -136,7 +138,7 @@
 		closeDialog,
 		setResult,
 		setOkSpinner,
-		setOkDisabled,
+		setOkEnabled,
 		setOnCloseClick,
 		setOnOkClick,
 		setOnData
@@ -198,8 +200,8 @@
 		result = value;
 	}
 
-	export function setOkDisabled(value: boolean) {
-		footerOkButtonDisabled = value;
+	export function setOkEnabled(value: boolean) {
+		footerOkButtonEnabled = value;
 	}
 
 	export function setOkSpinner(value: boolean) {
@@ -298,10 +300,14 @@
 					</div>
 					<div class="py-2">
 						{#if hasTitle}
-							<div class="text-xl text-base-800 dark:text-base-300 {titleClassName}">{title || ''}</div>
+							<div class="text-xl text-base-800 dark:text-base-300 {titleClassName}">
+								{title || ''}
+							</div>
 						{/if}
 						{#if hasSubtitle}
-							<div class="text-sm text-gray-500 dark:text-base-500 {subtitleClassName}">{subtitle || ''}</div>
+							<div class="text-sm text-gray-500 dark:text-base-500 {subtitleClassName}">
+								{subtitle || ''}
+							</div>
 						{/if}
 					</div>
 					<div class="flex-grow">
@@ -346,12 +352,12 @@
 					{#if hasFooterOkButton}
 						<Button
 							id="btn-ok"
-							form={submitButtonFormId}
-							type={submitButtonFormId ? 'submit' : footerOkButtonType}
+							form={targetFormId}
+							type={targetFormId ? 'submit' : footerOkButtonType}
 							appearance="primary"
 							className=" {footerOkButtonClassName}"
 							label={footerOkButtonLable}
-							disabled={footerOkButtonDisabled}
+							disabled={!footerOkButtonEnabled}
 							spinner={footerOkButtonSpinner}
 							spinnerClassName="text-white w-4 h-4"
 							onClick={handleOkClick}

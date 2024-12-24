@@ -151,7 +151,7 @@ export async function openTextFieldDialog({ title, value, label, name, maxlength
         hasFooterCloseButton: true,
         hasFooterOkButton: true,
         footerOkButtonType: 'submit',
-        submitButtonFormId: 'text-field-dialog-form'
+        targetFormId: 'text-field-dialog-form'
     })
 }
 
@@ -171,7 +171,7 @@ export async function openTextareaFieldDialog({ title, value, label, name, maxle
         hasFooterCloseButton: true,
         hasFooterOkButton: true,
         footerOkButtonType: 'submit',
-        submitButtonFormId: 'textarea-field-dialog-form'
+        targetFormId: 'textarea-field-dialog-form'
     })
 }
 
