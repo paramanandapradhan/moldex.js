@@ -189,7 +189,6 @@ export async function openLoadingDialog({
         ...params,
         hasHeader: false,
         hasFooter: false,
-        size: 'xs',
     }
 
     let dialog = addDialog(props);

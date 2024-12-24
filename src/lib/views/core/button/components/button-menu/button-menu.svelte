@@ -32,7 +32,7 @@
 		menuItemInnerSnippet?: Snippet<[ListItemType, number]>;
 		menuItemSnippet?: Snippet<[ListItemType, number]>;
 		menus?: string[] | ListItemType[];
-		onMenu?: (ev: MouseEvent, item: string | ListItemType, index?: number) => void;
+		onMenu?: (ev: MouseEvent, menu: string | ListItemType, index?: number) => void;
 		rightIconClassName?: string;
 		rightIconPath?: string;
 		screenOnlyDesc?: string;
@@ -98,7 +98,7 @@
 		menuItemInnerSnippet,
 		menuItemSnippet,
 		menus = [],
-		onMenu = (ev: MouseEvent, item: string | ListItemType, index?: number) => {},
+		onMenu = (ev: MouseEvent, menu: string | ListItemType, index?: number) => {},
 		rightIconClassName = '',
 		rightIconPath = '',
 		screenOnlyDesc = 'Menu',
