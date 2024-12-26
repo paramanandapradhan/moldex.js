@@ -9,9 +9,11 @@
 
 	export type ButtonSize = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
+	export type ButtonType = 'button' | 'submit' | 'reset';
+
 	export type ButtonProps = {
 		id?: string;
-		type?: 'button' | 'submit' | 'reset';
+		type?: ButtonType;
 		appearance?: ButtonAppearance;
 		size?: ButtonSize;
 		form?: string | null;
@@ -195,7 +197,7 @@
 		ondragover={onDragOver}
 	>
 		{#if children}
-			{@render children()}
+			{@render children?.()}
 		{:else}
 			{@render buttonContent()}
 		{/if}

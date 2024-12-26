@@ -1,26 +1,16 @@
 <script lang="ts">
-	import { CheckboxField, openCropperDialog } from '$lib';
-	import { readUrlAsFile } from '$lib/services/utils/file-service';
-	import RadioField from '$lib/views/core/input/components/radio-field/radio-field.svelte';
-	import RangeField from '$lib/views/core/input/components/range-field/range-field.svelte';
-
-	let enc: any;
+	import ButtonDropdown from '$lib/views/core/button/components/button-dropdown/button-dropdown.svelte';
 </script>
 
-<div class="min-h-full">
-	<div class="m-6">
-		<RadioField
-			name="enc"
-			bind:value={enc}
-			items={[
-				{ label: 'None', value: 'nopass' },
-				{ label: 'WPA/WPA2', value: 'wpa' },
-				{ label: 'WEP', value: 'wep' }
-			]}
-		/>
+{#snippet dropdown()}
+	<div class="p-6">
+		<h1>My Dropdown</h1>
 	</div>
+{/snippet}
 
-	<div class="m-6">
-		<CheckboxField name="file" label="Is File" />
-	</div>
+<div class="min-h-full">
+	sdsd
+	<ButtonDropdown className="text-nowrap" label="Dropdown" dropdownSnippet={dropdown}
+		>this is my dropdown</ButtonDropdown
+	>
 </div>
