@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../../../../../tailwind.css';
 	import { ripple } from '$lib/actions';
-	import ButtonMenu from '$lib/views/core/button/components/button-menu/button-menu.svelte';
+	import ButtonDropdown from '$lib/views/core/button/components/button-dropdown/button-dropdown.svelte';
 	import Button from '$lib/views/core/button/components/button/button.svelte';
 	import { BROWSER } from 'esm-env';
 	import { mdiChevronLeft, mdiChevronRight, mdiPageFirst, mdiPageLast } from '$lib/views/core/icon';
@@ -114,7 +114,7 @@
 	<div class="flex items-center flex-nowrap gap-2">
 		<div>{pageSizeText}</div>
 		<div class="">
-			<ButtonMenu
+			<ButtonDropdown
 				className="px-3 py-2 rounded hover:bg-gray-100 outline-none focus:bg-gray-200"
 				title={pageSize}
 				dropdownClassName="w-20"
@@ -130,7 +130,7 @@
 						</button>
 					</div>
 				{/each}
-			</ButtonMenu>
+			</ButtonDropdown>
 		</div>
 		<div class="text-gray-500">
 			<span>

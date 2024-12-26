@@ -1,4 +1,4 @@
-import type { DialogExportsType, DialogPropsType, DialogSizeType } from './components/dialog/dialog.svelte';
+import type { DialogExportsType, DialogProps, DialogSize } from './components/dialog/dialog.svelte';
 import Dialog from './components/dialog/dialog.svelte';
 
 export {
@@ -6,7 +6,7 @@ export {
 };
 export type {
     DialogExportsType,
-    DialogPropsType,
-    DialogSizeType
+    DialogProps,
+    DialogSize
 };
 

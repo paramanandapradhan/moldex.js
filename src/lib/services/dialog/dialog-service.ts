@@ -1,5 +1,5 @@
 
-import { Dialog, type DialogPropsType, type InputFieldPropsType } from '$lib/views';
+import { Dialog, type DialogProps, type InputFieldPropsType } from '$lib/views';
 import ListDialog from '$lib/views/core/dialog/components/list-dialog/list-picker-dialog.svelte';
 import LoadingDialog from '$lib/views/core/dialog/components/loading-dialog/loading-dialog.svelte';
 import MsgDialog from '$lib/views/core/dialog/components/msg-dialog/msg-dialog.svelte';
@@ -26,12 +26,12 @@ export type PickerDialogPropsType = {
     search?: string | string[];
 }
 
-function addDialog(props: DialogPropsType) {
+function addDialog(props: DialogProps) {
     const dialog = mount(Dialog, { target: document.getElementsByTagName('body')[0]!, props });
     return dialog;
 }
 
-export async function openDialog<R>(props: DialogPropsType = {}): Promise<R> {
+export async function openDialog<R>(props: DialogProps = {}): Promise<R> {
     return new Promise((resolve) => {
         let dialog = addDialog({ ...props, onClose, onResult, });
         dialog.openDialog();
@@ -53,7 +53,7 @@ export async function openDialog<R>(props: DialogPropsType = {}): Promise<R> {
     });
 }
 
-export async function openConfirmDialog(params: DialogPropsType & { msg?: string } = {}) {
+export async function openConfirmDialog(params: DialogProps & { msg?: string } = {}) {
     let msg = params.msg || 'Are you sure?';
     params.title = params.title || 'Confirm';
     params.footerOkButtonLable = params.footerOkButtonLable || 'Confirm';
@@ -71,7 +71,7 @@ export async function openConfirmDialog(params: DialogPropsType & { msg?: string
 }
 
 
-export async function openAlertDialog(params: DialogPropsType & { msg?: string } = {}) {
+export async function openAlertDialog(params: DialogProps & { msg?: string } = {}) {
     let msg = params.msg || 'Alert Information?';
     params.title = params.title || 'Alert';
     params.footerOkButtonLable = params.footerOkButtonLable || 'Confirm';
@@ -89,7 +89,7 @@ export async function openAlertDialog(params: DialogPropsType & { msg?: string }
     })
 }
 
-export async function openDeleteConfirmDialog(params: DialogPropsType & { msg?: string } = {}) {
+export async function openDeleteConfirmDialog(params: DialogProps & { msg?: string } = {}) {
     return await openConfirmDialog({
         msg: 'Are you sure to delete?',
         title: 'Delete',
@@ -112,7 +112,7 @@ export async function openListPickerDialog<R>({
     identity,
     value,
     search,
-    ...params }: DialogPropsType & PickerDialogPropsType = {}) {
+    ...params }: DialogProps & PickerDialogPropsType = {}) {
     return await openDialog<R>({
         component: ListDialog,
         props: {
@@ -135,7 +135,7 @@ export async function openListPickerDialog<R>({
 }
 
 
-export async function openTextFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, ...params }: DialogPropsType & InputFieldPropsType & { fieldClassName?: string } = {}) {
+export async function openTextFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, ...params }: DialogProps & InputFieldPropsType & { fieldClassName?: string } = {}) {
 
     return await openDialog({
         bodyComponent: TextFieldDialog,
@@ -155,7 +155,7 @@ export async function openTextFieldDialog({ title, value, label, name, maxlength
     })
 }
 
-export async function openTextareaFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, rows, ...params }: DialogPropsType & InputFieldPropsType & { fieldClassName?: string } = {}) {
+export async function openTextareaFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, rows, ...params }: DialogProps & InputFieldPropsType & { fieldClassName?: string } = {}) {
 
     return await openDialog({
         bodyComponent: TextareaFieldDialog,
@@ -181,9 +181,9 @@ export async function openLoadingDialog({
     loadingDialogClassName,
     loadingDialogSpinnerClassName,
     loadingDialogMsgClassName,
-    ...params }: DialogPropsType
+    ...params }: DialogProps
     & { msg?: string, loadingDialogContainerClassName?: string, loadingDialogClassName?: string, loadingDialogSpinnerClassName?: string, loadingDialogMsgClassName?: string, } = {}) {
-    let props: DialogPropsType = {
+    let props: DialogProps = {
         bodyComponent: LoadingDialog,
         props: { msg, className: loadingDialogClassName, containerClassName: loadingDialogContainerClassName, spinnerClassName: loadingDialogSpinnerClassName, msgClassName: loadingDialogMsgClassName },
         ...params,
@@ -210,7 +210,7 @@ export async function openCropperDialog<T, R>({
     inputImageFile,
     className,
     ...params
-}: DialogPropsType & CropperDialogPropsType): Promise<R | string | File> {
+}: DialogProps & CropperDialogPropsType): Promise<R | string | File> {
     return await openDialog<R>({
         bodyComponent: CropperDialog,
         props: {

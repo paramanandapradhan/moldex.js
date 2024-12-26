@@ -7,11 +7,11 @@
 	 * false -> Dont close Dialog
 	 * true -> Close dialog
 	 */
-	export type DialogCloseButtonClickType = (ev: MouseEvent | TouchEvent) => Promise<boolean>;
+	type DialogCloseButtonClickFunction = (ev: MouseEvent | TouchEvent) => Promise<boolean>;
 
-	export type DialogSizeType = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+	export type DialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
-	export type DialogPropsType = {
+	export type DialogProps = {
 		backdropClassName?: string;
 		bodyClassName?: string;
 		bodyComponent?: any;
@@ -50,12 +50,12 @@
 		headerSnippet?: Snippet<[dialogExports: DialogExportsType]>;
 		id?: string;
 		onClose?: () => void;
-		onCloseClick?: DialogCloseButtonClickType;
+		onCloseClick?: DialogCloseButtonClickFunction;
 		onOkClick?: (ev: MouseEvent | TouchEvent, options: DialogExportsType) => void;
 		onResult?: (value: any) => void;
 		onData?: (data: any) => void;
 		props?: any;
-		size?: DialogSizeType;
+		size?: DialogSize;
 		targetFormId?: string;
 		subtitle?: string;
 		subtitleClassName?: string;
@@ -69,7 +69,7 @@
 		setOkSpinner: (enable: boolean) => void;
 		setOkEnabled: (enable: boolean) => void;
 		setOnOkClick: (onclick: (ev: MouseEvent | TouchEvent) => void) => void;
-		setOnCloseClick: (onclick: DialogCloseButtonClickType) => void;
+		setOnCloseClick: (onclick: DialogCloseButtonClickFunction) => void;
 		setOnData: (listener: (data: any) => void) => void;
 	};
 </script>
@@ -132,7 +132,7 @@
 		subtitleClassName = '',
 		title = '',
 		titleClassName = ''
-	}: DialogPropsType = $props();
+	}: DialogProps = $props();
 
 	let dialogExports: DialogExportsType = {
 		closeDialog,
@@ -218,7 +218,7 @@
 		onOkClick = onclick;
 	}
 
-	export function setOnCloseClick(onclick: DialogCloseButtonClickType) {
+	export function setOnCloseClick(onclick: DialogCloseButtonClickFunction) {
 		onCloseClick = onclick;
 	}
 

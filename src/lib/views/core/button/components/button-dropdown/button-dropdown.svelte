@@ -1,5 +1,5 @@
 <script lang="ts" module>
-	export type ButtonMenuProps = {
+	export type ButtonDropdownProps = {
 		innerClassName?: string;
 		backgropClassName?: string;
 		buttonSnippet?: Snippet;
@@ -36,7 +36,6 @@
 		rightIconClassName?: string;
 		rightIconPath?: string;
 		screenOnlyDesc?: string;
-
 		title?: string | any;
 		titleClassName?: string;
 		uncheckIconClassName?: string;
@@ -46,7 +45,6 @@
 
 <script lang="ts">
 	import '../../../../../tailwind.css';
-
 	import { ripple } from '$lib/actions/ripple.js';
 
 	import {
@@ -56,10 +54,9 @@
 		mdiChevronDown
 	} from '$lib/views/core/icon';
 	import type { Snippet } from 'svelte';
-	import type {  ListItem  } from '../button-list-item/button-list-item.svelte';
+	import type { ListItem } from '../button-list-item/button-list-item.svelte';
 	import ButtonListItem from '../button-list-item/button-list-item.svelte';
 	import Button from '../button/button.svelte';
-	import { stopPropagation } from 'svelte/legacy';
 
 	class MenuStateEnum {
 		static OPENED = 'OPENED';
@@ -84,8 +81,8 @@
 		dropIconClassName = '',
 		dropIconPath = mdiChevronDown,
 		hasCheckbox = false,
-		id = 'menu',
-		imgAlt = 'Menu',
+		id = 'dropdown',
+		imgAlt = 'Dropdown',
 		imgClassName = '',
 		imgSrc = '',
 		leftIconClassName = '',
@@ -102,12 +99,11 @@
 		rightIconClassName = '',
 		rightIconPath = '',
 		screenOnlyDesc = 'Menu',
-
 		title = '',
 		titleClassName = '',
 		uncheckIconClassName = '',
 		uncheckIconPath = mdiCheckCircleOutline
-	}: ButtonMenuProps = $props();
+	}: ButtonDropdownProps = $props();
 
 	let expanded = $state(false);
 	let dropdownState: MenuStateEnum = $state(MenuStateEnum.CLOSED);
@@ -167,7 +163,7 @@
 				{@render buttonSnippet()}
 			{:else}
 				{#if imgSrc}
-					<img class="h-8 w-8 rounded-full bg-gray-50 {imgClassName}" src={imgSrc} alt={imgAlt} />
+					<img class="h-8 w-8 rounded-full bg-base-50 {imgClassName}" src={imgSrc} alt={imgAlt} />
 				{/if}
 				{#if leftIconPath}
 					<Icon path={leftIconPath} className={leftIconClassName} />
@@ -181,7 +177,7 @@
 					<Icon path={rightIconPath} className=" {rightIconClassName}" />
 				{/if}
 				{#if dropIconPath}
-					<Icon path={dropIconPath} className="w-5 h-5 text-gray-400 {dropIconClassName}" />
+					<Icon path={dropIconPath} className="w-5 h-5 text-base-400 {dropIconClassName}" />
 				{/if}
 			{/if}
 		</div>
@@ -198,7 +194,7 @@
 		></button>
 	{/if}
 	<div
-		class="absolute mt-1 z-10 min-w-40 max-h-1/2vh overflow-y-auto origin-top-right right-0 rounded-md bg-base-50 dark:bg-base-800 py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none transition ease-out duration-100 {dropdownClassName} {dropdownState ==
+		class="absolute mt-1 z-10 min-w-40 max-h-1/2vh overflow-y-auto origin-top-right right-0 rounded-md bg-base-50 dark:bg-base-800 py-2 shadow-lg ring-1 ring-base-900/5 focus:outline-none transition ease-out duration-100 {dropdownClassName} {dropdownState ==
 		MenuStateEnum.CLOSED
 			? `invisible transform opacity-0 scale-95 ${dropdownOpenClassName}`
 			: `transform opacity-100 scale-100 ${dropdownCloseClassName}`}"
@@ -213,7 +209,7 @@
 		{:else}
 			{#each options as menu, index (menu.id || index)}
 				{#if menu?.divider}
-					<div class="border-t border-gray-200 dark:border-gray-700 {dividerClassName}"></div>
+					<div class="border-t border-base-200 dark:border-base-700 {dividerClassName}"></div>
 				{:else if menuItemSnippet}
 					{@render menuItemSnippet(menu, index)}
 				{:else}

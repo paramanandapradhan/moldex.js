@@ -26,7 +26,7 @@
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
 	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
 	import { isMobileScreen, openListPickerDialog } from '$lib/services';
-	import type { DialogSizeType } from '$lib/views/core/dialog';
+	import type { DialogSize } from '$lib/views/core/dialog';
 
 	let {
 		id,
@@ -79,12 +79,12 @@
 		inputFieldRef?.focus();
 	}
 
-	export function getElement(){
+	export function getElement() {
 		return inputFieldRef;
 	}
 
-	export function select(){
-		  inputFieldRef && inputFieldRef.select();
+	export function select() {
+		inputFieldRef && inputFieldRef.select();
 	}
 
 	function formatDialCode(dialcode: string) {
@@ -99,7 +99,7 @@
 		if (EasyCountryData) {
 			let items = EasyCountryData.getCountries();
 			// console.log('Countries', items);
-			let size: DialogSizeType = isMobileScreen() ? 'full' : 'sm';
+			let size: DialogSize = isMobileScreen() ? 'full' : 'sm';
 			let res: string = await openListPickerDialog<string>({
 				items,
 				itemTitle: 'dialCode',
@@ -163,7 +163,7 @@
 				ev.key === 'ArrowLeft' ||
 				ev.key === 'ArrowRight' ||
 				ev.key === 'ArrowUp' ||
-				ev.key === 'ArrowDown'||
+				ev.key === 'ArrowDown' ||
 				ev.key === 'Tab'
 			)
 		) {
