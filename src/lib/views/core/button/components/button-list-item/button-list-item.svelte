@@ -3,6 +3,8 @@
 		id?: string;
 		title?: string;
 		subtitle?: string;
+		titleFieldName?: string;
+		subtitleFieldName?: string;
 		titleClassName?: string;
 		subtitleClassName?: string;
 		url?: string;
@@ -94,17 +96,17 @@
 		{/if}
 
 		<div class="flex-grow">
-			{#if item?.title}
+			{#if item?.title || item?.titleFieldName}
 				<div class="text-ellipsis overflow-hidden {titleClassName} {item?.titleClassName || ''}">
-					{item?.title || ''}
+					{(item?.titleFieldName ? (item as any)[item.titleFieldName] : item?.title) || ''}
 				</div>
 			{/if}
-			{#if item?.subtitle}
+			{#if item?.subtitle || item?.subtitleFieldName}
 				<div
 					class="text-ellipsis overflow-hidden text-base-400 dark:text-base-300 text-sm font-light {subtitleClassName} {item?.subtitleClassName ||
 						''}"
 				>
-					{item?.subtitle || ''}
+					{(item?.subtitleFieldName ? (item as any)[item.subtitleFieldName] : item?.subtitle) || ''}
 				</div>
 			{/if}
 		</div>
