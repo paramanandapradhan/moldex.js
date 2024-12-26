@@ -1,5 +1,5 @@
 <script module lang="ts">
-	export type ButtonAppearanceType =
+	export type ButtonAppearance =
 		| 'none'
 		| 'primary'
 		| 'base'
@@ -7,13 +7,13 @@
 		| 'border-base'
 		| 'border-primary';
 
-	export type ButtonSizeType = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+	export type ButtonSize = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
-	export type ButtonPropsType = {
+	export type ButtonProps = {
 		id?: string;
 		type?: 'button' | 'submit' | 'reset';
-		appearance?: ButtonAppearanceType;
-		size?: ButtonSizeType;
+		appearance?: ButtonAppearance;
+		size?: ButtonSize;
 		form?: string | null;
 		className?: string;
 		iconPath?: string;
@@ -85,7 +85,7 @@
 		onDragEnter,
 		onDragLeave,
 		onDragOver
-	}: ButtonPropsType = $props();
+	}: ButtonProps = $props();
 
 	let btnAppearanceClassName = $derived.by(() => {
 		switch (appearance) {

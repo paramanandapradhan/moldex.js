@@ -1,5 +1,7 @@
 <script lang="ts" module>
 	export type ButtonDropdownProps = {
+		appearance: ButtonAppearance;
+		size: ButtonSize;
 		innerClassName?: string;
 		backgropClassName?: string;
 		buttonSnippet?: Snippet;
@@ -56,7 +58,7 @@
 	import type { Snippet } from 'svelte';
 	import type { ListItem } from '../button-list-item/button-list-item.svelte';
 	import ButtonListItem from '../button-list-item/button-list-item.svelte';
-	import Button from '../button/button.svelte';
+	import Button, { type ButtonAppearance, type ButtonSize } from '../button/button.svelte';
 
 	class MenuStateEnum {
 		static OPENED = 'OPENED';
@@ -64,6 +66,8 @@
 	}
 
 	let {
+		appearance,
+		size,
 		backgropClassName = '',
 		buttonSnippet,
 		checkClassName = '',
@@ -152,10 +156,12 @@
 
 <div class="relative min-h-max {containerClassName}">
 	<Button
+		{id}
 		type="button"
 		className="flex items-center justify-center flex-nowrap text-start {className}"
-		{id}
 		onClick={handleToggleDropdown}
+		{appearance}
+		{size}
 	>
 		<span class="sr-only">{screenOnlyDesc}</span>
 		<div class="flex items-center flex-nowrap {innerClassName}">

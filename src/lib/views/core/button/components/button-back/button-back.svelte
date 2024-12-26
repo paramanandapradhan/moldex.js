@@ -34,7 +34,7 @@
 		appearance="none"
 		size="none"
 		{iconPath}
-		className="w-12 h-12 rounded-full hover:bg-gray-50 dark:hover:bg-gray-900 {className}"
+		className="w-12 h-12 rounded-full hover:bg-base-50 dark:hover:bg-base-900 {className}"
 		{iconClassName}
 		{onClick}
 	/>

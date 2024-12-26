@@ -8,11 +8,15 @@ import Button from './components/button/button.svelte';
 
 import type { ListItem, ButtonListItemProps } from './components/button-list-item/button-list-item.svelte'
 import type { ButtonDropdownProps } from './components/button-dropdown/button-dropdown.svelte'
+import type { ButtonAppearance, ButtonProps, ButtonSize } from './components/button/button.svelte';
 
 export type {
     ListItem,
     ButtonDropdownProps,
     ButtonListItemProps,
+    ButtonAppearance,
+    ButtonProps,
+    ButtonSize
 }
 
 export {
