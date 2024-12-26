@@ -6,12 +6,13 @@ import ButtonMenu from './components/button-menu/button-menu.svelte';
 import ButtonOk from './components/button-ok/button-ok.svelte';
 import Button from './components/button/button.svelte';
 
-import type { ListItemType } from './components/button-list-item/button-list-item.svelte'
+import type { ListItem, ButtonListItemProps } from './components/button-list-item/button-list-item.svelte'
 import type { ButtonMenuProps } from './components/button-menu/button-menu.svelte'
 
 export type {
-    ListItemType,
-    ButtonMenuProps
+    ListItem,
+    ButtonMenuProps,
+    ButtonListItemProps,
 }
 
 export {

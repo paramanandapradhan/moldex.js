@@ -1,5 +1,6 @@
 import { type InputFieldAppearanceType, type InputFieldPropsType, type InputFieldSizeType, } from "./components/input-field/input-field.svelte";
 import type { RadioDirationType, RadioItemsType, RadioItemType, RadioPositionType, RadioPropsType, RadioValuetype } from "./components/radio-field/radio-field.svelte";
+import type { ComboboxFieldPropsType } from './components/combobox-field/combobox-field.svelte'
 
 import CheckboxField from "./components/checkbox-field/checkbox-field.svelte";
 import ColorField from "./components/color-field/color-field.svelte";
@@ -29,7 +30,8 @@ export type {
     RadioItemType,
     RadioPositionType,
     RadioPropsType,
-    RadioValuetype
+    RadioValuetype,
+    ComboboxFieldPropsType,
 };
 
 

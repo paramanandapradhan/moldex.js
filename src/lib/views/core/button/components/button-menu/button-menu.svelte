@@ -29,10 +29,10 @@
 		listSubtitleClassName?: string;
 		listTitleClassName?: string;
 		menuItemClassName?: string;
-		menuItemInnerSnippet?: Snippet<[ListItemType, number]>;
-		menuItemSnippet?: Snippet<[ListItemType, number]>;
-		menus?: string[] | ListItemType[];
-		onMenu?: (ev: MouseEvent, menu: string | ListItemType, index?: number) => void;
+		menuItemInnerSnippet?: Snippet<[ListItem, number]>;
+		menuItemSnippet?: Snippet<[ListItem, number]>;
+		menus?: string[] | ListItem[];
+		onMenu?: (ev: MouseEvent, menu: string | ListItem, index?: number) => void;
 		rightIconClassName?: string;
 		rightIconPath?: string;
 		screenOnlyDesc?: string;
@@ -56,7 +56,7 @@
 		mdiChevronDown
 	} from '$lib/views/core/icon';
 	import type { Snippet } from 'svelte';
-	import type { ListItemType } from '../button-list-item/button-list-item.svelte';
+	import type {  ListItem  } from '../button-list-item/button-list-item.svelte';
 	import ButtonListItem from '../button-list-item/button-list-item.svelte';
 	import Button from '../button/button.svelte';
 	import { stopPropagation } from 'svelte/legacy';
@@ -98,7 +98,7 @@
 		menuItemInnerSnippet,
 		menuItemSnippet,
 		menus = [],
-		onMenu = (ev: MouseEvent, menu: string | ListItemType, index?: number) => {},
+		onMenu = (ev: MouseEvent, menu: string | ListItem, index?: number) => {},
 		rightIconClassName = '',
 		rightIconPath = '',
 		screenOnlyDesc = 'Menu',
@@ -112,21 +112,21 @@
 	let expanded = $state(false);
 	let dropdownState: MenuStateEnum = $state(MenuStateEnum.CLOSED);
 
-	let selectedMenu: ListItemType | null | undefined = $state(null);
+	let selectedMenu: ListItem | null | undefined = $state(null);
 
-	let options: ListItemType[] = $derived.by(() => {
+	let options: ListItem[] = $derived.by(() => {
 		if (menus?.length) {
 			let item = menus[0];
 			if (typeof item == 'string') {
 				return menus.map((str) => {
 					if (str == '-' || str == '') {
-						return { divider: true } as ListItemType;
+						return { divider: true } as ListItem;
 					} else {
-						return { title: str } as ListItemType;
+						return { title: str } as ListItem;
 					}
 				});
 			} else {
-				return [...menus] as ListItemType[];
+				return [...menus] as ListItem[];
 			}
 		}
 		return [];
@@ -141,7 +141,7 @@
 		}
 	}
 
-	function handlemenuItemClick(ev: MouseEvent, menu: ListItemType, index: number) {
+	function handlemenuItemClick(ev: MouseEvent, menu: ListItem, index: number) {
 		handleToggleDropdown(ev);
 		if (onMenu) {
 			let item = menus[index];

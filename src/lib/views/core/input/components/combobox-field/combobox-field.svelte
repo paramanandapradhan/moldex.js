@@ -1,15 +1,5 @@
-<script lang="ts">
-	import type { ListItemType } from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
-	import ButtonListItem from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
-	import Button from '$lib/views/core/button/components/button/button.svelte';
-	import { mdiUnfoldMoreHorizontal } from '$lib/views/core/icon';
-	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
-	import NoData from '$lib/views/core/no-data/components/no-data/no-data.svelte';
-	import type { Snippet } from 'svelte';
-	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
-	import SearchField from '../search-field/search-field.svelte';
-
-	type PropsType = {
+<script module lang="ts">
+	export type ComboboxFieldPropsType = {
 		chipClassName?: string;
 		comboboxIconClassName?: string;
 		comboboxIconPath?: string;
@@ -51,6 +41,18 @@
 		itemTitleClassName?: string;
 		itemTitleFieldName?: string;
 	};
+</script>
+
+<script lang="ts">
+	import type { ListItem } from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
+	import ButtonListItem from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
+	import Button from '$lib/views/core/button/components/button/button.svelte';
+	import { mdiUnfoldMoreHorizontal } from '$lib/views/core/icon';
+	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
+	import NoData from '$lib/views/core/no-data/components/no-data/no-data.svelte';
+	import type { Snippet } from 'svelte';
+	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
+	import SearchField from '../search-field/search-field.svelte';
 
 	let {
 		appearance,
@@ -101,8 +103,8 @@
 		itemTitleFieldName,
 		value = $bindable(),
 		...props
-	}: InputFieldPropsType & PropsType = $props();
-	type CustomListItemType = ListItemType & {
+	}: InputFieldPropsType & ComboboxFieldPropsType = $props();
+	type CustomListItemType = ListItem  & {
 		[key: symbol]: string | number;
 	};
 	let idFieldSymbol = Symbol('_id');
@@ -387,7 +389,12 @@
 		title={displayItemsTitle || ''}
 	/>
 	{#if isPlaced}
-		<button id="backdrop" class="fixed inset-0 z-10" onclick={handleBackdropClick} tabindex="-1" aria-label="backdrop"
+		<button
+			id="backdrop"
+			class="fixed inset-0 z-10"
+			onclick={handleBackdropClick}
+			tabindex="-1"
+			aria-label="backdrop"
 		></button>
 		<!-- svelte-ignore a11y_interactive_supports_focus -->
 		<div

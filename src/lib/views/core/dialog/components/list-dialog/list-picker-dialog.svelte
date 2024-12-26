@@ -3,7 +3,7 @@
 	import ButtonBack from '$lib/views/core/button/components/button-back/button-back.svelte';
 	import ButtonCloseIcon from '$lib/views/core/button/components/button-close-icon/button-close-icon.svelte';
 	import ButtonClose from '$lib/views/core/button/components/button-close/button-close.svelte';
-	import type { ListItemType } from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
+	import type { ListItem } from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
 	import ButtonOk from '$lib/views/core/button/components/button-ok/button-ok.svelte';
 	import SearchField from '$lib/views/core/input/components/search-field/search-field.svelte';
 	import type { Snippet } from 'svelte';
@@ -59,7 +59,7 @@
 	let idField = Symbol('_id');
 	let searchField = Symbol('_search');
 
-	type CustomListItemType = ListItemType & { [key: symbol]: string };
+	type CustomListItemType = ListItem & { [key: symbol]: string };
 
 	let selectedItemsSet: Set<any> = $derived.by(() => {
 		let set = new Set<any>();

@@ -64,10 +64,10 @@
 	};
 
 	export type DialogExportsType = {
-		closeDialog: () => void;
-		setResult: (value: any) => void;
-		setOkSpinner: (value: boolean) => void;
-		setOkEnabled: (value: boolean) => void;
+		closeDialog: (result?: any) => void;
+		setResult: (result: any) => void;
+		setOkSpinner: (enable: boolean) => void;
+		setOkEnabled: (enable: boolean) => void;
 		setOnOkClick: (onclick: (ev: MouseEvent | TouchEvent) => void) => void;
 		setOnCloseClick: (onclick: DialogCloseButtonClickType) => void;
 		setOnData: (listener: (data: any) => void) => void;

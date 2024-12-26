@@ -1,5 +1,5 @@
 <script module lang="ts">
-	export type ListItemType = {
+	export type ListItem = {
 		id?: string;
 		title?: string;
 		subtitle?: string;
@@ -14,28 +14,12 @@
 		className?: string;
 		openInNewWindow?: boolean;
 		divider?: boolean;
-		hasArrow?: boolean;
-		arrowIconPath?: string;
-		arrowClassName?: string;
 		isChecked?: boolean;
-		onclick?: (ev: MouseEvent, item: ListItemType) => void;
+		onclick?: (ev: MouseEvent, item: ListItem) => void;
 	};
-</script>
 
-<script lang="ts">
-	import '../../../../../tailwind.css';
-	import { ripple } from '$lib/actions/ripple.js';
-
-	import type { Snippet } from 'svelte';
-	import {
-		Icon,
-		mdiCheckCircle,
-		mdiCheckCircleOutline,
-		mdiChevronRight
-	} from '$lib/views/core/icon';
-
-	type PropsType = {
-		item: ListItemType;
+	export type ButtonListItemProps = {
+		item: ListItem;
 		index: number;
 		id?: string;
 		className?: string;
@@ -52,9 +36,22 @@
 		hasArrow?: boolean;
 		arrowIconPath?: string;
 		arrowClassName?: string;
-		onClick?: (ev: MouseEvent, item: ListItemType, index: number) => void;
-		children?: Snippet<[ListItemType, number]>;
+		onClick?: (ev: MouseEvent, item: ListItem, index: number) => void;
+		children?: Snippet<[ListItem, number]>;
 	};
+</script>
+
+<script lang="ts">
+	import '../../../../../tailwind.css';
+	import { ripple } from '$lib/actions/ripple.js';
+
+	import type { Snippet } from 'svelte';
+	import {
+		Icon,
+		mdiCheckCircle,
+		mdiCheckCircleOutline,
+		mdiChevronRight
+	} from '$lib/views/core/icon';
 
 	let {
 		item,
@@ -76,7 +73,7 @@
 		arrowClassName = '',
 		onClick,
 		children
-	}: PropsType = $props();
+	}: ButtonListItemProps = $props();
 </script>
 
 {#snippet itemInternal()}
