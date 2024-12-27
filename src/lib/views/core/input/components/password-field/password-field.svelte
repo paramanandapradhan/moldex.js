@@ -2,7 +2,7 @@
 	import { ripple } from '$lib/actions';
 	import { mdiEyeOffOutline, mdiEyeOutline } from '$lib/views/core/icon';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
-	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
+	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 
 	let {
 		type = 'password',
@@ -14,7 +14,7 @@
 		id,
 		value = $bindable(),
 		...props
-	}: InputFieldPropsType & {
+	}: InputFieldProps & {
 		buttonClassName?: string;
 		iconClassName?: string;
 	} = $props();
@@ -28,12 +28,12 @@
 		inputFieldRef?.focus();
 	}
 
-	export function getElement(){
+	export function getElement() {
 		return inputFieldRef;
 	}
 
-	export function select(){
-		  inputFieldRef && inputFieldRef.select();
+	export function select() {
+		inputFieldRef && inputFieldRef.select();
 	}
 
 	function handleTogglePassword() {

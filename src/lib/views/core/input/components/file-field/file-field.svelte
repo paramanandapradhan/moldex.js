@@ -3,7 +3,7 @@
 	import { openFilePickerDialog } from '$lib/services';
 	import { mdiAttachment } from '$lib/views/core/icon';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
-	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
+	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 
 	let {
 		appearance,
@@ -13,7 +13,7 @@
 		multiple = false,
 		value = $bindable(null),
 		...props
-	}: InputFieldPropsType & {
+	}: InputFieldProps & {
 		accepts?: string;
 		multiple?: boolean;
 		value?: File | File[] | null;

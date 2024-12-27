@@ -1,11 +1,11 @@
 <script lang="ts">
-	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
+	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 
 	let {
 		maxlength,
 		value = $bindable(''),
 		...props
-	}: InputFieldPropsType & { value?: string | null | undefined } = $props();
+	}: InputFieldProps & { value?: string | null | undefined } = $props();
 	let inputFieldRef: any | null = $state(null);
 
 	export function focus() {

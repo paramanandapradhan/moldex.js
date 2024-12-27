@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { mdiMagnify } from '$lib/views/core/icon';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
-	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
+	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 
 	let {
 		className,
@@ -10,7 +10,7 @@
 		value = $bindable(''),
 		onSearch,
 		...props
-	}: InputFieldPropsType & {
+	}: InputFieldProps & {
 		iconClassName?: string;
 		onSearch?: (value: string) => void;
 	} = $props();

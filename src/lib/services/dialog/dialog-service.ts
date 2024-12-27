@@ -1,5 +1,5 @@
 
-import { Dialog, type DialogProps, type InputFieldPropsType } from '$lib/views';
+import { Dialog, type DialogProps, type InputFieldProps } from '$lib/views';
 import ListDialog from '$lib/views/core/dialog/components/list-dialog/list-picker-dialog.svelte';
 import LoadingDialog from '$lib/views/core/dialog/components/loading-dialog/loading-dialog.svelte';
 import MsgDialog from '$lib/views/core/dialog/components/msg-dialog/msg-dialog.svelte';
@@ -135,7 +135,7 @@ export async function openListPickerDialog<R>({
 }
 
 
-export async function openTextFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, ...params }: DialogProps & InputFieldPropsType & { fieldClassName?: string } = {}) {
+export async function openTextFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, ...params }: DialogProps & InputFieldProps & { fieldClassName?: string } = {}) {
 
     return await openDialog({
         bodyComponent: TextFieldDialog,
@@ -155,7 +155,7 @@ export async function openTextFieldDialog({ title, value, label, name, maxlength
     })
 }
 
-export async function openTextareaFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, rows, ...params }: DialogProps & InputFieldPropsType & { fieldClassName?: string } = {}) {
+export async function openTextareaFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, rows, ...params }: DialogProps & InputFieldProps & { fieldClassName?: string } = {}) {
 
     return await openDialog({
         bodyComponent: TextareaFieldDialog,

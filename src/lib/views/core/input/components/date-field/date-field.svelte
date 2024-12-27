@@ -1,18 +1,18 @@
 <script lang="ts">
 	import { dateFormat, toDate } from '$lib/services';
-	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
+	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 
 	let {
 		value = $bindable(null),
 		...props
-	}: InputFieldPropsType & { value?: Date | string | number | null | undefined } = $props();
+	}: InputFieldProps & { value?: Date | string | number | null | undefined } = $props();
 
 	let _value: string | undefined = $state(undefined);
 
 	$effect(() => {
 		if (value) {
 			_value = dateFormat(toDate(value)!, 'YYYY-MM-DD') as string;
-			console.log('_value', _value)
+			console.log('_value', _value);
 		}
 	});
 
@@ -34,7 +34,7 @@
 		let target: HTMLInputElement = ev?.target as HTMLInputElement;
 		if (target?.value) {
 			value = toDate(target?.value) as Date;
-			console.log('handleInput value', value)
+			console.log('handleInput value', value);
 		}
 	}
 </script>

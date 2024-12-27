@@ -3,7 +3,7 @@
 	import { colorToHex, isValidHexColor } from '$lib/services';
 	import { mdiSquare } from '$lib/views/core/icon';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
-	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
+	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 
 	let {
 		id,
@@ -12,7 +12,7 @@
 		appearance,
 		value = $bindable('#000000'),
 		...props
-	}: InputFieldPropsType & { value?: string } = $props();
+	}: InputFieldProps & { value?: string } = $props();
 
 	let colorRef: HTMLInputElement;
 	let btnIconSizeClassName: string = $state('');

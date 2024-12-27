@@ -1,5 +1,5 @@
 <script module lang="ts">
-	export type ComboboxFieldPropsType = {
+	export type ComboboxFieldProps = {
 		chipClassName?: string;
 		comboboxIconClassName?: string;
 		comboboxIconPath?: string;
@@ -51,7 +51,7 @@
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import NoData from '$lib/views/core/no-data/components/no-data/no-data.svelte';
 	import type { Snippet } from 'svelte';
-	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
+	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 	import SearchField from '../search-field/search-field.svelte';
 
 	let {
@@ -103,8 +103,8 @@
 		itemTitleFieldName,
 		value = $bindable(),
 		...props
-	}: InputFieldPropsType & ComboboxFieldPropsType = $props();
-	type CustomListItemType = ListItem  & {
+	}: InputFieldProps & ComboboxFieldProps = $props();
+	type CustomListItemType = ListItem & {
 		[key: symbol]: string | number;
 	};
 	let idFieldSymbol = Symbol('_id');

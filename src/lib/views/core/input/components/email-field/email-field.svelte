@@ -1,19 +1,19 @@
 <script lang="ts">
-	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
+	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 
-	let { value = $bindable(''), ...props }: InputFieldPropsType = $props();
+	let { value = $bindable(''), ...props }: InputFieldProps = $props();
 	let inputFieldRef: any | null = $state(null);
 
 	export function focus() {
 		inputFieldRef?.focus();
 	}
 
-	export function getElement(){
+	export function getElement() {
 		return inputFieldRef;
 	}
 
-	export function select(){
-		  inputFieldRef && inputFieldRef.select();
+	export function select() {
+		inputFieldRef && inputFieldRef.select();
 	}
 </script>
 

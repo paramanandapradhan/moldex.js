@@ -1,6 +1,6 @@
 <script module lang="ts">
-	export type InputFieldSizeType = 'lg' | 'md' | 'sm' | 'xs';
-	export type InputFieldAppearanceType =
+	export type InputFieldSize = 'lg' | 'md' | 'sm' | 'xs';
+	export type InputFieldAppearance =
 		| 'normal'
 		| 'box'
 		| 'fill'
@@ -8,7 +8,7 @@
 		| 'fill-underline'
 		| 'none';
 
-	export type InputValueType =
+	export type InputValue =
 		| any
 		| string
 		| string[]
@@ -21,8 +21,8 @@
 		| null
 		| undefined;
 
-	export type InputFieldPropsType = {
-		appearance?: InputFieldAppearanceType;
+	export type InputFieldProps = {
+		appearance?: InputFieldAppearance;
 		ariaControls?: string;
 		ariaExpanded?: boolean;
 		autofocus?: boolean;
@@ -72,10 +72,10 @@
 		rightSnippetContainerClassName?: string;
 		role?: AriaRole;
 		rows?: number;
-		size?: InputFieldSizeType;
+		size?: InputFieldSize;
 		step?: number;
 		type?: HTMLInputTypeAttribute | 'textarea';
-		value?: InputValueType;
+		value?: InputValue;
 	};
 </script>
 
@@ -137,7 +137,7 @@
 		step,
 		type = 'text',
 		value = $bindable()
-	}: InputFieldPropsType = $props();
+	}: InputFieldProps = $props();
 
 	let inputRef: HTMLInputElement | HTMLTextAreaElement | null = $state(null);
 
@@ -258,7 +258,7 @@
 			if (inputRef && autofocus) {
 				inputRef.focus();
 			}
-		}, 300);
+		}, 10);
 	});
 </script>
 

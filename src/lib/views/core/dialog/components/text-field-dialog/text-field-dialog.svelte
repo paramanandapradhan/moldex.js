@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { showToast } from '$lib/services';
 	import { TextField } from '$lib/views/core/input';
-	import type { InputValueType } from '$lib/views/core/input/components/input-field/input-field.svelte';
+	import type { InputValue } from '$lib/views/core/input/components/input-field/input-field.svelte';
 	import type { DialogExportsType } from '../dialog/dialog.svelte';
 
 	type PropsType = {
-		value?: InputValueType;
+		value?: InputValue;
 		label?: string;
 		name?: string;
 		maxlength?: number;
@@ -42,6 +42,15 @@
 
 <div class="p-6">
 	<form id="text-field-dialog-form" onsubmit={handleSubmit}>
-		<TextField {...props} {label} {name} {maxlength} {className} {autofocus} {required} bind:value />
+		<TextField
+			{...props}
+			{label}
+			{name}
+			{maxlength}
+			{className}
+			{autofocus}
+			{required}
+			bind:value
+		/>
 	</form>
 </div>

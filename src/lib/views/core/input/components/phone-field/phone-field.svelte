@@ -24,7 +24,7 @@
 <script lang="ts">
 	import { ripple } from '$lib/actions';
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
-	import InputField, { type InputFieldPropsType } from '../input-field/input-field.svelte';
+	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 	import { isMobileScreen, openListPickerDialog } from '$lib/services';
 	import type { DialogSize } from '$lib/views/core/dialog';
 
@@ -40,7 +40,7 @@
 		floatingLabel,
 		labelClassName,
 		...props
-	}: InputFieldPropsType & {
+	}: InputFieldProps & {
 		buttonClassName?: string;
 		dialCode?: string;
 	} = $props();

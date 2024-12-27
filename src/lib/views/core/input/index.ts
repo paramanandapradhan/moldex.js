@@ -1,6 +1,6 @@
-import { type InputFieldAppearanceType, type InputFieldPropsType, type InputFieldSizeType, } from "./components/input-field/input-field.svelte";
-import type { RadioDirationType, RadioItemsType, RadioItemType, RadioPositionType, RadioPropsType, RadioValuetype } from "./components/radio-field/radio-field.svelte";
-import type { ComboboxFieldPropsType } from './components/combobox-field/combobox-field.svelte'
+import { type InputFieldAppearance, type InputFieldProps, type InputFieldSize, } from "./components/input-field/input-field.svelte";
+import type { RadioDiration, RadioItems, RadioItem, RadioPosition, RadioPropsType, RadioValuetype } from "./components/radio-field/radio-field.svelte";
+import type { ComboboxFieldProps } from './components/combobox-field/combobox-field.svelte'
 
 import CheckboxField from "./components/checkbox-field/checkbox-field.svelte";
 import ColorField from "./components/color-field/color-field.svelte";
@@ -22,16 +22,16 @@ import TextareaField from "./components/textarea-field/textarea-field.svelte";
 import TimeField from "./components/time-field/time-field.svelte";
 
 export type {
-    InputFieldAppearanceType,
-    InputFieldPropsType,
-    InputFieldSizeType,
-    RadioDirationType,
-    RadioItemsType,
-    RadioItemType,
-    RadioPositionType,
+    InputFieldAppearance,
+    InputFieldProps,
+    InputFieldSize,
+    RadioDiration,
+    RadioItems,
+    RadioItem,
+    RadioPosition,
     RadioPropsType,
     RadioValuetype,
-    ComboboxFieldPropsType,
+    ComboboxFieldProps,
 };
 
 
@@ -47,7 +47,9 @@ export {
     Label,
     NumberField,
     PasswordField,
-    PhoneField, RadioField, RangeField,
+    PhoneField, 
+    RadioField, 
+    RangeField,
     SearchField,
     TextareaField,
     TextField,

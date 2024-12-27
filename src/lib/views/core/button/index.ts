@@ -5,6 +5,7 @@ import ButtonListItem from './components/button-list-item/button-list-item.svelt
 import ButtonDropdown from './components/button-dropdown/button-dropdown.svelte';
 import ButtonOk from './components/button-ok/button-ok.svelte';
 import Button from './components/button/button.svelte';
+import ButtonSearch from './components/button-search/button-search.svelte';
 
 import type { ButtonListItemProps } from './components/button-list-item/button-list-item.svelte'
 import type { ButtonDropdownProps } from './components/button-dropdown/button-dropdown.svelte'
@@ -26,5 +27,6 @@ export {
     ButtonListItem,
     ButtonDropdown,
     ButtonOk,
+    ButtonSearch,
 };
 

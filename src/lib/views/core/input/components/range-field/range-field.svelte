@@ -1,11 +1,11 @@
 <script lang="ts">
-	import InputField, { type InputFieldSizeType } from '../input-field/input-field.svelte';
+	import InputField, { type InputFieldSize } from '../input-field/input-field.svelte';
 
 	type RangeFieldPropsType = {
 		id?: string;
 		name?: string;
 		className?: string;
-		size?: InputFieldSizeType;
+		size?: InputFieldSize;
 		value?: number;
 		min?: number;
 		max?: number;

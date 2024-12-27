@@ -1,19 +1,19 @@
 <script lang="ts" module>
 	export type RadioValuetype = string | boolean | number | Date;
-	export type RadioItemType = { value: any; label: string; desc?: string };
-	export type RadioItemsType = (RadioValuetype | RadioItemType)[];
-	export type RadioPositionType = 'left' | 'right';
-	export type RadioDirationType = 'vertical' | 'horizontal';
+	export type RadioItem = { value: any; label: string; desc?: string };
+	export type RadioItems = (RadioValuetype | RadioItem)[];
+	export type RadioPosition = 'left' | 'right';
+	export type RadioDiration = 'vertical' | 'horizontal';
 	export type RadioPropsType = {
 		className?: string;
 		groupContainerClassName?: string;
 		hasPrimitiveItemsData?: boolean;
 		id?: string;
-		items?: RadioItemsType;
+		items?: RadioItems;
 		labelClassName?: string;
 		name?: string;
-		position?: RadioPositionType;
-		direction?: RadioDirationType;
+		position?: RadioPosition;
+		direction?: RadioDiration;
 		radioContainerClassName?: string;
 		required?: boolean;
 		subtitle?: string;
@@ -65,18 +65,18 @@
 		}
 	});
 
-	let preparedItems: RadioItemType[] = $derived.by(() => {
+	let preparedItems: RadioItem[] = $derived.by(() => {
 		if (items?.length) {
 			if (hasPrimitiveItemsData) {
-				return items.map((item) => ({ label: item, value: item }) as RadioItemType);
+				return items.map((item) => ({ label: item, value: item }) as RadioItem);
 			} else {
-				return items as RadioItemType[];
+				return items as RadioItem[];
 			}
 		}
 		return [];
 	});
 
-	function handleChange(ev: Event, item: RadioItemType) {
+	function handleChange(ev: Event, item: RadioItem) {
 		value = item.value;
 		if (onChange && value) {
 			onChange(value);
@@ -84,7 +84,7 @@
 	}
 </script>
 
-{#snippet labelSnippet(item: RadioItemType, index: number)}
+{#snippet labelSnippet(item: RadioItem, index: number)}
 	<div class="leading-6">
 		<div class="ml-4 block text-sm font-medium text-gray-900 flex-grow {labelClassName}">
 			{item.label || ''}
