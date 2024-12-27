@@ -8,17 +8,15 @@
 		searchFieldName?: string;
 		subtitleFieldName?: string;
 		hasCheckbox?: boolean;
-		checkboxCheckIconPath?: string;
-		checkboxUncheckIconPath?: string;
-		checkboxCheckIconClassName?: string;
-		checkboxUncheckIconClassName?: string;
 		hasArrow?: boolean;
-		arrowIconPath?: string;
-		arrowIconClassName?: string;
+		maxlength?: number;
+		maxlengthMsg?: string;
 	};
 </script>
 
 <script lang="ts">
+	import { showToast } from '$lib/services';
+
 	import ButtonListItem from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
 	import ButtonSearch from '$lib/views/core/button/components/button-search/button-search.svelte';
 	import type { DialogExports } from '../dialog/dialog.svelte';
@@ -33,10 +31,13 @@
 		searchFieldName = 'name',
 		hasCheckbox,
 		hasArrow,
+		maxlength = 0,
+		maxlengthMsg = 'Selection limit reached!',
 		closeDialog,
 		setResult,
 		setOnOkClick,
-		setHeaderSnippet
+		setHeaderSnippet,
+		setDialogTitle
 	}: DialogExports & PickerDialogProps = $props();
 
 	// Reactive store for selected items
@@ -96,7 +97,18 @@
 			if (selected.items[itemId]) {
 				delete selected.items[itemId];
 			} else {
-				selected.items[itemId] = itemId;
+				let itemLength = Object.keys(selected.items).length;
+				if (maxlength > 0 && itemLength >= maxlength) {
+					showToast({ msg: maxlengthMsg });
+				} else {
+					selected.items[itemId] = itemId;
+				}
+			}
+			let itemLength = Object.keys(selected.items).length;
+			if (itemLength) {
+				setDialogTitle(`Selected (${itemLength})`);
+			} else {
+				setDialogTitle('');
 			}
 		}
 	}

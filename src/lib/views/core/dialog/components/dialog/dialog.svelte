@@ -70,6 +70,7 @@
 		setOnData: (listener: (data: any) => void) => void;
 		setHeaderSnippet: (snippet: Snippet) => void;
 		setFooterSnippet: (snippet: Snippet) => void;
+		setDialogTitle: (title: string) => void;
 	};
 </script>
 
@@ -139,7 +140,8 @@
 		setOnOkClick,
 		setOnData,
 		setHeaderSnippet,
-		setFooterSnippet
+		setFooterSnippet,
+		setDialogTitle
 	};
 
 	let isPlaced: boolean = $state(false);
@@ -169,6 +171,8 @@
 		xl: xlSizeClassName,
 		full: fullSizeClassName
 	};
+
+	let customTitle: string = $state('');
 
 	export function toggleDialog() {
 		if (isOpened) {
@@ -233,6 +237,10 @@
 
 	export function setFooterSnippet(snippet: Snippet) {
 		footerSnippet = snippet;
+	}
+
+	export function setDialogTitle(dialogTitle: string) {
+		customTitle = dialogTitle;
 	}
 
 	function handleBackdropClick() {
@@ -310,7 +318,7 @@
 					<div class="py-2 flex-grow">
 						{#if hasTitle}
 							<div class="text-xl text-base-800 dark:text-base-300 {titleClassName}">
-								{title || ''}
+								{@html customTitle || title || ''}
 							</div>
 						{/if}
 						{#if hasSubtitle}
