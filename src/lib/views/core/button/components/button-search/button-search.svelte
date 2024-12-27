@@ -21,6 +21,8 @@
 		size?: ButtonSize;
 		children?: Snippet;
 		iconClassName?: string;
+
+		dropdownClassName?:string,
 	};
 
 	let {
@@ -32,7 +34,8 @@
 		appearance,
 		size,
 		children,
-		iconClassName
+		iconClassName,
+		dropdownClassName
 	}: Props = $props();
 </script>
 
@@ -48,7 +51,7 @@
 	</div>
 {/snippet}
 
-<ButtonDropdown dropdownSnippet={dropdownSearch} {className} {appearance} {size}>
+<ButtonDropdown dropdownSnippet={dropdownSearch} {className} {appearance} {size} {dropdownClassName}>
 	{#if children}
 		{@render children()}
 	{:else}

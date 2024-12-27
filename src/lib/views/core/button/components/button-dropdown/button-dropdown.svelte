@@ -1,14 +1,4 @@
 <script lang="ts" module>
-	export type Menu = {
-		_id?: string;
-		label?: string;
-		hasIcon?: boolean;
-		iconPath?: string;
-		iconClassName?: string;
-		hasCheckbox?: boolean;
-		checkboxClassName?: string;
-		isChecked?: boolean;
-	};
 
 	export type ButtonDropdownProps = {
 		appearance?: ButtonAppearance;
@@ -63,7 +53,7 @@
 	let placement: boolean = $state(false);
 	let dropdownState: DropdownStateEnum = $state(DropdownStateEnum.CLOSED);
 
-	function handleToggleDropdown(ev: MouseEvent) {
+	export function toggleDropdown(ev: MouseEvent) {
 		ev && ev.stopPropagation();
 		if (placement) {
 			dropdownState = DropdownStateEnum.CLOSED;
@@ -76,6 +66,10 @@
 				dropdownState = DropdownStateEnum.OPENED;
 			}, 1);
 		}
+	}
+
+	function handleToggleDropdown(ev: MouseEvent){
+		toggleDropdown(ev);
 	}
 </script>
 
