@@ -1,5 +1,4 @@
 <script lang="ts" module>
-
 	export type ButtonDropdownProps = {
 		appearance?: ButtonAppearance;
 		size?: ButtonSize;
@@ -38,7 +37,7 @@
 		id,
 		appearance,
 		size,
-		label = 'MY btn',
+		label,
 		type,
 		children,
 		dropdownSnippet,
@@ -54,7 +53,7 @@
 	let dropdownState: DropdownStateEnum = $state(DropdownStateEnum.CLOSED);
 
 	export function toggleDropdown(ev: MouseEvent) {
-		ev && ev.stopPropagation();
+		handleBackdropEvent(ev);
 		if (placement) {
 			dropdownState = DropdownStateEnum.CLOSED;
 			setTimeout(() => {
@@ -68,8 +67,12 @@
 		}
 	}
 
-	function handleToggleDropdown(ev: MouseEvent){
+	function handleToggleDropdown(ev: MouseEvent) {
 		toggleDropdown(ev);
+	}
+
+	function handleBackdropEvent(ev: Event) {
+		ev.stopPropagation();
 	}
 </script>
 
@@ -86,15 +89,18 @@
 	/>
 
 	{#if placement}
-		<button
+		<div
 			aria-label="backdrop"
-			type="button"
 			id="{id}-dropdown-backdrop"
 			class="cursor-auto fixed inset-0 z-10 {backgropClassName}"
+			onmousedown={handleBackdropEvent}
+			ontouchstart={handleBackdropEvent}
 			onclick={handleToggleDropdown}
 			tabindex="-1"
-		></button>
+			role="presentation"
+		></div>
 		<div
+			role="dialog"
 			class="absolute z-10 min-w-40 max-h-1/2vh overflow-y-auto origin-top right-0 rounded-md bg-white dark:bg-base-800 shadow-lg focus:outline-none transition ease-out duration-100 {dropdownClassName} {dropdownState ==
 			DropdownStateEnum.OPENED
 				? `transform opacity-100 scale-100  ${dropdownOpenClassName}`

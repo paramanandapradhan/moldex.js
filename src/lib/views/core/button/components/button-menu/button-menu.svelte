@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts">
-	import { Label, mdiChevronDown, mdiMagnify, type ButtonAppearance, type ButtonSize } from '$lib';
+	import { mdiDotsHorizontal, type ButtonAppearance, type ButtonSize } from '$lib';
 	import ButtonDropdown from '$lib/views/core/button/components/button-dropdown/button-dropdown.svelte';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import type { Snippet } from 'svelte';
@@ -38,7 +38,7 @@
 		appearance,
 		size,
 		children,
-		iconPath = mdiChevronDown,
+		iconPath = mdiDotsHorizontal,
 		iconClassName,
 		menus,
 		onMenu,
