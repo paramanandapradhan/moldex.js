@@ -28,7 +28,6 @@
 </script>
 
 <script lang="ts">
-	import { ripple } from '$lib/actions/ripple.js';
 	import '../../../../../tailwind.css';
 
 	import type { Snippet } from 'svelte';
@@ -61,14 +60,21 @@
 		dropdownOpenClassName = ''
 	}: ButtonDropdownProps = $props();
 
+	let placement: boolean = $state(false);
 	let dropdownState: DropdownStateEnum = $state(DropdownStateEnum.CLOSED);
 
 	function handleToggleDropdown(ev: MouseEvent) {
 		ev && ev.stopPropagation();
-		if (dropdownState == DropdownStateEnum.CLOSED) {
-			dropdownState = DropdownStateEnum.OPENED;
-		} else {
+		if (placement) {
 			dropdownState = DropdownStateEnum.CLOSED;
+			setTimeout(() => {
+				placement = false;
+			}, 100);
+		} else {
+			placement = true;
+			setTimeout(() => {
+				dropdownState = DropdownStateEnum.OPENED;
+			}, 1);
 		}
 	}
 </script>
@@ -85,25 +91,23 @@
 		{children}
 	/>
 
-	{#if dropdownState == DropdownStateEnum.OPENED}
+	{#if placement}
 		<button
 			aria-label="backdrop"
 			type="button"
 			id="{id}-dropdown-backdrop"
 			class="cursor-auto fixed inset-0 z-10 {backgropClassName}"
-			use:ripple
 			onclick={handleToggleDropdown}
 			tabindex="-1"
 		></button>
+		<div
+			class="absolute mt-1 z-10 min-w-40 max-h-1/2vh overflow-y-auto origin-top right-0 rounded-md bg-base-50 dark:bg-base-800 py-2 shadow-lg focus:outline-none transition ease-out duration-100 {dropdownClassName} {dropdownState ==
+			DropdownStateEnum.OPENED
+				? `transform opacity-100 scale-100  ${dropdownOpenClassName}`
+				: `transform opacity-0 scale-60 } ${dropdownCloseClassName}`}"
+			tabindex="-1"
+		>
+			{@render dropdownSnippet?.()}
+		</div>
 	{/if}
-
-	<div
-		class="absolute mt-1 z-10 min-w-40 max-h-1/2vh overflow-y-auto origin-top right-0 rounded-md bg-base-50 dark:bg-base-800 py-2 shadow-lg focus:outline-none transition ease-out duration-100 {dropdownClassName} {dropdownState ==
-		DropdownStateEnum.CLOSED
-			? `invisible transform opacity-0 scale-95 ${dropdownOpenClassName}`
-			: `transform opacity-100 scale-100 ${dropdownCloseClassName}`}"
-		tabindex="-1"
-	>
-		{@render dropdownSnippet?.()}
-	</div>
 </div>
