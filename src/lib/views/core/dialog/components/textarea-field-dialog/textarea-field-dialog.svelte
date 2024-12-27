@@ -2,7 +2,7 @@
 	import { showToast } from '$lib/services';
 	import { TextareaField, TextField } from '$lib/views/core/input';
 	import type { InputValue } from '$lib/views/core/input/components/input-field/input-field.svelte';
-	import type { DialogExportsType } from '../dialog/dialog.svelte';
+	import type { DialogExports } from '../dialog/dialog.svelte';
 
 	type PropsType = {
 		value?: InputValue;
@@ -26,7 +26,7 @@
 		setResult,
 		closeDialog,
 		...props
-	}: PropsType & DialogExportsType = $props();
+	}: PropsType & DialogExports = $props();
 
 	function handleSubmit(ev: SubmitEvent) {
 		ev?.preventDefault();

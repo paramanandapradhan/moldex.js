@@ -12,7 +12,7 @@
 
 <script lang="ts">
 	import EasyCropperjs from '@cloudparker/easy-cropperjs-svelte';
-	import type { DialogExportsType } from '../dialog/dialog.svelte';
+	import type { DialogExports } from '../dialog/dialog.svelte';
 
 	let {
 		outputWidth,
@@ -26,7 +26,7 @@
 		closeDialog,
 		setOnData,
 		...props
-	}: CropperDialogPropsType & DialogExportsType = $props();
+	}: CropperDialogPropsType & DialogExports = $props();
 
 	let easyCropperjsRef: EasyCropperjs | null = $state(null);
 

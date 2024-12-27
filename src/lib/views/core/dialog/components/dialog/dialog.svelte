@@ -15,7 +15,6 @@
 		backdropClassName?: string;
 		bodyClassName?: string;
 		bodyComponent?: any;
-		bodySnippet?: Snippet<[dialogExports: DialogExportsType]>;
 		cancelable?: boolean;
 		children?: Snippet;
 		className?: string;
@@ -29,7 +28,6 @@
 		footerOkButtonSpinner?: boolean;
 		footerOkButtonType?: 'button' | 'submit' | 'reset';
 		footerOkButtonLable?: string;
-		footerSnippet?: Snippet<[dialogExports: DialogExportsType]>;
 		hasFooter?: boolean;
 		hasFooterCloseButton?: boolean;
 		hasFooterOkButton?: boolean;
@@ -47,11 +45,10 @@
 		headerCloseButtonClassName?: string;
 		headerCloseIconClassName?: string;
 		headerCloseIconPath?: string;
-		headerSnippet?: Snippet<[dialogExports: DialogExportsType]>;
 		id?: string;
 		onClose?: () => void;
 		onCloseClick?: DialogCloseButtonClickFunction;
-		onOkClick?: (ev: MouseEvent | TouchEvent, options: DialogExportsType) => void;
+		onOkClick?: (ev: MouseEvent | TouchEvent, options: DialogExports) => void;
 		onResult?: (value: any) => void;
 		onData?: (data: any) => void;
 		props?: any;
@@ -63,7 +60,7 @@
 		titleClassName?: string;
 	};
 
-	export type DialogExportsType = {
+	export type DialogExports = {
 		closeDialog: (result?: any) => void;
 		setResult: (result: any) => void;
 		setOkSpinner: (enable: boolean) => void;
@@ -71,6 +68,8 @@
 		setOnOkClick: (onclick: (ev: MouseEvent | TouchEvent) => void) => void;
 		setOnCloseClick: (onclick: DialogCloseButtonClickFunction) => void;
 		setOnData: (listener: (data: any) => void) => void;
+		setHeaderSnippet: (snippet: Snippet) => void;
+		setFooterSnippet: (snippet: Snippet) => void;
 	};
 </script>
 
@@ -85,7 +84,6 @@
 		backdropClassName = '',
 		bodyClassName = '',
 		bodyComponent,
-		bodySnippet,
 		cancelable = true,
 		children,
 		className = '',
@@ -99,7 +97,6 @@
 		footerOkButtonSpinner = false,
 		footerOkButtonType = 'button',
 		footerOkButtonLable = 'Save',
-		footerSnippet,
 		hasFooter = false,
 		hasFooterCloseButton = false,
 		hasFooterOkButton = false,
@@ -119,7 +116,6 @@
 		hasHeaderBack = isMobileScreen(),
 		hasHeaderClose = !isMobileScreen(),
 		size = isMobileScreen() ? 'full' : 'sm',
-		headerSnippet,
 		id = '',
 		onClose,
 		onCloseClick,
@@ -134,18 +130,23 @@
 		titleClassName = ''
 	}: DialogProps = $props();
 
-	let dialogExports: DialogExportsType = {
+	let dialogExports: DialogExports = {
 		closeDialog,
 		setResult,
 		setOkSpinner,
 		setOkEnabled,
 		setOnCloseClick,
 		setOnOkClick,
-		setOnData
+		setOnData,
+		setHeaderSnippet,
+		setFooterSnippet
 	};
 
 	let isPlaced: boolean = $state(false);
 	let isOpened: boolean = $state(false);
+
+	let headerSnippet: Snippet | null = $state(null);
+	let footerSnippet: Snippet | null = $state(null);
 
 	let CustomComponent: ComponetType | null = $state(null);
 
@@ -213,7 +214,7 @@
 	}
 
 	export function setOnOkClick(
-		onclick: (event: MouseEvent | TouchEvent, options: DialogExportsType) => void
+		onclick: (event: MouseEvent | TouchEvent, options: DialogExports) => void
 	) {
 		onOkClick = onclick;
 	}
@@ -224,6 +225,14 @@
 
 	export function postData(data: any) {
 		onData && onData(data);
+	}
+
+	export function setHeaderSnippet(snippet: Snippet) {
+		headerSnippet = snippet;
+	}
+
+	export function setFooterSnippet(snippet: Snippet) {
+		footerSnippet = snippet;
 	}
 
 	function handleBackdropClick() {
@@ -284,7 +293,7 @@
 		{:else}
 			{#if hasHeader}
 				<div
-					class="flex items-start gap-4 w-full cursor-default py-2 {hasHeaderShadow
+					class="flex items-center gap-4 w-full cursor-default py-2 {hasHeaderShadow
 						? 'border-b shadow-sm'
 						: ''} {headerClassName}"
 				>
@@ -298,7 +307,7 @@
 							/>
 						{/if}
 					</div>
-					<div class="py-2">
+					<div class="py-2 flex-grow">
 						{#if hasTitle}
 							<div class="text-xl text-base-800 dark:text-base-300 {titleClassName}">
 								{title || ''}
@@ -310,9 +319,9 @@
 							</div>
 						{/if}
 					</div>
-					<div class="flex-grow">
+					<div class="">
 						{#if headerSnippet}
-							{@render headerSnippet(dialogExports)}
+							{@render headerSnippet()}
 						{/if}
 					</div>
 					<div>
@@ -331,8 +340,6 @@
 			<div class="flex-grow overflow-y-auto {bodyClassName}">
 				{#if children}
 					{@render children()}
-				{:else if bodySnippet}
-					{@render bodySnippet(dialogExports)}
 				{:else if BodyComponent?.length == 2}
 					<BodyComponent {...{ ...props }} {...{ ...dialogExports }} />
 				{/if}
@@ -344,9 +351,10 @@
 						? 'border-t'
 						: ''} {footerClassName}"
 				>
-					<div class="flex-grow">
+					<div class="flex-grow"></div>
+					<div>
 						{#if footerSnippet}
-							{@render footerSnippet(dialogExports)}
+							{@render footerSnippet()}
 						{/if}
 					</div>
 					{#if hasFooterOkButton}

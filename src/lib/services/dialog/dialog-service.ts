@@ -1,14 +1,15 @@
 
 import { Dialog, type DialogProps, type InputFieldProps } from '$lib/views';
-import ListDialog from '$lib/views/core/dialog/components/list-dialog/list-picker-dialog.svelte';
 import LoadingDialog from '$lib/views/core/dialog/components/loading-dialog/loading-dialog.svelte';
 import MsgDialog from '$lib/views/core/dialog/components/msg-dialog/msg-dialog.svelte';
 import TextFieldDialog from '$lib/views/core/dialog/components/text-field-dialog/text-field-dialog.svelte';
 import TextareaFieldDialog from '$lib/views/core/dialog/components/textarea-field-dialog/textarea-field-dialog.svelte';
-import { mount, } from 'svelte';
+import { createRawSnippet, mount, } from 'svelte';
 import { isMobileScreen } from '../screen/screen-service';
 import CropperDialog, { type CropperDialogPropsType } from '$lib/views/core/dialog/components/cropper-dialog/cropper-dialog.svelte';
 import { processImageFile } from '../utils/image-service';
+import type { PickerDialogProps } from '$lib/views/core/dialog/components/picker-dialog/picker-dialog.svelte';
+import PickerDialog from '$lib/views/core/dialog/components/picker-dialog/picker-dialog.svelte';
 
 export type PickerDialogPropsType = {
     items?: any[],
@@ -98,39 +99,38 @@ export async function openDeleteConfirmDialog(params: DialogProps & { msg?: stri
     })
 }
 
-export async function openListPickerDialog<R>({
+export async function openPickerDialog<R>({
     items,
-    itemTitle,
-    itemSubtitle,
-    hasArrow,
-    hasCheck,
-    okButtonClassName,
-    okButtonLabel,
-    closeButtonClassName,
-    closeButtonLabel,
-    multiple,
-    identity,
     value,
-    search,
-    ...params }: DialogProps & PickerDialogPropsType = {}) {
+    multiple,
+    hasCheckbox = true,
+    hasArrow,
+    ...params }: DialogProps & PickerDialogProps) {
+    if (hasArrow) {
+        multiple = false;
+        hasCheckbox = false;
+    }
+
     return await openDialog<R>({
-        component: ListDialog,
+        bodyComponent: PickerDialog,
         props: {
             items,
-            itemTitle,
-            itemSubtitle,
-            hasArrow,
-            hasCheck,
-            okButtonClassName,
-            okButtonLabel,
-            closeButtonClassName,
-            closeButtonLabel,
-            multiple,
-            identity,
             value,
-            search
+            multiple,
+            hasCheckbox,
+            hasArrow,
         },
-        ...params
+        hasHeader: true,
+        hasHeaderBack: isMobileScreen(),
+        hasHeaderClose: !isMobileScreen(),
+        footerOkButtonLable: 'Select',
+        footerClassName: 'border-t',
+        title: 'Picker',
+        ...params,
+        hasFooter: multiple,
+        hasFooterOkButton: multiple,
+        hasFooterCloseButton: multiple,
+
     })
 }
 

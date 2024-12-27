@@ -1,18 +1,13 @@
 <script lang="ts">
-	import type { DialogExportsType } from '../dialog/dialog.svelte';
+	import type { DialogExports } from '../dialog/dialog.svelte';
 
 	type PropsType = {
 		className?: string;
 		msg?: string;
 	};
 
-	let {
-		className,
-		msg,
-		setOnOkClick,
-		setResult,
-		closeDialog,
-	}: PropsType & DialogExportsType = $props();
+	let { className, msg, setOnOkClick, setResult, closeDialog }: PropsType & DialogExports =
+		$props();
 
 	$effect(() => {
 		setOnOkClick(() => {
@@ -23,5 +18,5 @@
 </script>
 
 <div class="p-6 text-base-800 dark:text-base-300 {className}">
-	<div>{@html (msg ||'')}</div>
+	<div>{@html msg || ''}</div>
 </div>

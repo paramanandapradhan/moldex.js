@@ -25,7 +25,7 @@
 	import { ripple } from '$lib/actions';
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
 	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
-	import { isMobileScreen, openListPickerDialog } from '$lib/services';
+	import { isMobileScreen, openPickerDialog } from '$lib/services';
 	import type { DialogSize } from '$lib/views/core/dialog';
 
 	let {
@@ -100,14 +100,14 @@
 			let items = EasyCountryData.getCountries();
 			// console.log('Countries', items);
 			let size: DialogSize = isMobileScreen() ? 'full' : 'sm';
-			let res: string = await openListPickerDialog<string>({
-				items,
-				itemTitle: 'dialCode',
-				itemSubtitle: 'name',
-				size,
-				hasCheck: true,
-				identity: 'dialCode',
-				search: ['name', 'dialCode', 'isoCode']
+			let res: string = await openPickerDialog<string>({
+				items
+				// itemTitle: 'dialCode',
+				// itemSubtitle: 'name',
+				// size,
+				// hasCheck: true,
+				// identity: 'dialCode',
+				// search: ['name', 'dialCode', 'isoCode']
 			});
 
 			console.log(res);

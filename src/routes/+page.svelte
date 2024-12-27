@@ -1,28 +1,31 @@
 <script lang="ts">
-	import { mdiEmailOutline, mdiPhone } from '$lib';
-	import ButtonMenu, {
-		type Menu
-	} from '$lib/views/core/button/components/button-menu/button-menu.svelte';
+	import { isMobileScreen, openPickerDialog } from '$lib';
+	import Button from '$lib/views/core/button/components/button/button.svelte';
 
-	let menus: Menu[] = $state<Menu[]>([
-		{
-			title: 'Phone',
-			subtitle: 'this is my subtitle',
-			hasIcon: true,
-			iconPath: mdiPhone
-		},
-		{ title: 'Email', hasIcon: true, iconPath: mdiEmailOutline }
-	]);
+	let data: string = $state('');
+
+	async function handleClick() {
+		let res: any = await openPickerDialog({
+			value: data,
+			items: ['Bangalore', 'Delhi', 'Mumbai', 'Sambalpur'],
+			hasCheckbox: true,
+			hasHeader: true,
+			hasTitle: true,
+			hasHeaderBack: isMobileScreen(),
+			hasHeaderClose: !isMobileScreen(),
+			title: 'Select Cities'
+		});
+		console.log('picker', res);
+		data = res;
+	}
 </script>
 
 <div class="min-h-full flex justify-center">
-	<ButtonMenu
-		label="Menu"
-		{menus}
-		onMenu={(ev, menu) => {
-			console.log(menu);
-		}}
-		dropdownClassName="min-w-52"
-		menuIconClassName="text-primary"
-	/>
+	<div>
+		<Button appearance="border-primary" onClick={handleClick}>Picker</Button>
+
+		<div>
+			{data}
+		</div>
+	</div>
 </div>

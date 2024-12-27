@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Spinner } from '$lib/views/core/spinner';
-	import type { DialogExportsType } from '../dialog/dialog.svelte';
+	import type { DialogExports } from '../dialog/dialog.svelte';
 
 	type PropsType = {
 		msg?: string;
@@ -21,7 +21,7 @@
 		closeDialog,
 		setOnData,
 		...props
-	}: PropsType & DialogExportsType = $props();
+	}: PropsType & DialogExports = $props();
 
 	setOnData((data: any) => {
 		if (data?.msg) {
