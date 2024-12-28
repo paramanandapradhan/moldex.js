@@ -16,6 +16,7 @@
 		bodyClassName?: string;
 		bodyComponent?: any;
 		cancelable?: boolean;
+		scrollable?: boolean;
 		children?: Snippet;
 		className?: string;
 		component?: any;
@@ -86,6 +87,7 @@
 		bodyClassName = '',
 		bodyComponent,
 		cancelable = true,
+		scrollable = true,
 		children,
 		className = '',
 		component,
@@ -150,9 +152,9 @@
 	let headerSnippet: Snippet | null = $state(null);
 	let footerSnippet: Snippet | null = $state(null);
 
-	let CustomComponent: ComponetType | null = $state(null);
+	let CustomComponent: ComponetType | null = $derived(component);
 
-	let BodyComponent: ComponetType | null = $state(null);
+	let BodyComponent: ComponetType | null = $derived(bodyComponent);
 
 	let result: any;
 
@@ -273,13 +275,6 @@
 			onOkClick(event, dialogExports);
 		}
 	}
-
-	$effect(() => {
-		BodyComponent = bodyComponent;
-	});
-	$effect(() => {
-		CustomComponent = component;
-	});
 </script>
 
 {#snippet dialogContent()}
@@ -345,7 +340,7 @@
 				</div>
 			{/if}
 
-			<div class="flex-grow overflow-y-auto {bodyClassName}">
+			<div class="flex-grow {scrollable ? 'overflow-y-auto' : ''} {bodyClassName}">
 				{#if children}
 					{@render children()}
 				{:else if BodyComponent?.length == 2}

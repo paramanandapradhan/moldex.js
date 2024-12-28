@@ -2,6 +2,7 @@
 	import {
 		mdiMagnify,
 		type ButtonAppearance,
+		type ButtonProps,
 		type ButtonSize,
 		type InputFieldAppearance,
 		type InputFieldSize
@@ -22,7 +23,7 @@
 		children?: Snippet;
 		iconClassName?: string;
 
-		dropdownClassName?:string,
+		dropdownClassName?: string;
 	};
 
 	let {
@@ -35,8 +36,9 @@
 		size,
 		children,
 		iconClassName,
-		dropdownClassName
-	}: Props = $props();
+		dropdownClassName,
+		...others
+	}: ButtonProps & Props = $props();
 </script>
 
 {#snippet dropdownSearch()}
@@ -51,7 +53,14 @@
 	</div>
 {/snippet}
 
-<ButtonDropdown dropdownSnippet={dropdownSearch} {className} {appearance} {size} {dropdownClassName}>
+<ButtonDropdown
+	dropdownSnippet={dropdownSearch}
+	{className}
+	{appearance}
+	{size}
+	{dropdownClassName}
+	{...others}
+>
 	{#if children}
 		{@render children()}
 	{:else}

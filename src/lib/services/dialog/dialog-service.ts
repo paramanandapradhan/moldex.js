@@ -90,12 +90,19 @@ export async function openAlertDialog(params: DialogProps & { msg?: string } = {
     })
 }
 
-export async function openDeleteConfirmDialog(params: DialogProps & { msg?: string } = {}) {
+export async function openDeleteConfirmDialog({
+    msg = 'Are you sure to delete?',
+    title = 'Delete',
+    footerOkButtonLable = 'Delete',
+    footerOkButtonClassName = 'bg-red-500 hover:bg-red-700 focus:bg-red-700',
+    ...params
+}: DialogProps & { msg?: string } = {}) {
     return await openConfirmDialog({
-        msg: 'Are you sure to delete?',
-        title: 'Delete',
-        footerOkButtonLable: 'Delete',
-        footerOkButtonClassName: 'bg-red-500 hover:bg-red-700 focus:bg-red-700'
+        msg,
+        title,
+        footerOkButtonLable,
+        footerOkButtonClassName,
+        ...params,
     })
 }
 

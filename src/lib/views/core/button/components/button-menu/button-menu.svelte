@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts">
-	import { mdiDotsHorizontal, type ButtonAppearance, type ButtonSize } from '$lib';
+	import { mdiDotsHorizontal, type ButtonAppearance, type ButtonProps, type ButtonSize } from '$lib';
 	import ButtonDropdown from '$lib/views/core/button/components/button-dropdown/button-dropdown.svelte';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import type { Snippet } from 'svelte';
@@ -30,6 +30,7 @@
 		onMenu?: (ev: MouseEvent, menu: string | Menu) => void;
 		dropdownClassName?: string;
 		menuIconClassName?: string;
+		disabled?: boolean;
 	};
 
 	let {
@@ -43,8 +44,10 @@
 		menus,
 		onMenu,
 		dropdownClassName,
-		menuIconClassName
-	}: Props = $props();
+		menuIconClassName,
+		disabled,
+		...others
+	}: ButtonProps & Props = $props();
 
 	let buttonDropdownRef: ButtonDropdown;
 
@@ -94,6 +97,8 @@
 	{appearance}
 	{size}
 	{dropdownClassName}
+	{disabled}
+	{...others}
 >
 	{#if children}
 		{@render children()}

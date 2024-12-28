@@ -12,6 +12,7 @@
 	export type ButtonType = 'button' | 'submit' | 'reset';
 
 	export type ButtonProps = {
+		title?: string;
 		id?: string;
 		type?: ButtonType;
 		appearance?: ButtonAppearance;
@@ -55,6 +56,7 @@
 	import '../../../../../tailwind.css';
 
 	let {
+		title,
 		appearance = 'none',
 		id = '',
 		form = undefined,
@@ -168,6 +170,7 @@
 		ondragenter={onDragEnter}
 		ondragleave={onDragLeave}
 		ondragover={onDragOver}
+		{title}
 	>
 		{#if children}
 			{@render children()}
@@ -183,6 +186,7 @@
 		{id}
 		{type}
 		{form}
+		{title}
 		class="relative flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded {btnSizeClassName} {btnAppearanceClassName} {className}"
 		{disabled}
 		use:handleRipple

@@ -13,6 +13,7 @@
 		dropdownClassName?: string;
 		dropdownCloseClassName?: string;
 		dropdownOpenClassName?: string;
+		disabled?: boolean;
 	};
 </script>
 
@@ -22,6 +23,7 @@
 	import type { Snippet } from 'svelte';
 	import Button, {
 		type ButtonAppearance,
+		type ButtonProps,
 		type ButtonSize,
 		type ButtonType
 	} from '../button/button.svelte';
@@ -46,8 +48,10 @@
 		containerClassName = '',
 		dropdownClassName = '',
 		dropdownCloseClassName = '',
-		dropdownOpenClassName = ''
-	}: ButtonDropdownProps = $props();
+		dropdownOpenClassName = '',
+		disabled,
+		...others
+	}: ButtonProps & ButtonDropdownProps = $props();
 
 	let placement: boolean = $state(false);
 	let dropdownState: DropdownStateEnum = $state(DropdownStateEnum.CLOSED);
@@ -86,6 +90,8 @@
 		onClick={handleToggleDropdown}
 		{label}
 		{children}
+		{disabled}
+		{...others}
 	/>
 
 	{#if placement}
