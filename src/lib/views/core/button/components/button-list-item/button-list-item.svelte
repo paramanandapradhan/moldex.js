@@ -28,7 +28,7 @@
 		checkboxClassName?: string;
 		isChecked?: boolean;
 		onClick?: (ev: MouseEvent) => void;
-		children?: Snippet<[any, number]>;
+		children?: Snippet;
 	};
 </script>
 
@@ -71,7 +71,8 @@
 		hasCheckbox,
 		checkboxClassName = '',
 		isChecked = false,
-		onClick = (ev: MouseEvent) => {}
+		onClick = (ev: MouseEvent) => {},
+		children
 	}: ButtonListItemProps = $props();
 </script>
 
@@ -131,5 +132,9 @@
 	{appearance}
 	{size}
 >
-	{@render itemInternal()}
+	{#if children}
+		{@render children()}
+	{:else}
+		{@render itemInternal()}
+	{/if}
 </Button>

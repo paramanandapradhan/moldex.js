@@ -5,8 +5,6 @@
 </script>
 
 <div class="min-h-full flex justify-center">
-	<IconCircle path={mdiArrowLeft}></IconCircle>
-	<div>
-		<Loading />
-	</div>
+	<IconCircle iconPath={mdiArrowLeft}></IconCircle>
+ 
 </div>
