@@ -1,31 +1,12 @@
 <script lang="ts">
-	import { isMobileScreen, openPickerDialog } from '$lib';
-	import Button from '$lib/views/core/button/components/button/button.svelte';
-
-	let data: string = $state('');
-
-	async function handleClick() {
-		let res: any = await openPickerDialog({
-			value: data,
-			items: ['Bangalore', 'Delhi', 'Mumbai', 'Sambalpur'],
-			hasCheckbox: true,
-			hasHeader: true,
-			hasTitle: true,
-			hasHeaderBack: isMobileScreen(),
-			hasHeaderClose: !isMobileScreen(),
-			title: 'Select Cities'
-		});
-		console.log('picker', res);
-		data = res;
-	}
+	import { mdiArrowLeft } from '$lib';
+	import Loading from '$lib/views/core/common/components/loading/loading.svelte';
+	import IconCircle from '$lib/views/core/icon/components/icon-circle/icon-circle.svelte';
 </script>
 
 <div class="min-h-full flex justify-center">
+	<IconCircle path={mdiArrowLeft}></IconCircle>
 	<div>
-		<Button appearance="border-primary" onClick={handleClick}>Picker</Button>
-
-		<div>
-			{data}
-		</div>
+		<Loading />
 	</div>
 </div>

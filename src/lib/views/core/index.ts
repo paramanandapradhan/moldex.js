@@ -1,6 +1,6 @@
 
 export * from './button/index.js';
-export * from './content-area/index.js';
+export * from './common/index.js';
 export * from './dialog/index.js';
 export * from './drawer/index.js';
 export * from './icon/index.js';
