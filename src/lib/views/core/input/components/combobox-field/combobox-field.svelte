@@ -23,7 +23,6 @@
 		hasDropdownHeader?: boolean;
 		hasDropdownHeaderSearch?: boolean;
 		hasItemsCheckbox?: boolean;
-		hasPrimitiveItemsData?: boolean;
 		iconPathClassName?: string;
 		iconPathFieldName?: string;
 		identityFieldName?: string;
@@ -44,7 +43,6 @@
 </script>
 
 <script lang="ts">
-	import type { ListItem } from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
 	import ButtonListItem from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
 	import Button from '$lib/views/core/button/components/button/button.svelte';
 	import { mdiUnfoldMoreHorizontal } from '$lib/views/core/icon';
@@ -81,7 +79,6 @@
 		hasDropdownHeader,
 		hasDropdownHeaderSearch,
 		hasItemsCheckbox,
-		hasPrimitiveItemsData,
 		iconPathClassName,
 		iconPathFieldName,
 		id,
@@ -104,7 +101,12 @@
 		value = $bindable(),
 		...props
 	}: InputFieldProps & ComboboxFieldProps = $props();
-	type CustomListItemType = ListItem & {
+
+	type CustomListItemType = {
+		title?: string;
+		subtitle?: string;
+		isChecked?: boolean;
+	} & {
 		[key: symbol]: string | number;
 	};
 	let idFieldSymbol = Symbol('_id');
@@ -116,6 +118,16 @@
 
 	let isPlaced = $state(false);
 	let searchText: string = $state('');
+
+	let hasPrimitiveItemsData = $derived.by(() => {
+		if (items) {
+			let firstItem = items[0];
+			return (
+				typeof firstItem == 'string' || typeof firstItem == 'number' || firstItem instanceof Date
+			);
+		}
+		return false;
+	});
 
 	let itemsIdentityMap: any = {};
 
@@ -438,7 +450,8 @@
 								aria-selected={item.isChecked}
 							>
 								<ButtonListItem
-									{item}
+									title={item.title}
+									subtitle={item.subtitle}
 									{index}
 									hasCheckbox={hasItemsCheckbox}
 									className=" {itemClassName}"
