@@ -22,8 +22,8 @@
 		hasDropdownFooterCreateButton?: boolean;
 		hasDropdownHeader?: boolean;
 		hasDropdownHeaderSearch?: boolean;
-		hasItemsCheckbox?: boolean;
-		iconPathClassName?: string;
+		hasCheckbox?: boolean;
+		iconClassName?: string;
 		iconPathFieldName?: string;
 		identityFieldName?: string;
 		itemClassName?: string;
@@ -35,10 +35,10 @@
 		searchFieldName?: string;
 		searchPlaceholder?: string;
 		showChip?: boolean;
-		itemSubtitleClassName?: string;
-		itemSubtitleFieldName?: string;
-		itemTitleClassName?: string;
-		itemTitleFieldName?: string;
+		subtitleClassName?: string;
+		subtitleFieldName?: string;
+		titleClassName?: string;
+		titleFieldName?: string;
 	};
 </script>
 
@@ -62,7 +62,7 @@
 		createButtonClassName,
 		createButtonLabel = 'Add',
 		displayClassName,
-		displayFieldName,
+		displayFieldName = 'name',
 		displayItemsCount,
 		dropdownBodyClassName,
 		dropdownBodySnippet,
@@ -78,11 +78,11 @@
 		hasDropdownFooterCreateButton,
 		hasDropdownHeader,
 		hasDropdownHeaderSearch,
-		hasItemsCheckbox,
-		iconPathClassName,
+		hasCheckbox,
+		iconClassName,
 		iconPathFieldName,
 		id,
-		identityFieldName,
+		identityFieldName = '_id',
 		itemClassName,
 		items,
 		multiple,
@@ -90,34 +90,48 @@
 		onCreateButtonClick,
 		onSearch,
 		searchClassName,
-		searchFieldName,
+		searchFieldName = 'name',
 		searchPlaceholder = 'Search...',
 		showChip,
 		size,
-		itemSubtitleClassName,
-		itemSubtitleFieldName,
-		itemTitleClassName,
-		itemTitleFieldName,
+		subtitleClassName,
+		subtitleFieldName,
+		titleClassName,
+		titleFieldName = 'name',
 		value = $bindable(),
 		...props
 	}: InputFieldProps & ComboboxFieldProps = $props();
 
-	type CustomListItemType = {
-		title?: string;
-		subtitle?: string;
-		isChecked?: boolean;
-	} & {
-		[key: symbol]: string | number;
-	};
-	let idFieldSymbol = Symbol('_id');
-	let searchFieldSymbol = Symbol('_search');
+	// type CustomListItemType = {
+	// 	title?: string;
+	// 	subtitle?: string;
+	// 	isChecked?: boolean;
+	// } & {
+	// 	[key: string]: string | number | boolean | Date;
+	// };
+
+	// let idFieldSymbol = Symbol('_id');
+	// let searchFieldSymbol = Symbol('_search');
 
 	let searchFieldRef: any | null = $state(null);
 
-	let comboboxIconSizeClassName = $state('');
-
 	let isPlaced = $state(false);
 	let searchText: string = $state('');
+
+	let comboboxIconSizeClassName = $derived.by(() => {
+		if (size) {
+			switch (size) {
+				case 'lg':
+					return '!h-7 !w-7';
+				case 'md':
+					return '!h-6 !w-6';
+				case 'sm':
+					return '!h-5 !w-5';
+				case 'xs':
+					return '!h-4 !w-4';
+			}
+		}
+	});
 
 	let hasPrimitiveItemsData = $derived.by(() => {
 		if (items) {
@@ -129,8 +143,6 @@
 		return false;
 	});
 
-	let itemsIdentityMap: any = {};
-
 	let _value = $derived.by(() => {
 		return selectedItemsSet?.size ? '&nbsp;' : '';
 	});
@@ -139,7 +151,7 @@
 		let array = Array.from(selectedItemsSet);
 		let results = array.map((id) => {
 			if (hasPrimitiveItemsData) {
-				return [id];
+				return id;
 			} else {
 				let item = itemsIdentityMap[id];
 				if (item) {
@@ -188,72 +200,34 @@
 		return set;
 	});
 
-	let preparedItems: CustomListItemType[] = $derived.by(() => {
+	let preparedItems = $derived.by(() => {
 		return (items || []).map((item, index) => {
-			let res: CustomListItemType = {};
+			let res: any = {};
 			if (hasPrimitiveItemsData) {
-				res.title = item;
-				res[idFieldSymbol] = item;
-				res[searchFieldSymbol] = ('' + item).toLowerCase().trim();
+				res[identityFieldName] = item;
+				res[titleFieldName] = item;
+				res[searchFieldName] = item;
 			} else {
-				if (identityFieldName && item.hasOwnProperty(identityFieldName)) {
-					res[idFieldSymbol] = item[identityFieldName];
-				} else {
-					res[idFieldSymbol] = index;
-				}
-
-				itemsIdentityMap[res[idFieldSymbol]] = item;
-
-				if (itemTitleFieldName && item.hasOwnProperty(itemTitleFieldName)) {
-					res.title = item[itemTitleFieldName];
-				}
-				if (itemSubtitleFieldName && item.hasOwnProperty(itemSubtitleFieldName)) {
-					res.subtitle = item[itemSubtitleFieldName];
-				}
-
-				if (searchFieldName) {
-					if (item.hasOwnProperty(searchFieldName)) {
-						res[searchFieldSymbol] = (item[searchFieldName] || '').toLowerCase().trim();
-					}
-				} else {
-					res[searchFieldSymbol] = `${item.title || ''} ${item.subtitle || ''}`;
-				}
-			}
-			if (selectedItemsSet.has(res[idFieldSymbol])) {
-				res.isChecked = true;
-			} else {
-				res.isChecked = false;
+				res = item;
 			}
 			return res;
 		});
 	});
 
-	let filteredItems: CustomListItemType[] = $derived.by(() => {
+	let itemsIdentityMap: any = $derived.by(() => {
+		return preparedItems.reduce((acc, val) => {
+			acc[val[identityFieldName]] = val;
+			return acc;
+		}, {});
+	});
+
+	let filteredItems = $derived.by(() => {
 		if (searchText) {
 			return preparedItems.filter((item: any) => {
-				return item[searchFieldSymbol].indexOf(searchText) >= 0;
+				return (item[searchFieldName] || '').toLowerCase().indexOf(searchText) >= 0;
 			});
 		} else {
 			return [...preparedItems];
-		}
-	});
-
-	$effect(() => {
-		if (size) {
-			switch (size) {
-				case 'lg':
-					comboboxIconSizeClassName = '!h-7 !w-7';
-					break;
-				case 'md':
-					comboboxIconSizeClassName = '!h-6 !w-6';
-					break;
-				case 'sm':
-					comboboxIconSizeClassName = '!h-5 !w-5';
-					break;
-				case 'xs':
-					comboboxIconSizeClassName = '!h-4 !w-4';
-					break;
-			}
 		}
 	});
 
@@ -314,8 +288,8 @@
 		searchText = value;
 	}
 
-	function handleItemSelected(ev: MouseEvent, item: CustomListItemType, index: number) {
-		let id = item[idFieldSymbol];
+	function handleItemClick(ev: MouseEvent, item: any, index: number) {
+		let id = item[identityFieldName];
 		if (multiple) {
 			if (selectedItemsSet.has(id)) {
 				selectedItemsSet.delete(id);
@@ -340,7 +314,7 @@
 			closeDropdown();
 		}
 
-		// console.log('handleItemSelected', selectedItemsSet, value);
+		// console.log('handleItemClick', selectedItemsSet, value);
 	}
 </script>
 
@@ -450,14 +424,14 @@
 								aria-selected={item.isChecked}
 							>
 								<ButtonListItem
-									title={item.title}
-									subtitle={item.subtitle}
+									title={item[titleFieldName] || ''}
+									subtitle={item[subtitleFieldName || ''] || ''}
 									{index}
-									hasCheckbox={hasItemsCheckbox}
+									{hasCheckbox}
 									className=" {itemClassName}"
-									titleClassName=" {itemTitleClassName}"
-									subtitleClassName=" {itemSubtitleClassName}"
-									onClick={(ev) => handleItemSelected(ev, item, index)}
+									titleClassName=" {titleClassName}"
+									subtitleClassName=" {subtitleClassName}"
+									onClick={(ev) => handleItemClick(ev, item, index)}
 								/>
 							</li>
 						{/each}
