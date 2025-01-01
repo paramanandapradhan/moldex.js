@@ -27,6 +27,13 @@
 		hasCheckbox?: boolean;
 		checkboxClassName?: string;
 		isChecked?: boolean;
+		hasMenu?: boolean;
+		menus?: Menu[] | string[];
+		menuIconPath?: string;
+		menuIconClassName?: string;
+		menuButtonClassName?: string;
+		menuButtonLabel?: string;
+		onMenu?: (ev: Event, menu: Menu | string) => void;
 		onClick?: (ev: MouseEvent) => void;
 		children?: Snippet;
 	};
@@ -43,6 +50,8 @@
 	} from '$lib/views/core/icon';
 	import type { Snippet } from 'svelte';
 	import Button, { type ButtonAppearance, type ButtonSize } from '../button/button.svelte';
+	import type { Menu } from '../button-menu/button-menu.svelte';
+	import ButtonMenu from '../button-menu/button-menu.svelte';
 
 	let {
 		appearance,
@@ -71,6 +80,13 @@
 		hasCheckbox,
 		checkboxClassName = '',
 		isChecked = false,
+		hasMenu,
+		menus,
+		menuIconPath,
+		menuIconClassName,
+		menuButtonClassName,
+		menuButtonLabel,
+		onMenu,
 		onClick = (ev: MouseEvent) => {},
 		children
 	}: ButtonListItemProps = $props();
@@ -120,6 +136,18 @@
 				<Icon path={arrowIconPath} className="w-5 h-5 text-base-500 {arrowClassName}  " />
 			</div>
 		{/if}
+		{#if hasMenu}
+			<div>
+				<ButtonMenu
+					{menus}
+					{onMenu}
+					label={menuButtonLabel}
+					iconPath={menuIconPath}
+					{menuIconClassName}
+					className={menuButtonClassName}
+				/>
+			</div>
+		{/if}
 	</div>
 {/snippet}
 
@@ -135,6 +163,8 @@
 	{#if children}
 		{@render children()}
 	{:else}
-		{@render itemInternal()}
+		<div>
+			{@render itemInternal()}
+		</div>
 	{/if}
 </Button>
