@@ -1,10 +1,14 @@
 <script lang="ts">
-	import '../../../../../tailwind.css';
-	import { ripple } from '$lib/actions';
-	import ButtonDropdown from '$lib/views/core/button/components/button-dropdown/button-dropdown.svelte';
+	import ButtonMenu from '$lib/views/core/button/components/button-menu/button-menu.svelte';
 	import Button from '$lib/views/core/button/components/button/button.svelte';
-	import { BROWSER } from 'esm-env';
-	import { mdiChevronLeft, mdiChevronRight, mdiPageFirst, mdiPageLast } from '$lib/views/core/icon';
+	import {
+		mdiChevronDown,
+		mdiChevronLeft,
+		mdiChevronRight,
+		mdiPageFirst,
+		mdiPageLast
+	} from '$lib/views/core/icon';
+	import '../../../../../tailwind.css';
 
 	type PropsType = {
 		length?: number;
@@ -30,15 +34,16 @@
 		onPageIndexChange
 	}: PropsType = $props();
 
-	let pageCount: number = $state(0);
+	let pageCount: number = $derived(Math.ceil(length / pageSize));
 
-	let hasFirst: boolean = $state(true);
-	let hasLast: boolean = $state(true);
-	let hasNext: boolean = $state(true);
-	let hasPrev: boolean = $state(true);
+	let hasFirst: boolean = $derived(pageIndex > 0);
+	let hasPrev: boolean = $derived(pageIndex > 0);
+
+	let hasLast: boolean = $derived(pageIndex < pageCount - 1);
+	let hasNext: boolean = $derived(pageIndex < pageCount - 1);
 
 	const handlePageSize = (size: any) => {
-		// console.log('handlePageSize', size);
+		pageIndex = 0;
 		pageSize = size;
 	};
 
@@ -61,78 +66,46 @@
 				index--;
 				break;
 		}
+
 		if (index <= 0) index = 0;
 		if (index >= pageCount) index = pageCount - 1;
 
 		pageIndex = index;
 	};
 
-	function preparePage(..._: any) {
-		// console.log('preparePage');
-		hasFirst = true;
-		hasPrev = true;
-
-		hasNext = true;
-		hasLast = true;
-
-		length = length || 0;
-		pageSize = pageSize || 10;
-		pageCount = Math.ceil(length / pageSize);
-
-		if (pageIndex <= 0) {
-			pageIndex = 0;
-			hasPrev = false;
-			hasFirst = false;
-		}
-
-		if (pageCount && pageIndex >= pageCount - 1) {
-			pageIndex = pageCount - 1;
-			hasNext = false;
-			hasLast = false;
-		}
-
-		onPageSizeChange && onPageSizeChange(pageSize);
-		onPageIndexChange && onPageIndexChange(pageIndex);
+	function handlePageSizeMenu(ev: Event, menu: string) {
+		try {
+			let size = parseInt(menu);
+			handlePageSize(size);
+		} catch (error) {}
 	}
 
 	$effect(() => {
-		BROWSER && preparePage(length, pageSize, pageIndex, pageCount);
+		onPageSizeChange && onPageSizeChange(pageSize);
+	});
+
+	$effect(() => {
+		onPageIndexChange && onPageIndexChange(pageIndex);
 	});
 </script>
 
 {#snippet pageButton({ onClick, disabled, icon }: any)}
-	<Button
-		className="hover:bg-gray-100 p-1 px-2 outline-none focus:bg-gray-200 disabled:bg-white disabled:text-gray-400 rounded"
-		{disabled}
-		onClick={onClick}
-		iconPath={icon}
-	/>
+	<Button {disabled} {onClick} iconPath={icon} />
 {/snippet}
 
-<div class="flex items-center flex-wrap justify-end text-gray-500 gap-3 -mb-2">
+<div class="flex items-center flex-wrap justify-end text-base-500 gap-3 -mb-2">
 	<div class="flex-grow">{itemsText} {length}</div>
 	<div class="flex items-center flex-nowrap gap-2">
 		<div>{pageSizeText}</div>
 		<div class="">
-			<ButtonDropdown
-				className="px-3 py-2 rounded hover:bg-gray-100 outline-none focus:bg-gray-200"
-				title={pageSize}
-				dropdownClassName="w-20"
-			>
-				{#each pageSizeOptions as opt, index (index)}
-					<div class="w-full">
-						<button
-							class="w-full text-start hover:bg-gray-100 p-1 px-4 outline-none focus:bg-gray-200"
-							use:ripple
-							onclick={() => handlePageSize(opt)}
-						>
-							{opt}
-						</button>
-					</div>
-				{/each}
-			</ButtonDropdown>
+			<ButtonMenu
+				iconPath={mdiChevronDown}
+				label={'' + pageSize}
+				menus={pageSizeOptions.map((o) => '' + o)}
+				onMenu={(ev, menu) => handlePageSizeMenu(ev, menu as string)}
+			/>
 		</div>
-		<div class="text-gray-500">
+		<div class="text-base-500">
 			<span>
 				{pageText}
 			</span>
@@ -142,71 +115,34 @@
 		</div>
 	</div>
 
-	<div class="flex items-center flex-nowrap gap-0">
+	<div class="flex items-center flex-nowrap gap-1">
 		<div>
 			{@render pageButton({
 				icon: mdiPageFirst,
 				disabled: !hasFirst,
-				onclick: () => handlePage('first')
+				onClick: () => handlePage('first')
 			})}
 		</div>
 		<div>
 			{@render pageButton({
 				icon: mdiChevronLeft,
 				disabled: !hasPrev,
-				onclick: () => handlePage('prev')
+				onClick: () => handlePage('prev')
 			})}
 		</div>
 		<div>
 			{@render pageButton({
 				icon: mdiChevronRight,
 				disabled: !hasNext,
-				onclick: () => handlePage('next')
+				onClick: () => handlePage('next')
 			})}
 		</div>
 		<div>
 			{@render pageButton({
 				icon: mdiPageLast,
 				disabled: !hasLast,
-				onclick: () => handlePage('last')
+				onClick: () => handlePage('last')
 			})}
 		</div>
-
-		<!-- <button
-			type="button"
-			class=" hover:bg-gray-100 p-1 px-2 outline-none focus:bg-gray-200 disabled:bg-white disabled:text-gray-400 rounded"
-			disabled={!hasFirst}
-			use:ripple
-			onclick={(e) => handlePage('first')}
-		>
-			<Icon path={mdiPageFirst} />
-		</button> -->
-		<!-- <button
-			type="button"
-			class="hover:bg-gray-100 p-1 px-2 outline-none focus:bg-gray-200 disabled:bg-white disabled:text-gray-400 rounded"
-			disabled={!hasPrev}
-			use:ripple
-			onclick={(e) => handlePage('prev')}
-		>
-			<Icon path={mdiChevronLeft} />
-		</button> -->
-		<!-- <button
-			type="button"
-			class="hover:bg-gray-100 p-1 px-2 outline-none focus:bg-gray-200 disabled:bg-white disabled:text-gray-400 rounded"
-			disabled={!hasNext}
-			use:ripple
-			onclick={(e) => handlePage('next')}
-		>
-			<Icon path={mdiChevronRight} />
-		</button> -->
-		<!-- <button
-			type="button"
-			class="hover:bg-gray-100 p-1 px-2 outline-none focus:bg-gray-200 disabled:bg-white disabled:text-gray-400 rounded"
-			disabled={!hasLast}
-			use:ripple
-			onclick={(e) => handlePage('last')}
-		>
-			<Icon path={mdiPageLast} />
-		</button> -->
 	</div>
 </div>
