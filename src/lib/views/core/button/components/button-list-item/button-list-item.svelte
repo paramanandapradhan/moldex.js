@@ -33,6 +33,8 @@
 		menuIconClassName?: string;
 		menuButtonClassName?: string;
 		menuButtonLabel?: string;
+		hasDivider?: boolean;
+		dividerClassName?: string;
 		onMenu?: (ev: Event, menu: Menu | string) => void;
 		onClick?: (ev: MouseEvent) => void;
 		children?: Snippet;
@@ -86,6 +88,8 @@
 		menuIconClassName,
 		menuButtonClassName,
 		menuButtonLabel,
+		hasDivider,
+		dividerClassName,
 		onMenu,
 		onClick = (ev: MouseEvent) => {},
 		children
@@ -93,68 +97,66 @@
 </script>
 
 {#snippet itemInternal()}
-	<div class="flex w-full items-center gap-4">
-		{#if hasIcon && iconPath}
-			<div>
-				<Icon path={iconPath} className="{iconClassName} {iconClassName}" />
-			</div>
-		{/if}
-
-		{#if hasImg && imgSrc}
-			<div>
-				<img src={imgSrc} class="w-6 h-6 {imgClassName} {imgClassName}" alt="item-img-{index}" />
-			</div>
-		{/if}
-
-		<div class="flex-grow">
-			{#if title}
-				<div class="text-ellipsis overflow-hidden {titleClassName}  }">
-					{title || ''}
-				</div>
-			{/if}
-			{#if subtitle}
-				<div
-					class="text-ellipsis overflow-hidden text-base-400 dark:text-base-300 text-sm font-light {subtitleClassName} }"
-				>
-					{subtitle || ''}
-				</div>
-			{/if}
+	{#if hasIcon && iconPath}
+		<div>
+			<Icon path={iconPath} className="{iconClassName} {iconClassName}" />
 		</div>
-		{#if hasCheckbox}
-			<div>
-				<Icon
-					path={isChecked ? checkboxIconPath : uncheckboxIconPath}
-					className="w-5 h-5 {checkboxClassName} {isChecked
-						? `text-primary ${checkboxIconClassName}`
-						: `text-base-400 ${uncheckboxIconClassName}`}"
-				/>
-			</div>
-		{/if}
+	{/if}
 
-		{#if hasArrow}
-			<div>
-				<Icon path={arrowIconPath} className="w-5 h-5 text-base-500 {arrowClassName}  " />
+	{#if hasImg && imgSrc}
+		<div>
+			<img src={imgSrc} class="w-6 h-6 {imgClassName} {imgClassName}" alt="item-img-{index}" />
+		</div>
+	{/if}
+
+	<div class="flex-grow">
+		{#if title}
+			<div class="text-ellipsis overflow-hidden {titleClassName}  }">
+				{title || ''}
 			</div>
 		{/if}
-		{#if hasMenu}
-			<div>
-				<ButtonMenu
-					{menus}
-					{onMenu}
-					label={menuButtonLabel}
-					iconPath={menuIconPath}
-					{menuIconClassName}
-					className={menuButtonClassName}
-				/>
+		{#if subtitle}
+			<div
+				class="text-ellipsis overflow-hidden text-base-400 dark:text-base-300 text-sm font-light {subtitleClassName} }"
+			>
+				{subtitle || ''}
 			</div>
 		{/if}
 	</div>
+	{#if hasCheckbox}
+		<div>
+			<Icon
+				path={isChecked ? checkboxIconPath : uncheckboxIconPath}
+				className="w-5 h-5 {checkboxClassName} {isChecked
+					? `text-primary ${checkboxIconClassName}`
+					: `text-base-400 ${uncheckboxIconClassName}`}"
+			/>
+		</div>
+	{/if}
+
+	{#if hasArrow}
+		<div>
+			<Icon path={arrowIconPath} className="w-5 h-5 text-base-500 {arrowClassName}  " />
+		</div>
+	{/if}
+	{#if hasMenu}
+		<div>
+			<ButtonMenu
+				{menus}
+				{onMenu}
+				label={menuButtonLabel}
+				iconPath={menuIconPath}
+				{menuIconClassName}
+				className={menuButtonClassName}
+			/>
+		</div>
+	{/if}
 {/snippet}
 
 <Button
 	id="{id}-list-item-{index}"
 	type="button"
-	className=" w-full text-start justify-start rounded-none {className}"
+	className="w-full !text-start !justify-start hover:bg-base-50 transition rounded-none   {className}"
 	{onClick}
 	{disabled}
 	{appearance}
@@ -163,8 +165,9 @@
 	{#if children}
 		{@render children()}
 	{:else}
-		<div>
-			{@render itemInternal()}
-		</div>
+		{@render itemInternal()}
 	{/if}
 </Button>
+{#if hasDivider}
+	<hr class=" {dividerClassName}" />
+{/if}
