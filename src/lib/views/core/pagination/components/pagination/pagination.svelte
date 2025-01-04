@@ -18,6 +18,7 @@
 		itemsText?: string;
 		pageSizeText?: string;
 		pageText?: string;
+		disbaleSizeMenuButton?: boolean;
 		onPageSizeChange?: (size: number) => void;
 		onPageIndexChange?: (index: number) => void;
 	};
@@ -30,6 +31,7 @@
 		itemsText = 'Items',
 		pageSizeText = 'Page Size',
 		pageText = 'Page',
+		disbaleSizeMenuButton,
 		onPageSizeChange,
 		onPageIndexChange
 	}: PropsType = $props();
@@ -99,6 +101,7 @@
 		<div>{pageSizeText}</div>
 		<div class="">
 			<ButtonMenu
+				disabled={disbaleSizeMenuButton}
 				iconPath={mdiChevronDown}
 				label={'' + pageSize}
 				menus={pageSizeOptions.map((o) => '' + o)}

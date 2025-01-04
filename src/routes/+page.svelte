@@ -6,8 +6,9 @@
 	<div class="p-6">
 		<Pagination
 			length={100}
-			pageSize={10}
+			pageSize={5}
 			pageIndex={0}
+			disbaleSizeMenuButton={true}
 			onPageIndexChange={(index) => console.log(index)}
 			onPageSizeChange={(size) => console.log(size)}
 		/>
