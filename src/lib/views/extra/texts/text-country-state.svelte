@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '../../../../../tailwind.css';
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
 	import { BROWSER } from 'esm-env';
 

@@ -10,6 +10,7 @@ import CropperDialog, { type CropperDialogPropsType } from '$lib/views/core/dial
 import { processImageFile } from '../utils/image-service';
 import type { PickerDialogProps } from '$lib/views/core/dialog/components/picker-dialog/picker-dialog.svelte';
 import PickerDialog from '$lib/views/core/dialog/components/picker-dialog/picker-dialog.svelte';
+import NumberFieldDialog from '$lib/views/core/dialog/components/number-field-dialog/number-field-dialog.svelte';
 
 export type PickerDialogPropsType = {
     items?: any[],
@@ -155,6 +156,27 @@ export async function openPickerDialog<R>({
     })
 }
 
+
+
+export async function openNumberFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, ...params }: DialogProps & InputFieldProps & { fieldClassName?: string } = {}) {
+
+    return await openDialog({
+        bodyComponent: NumberFieldDialog,
+        props: { value, label, name, maxlength, className: fieldClassName, autofocus, required, appearance, size, floatingLabel, },
+        ...params,
+        hasHeader: true,
+        hasHeaderBack: isMobileScreen(),
+        hasHeaderClose: !isMobileScreen(),
+        size: isMobileScreen() ? 'full' : 'sm',
+        hasTitle: true,
+        title: title || 'Prompt',
+        hasFooter: true,
+        hasFooterCloseButton: true,
+        hasFooterOkButton: true,
+        footerOkButtonType: 'submit',
+        targetFormId: 'number-field-dialog-form'
+    })
+}
 
 export async function openTextFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, ...params }: DialogProps & InputFieldProps & { fieldClassName?: string } = {}) {
 
