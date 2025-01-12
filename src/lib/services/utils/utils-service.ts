@@ -1,5 +1,5 @@
 import { toDate } from '../date/date-service';
-
+import { customAlphabet } from 'nanoid'
 
 /**
  * Generates a random number between the specified minimum and maximum values (inclusive of the minimum and exclusive of the maximum).
@@ -419,4 +419,16 @@ export function pixelToInch(pixels: number): number {
     }
     const DPI = 96; // Default DPI for screen resolution
     return pixels / DPI;
+}
+
+
+export function alphabetNanoid(length: number = 10, lowercase: boolean = false): string {
+    let alphabet: string = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i)).join('');
+
+    if (lowercase) {
+        alphabet = alphabet.toLowerCase();
+    }
+
+    const nanoid = customAlphabet(alphabet, length);
+    return nanoid();
 }
