@@ -12,17 +12,33 @@ export const ACCEPT_IMAGE_FILES: string = ".png,.PNG,.jpg,.jpg,.jepg,.JPEG,.webp
  */
 export async function processImageFile(
     file: File,
-    options?: {
+    options: {
         maxWidth?: number;
         maxHeight?: number;
         maxSizeInBytes?: number;
         outputFormat?: 'image/webp' | 'image/jpeg' | 'image/png';
         quality?: number;
-    }
+    } = {}
 ): Promise<File> {
-    // Return the original file if no processing is needed
-    if (!options?.maxWidth && !options?.maxHeight && !options?.maxSizeInBytes && !options?.outputFormat) {
-        return file;
+    // // Return the original file if no processing is needed
+    // if (!options?.maxWidth && !options?.maxHeight && !options?.maxSizeInBytes && !options?.outputFormat) {
+    //     return file;
+    // }
+    options = options || {};
+    if (!options.maxWidth) {
+        options.maxWidth = 1280;
+    }
+    if (!options.maxHeight) {
+        options.maxHeight = options.maxWidth;
+    }
+    if (!options.quality || options.quality < 0) {
+        options.quality = 0.8;
+    }
+    if (options.quality > 1) {
+        options.quality = options.quality / 100;
+    }
+    if (options.outputFormat) {
+        options.outputFormat = 'image/webp';
     }
 
     // Read the image as a data URL

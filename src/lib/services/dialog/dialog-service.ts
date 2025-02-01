@@ -349,7 +349,7 @@ export async function openFilePickerDialog<T extends File | File[]>(accepts: str
  */
 export async function openImagePickerDialog<T extends File | File[]>(
     accepts: string | string[] = 'image/*',
-    options?: {
+    options: {
         multiple?: boolean; // Allow selecting multiple images
         capture?: 'user' | 'environment'; // Camera direction: 'user' for front, 'environment' for back
         maxWidth?: number; // Maximum width for the resized image
@@ -357,10 +357,26 @@ export async function openImagePickerDialog<T extends File | File[]>(
         maxSizeInBytes?: number; // Maximum file size in bytes after compression
         outputFormat?: 'image/webp' | 'image/jpeg' | 'image/png'; // Output image format
         quality?: number; // Image quality (0 to 1), default is 0.8 (80%)
-    }
+    } = {}
 ): Promise<T | null> {
     return new Promise((resolve, reject) => {
         try {
+            options = options || {};
+            if (!options.maxWidth) {
+                options.maxWidth = 1280;
+            }
+            if (!options.maxHeight) {
+                options.maxHeight = options.maxWidth;
+            }
+            if (!options.quality || options.quality < 0) {
+                options.quality = 0.8;
+            }
+            if (options.quality > 1) {
+                options.quality = options.quality / 100;
+            }
+            if (options.outputFormat) {
+                options.outputFormat = 'image/webp';
+            }
             // Create an input element of type 'file'
             const inputElement = document.createElement('input');
             inputElement.type = 'file';
