@@ -1,8 +1,30 @@
-import { readFileAsDataURL } from "./file-service";
+import type { DialogSize } from "$lib/views";
+import { DialogSizeEnum, openCropperDialog } from "../dialog/dialog-service";
+import { getExtFromFileType, readFileAsDataURL } from "./file-service";
+import { nanoid } from 'nanoid'
 
-export const ACCEPT_IMAGE_FILES: string = ".png,.PNG,.jpg,.jpg,.jepg,.JPEG,.webp,.WEBP";
+export type ImageCapttures = ImageCapttureEnum.USER | ImageCapttureEnum.ENVIRONMENT;
 
+export enum ImageCapttureEnum {
+    USER = 'user',
+    ENVIRONMENT = 'environment',
+}
 
+export type OutputImageFormats = OutputImageFormatEnum.JPG | OutputImageFormatEnum.WEBP | OutputImageFormatEnum.PNG;
+
+export enum OutputImageFormatEnum {
+    WEBP = 'image/webp',
+    JPG = 'image/jpeg',
+    PNG = 'image/png',
+}
+
+export class FilePickerAccepts {
+    static image = '.png,.PNG,.jpg,.JPG,.jpeg,.JPEG,.webp,.WEBP';
+    static document = '.pdf,.PDF,.doc,.DOC,.docx,.DOCX,.xls,.XLS,.xlsx,.XLSX,.ppt,.PPT,.pptx,.PPTX,.txt,.TXT,';
+    static video = '.mp4,.MP4,.mov,.MOV,.avi,.AVI,.wmv,.WMV,.flv,.FLV,.mkv,.MKV,.webm,.WEBM,';
+    static audio = '.mp3,.MP3,.wav,.WAV,.aac,.AAC,.flac,.FLAC,.ogg,.OGG,.wma,.WMA,';
+    static text = '.txt,.TXT,';
+}
 
 /**
  * Processes an image file by resizing, reducing file size, and converting it to a specified format based on the provided options.
@@ -16,7 +38,7 @@ export async function processImageFile(
         maxWidth?: number;
         maxHeight?: number;
         maxSizeInBytes?: number;
-        outputFormat?: 'image/webp' | 'image/jpeg' | 'image/png';
+        outputFormat?: OutputImageFormats;
         quality?: number;
     } = {}
 ): Promise<File> {
@@ -38,7 +60,7 @@ export async function processImageFile(
         options.quality = options.quality / 100;
     }
     if (options.outputFormat) {
-        options.outputFormat = 'image/webp';
+        options.outputFormat = OutputImageFormatEnum.WEBP;
     }
 
     // Read the image as a data URL
@@ -257,3 +279,52 @@ export async function dataUrlToImage(dataUrl: string): Promise<HTMLImageElement>
         img.src = dataUrl;
     });
 }
+
+export async function cropImageFile(
+    {
+        inputImageFile,
+        outputFormat = OutputImageFormatEnum.WEBP,
+        outputWidth = 600,
+        outputQuality = 0.6,
+        outputAspectRatio = 1,
+        dialogSize = DialogSizeEnum.MD,
+
+    }: {
+        inputImageFile: File,
+        outputFormat?: OutputImageFormats,
+        outputWidth?: number,
+        outputQuality?: number,
+        outputAspectRatio?: number,
+        dialogSize?: DialogSize,
+    }
+): Promise<File | null> {
+    let imageFile: File | null = null;
+    let fileName = '';
+    if (inputImageFile) {
+        imageFile = (await openCropperDialog({
+            inputImageFile,
+            outputFormat,
+            outputWidth,
+            outputQuality,
+            outputAspectRatio,
+            size: dialogSize,
+        })) as File;
+        if (imageFile) {
+            try {
+                // console.log('imageFile', imageFile);
+                let filenameNanoid = nanoid(10);
+                fileName = (imageFile.name || '').toLocaleLowerCase().trim().replace(/ /g, '_').substring(0, 4);
+                fileName = (fileName ? fileName + '-' + filenameNanoid : filenameNanoid) + `.${getExtFromFileType(outputFormat)}`;
+            } catch (e: any) {
+                console.error(e);
+            }
+        }
+    }
+    let newFile = null;
+    if (imageFile && fileName) {
+        // Add the file name to the file object, so that it can be used in the form.
+        newFile = new File([imageFile!], fileName, { type: imageFile.type || 'image/webp' });
+    }
+    return newFile;
+}
+

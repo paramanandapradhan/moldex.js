@@ -278,10 +278,56 @@ export function getFilenameExtension(filename: string): { name: string, ext: str
  * const sizeString = fileSizeString(1024);
  * console.log(sizeString); // Output: "1 kB"
  */
-export function fileSizeString(size: number): string {
-    if (size < 0) return '0 B';
-    const units = ['B', 'kB', 'MB', 'GB', 'TB'];
-    const exponent = size === 0 ? 0 : Math.floor(Math.log(size) / Math.log(1024));
-    const value = (size / Math.pow(1024, exponent)).toFixed(2);
-    return `${value} ${units[exponent]}`;
+export function formatFileSize(bytes: number = 0): string {
+    if (bytes < 1024) {
+        return bytes + ' Bytes';
+    } else if (bytes < 1024 * 1024) {
+        return (bytes / 1024).toFixed(2) + ' KB';
+    } else if (bytes < 1024 * 1024 * 1024) {
+        return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    } else {
+        return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+    }
 }
+
+
+export function getExtFromFileType(type: string): string | null {
+    const mimeTypes: { [key: string]: string } = {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "image/gif": "gif",
+        "image/webp": "webp",
+        "image/svg+xml": "svg",
+        "video/mp4": "mp4",
+        "video/webm": "webm",
+        "video/ogg": "ogv",
+        "audio/mpeg": "mp3",
+        "audio/ogg": "ogg",
+        "audio/wav": "wav",
+        "application/pdf": "pdf",
+        "application/json": "json",
+        "application/javascript": "js",
+        "text/html": "html",
+        "text/css": "css",
+        "text/plain": "txt",
+        "application/zip": "zip",
+        "application/x-rar-compressed": "rar",
+        "application/xml": "xml"
+    };
+
+    return mimeTypes[type] || null;
+}
+
+export function ellipsisFileNameAtCenter(name: string, sizeLimit: number = 15, startLength: number = 5, endLength: number = 3) {
+    name = name || '';
+    if (name.length > sizeLimit) {
+        name = [
+            name.substring(0, startLength),
+            '…',
+            name.substring(name.lastIndexOf('.') - endLength, name.length)
+        ].join('');
+        return name;
+    }
+    return name;
+}
+

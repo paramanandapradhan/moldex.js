@@ -1,5 +1,6 @@
 import { createScreenSizeStore, ScreenSizeEnum } from "$lib/stores/screen-size/screen-size-store.svelte";
 import { BROWSER } from "esm-env";
+import { DialogSizeEnum } from "../dialog/dialog-service";
 
 export const screenSize = createScreenSizeStore();
 
@@ -28,6 +29,10 @@ export function isSmallScreen() {
 
 export function isMobileScreen() {
     return isSmallScreen();
+}
+
+export function getDialogSize() {
+    return isMobileScreen() ? DialogSizeEnum.FULL : DialogSizeEnum.SM;
 }
 
 export function isTouchDevice() {

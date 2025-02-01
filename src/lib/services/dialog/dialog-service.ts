@@ -1,16 +1,26 @@
 
-import { Dialog, type DialogProps, type InputFieldProps } from '$lib/views';
+import { Dialog, type DialogProps, type DialogSize, type InputFieldProps } from '$lib/views';
+import CropperDialog, { type CropperDialogPropsType } from '$lib/views/core/dialog/components/cropper-dialog/cropper-dialog.svelte';
 import LoadingDialog from '$lib/views/core/dialog/components/loading-dialog/loading-dialog.svelte';
 import MsgDialog from '$lib/views/core/dialog/components/msg-dialog/msg-dialog.svelte';
-import TextFieldDialog from '$lib/views/core/dialog/components/text-field-dialog/text-field-dialog.svelte';
-import TextareaFieldDialog from '$lib/views/core/dialog/components/textarea-field-dialog/textarea-field-dialog.svelte';
-import { createRawSnippet, mount, } from 'svelte';
-import { isMobileScreen } from '../screen/screen-service';
-import CropperDialog, { type CropperDialogPropsType } from '$lib/views/core/dialog/components/cropper-dialog/cropper-dialog.svelte';
-import { processImageFile } from '../utils/image-service';
+import NumberFieldDialog from '$lib/views/core/dialog/components/number-field-dialog/number-field-dialog.svelte';
 import type { PickerDialogProps } from '$lib/views/core/dialog/components/picker-dialog/picker-dialog.svelte';
 import PickerDialog from '$lib/views/core/dialog/components/picker-dialog/picker-dialog.svelte';
-import NumberFieldDialog from '$lib/views/core/dialog/components/number-field-dialog/number-field-dialog.svelte';
+import TextFieldDialog from '$lib/views/core/dialog/components/text-field-dialog/text-field-dialog.svelte';
+import TextareaFieldDialog from '$lib/views/core/dialog/components/textarea-field-dialog/textarea-field-dialog.svelte';
+import { mount } from 'svelte';
+import { getDialogSize, isMobileScreen } from '../screen/screen-service';
+import { cropImageFile, FilePickerAccepts, OutputImageFormatEnum, processImageFile, type ImageCapttures, type OutputImageFormats } from '../utils/image-service';
+
+export enum DialogSizeEnum {
+    XS = 'xs',
+    SM = 'sm',
+    MD = 'md',
+    LG = 'lg',
+    XL = 'xl',
+    FULL = 'full'
+}
+
 
 export type PickerDialogPropsType = {
     items?: any[],
@@ -167,7 +177,7 @@ export async function openNumberFieldDialog({ title, value, label, name, maxleng
         hasHeader: true,
         hasHeaderBack: isMobileScreen(),
         hasHeaderClose: !isMobileScreen(),
-        size: isMobileScreen() ? 'full' : 'sm',
+        size: getDialogSize(),
         hasTitle: true,
         title: title || 'Prompt',
         hasFooter: true,
@@ -187,7 +197,7 @@ export async function openTextFieldDialog({ title, value, label, name, maxlength
         hasHeader: true,
         hasHeaderBack: isMobileScreen(),
         hasHeaderClose: !isMobileScreen(),
-        size: isMobileScreen() ? 'full' : 'sm',
+        size: getDialogSize(),
         hasTitle: true,
         title: title || 'Prompt',
         hasFooter: true,
@@ -207,7 +217,7 @@ export async function openTextareaFieldDialog({ title, value, label, name, maxle
         hasHeader: true,
         hasHeaderBack: isMobileScreen(),
         hasHeaderClose: !isMobileScreen(),
-        size: isMobileScreen() ? 'full' : 'sm',
+        size: isMobileScreen() ? DialogSizeEnum.FULL : DialogSizeEnum.SM,
         hasTitle: true,
         title: title || 'Prompt',
         hasFooter: true,
@@ -247,11 +257,12 @@ export async function openLoadingDialog({
  */
 export async function openCropperDialog<T, R>({
     outputWidth,
-    outputFormat = 'webp',
+    outputFormat = OutputImageFormatEnum.WEBP,
     outputQuality = 0.8,
     outputType = 'file',
     inputImageFile,
     className,
+    outputAspectRatio,
     ...params
 }: DialogProps & CropperDialogPropsType): Promise<R | string | File> {
     return await openDialog<R>({
@@ -263,6 +274,7 @@ export async function openCropperDialog<T, R>({
             outputType,
             inputImageFile,
             className,
+            outputAspectRatio,
         },
         ...params,
         hasHeader: true,
@@ -274,7 +286,7 @@ export async function openCropperDialog<T, R>({
         title: params.title || 'Crop Image',
         hasHeaderBack: isMobileScreen(),
         hasHeaderClose: !isMobileScreen(),
-        size: isMobileScreen() ? 'full' : 'lg',
+        size: getDialogSize(),
 
     });
 }
@@ -351,11 +363,11 @@ export async function openImagePickerDialog<T extends File | File[]>(
     accepts: string | string[] = 'image/*',
     options: {
         multiple?: boolean; // Allow selecting multiple images
-        capture?: 'user' | 'environment'; // Camera direction: 'user' for front, 'environment' for back
+        capture?: ImageCapttures; // Camera direction: 'user' for front, 'environment' for back
         maxWidth?: number; // Maximum width for the resized image
         maxHeight?: number; // Maximum height for the resized image
         maxSizeInBytes?: number; // Maximum file size in bytes after compression
-        outputFormat?: 'image/webp' | 'image/jpeg' | 'image/png'; // Output image format
+        outputFormat?: OutputImageFormats; // Output image format
         quality?: number; // Image quality (0 to 1), default is 0.8 (80%)
     } = {}
 ): Promise<T | null> {
@@ -375,7 +387,7 @@ export async function openImagePickerDialog<T extends File | File[]>(
                 options.quality = options.quality / 100;
             }
             if (options.outputFormat) {
-                options.outputFormat = 'image/webp';
+                options.outputFormat = OutputImageFormatEnum.WEBP;
             }
             // Create an input element of type 'file'
             const inputElement = document.createElement('input');
@@ -423,3 +435,24 @@ export async function openImagePickerDialog<T extends File | File[]>(
         }
     });
 }
+
+
+export async function openImagePickerDialogWithCropper({
+    outputFormat = OutputImageFormatEnum.WEBP,
+    outputWidth = 800,
+    outputQuality = 0.6,
+    outputAspectRatio = 1,
+    dialogSize = DialogSizeEnum.MD,
+
+}: {
+    outputFormat?: OutputImageFormats,
+    outputWidth?: number,
+    outputQuality?: number,
+    outputAspectRatio?: number,
+    dialogSize?: DialogSize,
+
+} = {}): Promise<File | null> {
+    const file: File = (await openFilePickerDialog(FilePickerAccepts.image)) as File;
+    let croppedFile = await cropImageFile({ inputImageFile: file, outputFormat, outputWidth, outputQuality, outputAspectRatio, dialogSize });
+    return croppedFile;
+};

@@ -432,3 +432,18 @@ export function alphabetNanoid(length: number = 10, lowercase: boolean = false):
     const nanoid = customAlphabet(alphabet, length);
     return nanoid();
 }
+
+export function sanitizePhoneNumber(input: string): string {
+    return input.replace(/\D/g, "");
+}
+
+
+
+export function isChrome() {
+    // Chrome's userAgent contains "Chrome", and its vendor contains "Google Inc"
+    // Note: Microsoft Edge's userAgent also contains "Chrome"
+    return /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+}
+
+
+ 

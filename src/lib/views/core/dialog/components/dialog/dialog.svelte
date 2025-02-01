@@ -9,8 +9,15 @@
 	 */
 	type DialogCloseButtonClickFunction = (ev: MouseEvent | TouchEvent) => Promise<boolean>;
 
-	export type DialogSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+	export type DialogSize =
+		| DialogSizeEnum.XS
+		| DialogSizeEnum.SM
+		| DialogSizeEnum.MD
+		| DialogSizeEnum.LG
+		| DialogSizeEnum.XL
+		| DialogSizeEnum.FULL;
 
+	
 	export type DialogProps = {
 		backdropClassName?: string;
 		bodyClassName?: string;
@@ -80,7 +87,7 @@
 	import { type Component as ComponetType, type Snippet } from 'svelte';
 	import '../../../../../tailwind.css';
 	import { mdiArrowLeft, mdiClose } from '$lib/views/core/icon';
-	import { isMobileScreen } from '$lib/services';
+	import { DialogSizeEnum, isMobileScreen } from '$lib/services';
 
 	let {
 		backdropClassName = '',
@@ -118,7 +125,7 @@
 		headerCloseIconPath = mdiClose,
 		hasHeaderBack = isMobileScreen(),
 		hasHeaderClose = !isMobileScreen(),
-		size = isMobileScreen() ? 'full' : 'sm',
+		size = isMobileScreen() ? DialogSizeEnum.FULL : DialogSizeEnum.SM,
 		id = '',
 		onClose,
 		onCloseClick,
