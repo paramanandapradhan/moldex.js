@@ -26,7 +26,7 @@ export async function processImageFile(
     // }
     options = options || {};
     if (!options.maxWidth) {
-        options.maxWidth = 1280;
+        options.maxWidth = 1920;
     }
     if (!options.maxHeight) {
         options.maxHeight = options.maxWidth;

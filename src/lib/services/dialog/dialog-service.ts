@@ -363,7 +363,7 @@ export async function openImagePickerDialog<T extends File | File[]>(
         try {
             options = options || {};
             if (!options.maxWidth) {
-                options.maxWidth = 1280;
+                options.maxWidth = 1920;
             }
             if (!options.maxHeight) {
                 options.maxHeight = options.maxWidth;
