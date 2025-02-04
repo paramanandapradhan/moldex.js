@@ -17,7 +17,6 @@
 		| DialogSizeEnum.XL
 		| DialogSizeEnum.FULL;
 
-	
 	export type DialogProps = {
 		backdropClassName?: string;
 		bodyClassName?: string;
@@ -46,6 +45,7 @@
 		hasHeaderShadow?: boolean;
 		hasSubtitle?: boolean;
 		hasTitle?: boolean;
+		hasHeaderOkButton?: boolean;
 		headerBackButtonClassName?: string;
 		headerBackIconClassName?: string;
 		headerBackIconPath?: string;
@@ -53,6 +53,10 @@
 		headerCloseButtonClassName?: string;
 		headerCloseIconClassName?: string;
 		headerCloseIconPath?: string;
+		headerOkButtonClassName?: string;
+		headerOkButtonLabel?: string;
+		headerOkButtonIconPath?: string;
+		headerOkButtonIconClassName?: string;
 		id?: string;
 		onClose?: () => void;
 		onCloseClick?: DialogCloseButtonClickFunction;
@@ -112,10 +116,15 @@
 		hasFooterOkButton = false,
 		hasFooterShadow = false,
 		hasHeader = false,
+		hasHeaderOkButton = false,
 
 		hasHeaderShadow = false,
 		hasSubtitle = false,
 		hasTitle = false,
+		headerOkButtonClassName = '',
+		headerOkButtonLabel = '',
+		headerOkButtonIconPath = '',
+		headerOkButtonIconClassName = '',
 		headerBackButtonClassName = '',
 		headerBackIconClassName = '',
 		headerBackIconPath = mdiArrowLeft,
@@ -332,6 +341,17 @@
 					<div class="">
 						{#if headerSnippet}
 							{@render headerSnippet()}
+						{/if}
+					</div>
+					<div>
+						{#if hasHeaderOkButton}
+							<Button
+								appearance="border"
+								className=" {headerOkButtonClassName}"
+								iconPath={headerOkButtonIconPath}
+								iconClassName=" text-primary {headerOkButtonIconClassName}"
+								onClick={handleClose}
+							/>
 						{/if}
 					</div>
 					<div>
