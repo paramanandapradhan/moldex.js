@@ -13,11 +13,11 @@
 		maxlengthMsg?: string;
 		checkboxIconPath?: string;
 		uncheckboxIconPath?: string;
-		arrowIconPath?: string;
 		checkboxIconClassName?: string;
 		uncheckboxIconClassName?: string;
-		arrowClassName?: string;
 		checkboxClassName?: string;
+		arrowIconPath?: string;
+		arrowClassName?: string;
 		itemTileSnippet?: Snippet<[item: any, index: number]>;
 	};
 </script>
@@ -89,21 +89,10 @@
 		return records;
 	});
 
-	// // Initialize selected items from `value`
-	// $effect(() => {
-	// 	if (value) {
-	// 		if (Array.isArray(value)) {
-	// 			value.forEach((val) => selectedSet.add(val));
-	// 		} else {
-	// 			selectedSet.add(value);
-	// 		}
-	// 	}
-	// });
-
 	// Handle item selection
 	function handleItemClick(ev: Event, item: any, index: number) {
 		let itemId = item[identityFieldName];
-		console.log('handleItemClick', { itemId, multiple });
+		// console.log('handleItemClick', { itemId, multiple });
 		if (!multiple) {
 			if (selectedSet.has(itemId)) {
 				selectedSet.delete(itemId);
@@ -188,6 +177,13 @@
 					{hasCheckbox}
 					{hasArrow}
 					isChecked={isSelected}
+					{checkboxIconPath}
+					{uncheckboxIconPath}
+					{checkboxIconClassName}
+					{uncheckboxIconClassName}
+					{checkboxClassName}
+					{arrowIconPath}
+					{arrowClassName}
 				/>
 			{/if}
 		</div>

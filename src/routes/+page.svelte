@@ -1,10 +1,15 @@
 <script lang="ts">
-	import PhoneField from '$lib/views/core/input/components/phone-field/phone-field.svelte';
-	import Pagination from '$lib/views/core/pagination/components/pagination/pagination.svelte';
+	import ComboboxField from '$lib/views/core/input/components/combobox-field/combobox-field.svelte';
 </script>
 
 <div class="min-h-full">
 	<div class="p-6">
-		<PhoneField name="phone" label="PHone" />
+		<ComboboxField
+			name="items"
+			label="Items"
+			items={['Item1', 'Item2', 'Item3']}
+			multiple
+			hasCheckbox
+		/>
 	</div>
 </div>

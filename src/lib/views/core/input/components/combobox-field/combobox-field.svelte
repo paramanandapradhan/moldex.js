@@ -39,18 +39,29 @@
 		subtitleFieldName?: string;
 		titleClassName?: string;
 		titleFieldName?: string;
+		checkboxIconPath?: string;
+		uncheckboxIconPath?: string;
+		checkboxIconClassName?: string;
+		uncheckboxIconClassName?: string;
+		checkboxClassName?: string;
+		itemTileSnippet?: Snippet<[item: any, index: any]>;
 	};
 </script>
 
 <script lang="ts">
 	import ButtonListItem from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
 	import Button from '$lib/views/core/button/components/button/button.svelte';
-	import { mdiUnfoldMoreHorizontal } from '$lib/views/core/icon';
+	import {
+		mdiCheckCircle,
+		mdiCheckCircleOutline,
+		mdiUnfoldMoreHorizontal
+	} from '$lib/views/core/icon';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import NoData from '$lib/views/core/no-data/components/no-data/no-data.svelte';
 	import type { Snippet } from 'svelte';
 	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 	import SearchField from '../search-field/search-field.svelte';
+	import { SvelteSet } from 'svelte/reactivity';
 
 	let {
 		appearance,
@@ -99,24 +110,22 @@
 		titleClassName,
 		titleFieldName = 'name',
 		value = $bindable(),
+		checkboxIconPath = mdiCheckCircle,
+		uncheckboxIconPath = mdiCheckCircleOutline,
+		checkboxIconClassName = '',
+		uncheckboxIconClassName = '',
+		checkboxClassName = '',
+		itemTileSnippet,
 		...props
 	}: InputFieldProps & ComboboxFieldProps = $props();
-
-	// type CustomListItemType = {
-	// 	title?: string;
-	// 	subtitle?: string;
-	// 	isChecked?: boolean;
-	// } & {
-	// 	[key: string]: string | number | boolean | Date;
-	// };
-
-	// let idFieldSymbol = Symbol('_id');
-	// let searchFieldSymbol = Symbol('_search');
 
 	let searchFieldRef: any | null = $state(null);
 
 	let isPlaced = $state(false);
 	let searchText: string = $state('');
+	let selectedItemsSet: SvelteSet<any> = $state(
+		value ? new SvelteSet<any>(Array.isArray(value) ? value : [value]) : new SvelteSet<any>()
+	);
 
 	let comboboxIconSizeClassName = $derived.by(() => {
 		if (size) {
@@ -186,18 +195,6 @@
 		}
 
 		return '';
-	});
-
-	let selectedItemsSet: Set<any> = $derived.by(() => {
-		let set = new Set<any>();
-		if (value != null) {
-			if (Array.isArray(value)) {
-				value.forEach((v) => set.add(v));
-			} else if (value) {
-				set.add(value);
-			}
-		}
-		return set;
 	});
 
 	let preparedItems = $derived.by(() => {
@@ -416,6 +413,7 @@
 				{:else if filteredItems?.length}
 					<ul>
 						{#each filteredItems as item, index}
+							{@const isSelected = selectedItemsSet.has(item[identityFieldName])}
 							<li
 								class="select-none"
 								id="item-{index}"
@@ -423,16 +421,38 @@
 								tabindex="-1"
 								aria-selected={item.isChecked}
 							>
-								<ButtonListItem
-									title={item[titleFieldName] || ''}
-									subtitle={item[subtitleFieldName || ''] || ''}
-									{index}
-									{hasCheckbox}
-									className=" {itemClassName}"
-									titleClassName=" {titleClassName}"
-									subtitleClassName=" {subtitleClassName}"
-									onClick={(ev) => handleItemClick(ev, item, index)}
-								/>
+								{#if itemTileSnippet}
+									<ButtonListItem onClick={(ev) => handleItemClick(ev, item, index)}>
+										{@render itemTileSnippet(item, index)}
+										{#if hasCheckbox}
+											<div>
+												<Icon
+													path={isSelected ? checkboxIconPath : uncheckboxIconPath}
+													className="w-5 h-5 {checkboxClassName} {isSelected
+														? `text-primary ${checkboxIconClassName}`
+														: `text-base-400 ${uncheckboxIconClassName}`}"
+												/>
+											</div>
+										{/if}
+									</ButtonListItem>
+								{:else}
+									<ButtonListItem
+										title={item[titleFieldName] || ''}
+										subtitle={item[subtitleFieldName || ''] || ''}
+										{index}
+										{hasCheckbox}
+										className=" {itemClassName}"
+										titleClassName=" {titleClassName}"
+										subtitleClassName=" {subtitleClassName}"
+										isChecked={isSelected}
+										{checkboxIconPath}
+										{uncheckboxIconPath}
+										{checkboxIconClassName}
+										{uncheckboxIconClassName}
+										{checkboxClassName}
+										onClick={(ev) => handleItemClick(ev, item, index)}
+									/>
+								{/if}
 							</li>
 						{/each}
 					</ul>
