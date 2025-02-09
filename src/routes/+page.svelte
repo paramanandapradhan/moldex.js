@@ -1,16 +1,10 @@
 <script lang="ts">
+	import PhoneField from '$lib/views/core/input/components/phone-field/phone-field.svelte';
 	import Pagination from '$lib/views/core/pagination/components/pagination/pagination.svelte';
 </script>
 
 <div class="min-h-full">
 	<div class="p-6">
-		<Pagination
-			length={100}
-			pageSize={5}
-			pageIndex={0}
-			disbaleSizeMenuButton={true}
-			onPageIndexChange={(index) => console.log(index)}
-			onPageSizeChange={(size) => console.log(size)}
-		/>
+		<PhoneField name="phone" label="PHone" />
 	</div>
 </div>

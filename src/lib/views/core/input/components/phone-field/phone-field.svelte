@@ -23,10 +23,10 @@
 
 <script lang="ts">
 	import { ripple } from '$lib/actions';
+	import { getDialogSize, openPickerDialog } from '$lib/services';
+	import type { DialogSize } from '$lib/views/core/dialog';
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
 	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
-	import { isMobileScreen, openPickerDialog } from '$lib/services';
-	import type { DialogSize } from '$lib/views/core/dialog';
 
 	let {
 		id,
@@ -95,19 +95,15 @@
 		return dialcode;
 	}
 
-	async function hanleDialCodePicker() {
+	async function handleDialCodePicker() {
 		if (EasyCountryData) {
 			let items = EasyCountryData.getCountries();
-			// console.log('Countries', items);
-			let size: DialogSize = isMobileScreen() ? 'full' : 'sm';
+			console.log('Countries', items);
+			let size: DialogSize = getDialogSize();
 			let res: string = await openPickerDialog<string>({
-				items
-				// itemTitle: 'dialCode',
-				// itemSubtitle: 'name',
-				// size,
-				// hasCheck: true,
-				// identity: 'dialCode',
-				// search: ['name', 'dialCode', 'isoCode']
+				items,
+				identityFieldName: 'dialCode',
+				itemTileSnippet: dialCodePickerItemTile
 			});
 
 			console.log(res);
@@ -172,13 +168,22 @@
 	}
 </script>
 
-{#snippet showPasswordButton()}
+{#snippet dialCodePickerItemTile(item: any, index: number)}
+	<div class="w-14 text-sm font-bold text-base">
+		{item.dialCode}
+	</div>
+	<div class="flex-grow">
+		{item.name}
+	</div>
+{/snippet}
+
+{#snippet showDialCodeButton()}
 	<button
 		id="btn-dialcode-picker-{name || id}"
 		type="button"
 		class="w-16 h-full hover:bg-gray-100 font-bold text-gray-400 focus:outline-primary {btnRoundedClassName} {buttonClassName}"
 		use:ripple
-		onclick={hanleDialCodePicker}
+		onclick={handleDialCodePicker}
 	>
 		{_dailCode}
 	</button>
@@ -204,7 +209,7 @@
 	{id}
 	{name}
 	maxlength={props?.maxlength || 12}
-	leftSnippet={showPasswordButton}
+	leftSnippet={showDialCodeButton}
 	{size}
 	{appearance}
 	{floatingLabel}

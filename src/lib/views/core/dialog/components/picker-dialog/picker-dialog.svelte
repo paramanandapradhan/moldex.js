@@ -11,15 +11,26 @@
 		hasArrow?: boolean;
 		maxlength?: number;
 		maxlengthMsg?: string;
+		checkboxIconPath?: string;
+		uncheckboxIconPath?: string;
+		arrowIconPath?: string;
+		checkboxIconClassName?: string;
+		uncheckboxIconClassName?: string;
+		arrowClassName?: string;
+		checkboxClassName?: string;
+		itemTileSnippet?: Snippet<[item: any, index: number]>;
 	};
 </script>
 
 <script lang="ts">
-	import { showToast } from '$lib/services';
+	import { DialogSizeEnum, getDialogSize, showToast } from '$lib/services';
 
 	import ButtonListItem from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
 	import ButtonSearch from '$lib/views/core/button/components/button-search/button-search.svelte';
+	import type { Snippet } from 'svelte';
 	import type { DialogExports } from '../dialog/dialog.svelte';
+	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
+	import { mdiCheckCircle, mdiCheckCircleOutline, mdiChevronRight } from '$lib/views/core/icon';
 
 	let {
 		value,
@@ -33,6 +44,14 @@
 		hasArrow,
 		maxlength = 0,
 		maxlengthMsg = 'Selection limit reached!',
+		checkboxIconPath = mdiCheckCircle,
+		uncheckboxIconPath = mdiCheckCircleOutline,
+		arrowIconPath = mdiChevronRight,
+		checkboxIconClassName = '',
+		uncheckboxIconClassName = '',
+		arrowClassName = '',
+		checkboxClassName = '',
+		itemTileSnippet,
 		closeDialog,
 		setResult,
 		setOnOkClick,
@@ -131,18 +150,40 @@
 	<ButtonSearch className="rounded-full !p-3 " onSearch={handleSearch} />
 {/snippet}
 
-<div class="mb-4">
+<div class="mb-4 min-h-80">
 	{#each filteredRecords as record, index}
 		{@const isSelected = !!selected.items[record[identityFieldName]]}
 		<div>
-			<ButtonListItem
-				onClick={(ev) => handleItemClick(ev, record, index)}
-				title={record[titleFieldName]}
-				subtitle={record[subtitleFieldName || ''] || ''}
-				{hasCheckbox}
-				{hasArrow}
-				isChecked={isSelected}
-			/>
+			{#if itemTileSnippet}
+				<ButtonListItem>
+					{@render itemTileSnippet(record, index)}
+					{#if hasCheckbox}
+						<div>
+							<Icon
+								path={isSelected ? checkboxIconPath : uncheckboxIconPath}
+								className="w-5 h-5 {checkboxClassName} {isSelected
+									? `text-primary ${checkboxIconClassName}`
+									: `text-base-400 ${uncheckboxIconClassName}`}"
+							/>
+						</div>
+					{/if}
+
+					{#if hasArrow}
+						<div>
+							<Icon path={arrowIconPath} className="w-5 h-5 text-base-500 {arrowClassName}  " />
+						</div>
+					{/if}
+				</ButtonListItem>
+			{:else}
+				<ButtonListItem
+					onClick={(ev) => handleItemClick(ev, record, index)}
+					title={record[titleFieldName]}
+					subtitle={record[subtitleFieldName || ''] || ''}
+					{hasCheckbox}
+					{hasArrow}
+					isChecked={isSelected}
+				/>
+			{/if}
 		</div>
 	{/each}
 </div>

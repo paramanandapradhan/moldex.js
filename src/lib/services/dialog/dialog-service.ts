@@ -129,6 +129,7 @@ export async function openPickerDialog<R>({
     titleFieldName,
     searchFieldName,
     subtitleFieldName,
+    itemTileSnippet,
 
     ...params }: DialogProps & PickerDialogProps) {
     if (hasArrow) {
@@ -150,6 +151,7 @@ export async function openPickerDialog<R>({
             titleFieldName,
             searchFieldName,
             subtitleFieldName,
+            itemTileSnippet,
         },
         hasHeader: true,
         hasTitle: true,
