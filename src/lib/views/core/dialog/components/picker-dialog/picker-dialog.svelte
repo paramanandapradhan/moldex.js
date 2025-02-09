@@ -131,10 +131,6 @@
 		searchText = txt;
 	}
 
-	$effect(() => {
-		console.log('seletedSet', $inspect(selectedSet));
-	});
-
 	onMount(() => {
 		setOnOkClick(handleOkClick);
 		setHeaderSnippet(headerSnippet);
