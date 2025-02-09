@@ -7,11 +7,11 @@
 		circleClassName?: string;
 	};
 
-	let { circleClassName, iconPath, iconClassName = 'text-primary' }: Props = $props();
+	let { circleClassName, iconPath, iconClassName = 'w-5 h-5 text-primary' }: Props = $props();
 </script>
 
 <div
-	class="aspect-square bg-primary-100 rounded-full w-12 h-12 flex items-center justify-center {circleClassName}"
+	class="aspect-square bg-primary-100 rounded-full w-10 h-10 flex items-center justify-center {circleClassName}"
 >
 	<Icon path={iconPath!} className={iconClassName} />
 </div>
