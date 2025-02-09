@@ -123,6 +123,25 @@
 
 	let isPlaced = $state(false);
 	let searchText: string = $state('');
+	let dropdownHeight = $state(0);
+	let windowScrollY = $state(0);
+
+	let isUpward = $derived.by(() => {
+		windowScrollY;
+		if (!isPlaced) return false;
+
+		const rect = inputFieldRef.getBoundingClientRect();
+		const spaceBelow = window.innerHeight - rect.bottom;
+		const spaceAbove = rect.top;
+		if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+
+	let placementClassName = $derived(isUpward ? 'bottom-full mb-1' : 'mt-1');
+
 	let selectedItemsSet: SvelteSet<any> = $state(
 		value ? new SvelteSet<any>(Array.isArray(value) ? value : [value]) : new SvelteSet<any>()
 	);
@@ -349,6 +368,8 @@
 	{/if}
 {/snippet}
 
+<svelte:window bind:scrollY={windowScrollY} />
+
 <div class="relative">
 	<InputField
 		bind:this={inputFieldRef}
@@ -381,7 +402,8 @@
 		></button>
 		<!-- svelte-ignore a11y_interactive_supports_focus -->
 		<div
-			class="absolute z-10 mt-1 max-h-80 w-full flex flex-col rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm {hasDropdownHeader
+			bind:clientHeight={dropdownHeight}
+			class="absolute z-10 {placementClassName} max-h-80 w-full flex flex-col rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm {hasDropdownHeader
 				? ''
 				: 'pt-1'} {hasDropdownFooter ? '' : 'pb-1'} {dropdownClassName}"
 			id="options"

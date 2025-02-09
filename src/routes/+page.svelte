@@ -3,7 +3,7 @@
 </script>
 
 <div class="min-h-full">
-	<div class="p-6">
+	<div class="p-6 py-[1300px] w-80">
 		<ComboboxField
 			name="items"
 			label="Items"

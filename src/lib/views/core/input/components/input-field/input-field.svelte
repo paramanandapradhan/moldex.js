@@ -159,6 +159,12 @@
 		return inputRef && (inputRef as HTMLInputElement).select();
 	}
 
+	export function getBoundingClientRect() {
+		if (inputRef) {
+			return inputRef.getBoundingClientRect();
+		}
+	}
+
 	$effect(() => {
 		if (floatingLabel || leftSnippet != null || rightSnippet != null) {
 			containerClassName = (containerClassName || '') + ' relative';
