@@ -2,7 +2,7 @@
 	export type PickerDialogProps = {
 		items?: string[] | any[];
 		multiple?: boolean;
-		value?: string | string[];
+		value?: any;
 		identityFieldName?: string;
 		titleFieldName?: string;
 		searchFieldName?: string;
@@ -27,10 +27,11 @@
 
 	import ButtonListItem from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
 	import ButtonSearch from '$lib/views/core/button/components/button-search/button-search.svelte';
-	import type { Snippet } from 'svelte';
+	import { onMount, type Snippet } from 'svelte';
 	import type { DialogExports } from '../dialog/dialog.svelte';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import { mdiCheckCircle, mdiCheckCircleOutline, mdiChevronRight } from '$lib/views/core/icon';
+	import { SvelteSet } from 'svelte/reactivity';
 
 	let {
 		value,
@@ -60,7 +61,10 @@
 	}: DialogExports & PickerDialogProps = $props();
 
 	// Reactive store for selected items
-	let selected: { items: { [key: string]: string } } = $state({ items: {} });
+	let selectedSet: SvelteSet<any> = $state(
+		value ? new SvelteSet(Array.isArray(value) ? value : [value]) : new SvelteSet()
+	);
+
 	let searchText: string = $state('');
 
 	let records: any[] = $derived.by(() => {
@@ -85,47 +89,43 @@
 		return records;
 	});
 
-	// Initialize selected items from `value`
-	$effect(() => {
-		if (value) {
-			if (Array.isArray(value)) {
-				value.forEach((val) => (selected.items[val] = val));
-			} else {
-				selected.items[value] = value;
-			}
-		}
-	});
+	// // Initialize selected items from `value`
+	// $effect(() => {
+	// 	if (value) {
+	// 		if (Array.isArray(value)) {
+	// 			value.forEach((val) => selectedSet.add(val));
+	// 		} else {
+	// 			selectedSet.add(value);
+	// 		}
+	// 	}
+	// });
 
 	// Handle item selection
 	function handleItemClick(ev: Event, item: any, index: number) {
 		let itemId = item[identityFieldName];
-
+		console.log('handleItemClick', { itemId, multiple });
 		if (!multiple) {
-			if (selected.items[itemId]) {
-				selected.items = {};
+			if (selectedSet.has(itemId)) {
+				selectedSet.delete(itemId);
+				setResult(undefined);
 			} else {
-				selected.items = { [itemId]: itemId };
+				selectedSet.add(itemId);
+				setResult(itemId);
 			}
-
-			let selectedItemId = Object.keys(selected.items)[0];
-			setResult(selectedItemId);
-
 			closeDialog();
 		} else {
 			// Multiple selection: add/remove item
-			if (selected.items[itemId]) {
-				delete selected.items[itemId];
+			if (selectedSet.has(itemId)) {
+				selectedSet.delete(itemId);
 			} else {
-				let itemLength = Object.keys(selected.items).length;
-				if (maxlength > 0 && itemLength >= maxlength) {
+				if (selectedSet.size >= maxlength) {
 					showToast({ msg: maxlengthMsg });
 				} else {
-					selected.items[itemId] = itemId;
+					selectedSet.add(itemId);
 				}
 			}
-			let itemLength = Object.keys(selected.items).length;
-			if (itemLength) {
-				setDialogTitle(`Selected (${itemLength})`);
+			if (selectedSet.size) {
+				setDialogTitle(`Selected (${selectedSet.size})`);
 			} else {
 				setDialogTitle('');
 			}
@@ -134,7 +134,7 @@
 
 	function handleOkClick(ev: MouseEvent | TouchEvent) {
 		if (multiple) {
-			closeDialog(Object.keys(selected.items));
+			closeDialog(Array.from(selectedSet));
 		}
 	}
 
@@ -142,8 +142,14 @@
 		searchText = txt;
 	}
 
-	setOnOkClick(handleOkClick);
-	setHeaderSnippet(headerSnippet);
+	$effect(() => {
+		console.log('seletedSet', $inspect(selectedSet));
+	});
+
+	onMount(() => {
+		setOnOkClick(handleOkClick);
+		setHeaderSnippet(headerSnippet);
+	});
 </script>
 
 {#snippet headerSnippet()}
@@ -152,10 +158,10 @@
 
 <div class="mb-4 min-h-80">
 	{#each filteredRecords as record, index}
-		{@const isSelected = !!selected.items[record[identityFieldName]]}
+		{@const isSelected = selectedSet.has(record[identityFieldName])}
 		<div>
 			{#if itemTileSnippet}
-				<ButtonListItem>
+				<ButtonListItem onClick={(ev) => handleItemClick(ev, record, index)}>
 					{@render itemTileSnippet(record, index)}
 					{#if hasCheckbox}
 						<div>

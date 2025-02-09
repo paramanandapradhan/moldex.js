@@ -98,9 +98,10 @@
 	async function handleDialCodePicker() {
 		if (EasyCountryData) {
 			let items = EasyCountryData.getCountries();
-			console.log('Countries', items);
+			// console.log('Countries', items);
 			let size: DialogSize = getDialogSize();
 			let res: string = await openPickerDialog<string>({
+				value: dialCode,
 				items,
 				identityFieldName: 'dialCode',
 				itemTileSnippet: dialCodePickerItemTile
