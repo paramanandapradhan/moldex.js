@@ -427,7 +427,7 @@
 	>
 		<div
 			id="backdrop"
-			class="fixed inset-0 bg-gray-500/20 dark:bg-gray-900/30 transition-opacity {isOpened
+			class="fixed inset-0 bg-gray-500/20 dark:bg-gray-900/30 transition-opacity backdrop-blur-sm {isOpened
 				? 'ease-out duration-300 opacity-100'
 				: 'ease-in duration-200 opacity-0'} {backdropClassName}"
 			aria-hidden="true"
