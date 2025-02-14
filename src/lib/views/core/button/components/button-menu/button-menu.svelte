@@ -13,7 +13,12 @@
 </script>
 
 <script lang="ts">
-	import { mdiDotsHorizontal, type ButtonAppearance, type ButtonProps, type ButtonSize } from '$lib';
+	import {
+		mdiDotsHorizontal,
+		type ButtonAppearance,
+		type ButtonProps,
+		type ButtonSize
+	} from '$lib';
 	import ButtonDropdown from '$lib/views/core/button/components/button-dropdown/button-dropdown.svelte';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import type { Snippet } from 'svelte';
@@ -73,7 +78,7 @@
 	}
 </script>
 
-{#snippet dropdownSearch()}
+{#snippet dropdownView()}
 	<div class="py-2">
 		{#each items as item, index}
 			{#if item.title == '-'}
@@ -81,7 +86,7 @@
 			{:else}
 				<ButtonListItem
 					{...item}
-					className="hover:bg-base-50 "
+					className="hover:bg-base-50 dark:hover:bg-base-700 "
 					iconClassName={menuIconClassName}
 					onClick={(ev) => handleItemClick(ev, item, index)}
 				/>
@@ -92,7 +97,7 @@
 
 <ButtonDropdown
 	bind:this={buttonDropdownRef}
-	dropdownSnippet={dropdownSearch}
+	dropdownSnippet={dropdownView}
 	{className}
 	{appearance}
 	{size}
