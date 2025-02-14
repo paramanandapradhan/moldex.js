@@ -86,7 +86,7 @@
 			{:else}
 				<ButtonListItem
 					{...item}
-					className="hover:bg-base-50 dark:hover:bg-base-700 "
+					className=""
 					iconClassName={menuIconClassName}
 					onClick={(ev) => handleItemClick(ev, item, index)}
 				/>

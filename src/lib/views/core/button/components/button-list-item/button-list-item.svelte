@@ -156,7 +156,7 @@
 <Button
 	id="{id}-list-item-{index}"
 	type="button"
-	className="w-full !text-start !justify-start hover:bg-base-50 transition rounded-none   {className}"
+	className="w-full !text-start !justify-start hover:bg-base-50 transition rounded-none dark:hover:bg-base-700 {className}"
 	{onClick}
 	{disabled}
 	{appearance}
