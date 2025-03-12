@@ -42,7 +42,6 @@
 </script>
 
 <script lang="ts">
-	import '../../../../../tailwind.css';
 
 	import {
 		Icon,

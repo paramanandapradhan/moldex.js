@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '../../../../../tailwind.css';
 	type PropsType = {
 		className?: string;
 	};

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '../../../../../tailwind.css';
 	import Button from '$lib/views/core/button/components/button/button.svelte';
 	import {   copyToClipboard, showToast } from '$lib/services/index.js';
 	import { mdiContentCopy } from '$lib/views/core/icon';

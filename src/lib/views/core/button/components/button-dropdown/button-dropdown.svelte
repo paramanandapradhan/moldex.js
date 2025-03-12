@@ -18,7 +18,6 @@
 </script>
 
 <script lang="ts">
-	import '../../../../../tailwind.css';
 
 	import type { Snippet } from 'svelte';
 	import Button, {

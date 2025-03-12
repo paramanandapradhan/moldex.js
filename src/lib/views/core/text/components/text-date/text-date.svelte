@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '../../../../../tailwind.css';
 	import { dateFormat, dateToAgo, toDate } from '$lib/services';
 
 	import { BROWSER } from 'esm-env';

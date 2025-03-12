@@ -53,7 +53,6 @@
 	import { Icon, mdiOpenInNew } from '$lib/views/core/icon';
 	import { Spinner } from '$lib/views/core/spinner';
 	import type { Snippet } from 'svelte';
-	import '../../../../../tailwind.css';
 
 	let {
 		title,

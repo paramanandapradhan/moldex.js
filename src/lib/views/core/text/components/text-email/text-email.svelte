@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '../../../../../tailwind.css';
 	import { ripple } from '$lib/actions';
 	import { Icon, mdiEmailOutline } from '$lib/views/core/icon';
 	 

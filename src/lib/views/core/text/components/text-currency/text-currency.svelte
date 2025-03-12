@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '../../../../../tailwind.css';
 	import { BROWSER } from 'esm-env';
 
 	type PropsType = {

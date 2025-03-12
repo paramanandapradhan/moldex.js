@@ -11,7 +11,6 @@
 </script>
 
 <script lang="ts">
-	import '../../../../../tailwind.css';
 
 	let isPlaced: boolean = $state(false);
 	let isOpened: boolean = $state(false);

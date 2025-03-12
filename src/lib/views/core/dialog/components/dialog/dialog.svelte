@@ -89,7 +89,6 @@
 <script lang="ts">
 	import Button from '$lib/views/core/button/components/button/button.svelte';
 	import { type Component as ComponetType, type Snippet } from 'svelte';
-	import '../../../../../tailwind.css';
 	import { mdiArrowLeft, mdiClose } from '$lib/views/core/icon';
 	import { DialogSizeEnum, isMobileScreen } from '$lib/services';
 

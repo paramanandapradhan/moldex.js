@@ -1,15 +1,10 @@
 <script lang="ts">
+	import Button from '$lib/views/core/button/components/button/button.svelte';
 	import ComboboxField from '$lib/views/core/input/components/combobox-field/combobox-field.svelte';
 </script>
 
 <div class="min-h-full">
-	<div class="p-6 py-[1300px] w-80">
-		<ComboboxField
-			name="items"
-			label="Items"
-			items={['Item1', 'Item2', 'Item3']}
-			multiple
-			hasCheckbox
-		/>
+	<div class="p-6">
+		<Button>Hello</Button>
 	</div>
 </div>

@@ -1,5 +1,5 @@
 import { isTouchDevice } from '$lib/services';
-import '../tailwind.css';
+import './ripple.css';
 
 export type RipplePropsType = {
     /**

@@ -40,7 +40,6 @@
 	import Button from '$lib/views/core/button/components/button/button.svelte';
 	import { Icon, mdiMenu } from '$lib/views/core/icon';
 	import type { Snippet } from 'svelte';
-	import '../../../../../tailwind.css';
 
 	let {
 		disabledLogo,

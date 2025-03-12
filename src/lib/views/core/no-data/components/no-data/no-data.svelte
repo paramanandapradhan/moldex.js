@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import type { Snippet } from 'svelte';
-	import '../../../../../tailwind.css';
 
 	type PlacementType = 'top' | 'bottom' | 'left' | 'right';
 

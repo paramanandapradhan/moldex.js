@@ -8,7 +8,6 @@
 		mdiPageFirst,
 		mdiPageLast
 	} from '$lib/views/core/icon';
-	import '../../../../../tailwind.css';
 
 	type PropsType = {
 		length?: number;

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { mdiPhone } from '$lib/views/core/icon';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
-	import '../../../../../tailwind.css';
 
 	type PropsType = {
 		input: string;

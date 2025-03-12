@@ -1,6 +1,5 @@
 <script lang="ts">
 	import ColorField from '$lib/views/core/input/components/color-field/color-field.svelte';
-	import '../../../../../tailwind.css';
 	type IconPropsType = {
 		path: string;
 		className?: string;

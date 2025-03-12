@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '../../../../../tailwind.css';
 	type PropsType = {
 		input?: Promise<any | null> | undefined;
 		key?: string;
