@@ -297,9 +297,10 @@
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		tabindex="-1"
-		class="relative flex flex-col max-h-screen transform overflow-hidden bg-base-50 dark:bg-base-800 text-left transition-all outline-none {screenSizeClassNameMap[
-			size
-		]} {isOpened
+		class="relative flex flex-col transform overflow-hidden bg-base-50 dark:bg-base-800 text-left transition-all outline-none {size ==
+		DialogSizeEnum.FULL
+			? 'max-h-dvh'
+			: 'max-h-[90dvh]'} {screenSizeClassNameMap[size]} {isOpened
 			? 'ease-out duration-300 opacity-100 translate-y-0 sm:scale-100'
 			: 'ease-in duration-200 opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'} {size == 'full'
 			? ''
@@ -337,32 +338,26 @@
 							</div>
 						{/if}
 					</div>
-					<div class="">
-						{#if headerSnippet}
-							{@render headerSnippet()}
-						{/if}
-					</div>
-					<div>
-						{#if hasHeaderOkButton}
-							<Button
-								appearance="border"
-								className=" {headerOkButtonClassName}"
-								iconPath={headerOkButtonIconPath}
-								iconClassName=" text-primary {headerOkButtonIconClassName}"
-								onClick={handleClose}
-							/>
-						{/if}
-					</div>
-					<div>
-						{#if hasHeaderClose}
-							<ButtonClose
-								className={headerCloseButtonClassName}
-								iconPath={headerCloseIconPath}
-								iconClassName={headerCloseIconClassName}
-								onClick={handleClose}
-							/>
-						{/if}
-					</div>
+					{#if headerSnippet}
+						{@render headerSnippet()}
+					{/if}
+					{#if hasHeaderOkButton}
+						<Button
+							appearance="border"
+							className=" {headerOkButtonClassName}"
+							iconPath={headerOkButtonIconPath}
+							iconClassName=" text-primary {headerOkButtonIconClassName}"
+							onClick={handleClose}
+						/>
+					{/if}
+					{#if hasHeaderClose}
+						<ButtonClose
+							className={headerCloseButtonClassName}
+							iconPath={headerCloseIconPath}
+							iconClassName={headerCloseIconClassName}
+							onClick={handleClose}
+						/>
+					{/if}
 				</div>
 			{/if}
 
