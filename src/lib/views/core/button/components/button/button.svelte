@@ -153,34 +153,34 @@
 	{/if}
 {/snippet}
 
-<!-- {#if url} -->
-<a
-	{id}
-	href={url}
-	{target}
-	class="relative w-max flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded {btnSizeClassName} {btnAppearanceClassName} {className}"
-	onclick={onClick}
-	use:handleRipple
-	ondblclick={onDblClick}
-	oncontextmenu={onContextMenu}
-	ondrop={onDrop}
-	ondragstart={onDragStart}
-	ondragend={onDragEnd}
-	ondragenter={onDragEnter}
-	ondragleave={onDragLeave}
-	ondragover={onDragOver}
-	{title}
->
-	{#if children}
-		{@render children()}
-	{:else}
-		{@render buttonContent()}
-	{/if}
-	{#if hasOpenInNew}
-		<Icon path={openInNewIcon} className=" {openInNewIconClassName}" sizeClassName="w-4 h-4" />
-	{/if}
-</a>
-<!-- {:else}
+{#if url}
+	<a
+		{id}
+		href={url}
+		{target}
+		class="relative w-max flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded {btnSizeClassName} {btnAppearanceClassName} {className}"
+		onclick={onClick}
+		use:handleRipple
+		ondblclick={onDblClick}
+		oncontextmenu={onContextMenu}
+		ondrop={onDrop}
+		ondragstart={onDragStart}
+		ondragend={onDragEnd}
+		ondragenter={onDragEnter}
+		ondragleave={onDragLeave}
+		ondragover={onDragOver}
+		{title}
+	>
+		{#if children}
+			{@render children()}
+		{:else}
+			{@render buttonContent()}
+		{/if}
+		{#if hasOpenInNew}
+			<Icon path={openInNewIcon} className=" {openInNewIconClassName}" sizeClassName="w-4 h-4" />
+		{/if}
+	</a>
+{:else}
 	<button
 		{id}
 		{type}
@@ -205,4 +205,4 @@
 			{@render buttonContent()}
 		{/if}
 	</button>
-{/if} -->
+{/if}
