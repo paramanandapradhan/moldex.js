@@ -299,12 +299,13 @@
 		tabindex="-1"
 		class="relative flex flex-col transform overflow-hidden bg-base-50 dark:bg-base-800 text-left transition-all outline-none {size ==
 		DialogSizeEnum.FULL
-			? 'max-h-dvh'
-			: 'max-h-[90dvh]'} {screenSizeClassNameMap[size]} {isOpened
+			? 'max-h-dvh max-w-dvw'
+			: 'max-h-[90dvh] max-w-[90dvw]'} {screenSizeClassNameMap[size]} {isOpened
 			? 'ease-out duration-300 opacity-100 translate-y-0 sm:scale-100'
-			: 'ease-in duration-200 opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'} {size == 'full'
+			: 'ease-in duration-200 opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'} {size ==
+		DialogSizeEnum.FULL
 			? ''
-			: 'rounded-lg shadow-xl'} {className}"
+			: 'rounded-lg shadow-xl dark:shadow-base-700'} {className}"
 		onclick={(ev: MouseEvent) => ev.stopPropagation()}
 	>
 		{#if CustomComponent?.length == 2}

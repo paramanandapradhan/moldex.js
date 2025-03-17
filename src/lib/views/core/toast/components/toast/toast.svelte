@@ -46,7 +46,7 @@
 {#if isPlaced}
 	<div
 		{id}
-		class="fixed bottom-20 left-1/2 transform -translate-x-1/2 p-3 px-6 max-w-full text-gray-700 bg-white shadow-xl rounded-full transition-opacity duration-300 {isOpened
+		class="fixed bottom-20 left-1/2 transform -translate-x-1/2 p-3 px-6 max-w-full text-gray-700 bg-white shadow-xl dark:shadow-base-700 dark:bg-base-600 dark:text-base-300 rounded-full transition-opacity duration-300 {isOpened
 			? 'opacity-100'
 			: 'opacity-0'} toast {className}"
 	>
