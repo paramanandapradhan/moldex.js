@@ -114,6 +114,7 @@ export async function openDeleteConfirmDialog({
         footerOkButtonLable,
         footerOkButtonClassName,
         ...params,
+        size: DialogSizeEnum.SM,
     })
 }
 
@@ -244,6 +245,7 @@ export async function openLoadingDialog({
         ...params,
         hasHeader: false,
         hasFooter: false,
+        size: DialogSizeEnum.SM,
     }
 
     let dialog = addDialog(props);
