@@ -116,6 +116,7 @@
 		uncheckboxIconClassName = '',
 		checkboxClassName = '',
 		itemTileSnippet,
+		onChange,
 		...props
 	}: InputFieldProps & ComboboxFieldProps = $props();
 
@@ -329,6 +330,8 @@
 		if (!multiple) {
 			closeDropdown();
 		}
+
+		onChange && onChange(value);
 
 		// console.log('handleItemClick', selectedItemsSet, value);
 	}
