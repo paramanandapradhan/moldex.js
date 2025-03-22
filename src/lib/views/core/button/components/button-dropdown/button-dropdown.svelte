@@ -1,5 +1,19 @@
-<script lang="ts" module>
-	export type ButtonDropdownProps = {
+<script lang="ts">
+	import Button, {
+		type ButtonAppearance,
+		type ButtonSize,
+		type ButtonType
+	} from '../button/button.svelte';
+	import { onMount, type Snippet } from 'svelte';
+
+	enum DropdownStateEnum {
+		OPEN,
+		OPENED,
+		CLOSE,
+		CLOSED
+	}
+
+	type ButtonDropdownProps = {
 		appearance?: ButtonAppearance;
 		size?: ButtonSize;
 		label?: string;
@@ -14,25 +28,8 @@
 		dropdownCloseClassName?: string;
 		dropdownOpenClassName?: string;
 		disabled?: boolean;
+		popup?: boolean;
 	};
-</script>
-
-<script lang="ts">
-
-	import type { Snippet } from 'svelte';
-	import Button, {
-		type ButtonAppearance,
-		type ButtonProps,
-		type ButtonSize,
-		type ButtonType
-	} from '../button/button.svelte';
-
-	enum DropdownStateEnum {
-		OPEN,
-		OPENED,
-		CLOSE,
-		CLOSED
-	}
 
 	let {
 		id,
@@ -48,68 +45,83 @@
 		dropdownClassName = '',
 		dropdownCloseClassName = '',
 		dropdownOpenClassName = '',
-		disabled,
+		disabled = false,
+		popup = false,
 		...others
-	}: ButtonProps & ButtonDropdownProps = $props();
+	}: ButtonDropdownProps = $props();
 
-	let placement: boolean = $state(false);
-	let dropdownState: DropdownStateEnum = $state(DropdownStateEnum.CLOSED);
+	let placement = $state(false);
+	let dropdownState = $state(DropdownStateEnum.CLOSED);
+	let openUpward = $state(false);
+	let buttonElement: HTMLDivElement;
 
-	export function toggleDropdown(ev: MouseEvent) {
-		handleBackdropEvent(ev);
+	function toggleDropdown(ev: MouseEvent | TouchEvent) {
+		ev.stopPropagation();
+
 		if (placement) {
 			dropdownState = DropdownStateEnum.CLOSED;
-			setTimeout(() => {
-				placement = false;
-			}, 100);
+			setTimeout(() => (placement = false), 100);
 		} else {
 			placement = true;
-			setTimeout(() => {
-				dropdownState = DropdownStateEnum.OPENED;
-			}, 1);
+			setTimeout(() => (dropdownState = DropdownStateEnum.OPENED), 1);
+			adjustDropdownPosition();
 		}
 	}
 
-	function handleToggleDropdown(ev: MouseEvent) {
-		toggleDropdown(ev);
+	function adjustDropdownPosition() {
+		const rect = buttonElement.getBoundingClientRect();
+		const viewportHeight = window.innerHeight;
+		const spaceBelow = viewportHeight - rect.bottom;
+		const dropdownHeight = 200; // Adjust based on your dropdown content height
+
+		if (popup || spaceBelow < dropdownHeight) {
+			openUpward = rect.top > dropdownHeight;
+		} else {
+			openUpward = false;
+		}
 	}
 
-	function handleBackdropEvent(ev: Event) {
-		ev.stopPropagation();
-	}
+	onMount(() => {
+		window.addEventListener('resize', adjustDropdownPosition);
+	});
 </script>
 
-<div class="relative max-w-min {containerClassName}">
+<div class="relative max-w-min {containerClassName}" bind:this={buttonElement}>
 	<Button
 		{id}
 		{type}
 		{appearance}
 		{size}
 		className="flex items-center justify-center flex-nowrap text-start {className}"
-		onClick={handleToggleDropdown}
+		onClick={toggleDropdown}
 		{label}
-		{children}
 		{disabled}
 		{...others}
-	/>
+	>
+		{#if children}
+			{@render children()}
+		{/if}
+	</Button>
 
 	{#if placement}
 		<div
 			aria-label="backdrop"
 			id="{id}-dropdown-backdrop"
 			class="cursor-auto fixed inset-0 z-10 {backgropClassName}"
-			onmousedown={handleBackdropEvent}
-			ontouchstart={handleBackdropEvent}
-			onclick={handleToggleDropdown}
+			onmousedown={toggleDropdown}
+			ontouchstart={toggleDropdown}
+			onclick={toggleDropdown}
 			tabindex="-1"
 			role="presentation"
 		></div>
+
 		<div
 			role="dialog"
-			class="absolute z-10 min-w-40 max-h-1/2vh overflow-y-auto origin-top right-0 rounded-md bg-white dark:bg-base-800 shadow-lg dark:shadow-black focus:outline-none transition ease-out duration-100 {dropdownClassName} {dropdownState ==
+			class="absolute z-10 min-w-40 max-h-[50vh] overflow-y-auto origin-top right-0 rounded-md bg-white dark:bg-base-800 shadow-lg dark:shadow-black transition ease-out duration-100 {dropdownClassName} {dropdownState ===
 			DropdownStateEnum.OPENED
-				? `transform opacity-100 scale-100  ${dropdownOpenClassName}`
-				: `transform opacity-0 scale-60 } ${dropdownCloseClassName}`}"
+				? `transform opacity-100 scale-100 ${dropdownOpenClassName}`
+				: `transform opacity-0 scale-60 ${dropdownCloseClassName}`}"
+			style={openUpward ? 'bottom: 100%; margin-bottom: 4px;' : 'top: 100%; margin-top: 4px;'}
 			tabindex="-1"
 		>
 			{@render dropdownSnippet?.()}
