@@ -305,7 +305,7 @@
 			: 'ease-in duration-200 opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'} {size ==
 		DialogSizeEnum.FULL
 			? ''
-			: 'rounded-lg shadow-xl dark:shadow-base-700'} {className}"
+			: 'rounded-lg shadow-xl dark:shadow-black'} {className}"
 		onclick={(ev: MouseEvent) => ev.stopPropagation()}
 	>
 		{#if CustomComponent?.length == 2}

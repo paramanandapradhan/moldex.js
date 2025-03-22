@@ -106,7 +106,7 @@
 		></div>
 		<div
 			role="dialog"
-			class="absolute z-10 min-w-40 max-h-1/2vh overflow-y-auto origin-top right-0 rounded-md bg-white dark:bg-base-800 shadow-lg focus:outline-none transition ease-out duration-100 {dropdownClassName} {dropdownState ==
+			class="absolute z-10 min-w-40 max-h-1/2vh overflow-y-auto origin-top right-0 rounded-md bg-white dark:bg-base-800 shadow-lg dark:shadow-black focus:outline-none transition ease-out duration-100 {dropdownClassName} {dropdownState ==
 			DropdownStateEnum.OPENED
 				? `transform opacity-100 scale-100  ${dropdownOpenClassName}`
 				: `transform opacity-0 scale-60 } ${dropdownCloseClassName}`}"
