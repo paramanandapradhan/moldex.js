@@ -55,7 +55,7 @@
 	let openUpward = $state(false);
 	let buttonElement: HTMLDivElement;
 
-	function toggleDropdown(ev: MouseEvent | TouchEvent) {
+	export function toggleDropdown(ev: MouseEvent | TouchEvent) {
 		ev.stopPropagation();
 
 		if (placement) {
