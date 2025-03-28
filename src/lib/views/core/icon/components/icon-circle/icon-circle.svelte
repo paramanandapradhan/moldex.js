@@ -13,5 +13,5 @@
 <div
 	class="aspect-square bg-primary-100 rounded-full w-10 h-10 flex items-center justify-center {circleClassName}"
 >
-	<Icon path={iconPath!} className={iconClassName} />
+	<Icon path={iconPath!} className=" text-primary {iconClassName}" />
 </div>

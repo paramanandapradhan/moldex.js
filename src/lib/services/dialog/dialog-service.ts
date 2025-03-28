@@ -130,9 +130,14 @@ export async function openPickerDialog<R>({
     titleFieldName,
     searchFieldName,
     subtitleFieldName,
+    hasIcon,
+    iconPath,
+    iconClassName,
+    isCircularIcon,
+    circularIconClassName,
     itemTileSnippet,
-
-    ...params }: DialogProps & PickerDialogProps) {
+    ...params
+}: DialogProps & PickerDialogProps) {
     if (hasArrow) {
         multiple = false;
         hasCheckbox = false;
@@ -152,6 +157,11 @@ export async function openPickerDialog<R>({
             titleFieldName,
             searchFieldName,
             subtitleFieldName,
+            hasIcon,
+            iconPath,
+            iconClassName,
+            isCircularIcon,
+            circularIconClassName,
             itemTileSnippet,
         },
         hasHeader: true,

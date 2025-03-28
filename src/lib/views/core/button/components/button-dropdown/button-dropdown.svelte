@@ -69,15 +69,17 @@
 	}
 
 	function adjustDropdownPosition() {
-		const rect = buttonElement.getBoundingClientRect();
-		const viewportHeight = window.innerHeight;
-		const spaceBelow = viewportHeight - rect.bottom;
-		const dropdownHeight = 200; // Adjust based on your dropdown content height
+		if (buttonElement) {
+			const rect = buttonElement?.getBoundingClientRect();
+			const viewportHeight = window.innerHeight;
+			const spaceBelow = viewportHeight - rect.bottom;
+			const dropdownHeight = 200; // Adjust based on your dropdown content height
 
-		if (popup || spaceBelow < dropdownHeight) {
-			openUpward = rect.top > dropdownHeight;
-		} else {
-			openUpward = false;
+			if (popup || spaceBelow < dropdownHeight) {
+				openUpward = rect.top > dropdownHeight;
+			} else {
+				openUpward = false;
+			}
 		}
 	}
 

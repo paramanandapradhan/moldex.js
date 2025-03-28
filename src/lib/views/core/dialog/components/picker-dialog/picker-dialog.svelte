@@ -18,20 +18,25 @@
 		checkboxClassName?: string;
 		arrowIconPath?: string;
 		arrowClassName?: string;
+		hasIcon?: boolean;
+		iconPath?: string;
+		iconClassName?: string;
+		isCircularIcon?: boolean;
+		circularIconClassName?: string;
 		itemTileSnippet?: Snippet<[item: any, index: number]>;
 	};
 </script>
 
 <script lang="ts">
-	import { DialogSizeEnum, getDialogSize, showToast } from '$lib/services';
+	import { showToast } from '$lib/services';
 
 	import ButtonListItem from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
 	import ButtonSearch from '$lib/views/core/button/components/button-search/button-search.svelte';
-	import { onMount, type Snippet } from 'svelte';
-	import type { DialogExports } from '../dialog/dialog.svelte';
-	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import { mdiCheckCircle, mdiCheckCircleOutline, mdiChevronRight } from '$lib/views/core/icon';
+	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
+	import { onMount, type Snippet } from 'svelte';
 	import { SvelteSet } from 'svelte/reactivity';
+	import type { DialogExports } from '../dialog/dialog.svelte';
 
 	let {
 		value,
@@ -52,6 +57,11 @@
 		uncheckboxIconClassName = '',
 		arrowClassName = '',
 		checkboxClassName = '',
+		isCircularIcon,
+		hasIcon,
+		iconClassName,
+		circularIconClassName,
+		iconPath,
 		itemTileSnippet,
 		closeDialog,
 		setResult,
@@ -180,6 +190,11 @@
 					{checkboxClassName}
 					{arrowIconPath}
 					{arrowClassName}
+					{hasIcon}
+					{isCircularIcon}
+					{circularIconClassName}
+					{iconClassName}
+					{iconPath}
 				/>
 			{/if}
 		</div>

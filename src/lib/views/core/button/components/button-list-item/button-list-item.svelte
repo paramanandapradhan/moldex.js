@@ -23,6 +23,8 @@
 		url?: string;
 		disabled?: boolean;
 		iconPath?: string;
+		isCircularIcon?: boolean;
+		circularIconClassName?: string;
 		imgSrc?: string;
 		hasCheckbox?: boolean;
 		checkboxClassName?: string;
@@ -42,7 +44,6 @@
 </script>
 
 <script lang="ts">
-
 	import {
 		Icon,
 		mdiCheckCircle,
@@ -53,6 +54,7 @@
 	import Button, { type ButtonAppearance, type ButtonSize } from '../button/button.svelte';
 	import type { Menu } from '../button-menu/button-menu.svelte';
 	import ButtonMenu from '../button-menu/button-menu.svelte';
+	import IconCircle from '$lib/views/core/icon/components/icon-circle/icon-circle.svelte';
 
 	let {
 		appearance,
@@ -69,6 +71,8 @@
 		hasImg = false,
 		imgClassName = '',
 		iconPath,
+		isCircularIcon,
+		circularIconClassName = '',
 		imgSrc,
 		hasArrow = false,
 		arrowIconPath = mdiChevronRight,
@@ -98,7 +102,15 @@
 {#snippet itemInternal()}
 	{#if hasIcon && iconPath}
 		<div>
-			<Icon path={iconPath} className="{iconClassName} {iconClassName}" />
+			{#if isCircularIcon}
+				<IconCircle
+					{iconPath}
+					iconClassName=" {iconClassName}"
+					circleClassName=" {circularIconClassName}"
+				/>
+			{:else}
+				<Icon path={iconPath} className=" {iconClassName}" />
+			{/if}
 		</div>
 	{/if}
 
@@ -155,7 +167,7 @@
 <Button
 	id="{id}-list-item-{index}"
 	type="button"
-	className="w-full !text-start !justify-start hover:bg-base-50 transition rounded-none dark:hover:bg-base-700 {className}"
+	className="w-full !text-start !justify-start gap-4 hover:bg-base-50 transition rounded-none dark:hover:bg-base-700 {className}"
 	{onClick}
 	{disabled}
 	{appearance}
