@@ -15,6 +15,7 @@ export class PeriodEnum {
     static THIS_YEAR = 10;
     static LAST_YEAR = 11;
     static NEXT_YEAR = 12;
+    static DATE = 13;
 }
 
 export type FirestoreTimestamp = { seconds: number, nanoseconds: number };
@@ -73,6 +74,7 @@ export function getPeriodDates(period: PeriodEnum, currentDate: Date = new Date(
     let startDate, endDate;
 
     switch (period) {
+        case PeriodEnum.DATE:
         case PeriodEnum.TODAY:
             startDate = currentDate1.startOf('day');
             endDate = currentDate2.endOf('day');
