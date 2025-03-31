@@ -109,7 +109,7 @@
 		subtitleFieldName,
 		titleClassName,
 		titleFieldName = 'name',
-		value = $bindable(),
+		value = $bindable(null),
 		checkboxIconPath = mdiCheckCircle,
 		uncheckboxIconPath = mdiCheckCircleOutline,
 		checkboxIconClassName = '',
@@ -143,7 +143,7 @@
 
 	let placementClassName = $derived(isUpward ? 'bottom-full mb-1' : 'mt-1');
 
-	let selectedItemsSet: SvelteSet<any> = $state(
+	let selectedItemsSet: SvelteSet<any> = $derived(
 		value ? new SvelteSet<any>(Array.isArray(value) ? value : [value]) : new SvelteSet<any>()
 	);
 
@@ -335,6 +335,7 @@
 
 		// console.log('handleItemClick', selectedItemsSet, value);
 	}
+ 
 </script>
 
 {#snippet rightIcon()}
