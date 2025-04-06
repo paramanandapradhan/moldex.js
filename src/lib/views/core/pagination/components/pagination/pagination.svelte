@@ -10,7 +10,7 @@
 	} from '$lib/views/core/icon';
 
 	type PropsType = {
-		length?: number;
+		itemsCount?: number;
 		pageIndex?: number;
 		pageSize?: number;
 		pageSizeOptions?: number[];
@@ -23,9 +23,9 @@
 	};
 
 	let {
-		length = 0,
-		pageIndex = 0,
-		pageSize = 10,
+		itemsCount = $bindable(0),
+		pageIndex = $bindable(0),
+		pageSize = $bindable(10),
 		pageSizeOptions = [5, 10, 25, 50, 100, 200],
 		itemsText = 'Items',
 		pageSizeText = 'Page Size',
@@ -35,7 +35,7 @@
 		onPageIndexChange
 	}: PropsType = $props();
 
-	let pageCount: number = $derived(Math.ceil(length / pageSize));
+	let pageCount: number = $derived(Math.ceil(itemsCount / pageSize));
 
 	let hasFirst: boolean = $derived(pageIndex > 0);
 	let hasPrev: boolean = $derived(pageIndex > 0);
@@ -95,7 +95,7 @@
 {/snippet}
 
 <div class="flex items-center flex-wrap justify-end text-base-500 gap-3 -mb-2">
-	<div class="flex-grow">{itemsText} {length}</div>
+	<div class="flex-grow">{itemsText} {itemsCount}</div>
 	<div class="flex items-center flex-nowrap gap-2">
 		<div>{pageSizeText}</div>
 		<div class="">
