@@ -335,7 +335,6 @@
 
 		// console.log('handleItemClick', selectedItemsSet, value);
 	}
- 
 </script>
 
 {#snippet rightIcon()}
@@ -498,7 +497,7 @@
 							label={createButtonLabel}
 							className="px-3 py-1 {createButtonClassName}"
 							onClick={onCreateButtonClick}
-						></Button>
+						/>
 					{/if}
 				</div>
 			{/if}
