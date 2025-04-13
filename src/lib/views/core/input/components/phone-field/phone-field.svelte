@@ -70,10 +70,6 @@
 		}
 	});
 
-	$effect(() => {
-		console.log('dialCodeValue', { dailCodeValue, phoneNumberValue });
-	});
-
 	function validatePhoneNumber(number: string) {
 		try {
 			let parsed = LibPhonenumber?.parsePhoneNumber(number as string);
@@ -114,7 +110,6 @@
 				itemTileSnippet: dialCodePickerItemTile
 			});
 
-			console.log(res);
 			if (res) {
 				dialCode = res;
 				if (dialCode && phoneNumberValue) {
@@ -140,7 +135,6 @@
 		if (phoneNumber) {
 			value = `${dialCode}${phoneNumber}`;
 		}
-		console.log('phone number value', value);
 	}
 
 	function handleNumberKeyDown(ev: KeyboardEvent) {
