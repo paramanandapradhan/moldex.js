@@ -44,6 +44,7 @@
 		checkboxIconClassName?: string;
 		uncheckboxIconClassName?: string;
 		checkboxClassName?: string;
+		dropUp?: boolean;
 		itemTileSnippet?: Snippet<[item: any, index: any]>;
 	};
 </script>
@@ -115,6 +116,7 @@
 		checkboxIconClassName = '',
 		uncheckboxIconClassName = '',
 		checkboxClassName = '',
+		dropUp,
 		itemTileSnippet,
 		onChange,
 		...props
@@ -130,6 +132,8 @@
 	let isUpward = $derived.by(() => {
 		windowScrollY;
 		if (!isPlaced) return false;
+
+		if (dropUp) return true;
 
 		const rect = inputFieldRef.getBoundingClientRect();
 		const spaceBelow = window.innerHeight - rect.bottom;

@@ -13,7 +13,7 @@
 		CLOSED
 	}
 
-	type ButtonDropdownProps = {
+	export type ButtonDropdownProps = {
 		appearance?: ButtonAppearance;
 		size?: ButtonSize;
 		label?: string;
@@ -28,7 +28,7 @@
 		dropdownCloseClassName?: string;
 		dropdownOpenClassName?: string;
 		disabled?: boolean;
-		popup?: boolean;
+		dropUp?: boolean;
 	};
 
 	let {
@@ -46,7 +46,7 @@
 		dropdownCloseClassName = '',
 		dropdownOpenClassName = '',
 		disabled = false,
-		popup = false,
+		dropUp = false,
 		...others
 	}: ButtonDropdownProps = $props();
 
@@ -75,7 +75,7 @@
 			const spaceBelow = viewportHeight - rect.bottom;
 			const dropdownHeight = 200; // Adjust based on your dropdown content height
 
-			if (popup || spaceBelow < dropdownHeight) {
+			if (dropUp || spaceBelow < dropdownHeight) {
 				openUpward = rect.top > dropdownHeight;
 			} else {
 				openUpward = false;

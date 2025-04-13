@@ -19,7 +19,9 @@
 		type ButtonProps,
 		type ButtonSize
 	} from '$lib';
-	import ButtonDropdown from '$lib/views/core/button/components/button-dropdown/button-dropdown.svelte';
+	import ButtonDropdown, {
+		type ButtonDropdownProps
+	} from '$lib/views/core/button/components/button-dropdown/button-dropdown.svelte';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import type { Snippet } from 'svelte';
 	import ButtonListItem from '../button-list-item/button-list-item.svelte';
@@ -52,7 +54,7 @@
 		menuIconClassName,
 		disabled,
 		...others
-	}: ButtonProps & Props = $props();
+	}: ButtonDropdownProps & ButtonProps & Props = $props();
 
 	let buttonDropdownRef: ButtonDropdown;
 
