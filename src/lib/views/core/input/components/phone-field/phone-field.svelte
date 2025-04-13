@@ -23,8 +23,7 @@
 
 <script lang="ts">
 	import { ripple } from '$lib/actions';
-	import { getDialogSize, openPickerDialog } from '$lib/services';
-	import type { DialogSize } from '$lib/views/core/dialog';
+	import { openPickerDialog } from '$lib/services';
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
 	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 
@@ -49,24 +48,20 @@
 	let LibPhonenumber: LibPhoneNumberType | null = $state(null);
 	let inputFieldRef: any | null = $state(null);
 
-	let _dailCode: string = $state('');
-	let _phoneNumber: string = $state('');
-
-	$effect(() => {
-		if (!_dailCode && !_phoneNumber && LibPhonenumber) {
-			try {
-				if (dialCode) {
-					_dailCode = formatDialCode(dialCode);
-				}
-				if (value) {
-					let parsed = LibPhonenumber?.parsePhoneNumber(value as string);
-					if (parsed && parsed.isValid()) {
-						_phoneNumber = parsed.nationalNumber || '';
-						_dailCode = formatDialCode(parsed.countryCallingCode);
-					}
-				}
-			} catch (error) {}
+	let dailCodeValue = $derived.by(() => {
+		if (value && LibPhonenumber) {
+			let { dialCode } = validatePhoneNumber(value);
+			return dialCode;
 		}
+		return formatDialCode(dialCode);
+	});
+
+	let phoneNumberValue = $derived.by(() => {
+		if (value && LibPhonenumber) {
+			let { phoneNumber } = validatePhoneNumber(value);
+			return phoneNumber;
+		}
+		return '';
 	});
 
 	let btnRoundedClassName = $derived.by(() => {
@@ -74,6 +69,23 @@
 			return 'rounded-tl-lg rounded-bl-lg';
 		}
 	});
+
+	$effect(() => {
+		console.log('dialCodeValue', { dailCodeValue, phoneNumberValue });
+	});
+
+	function validatePhoneNumber(number: string) {
+		try {
+			let parsed = LibPhonenumber?.parsePhoneNumber(number as string);
+			if (parsed && parsed.isValid()) {
+				return {
+					phoneNumber: parsed.nationalNumber || '',
+					dialCode: formatDialCode(parsed.countryCallingCode)
+				};
+			}
+		} catch (error) {}
+		return {};
+	}
 
 	export function focus() {
 		inputFieldRef?.focus();
@@ -89,17 +101,12 @@
 
 	function formatDialCode(dialcode: string) {
 		dialcode = `${dialCode}`.trim();
-		if (!dialCode.startsWith('+')) {
-			dialcode = `+${dialCode}`;
-		}
-		return dialcode;
+		return dialCode.startsWith('+') ? dialcode : `+${dialCode}`;
 	}
 
 	async function handleDialCodePicker() {
 		if (EasyCountryData) {
 			let items = EasyCountryData.getCountries();
-			// console.log('Countries', items);
-			let size: DialogSize = getDialogSize();
 			let res: string = await openPickerDialog<string>({
 				value: dialCode,
 				items,
@@ -109,9 +116,10 @@
 
 			console.log(res);
 			if (res) {
-				_dailCode = res;
-				dialCode = _dailCode;
-				updatePhonenumber(_dailCode, _phoneNumber);
+				dialCode = res;
+				if (dialCode && phoneNumberValue) {
+					value = `${dialCode}${phoneNumberValue}`;
+				}
 				inputFieldRef && inputFieldRef.focus();
 			}
 		}
@@ -127,28 +135,12 @@
 
 	function handleNumberInput(ev: InputEvent) {
 		let target: HTMLInputElement = ev.target as HTMLInputElement;
-		let _phoneNumber: string = target?.value || '';
-		updatePhonenumber(_dailCode, _phoneNumber);
-	}
-
-	function updatePhonenumber(_dialCode: string, _phoneNumber: string) {
-		if (LibPhonenumber) {
-			if (_phoneNumber) {
-				_dialCode = formatDialCode(_dialCode);
-				try {
-					// console.log('updatePhonenumber', { dialCode, phoneNumber });
-					let parsed = LibPhonenumber.parsePhoneNumber(_dialCode + _phoneNumber);
-					if (parsed && parsed.isValid()) {
-						dialCode = _dialCode;
-						value = _dialCode + _phoneNumber;
-					} else {
-						value = '';
-					}
-				} catch (error) {
-					value = '';
-				}
-			}
+		let text: string = target?.value || '';
+		let { phoneNumber } = validatePhoneNumber(`${dialCode}${text}`);
+		if (phoneNumber) {
+			value = `${dialCode}${phoneNumber}`;
 		}
+		console.log('phone number value', value);
 	}
 
 	function handleNumberKeyDown(ev: KeyboardEvent) {
@@ -186,7 +178,7 @@
 		use:ripple
 		onclick={handleDialCodePicker}
 	>
-		{_dailCode}
+		{dailCodeValue}
 	</button>
 {/snippet}
 
@@ -205,7 +197,7 @@
 <InputField
 	{...props}
 	bind:this={inputFieldRef}
-	value={_phoneNumber}
+	value={phoneNumberValue}
 	type="tel"
 	{id}
 	{name}
