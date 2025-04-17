@@ -71,9 +71,22 @@ export function goBack() {
     history.back();
 }
 
-export function goHome() {
-    history.back();
-};
+/**
+ * Jump back to the first history entry in this tab (i.e. “home”).
+ * Falls back to a hard redirect if history is too shallow or cross‑origin.
+ */
+export function goHome(): void {
+    // number of steps back to the first entry
+    const stepsBack = -(window.history.length - 1);
+
+    // if we have at least one previous entry, navigate there
+    if (stepsBack < 0) {
+        window.history.go(stepsBack);
+    } else {
+        // no history to go back to — just load your root
+        window.location.replace('/');
+    }
+}
 
 export function createRedirectUrl(): string | null {
     let pathname = window.location.pathname;
