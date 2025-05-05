@@ -158,7 +158,7 @@
 		{id}
 		href={url}
 		{target}
-		class="relative w-max flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded {btnSizeClassName} {btnAppearanceClassName} {className}"
+		class="relative w-max flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded overflow-hidden {btnSizeClassName} {btnAppearanceClassName} {className}"
 		onclick={onClick}
 		use:handleRipple
 		ondblclick={onDblClick}
@@ -186,7 +186,7 @@
 		{type}
 		{form}
 		{title}
-		class="relative flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded {btnSizeClassName} {btnAppearanceClassName} {className}"
+		class="relative flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded overflow-hidden {btnSizeClassName} {btnAppearanceClassName} {className}"
 		{disabled}
 		use:handleRipple
 		onclick={onClick}

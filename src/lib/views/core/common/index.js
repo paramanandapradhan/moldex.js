@@ -1,6 +1,9 @@
 import ContentArea from './components/content-area/content-area.svelte'
-import Loading from './components/loading/loading.svelte'
+import Loading from './components/loading/loading.svelte';
+import VirtualScrolling from './components/virtual-scrolling/virtual-scrolling.svelte';
+
 export {
     ContentArea,
     Loading,
+    VirtualScrolling
 }

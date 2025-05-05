@@ -101,7 +101,7 @@
 
 {#snippet itemInternal()}
 	{#if hasIcon && iconPath}
-		<div>
+		<div class="flex-none">
 			{#if isCircularIcon}
 				<IconCircle
 					{iconPath}
@@ -115,27 +115,27 @@
 	{/if}
 
 	{#if hasImg && imgSrc}
-		<div>
+		<div class="flex-none">
 			<img src={imgSrc} class="w-6 h-6 {imgClassName} {imgClassName}" alt="item-img-{index}" />
 		</div>
 	{/if}
 
-	<div class="flex-grow">
+	<div class="flex-grow min-w-0">
 		{#if title}
-			<div class="text-ellipsis overflow-hidden {titleClassName}  }">
+			<div class="overflow-hidden whitespace-nowrap overflow-ellipsis {titleClassName}">
 				{title || ''}
 			</div>
 		{/if}
 		{#if subtitle}
 			<div
-				class="text-ellipsis overflow-hidden text-base-400 dark:text-base-300 text-sm font-light {subtitleClassName} }"
+				class="overflow-hidden whitespace-nowrap overflow-ellipsis text-base-400 dark:text-base-300 text-sm font-light {subtitleClassName}"
 			>
 				{subtitle || ''}
 			</div>
 		{/if}
 	</div>
 	{#if hasCheckbox}
-		<div>
+		<div class="flex-none">
 			<Icon
 				path={isChecked ? checkboxIconPath : uncheckboxIconPath}
 				className="w-5 h-5 {checkboxClassName} {isChecked
@@ -146,12 +146,12 @@
 	{/if}
 
 	{#if hasArrow}
-		<div>
+		<div class="flex-none">
 			<Icon path={arrowIconPath} className="w-5 h-5 text-base-500 {arrowClassName}  " />
 		</div>
 	{/if}
 	{#if hasMenu}
-		<div>
+		<div class="flex-none">
 			<ButtonMenu
 				{menus}
 				{onMenu}

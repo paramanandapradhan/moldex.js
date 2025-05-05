@@ -33,9 +33,11 @@ export function createScreenSizeStore(initial: ScreenSizeEnum = ScreenSizeEnum.X
         get isXs() {
             return _size === ScreenSizeEnum.XS;
         },
+        get isMobileScreen() {
+            return this.isXs || this.isSm || this.isMd;
+        },
         set size(size: ScreenSizeEnum) {
             _size = size;
         }
-
     }
 }
