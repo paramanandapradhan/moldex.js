@@ -37,6 +37,7 @@
 	import { onMount, type Snippet } from 'svelte';
 	import { SvelteSet } from 'svelte/reactivity';
 	import type { DialogExports } from '../dialog/dialog.svelte';
+	import { VirtualScrolling } from '$lib/views/core/common';
 
 	let {
 		value,
@@ -69,6 +70,8 @@
 		setHeaderSnippet,
 		setDialogTitle
 	}: DialogExports & PickerDialogProps = $props();
+
+	let containerHeight: number = $state(0);
 
 	// Reactive store for selected items
 	let selectedSet: SvelteSet<any> = $state(
@@ -151,8 +154,57 @@
 	<ButtonSearch className="rounded-full !p-3 " onSearch={handleSearch} />
 {/snippet}
 
-<div class="mb-4 min-h-80">
-	{#each filteredRecords as record, index}
+<div class="mb-4 min-h-96 h-full" bind:clientHeight={containerHeight}>
+	<VirtualScrolling items={filteredRecords} {containerHeight} itemHeight={56}>
+		{#snippet itemSnippet(item: any, index: number)}
+			{@const isSelected = selectedSet.has(item[identityFieldName])}
+			<div>
+				{#if itemTileSnippet}
+					<ButtonListItem onClick={(ev) => handleItemClick(ev, item, index)}>
+						{@render itemTileSnippet(item, index)}
+						{#if hasCheckbox}
+							<div>
+								<Icon
+									path={isSelected ? checkboxIconPath : uncheckboxIconPath}
+									className="w-5 h-5 {checkboxClassName} {isSelected
+										? `text-primary ${checkboxIconClassName}`
+										: `text-base-400 ${uncheckboxIconClassName}`}"
+								/>
+							</div>
+						{/if}
+
+						{#if hasArrow}
+							<div>
+								<Icon path={arrowIconPath} className="w-5 h-5 text-base-500 {arrowClassName}  " />
+							</div>
+						{/if}
+					</ButtonListItem>
+				{:else}
+					<ButtonListItem
+						onClick={(ev) => handleItemClick(ev, item, index)}
+						title={item[titleFieldName]}
+						subtitle={item[subtitleFieldName || ''] || ''}
+						{hasCheckbox}
+						{hasArrow}
+						isChecked={isSelected}
+						{checkboxIconPath}
+						{uncheckboxIconPath}
+						{checkboxIconClassName}
+						{uncheckboxIconClassName}
+						{checkboxClassName}
+						{arrowIconPath}
+						{arrowClassName}
+						{hasIcon}
+						{isCircularIcon}
+						{circularIconClassName}
+						{iconClassName}
+						{iconPath}
+					/>
+				{/if}
+			</div>
+		{/snippet}
+	</VirtualScrolling>
+	<!-- {#each filteredRecords as record, index}
 		{@const isSelected = selectedSet.has(record[identityFieldName])}
 		<div>
 			{#if itemTileSnippet}
@@ -198,5 +250,5 @@
 				/>
 			{/if}
 		</div>
-	{/each}
+	{/each} -->
 </div>
