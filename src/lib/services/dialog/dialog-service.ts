@@ -10,7 +10,7 @@ import TextFieldDialog from '$lib/views/core/dialog/components/text-field-dialog
 import TextareaFieldDialog from '$lib/views/core/dialog/components/textarea-field-dialog/textarea-field-dialog.svelte';
 import { mount } from 'svelte';
 import { getDialogSize, isMobileScreen } from '../screen/screen-service';
-import { cropImageFile, FilePickerAccepts, OutputImageFormatEnum, processImageFile, type ImageCapttures, type OutputImageFormats } from '../utils/image-service';
+import { cropImageFile, FilePickerAccepts, ImageCapttureEnum, OutputImageFormatEnum, processImageFile, type ImageCapttures, type OutputImageFormats } from '../utils/image-service';
 
 export enum DialogSizeEnum {
     XS = 'xs',
@@ -457,16 +457,30 @@ export async function openImagePickerDialogWithCropper({
     outputQuality = 0.6,
     outputAspectRatio = 1,
     dialogSize = DialogSizeEnum.MD,
-
+    capture,
+    maxHeight,
+    maxSizeInBytes,
+    maxWidth,
+    quality
 }: {
     outputFormat?: OutputImageFormats,
     outputWidth?: number,
     outputQuality?: number,
     outputAspectRatio?: number,
     dialogSize?: DialogSize,
-
+    capture?: ImageCapttureEnum,
+    maxWidth?: number; // Maximum width for the resized image
+    maxHeight?: number; // Maximum height for the resized image
+    maxSizeInBytes?: number; // Maximum file size in bytes after compression
+    quality?: number; // Image quality (0 to 1), default is 0.8 (80%)
 } = {}): Promise<File | null> {
-    const file: File = (await openFilePickerDialog(FilePickerAccepts.image)) as File;
+    const file: File = (await openImagePickerDialog(FilePickerAccepts.image, {
+        capture,
+        maxHeight,
+        maxSizeInBytes,
+        maxWidth,
+        quality
+    })) as File;
     let croppedFile = await cropImageFile({ inputImageFile: file, outputFormat, outputWidth, outputQuality, outputAspectRatio, dialogSize });
     return croppedFile;
 };
