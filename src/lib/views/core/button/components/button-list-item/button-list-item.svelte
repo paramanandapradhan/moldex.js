@@ -61,7 +61,7 @@
 		size,
 		index,
 		id = '',
-		className = '',
+		className,
 		checkboxIconPath = mdiCheckCircle,
 		uncheckboxIconPath = mdiCheckCircleOutline,
 		checkboxIconClassName = '',
@@ -167,7 +167,7 @@
 <Button
 	id="{id}-list-item-{index}"
 	type="button"
-	className="w-full !text-start !justify-start gap-4 hover:bg-base-50 transition rounded-none dark:hover:bg-base-700 {className}"
+	className="w-full !text-start !justify-start gap-4 hover:bg-base-50 transition rounded-none dark:hover:bg-base-700 h-full {className}"
 	{onClick}
 	{disabled}
 	{appearance}

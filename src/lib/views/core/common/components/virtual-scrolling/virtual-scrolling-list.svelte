@@ -5,7 +5,7 @@
 		items,
 		itemHeight,
 		containerHeight,
-		buffer = 6,
+		buffer = 2,
 		itemSnippet,
 		...rest
 	} = $props<{

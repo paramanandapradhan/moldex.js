@@ -32,12 +32,12 @@
 
 	import ButtonListItem from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
 	import ButtonSearch from '$lib/views/core/button/components/button-search/button-search.svelte';
+	import VirtualScrollingList from '$lib/views/core/common/components/virtual-scrolling/virtual-scrolling-list.svelte';
 	import { mdiCheckCircle, mdiCheckCircleOutline, mdiChevronRight } from '$lib/views/core/icon';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import { onMount, type Snippet } from 'svelte';
 	import { SvelteSet } from 'svelte/reactivity';
 	import type { DialogExports } from '../dialog/dialog.svelte';
-	import { VirtualScrolling } from '$lib/views/core/common';
 
 	let {
 		value,
@@ -155,7 +155,7 @@
 {/snippet}
 
 <div class="mb-4 min-h-96 h-full" bind:clientHeight={containerHeight}>
-	<VirtualScrolling items={filteredRecords} {containerHeight} itemHeight={56}>
+	<VirtualScrollingList items={filteredRecords} {containerHeight} itemHeight={56}>
 		{#snippet itemSnippet(item: any, index: number)}
 			{@const isSelected = selectedSet.has(item[identityFieldName])}
 			<div>
@@ -203,52 +203,5 @@
 				{/if}
 			</div>
 		{/snippet}
-	</VirtualScrolling>
-	<!-- {#each filteredRecords as record, index}
-		{@const isSelected = selectedSet.has(record[identityFieldName])}
-		<div>
-			{#if itemTileSnippet}
-				<ButtonListItem onClick={(ev) => handleItemClick(ev, record, index)}>
-					{@render itemTileSnippet(record, index)}
-					{#if hasCheckbox}
-						<div>
-							<Icon
-								path={isSelected ? checkboxIconPath : uncheckboxIconPath}
-								className="w-5 h-5 {checkboxClassName} {isSelected
-									? `text-primary ${checkboxIconClassName}`
-									: `text-base-400 ${uncheckboxIconClassName}`}"
-							/>
-						</div>
-					{/if}
-
-					{#if hasArrow}
-						<div>
-							<Icon path={arrowIconPath} className="w-5 h-5 text-base-500 {arrowClassName}  " />
-						</div>
-					{/if}
-				</ButtonListItem>
-			{:else}
-				<ButtonListItem
-					onClick={(ev) => handleItemClick(ev, record, index)}
-					title={record[titleFieldName]}
-					subtitle={record[subtitleFieldName || ''] || ''}
-					{hasCheckbox}
-					{hasArrow}
-					isChecked={isSelected}
-					{checkboxIconPath}
-					{uncheckboxIconPath}
-					{checkboxIconClassName}
-					{uncheckboxIconClassName}
-					{checkboxClassName}
-					{arrowIconPath}
-					{arrowClassName}
-					{hasIcon}
-					{isCircularIcon}
-					{circularIconClassName}
-					{iconClassName}
-					{iconPath}
-				/>
-			{/if}
-		</div>
-	{/each} -->
+	</VirtualScrollingList>
 </div>

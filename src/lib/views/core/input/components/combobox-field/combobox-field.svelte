@@ -63,6 +63,7 @@
 	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 	import SearchField from '../search-field/search-field.svelte';
 	import { SvelteSet } from 'svelte/reactivity';
+	import VirtualScrollingList from '$lib/views/core/common/components/virtual-scrolling/virtual-scrolling-list.svelte';
 
 	let {
 		appearance,
@@ -128,6 +129,7 @@
 	let searchText: string = $state('');
 	let dropdownHeight = $state(0);
 	let windowScrollY = $state(0);
+	let bodyHeight: number = $state(0);
 
 	let isUpward = $derived.by(() => {
 		windowScrollY;
@@ -436,54 +438,67 @@
 					{/if}
 				</div>
 			{/if}
-			<div id="dropdown-body" class="flex-grow overflow-y-auto max-h-full {dropdownBodyClassName}">
+			<div
+				id="dropdown-body"
+				class="flex-grow overflow-y-auto h-60 {dropdownBodyClassName}"
+				bind:clientHeight={bodyHeight}
+			>
 				{#if dropdownBodySnippet}
 					{@render dropdownBodySnippet()}
 				{:else if filteredItems?.length}
 					<ul>
-						{#each filteredItems as item, index}
-							{@const isSelected = selectedItemsSet.has(item[identityFieldName])}
-							<li
-								class="select-none"
-								id="item-{index}"
-								role="option"
-								tabindex="-1"
-								aria-selected={item.isChecked}
-							>
-								{#if itemTileSnippet}
-									<ButtonListItem onClick={(ev) => handleItemClick(ev, item, index)}>
-										{@render itemTileSnippet(item, index)}
-										{#if hasCheckbox}
-											<div>
-												<Icon
-													path={isSelected ? checkboxIconPath : uncheckboxIconPath}
-													className="w-5 h-5 {checkboxClassName} {isSelected
-														? `text-primary ${checkboxIconClassName}`
-														: `text-base-400 ${uncheckboxIconClassName}`}"
-												/>
-											</div>
-										{/if}
-									</ButtonListItem>
-								{:else}
-									<ButtonListItem
-										title={item[titleFieldName] || ''}
-										subtitle={item[subtitleFieldName || ''] || ''}
-										{index}
-										{hasCheckbox}
-										className=" {itemClassName}"
-										titleClassName=" {titleClassName}"
-										subtitleClassName=" {subtitleClassName}"
-										isChecked={isSelected}
-										{checkboxIconPath}
-										{uncheckboxIconPath}
-										{checkboxIconClassName}
-										{uncheckboxIconClassName}
-										{checkboxClassName}
-										onClick={(ev) => handleItemClick(ev, item, index)}
-									/>
-								{/if}
-							</li>
-						{/each}
+						<VirtualScrollingList
+							items={filteredItems}
+							itemHeight={56}
+							containerHeight={bodyHeight}
+						>
+							{#snippet itemSnippet(item, index)}
+								{@const isSelected = selectedItemsSet.has(item[identityFieldName])}
+								<li
+									class="select-none h-full"
+									id="item-{index}"
+									role="option"
+									tabindex="-1"
+									aria-selected={item.isChecked}
+								>
+									{#if itemTileSnippet}
+										<ButtonListItem
+											onClick={(ev) => handleItemClick(ev, item, index)}
+											className="h-full"
+										>
+											{@render itemTileSnippet(item, index)}
+											{#if hasCheckbox}
+												<div>
+													<Icon
+														path={isSelected ? checkboxIconPath : uncheckboxIconPath}
+														className="w-5 h-5 {checkboxClassName} {isSelected
+															? `text-primary ${checkboxIconClassName}`
+															: `text-base-400 ${uncheckboxIconClassName}`}"
+													/>
+												</div>
+											{/if}
+										</ButtonListItem>
+									{:else}
+										<ButtonListItem
+											title={item[titleFieldName] || ''}
+											subtitle={item[subtitleFieldName || ''] || ''}
+											{index}
+											{hasCheckbox}
+											className=" {itemClassName}"
+											titleClassName=" {titleClassName}"
+											subtitleClassName=" {subtitleClassName}"
+											isChecked={isSelected}
+											{checkboxIconPath}
+											{uncheckboxIconPath}
+											{checkboxIconClassName}
+											{uncheckboxIconClassName}
+											{checkboxClassName}
+											onClick={(ev) => handleItemClick(ev, item, index)}
+										/>
+									{/if}
+								</li>
+							{/snippet}
+						</VirtualScrollingList>
 					</ul>
 				{:else if emptyMessageSnippet}
 					{@render emptyMessageSnippet()}
