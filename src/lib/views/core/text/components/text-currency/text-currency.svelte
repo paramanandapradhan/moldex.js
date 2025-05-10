@@ -1,28 +1,21 @@
 <script lang="ts">
-	import { BROWSER } from 'esm-env';
+	import type { CurrencySymbols } from '$lib/services';
 
-	type PropsType = {
+	type Props = {
 		input: number;
-		symbol: string;
-		hasSymbol: boolean;
+		symbol?: CurrencySymbols | string;
+		hasSymbol?: boolean;
+		empty?: string;
+		decimal?: number;
 	};
 
-	let { input, symbol = '$', hasSymbol = true }: PropsType = $props();
-
-	let value: string = $state('');
-
-	function prepare(..._: any) {
-		value = Math.abs(input || 0).toFixed(2);
-	}
-
-	$effect(() => {
-		BROWSER && prepare(input);
-	});
+	let { input, symbol = '$', hasSymbol = true, empty = '-', decimal = 2 }: Props = $props();
+	let value: string = $derived(Math.abs(input || 0).toFixed(decimal));
 </script>
 
-<span>
+<span class="text-nowrap">
 	{#if (input || 0) < 0}
-		{'-'}
+		{empty}
 	{/if}
 	{#if hasSymbol}
 		{symbol || ''}

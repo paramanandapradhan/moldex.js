@@ -4,6 +4,53 @@ const belowTwenty = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", 
 const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
 const scales = ["", "Thousand", "Lakh", "Crore"];
 
+export enum CurrencySymbols {
+    AED = "د.إ",
+    AUD = "$",
+    BDT = "৳",
+    BHD = ".د.ب",
+    BRL = "R$",
+    CAD = "$",
+    CHF = "CHF",
+    CNY = "¥",
+    CZK = "Kč",
+    DKK = "kr",
+    EGP = "£",
+    EUR = "€",
+    GBP = "£",
+    HKD = "$",
+    HUF = "Ft",
+    IDR = "Rp",
+    ILS = "₪",
+    INR = "₹",
+    JOD = "د.ا",
+    JPY = "¥",
+    KRW = "₩",
+    KWD = "د.ك",
+    LKR = "Rs",
+    MXN = "$",
+    MYR = "RM",
+    NGN = "₦",
+    NOK = "kr",
+    NPR = "₨",
+    NZD = "$",
+    OMR = "ر.ع.",
+    PHP = "₱",
+    PKR = "₨",
+    PLN = "zł",
+    QAR = "ر.ق",
+    RUB = "₽",
+    SAR = "﷼",
+    SEK = "kr",
+    SGD = "$",
+    THB = "฿",
+    TRY = "₺",
+    USD = "$",
+    VND = "₫",
+    ZAR = "R"
+}
+
+
 /**
  * Converts a number into words based on the Indian numbering system.
  * Supports up to Crore level and works for numbers up to 99 Crore.
@@ -101,7 +148,7 @@ export function formatIndianCurrency(amount: number | string): string {
     if (otherDigits !== "") {
         otherDigits = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
     }
-    
+
     return otherDigits + (otherDigits ? "," : "") + lastThreeDigits + "." + decimalPart;
 }
 
