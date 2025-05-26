@@ -17,7 +17,7 @@
 		itemsText?: string;
 		pageSizeText?: string;
 		pageText?: string;
-		disbaleSizeMenuButton?: boolean;
+		disableSizeMenuButton?: boolean;
 		onPageSizeChange?: (size: number) => void;
 		onPageIndexChange?: (index: number) => void;
 	};
@@ -30,7 +30,7 @@
 		itemsText = 'Items',
 		pageSizeText = 'Page Size',
 		pageText = 'Page',
-		disbaleSizeMenuButton,
+		disableSizeMenuButton,
 		onPageSizeChange,
 		onPageIndexChange
 	}: PropsType = $props();
@@ -45,7 +45,10 @@
 
 	const handlePageSize = (size: any) => {
 		pageIndex = 0;
-		pageSize = size;
+		if (pageSize != size) {
+			pageSize = size;
+			onPageSizeChange?.(pageSize);
+		}
 	};
 
 	const handlePage = (type?: string) => {
@@ -71,7 +74,10 @@
 		if (index <= 0) index = 0;
 		if (index >= pageCount) index = pageCount - 1;
 
-		pageIndex = index;
+		if (pageIndex != index) {
+			pageIndex = index;
+			onPageIndexChange?.(pageIndex);
+		}
 	};
 
 	function handlePageSizeMenu(ev: Event, menu: string) {
@@ -80,14 +86,6 @@
 			handlePageSize(size);
 		} catch (error) {}
 	}
-
-	$effect(() => {
-		onPageSizeChange && onPageSizeChange(pageSize);
-	});
-
-	$effect(() => {
-		onPageIndexChange && onPageIndexChange(pageIndex);
-	});
 </script>
 
 {#snippet pageButton({ onClick, disabled, icon }: any)}
@@ -100,7 +98,7 @@
 		<div>{pageSizeText}</div>
 		<div class="">
 			<ButtonMenu
-				disabled={disbaleSizeMenuButton}
+				disabled={disableSizeMenuButton}
 				iconPath={mdiChevronDown}
 				label={'' + pageSize}
 				menus={pageSizeOptions.map((o) => '' + o)}

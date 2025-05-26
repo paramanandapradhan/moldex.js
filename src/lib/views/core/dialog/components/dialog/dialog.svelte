@@ -34,7 +34,7 @@
 		footerOkButtonEnabled?: boolean;
 		footerOkButtonSpinner?: boolean;
 		footerOkButtonType?: 'button' | 'submit' | 'reset';
-		footerOkButtonLable?: string;
+		footerOkButtonLabel?: string;
 		hasFooter?: boolean;
 		hasFooterCloseButton?: boolean;
 		hasFooterOkButton?: boolean;
@@ -109,7 +109,7 @@
 		footerOkButtonEnabled = true,
 		footerOkButtonSpinner = false,
 		footerOkButtonType = 'button',
-		footerOkButtonLable = 'Save',
+		footerOkButtonLabel = 'Save',
 		hasFooter = false,
 		hasFooterCloseButton = false,
 		hasFooterOkButton = false,
@@ -389,7 +389,7 @@
 							type={targetFormId ? 'submit' : footerOkButtonType}
 							appearance="primary"
 							className=" {footerOkButtonClassName}"
-							label={footerOkButtonLable}
+							label={footerOkButtonLabel}
 							disabled={!footerOkButtonEnabled}
 							spinner={footerOkButtonSpinner}
 							spinnerClassName="text-white w-4 h-4"

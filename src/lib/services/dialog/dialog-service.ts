@@ -68,7 +68,7 @@ export async function openDialog<R>(props: DialogProps = {}): Promise<R> {
 export async function openConfirmDialog(params: DialogProps & { msg?: string } = {}) {
     let msg = params.msg || 'Are you sure?';
     params.title = params.title || 'Confirm';
-    params.footerOkButtonLable = params.footerOkButtonLable || 'Confirm';
+    params.footerOkButtonLabel = params.footerOkButtonLabel || 'Confirm';
 
     return await openDialog({
         bodyComponent: MsgDialog,
@@ -86,7 +86,7 @@ export async function openConfirmDialog(params: DialogProps & { msg?: string } =
 export async function openAlertDialog(params: DialogProps & { msg?: string } = {}) {
     let msg = params.msg || 'Alert Information?';
     params.title = params.title || 'Alert';
-    params.footerOkButtonLable = params.footerOkButtonLable || 'Confirm';
+    params.footerOkButtonLabel = params.footerOkButtonLabel || 'Confirm';
 
     return await openDialog({
         bodyComponent: MsgDialog,
@@ -104,14 +104,14 @@ export async function openAlertDialog(params: DialogProps & { msg?: string } = {
 export async function openDeleteConfirmDialog({
     msg = 'Are you sure to delete?',
     title = 'Delete',
-    footerOkButtonLable = 'Delete',
+    footerOkButtonLabel = 'Delete',
     footerOkButtonClassName = 'bg-red-500 hover:bg-red-700 focus:bg-red-700',
     ...params
 }: DialogProps & { msg?: string } = {}) {
     return await openConfirmDialog({
         msg,
         title,
-        footerOkButtonLable,
+        footerOkButtonLabel,
         footerOkButtonClassName,
         ...params,
         size: DialogSizeEnum.SM,
@@ -168,7 +168,7 @@ export async function openPickerDialog<R>({
         hasTitle: true,
         hasHeaderBack: isMobileScreen(),
         hasHeaderClose: !isMobileScreen(),
-        footerOkButtonLable: 'Select',
+        footerOkButtonLabel: 'Select',
         footerClassName: 'border-t',
         title: 'Pick',
         ...params,
@@ -295,7 +295,7 @@ export async function openCropperDialog<T, R>({
         hasFooter: true,
         hasFooterOkButton: true,
         hasFooterCloseButton: true,
-        footerOkButtonLable: params.footerOkButtonLable || 'CROP',
+        footerOkButtonLabel: params.footerOkButtonLabel || 'CROP',
         hasTitle: true,
         title: params.title || 'Crop Image',
         hasHeaderBack: isMobileScreen(),
