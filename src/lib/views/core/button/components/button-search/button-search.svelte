@@ -24,9 +24,11 @@
 		iconClassName?: string;
 
 		dropdownClassName?: string;
+		searchText?: string;
 	};
 
 	let {
+		searchText = $bindable(''),
 		searchClassName,
 		searchAppearance,
 		searchSize,
@@ -44,6 +46,7 @@
 {#snippet dropdownSearch()}
 	<div class="p-4">
 		<SearchField
+			value={searchText}
 			{onSearch}
 			autofocus
 			className="min-w-52 {searchClassName}"
@@ -64,6 +67,6 @@
 	{#if children}
 		{@render children()}
 	{:else}
-		<Icon path={mdiMagnify} className={iconClassName} />
+		<Icon path={mdiMagnify} className="{iconClassName} {searchText ? '!text-primary' : ''}" />
 	{/if}
 </ButtonDropdown>
