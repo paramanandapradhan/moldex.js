@@ -28,7 +28,7 @@
 		dropdownCloseClassName?: string;
 		dropdownOpenClassName?: string;
 		disabled?: boolean;
-		dropUp?: boolean;
+		dropPosition?: 'top' | 'bottom' | 'middle';
 	};
 
 	let {
@@ -46,13 +46,14 @@
 		dropdownCloseClassName = '',
 		dropdownOpenClassName = '',
 		disabled = false,
-		dropUp = false,
+		dropPosition = 'bottom',
 		...others
 	}: ButtonDropdownProps = $props();
 
 	let placement = $state(false);
 	let dropdownState = $state(DropdownStateEnum.CLOSED);
 	let openUpward = $state(false);
+	let openMiddle = $state(false);
 	let buttonElement: HTMLDivElement;
 
 	export function toggleDropdown(ev: MouseEvent | TouchEvent) {
@@ -73,12 +74,21 @@
 			const rect = buttonElement?.getBoundingClientRect();
 			const viewportHeight = window.innerHeight;
 			const spaceBelow = viewportHeight - rect.bottom;
-			const dropdownHeight = 200; // Adjust based on your dropdown content height
+			const spaceAbove = rect.top;
+			const dropdownHeight = 200;
 
-			if (dropUp || spaceBelow < dropdownHeight) {
-				openUpward = rect.top > dropdownHeight;
-			} else {
-				openUpward = false;
+			openUpward = false;
+			openMiddle = false;
+
+			switch (dropPosition) {
+				case 'top':
+					openUpward = true;
+					break;
+				case 'middle':
+					openMiddle = true;
+					break;
+				default:
+					openUpward = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
 			}
 		}
 	}
@@ -123,7 +133,13 @@
 			DropdownStateEnum.OPENED
 				? `transform opacity-100 scale-100 ${dropdownOpenClassName}`
 				: `transform opacity-0 scale-60 ${dropdownCloseClassName}`}"
-			style={openUpward ? 'bottom: 100%; margin-bottom: 4px;' : 'top: 100%; margin-top: 4px;'}
+			style={
+				openMiddle
+					? 'top: 50%; transform: translateY(-50%);'
+					: openUpward
+					? 'bottom: 100%; margin-bottom: 4px;'
+					: 'top: 100%; margin-top: 4px;'
+			}
 			tabindex="-1"
 		>
 			{@render dropdownSnippet?.()}

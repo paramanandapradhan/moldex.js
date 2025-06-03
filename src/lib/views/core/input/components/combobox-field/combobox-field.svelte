@@ -44,7 +44,7 @@
 		checkboxIconClassName?: string;
 		uncheckboxIconClassName?: string;
 		checkboxClassName?: string;
-		dropUp?: boolean;
+		dropPosition?: 'top' | 'bottom' | 'middle';
 		itemTileSnippet?: Snippet<[item: any, index: any]>;
 	};
 </script>
@@ -117,7 +117,7 @@
 		checkboxIconClassName = '',
 		uncheckboxIconClassName = '',
 		checkboxClassName = '',
-		dropUp,
+		dropPosition = 'bottom',
 		itemTileSnippet,
 		onChange,
 		...props
@@ -131,23 +131,39 @@
 	let windowScrollY = $state(0);
 	let bodyHeight: number = $state(0);
 
-	let isUpward = $derived.by(() => {
-		windowScrollY;
-		if (!isPlaced) return false;
-
-		if (dropUp) return true;
+	let placementClassName = $derived.by(() => {
+		if (!isPlaced) return 'mt-1';
 
 		const rect = inputFieldRef.getBoundingClientRect();
 		const spaceBelow = window.innerHeight - rect.bottom;
 		const spaceAbove = rect.top;
-		if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
-			return true;
-		} else {
-			return false;
-		}
-	});
 
-	let placementClassName = $derived(isUpward ? 'bottom-full mb-1' : 'mt-1');
+		let placement;
+
+		switch (dropPosition) {
+			case 'top':
+				placement = 'bottom-full mb-1';
+				break;
+			case 'middle':
+				placement = '-translate-y-1/2 top-1/2';
+				break;
+			default:
+				placement = 'mt-1';
+		}
+
+		if (dropPosition === 'bottom' && spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+			placement = 'bottom-full mb-1';
+		} else if (dropPosition === 'top' && spaceAbove < dropdownHeight && spaceBelow > dropdownHeight) {
+			placement = 'mt-1';
+		} else if (dropPosition === 'middle') {
+			const spaceNeeded = dropdownHeight / 2;
+			if (spaceAbove < spaceNeeded || spaceBelow < spaceNeeded) {
+				placement = spaceAbove > spaceBelow ? 'bottom-full mb-1' : 'mt-1';
+			}
+		}
+
+		return placement;
+	});
 
 	let selectedItemsSet: SvelteSet<any> = $derived(
 		value ? new SvelteSet<any>(Array.isArray(value) ? value : [value]) : new SvelteSet<any>()
