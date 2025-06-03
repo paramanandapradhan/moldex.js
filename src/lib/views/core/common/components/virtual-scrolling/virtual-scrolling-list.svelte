@@ -1,70 +1,59 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
-	const {
-		items,
-		itemHeight,
-		containerHeight,
-		buffer = 2,
-		itemSnippet,
-		...rest
-	} = $props<{
+	type Props = {
 		items: any[];
 		itemHeight: number;
 		containerHeight: number;
 		itemSnippet: Snippet<[item: any, index: number]>;
 		buffer?: number;
-		[key: string]: any;
-	}>();
+	};
 
-	// Scroll position state
-	const state = $state({ scrollTop: 0 });
+	let {
+		items = [],
+		itemHeight,
+		containerHeight,
+		buffer = 2,
+		itemSnippet,
+		...rest
+	}: Props = $props();
 
-	// Compute full list height
-	const totalHeight = $derived(() => items.length * itemHeight);
+	let scrollTop = $state(0);
 
-	// Determine which items to render (with buffer)
-	const viewportItems: { item: any; index: number; top: number }[] = $derived.by(() => {
-		const start = Math.max(Math.floor(state.scrollTop / itemHeight) - buffer, 0);
-		const end = Math.min(
-			Math.ceil((state.scrollTop + containerHeight) / itemHeight) + buffer,
-			items.length
-		);
-		return items.slice(start, end).map((item: any, idx: number) => ({
-			item,
-			index: start + idx,
-			top: (start + idx) * itemHeight
-		}));
-	});
+	let totalHeight = $derived.by(() => items.length * itemHeight);
 
-	// Update scrollTop on container scroll
-	function handleScroll(e: Event) {
-		state.scrollTop = (e.currentTarget as HTMLElement).scrollTop;
+	let visibleStart = $derived.by(() => Math.max(Math.floor(scrollTop / itemHeight) - buffer, 0));
+	let visibleEnd = $derived.by(() =>
+		Math.min(Math.ceil((scrollTop + containerHeight) / itemHeight) + buffer, items.length)
+	);
+
+	let paddingTop = $derived.by(() => visibleStart * itemHeight);
+	let paddingBottom = $derived.by(() => (items.length - visibleEnd) * itemHeight);
+
+	let visibleItems = $derived.by(() => items.slice(visibleStart, visibleEnd));
+
+	function handleScroll(event: Event) {
+		scrollTop = (event.currentTarget as HTMLElement).scrollTop;
 	}
 </script>
 
-<div {...rest} class="virtual-list" style="height: {containerHeight}px;" onscroll={handleScroll}>
-	<div class="inner" style="height: {totalHeight}px;">
-		{#each viewportItems as { item, index, top } (index)}
-			<div class="virtual-item" style="top: {top}px; height: {itemHeight}px;">
-				{@render itemSnippet?.(item, index)}
+<div
+	{...rest}
+	class="virtual-list"
+	style="height: {containerHeight}px; overflow-y: auto; position: relative;"
+	onscroll={handleScroll}
+>
+	<div style="padding-top: {paddingTop}px; padding-bottom: {paddingBottom}px;">
+		{#each visibleItems as item, idx (visibleStart + idx)}
+			<div class="virtual-item" style="height: {itemHeight}px;">
+				{@render itemSnippet?.(item, visibleStart + idx)}
 			</div>
 		{/each}
 	</div>
 </div>
 
 <style>
-	.virtual-list {
-		overflow-y: auto;
-		position: relative;
-		width: 100%;
-	}
-	.inner {
-		position: relative;
-		width: 100%;
-	}
 	.virtual-item {
-		position: absolute;
 		width: 100%;
 		box-sizing: border-box;
 	}
