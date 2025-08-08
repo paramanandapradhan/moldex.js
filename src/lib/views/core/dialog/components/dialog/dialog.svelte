@@ -201,6 +201,10 @@
 
 	export function openDialog() {
 		isPlaced = true;
+
+		// Disable background scroll
+		document.body.style.overflow = 'hidden';
+
 		setTimeout(() => {
 			isOpened = true;
 		}, 0);
@@ -209,6 +213,10 @@
 	export function closeDialog(value?: any): Promise<any> {
 		return new Promise((resolve) => {
 			isOpened = false;
+
+			// Re-enable background scroll
+			document.body.style.overflow = '';
+
 			setTimeout(() => {
 				isPlaced = false;
 				onClose && onClose();
