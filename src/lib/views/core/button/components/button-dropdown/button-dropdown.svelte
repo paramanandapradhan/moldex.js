@@ -120,9 +120,21 @@
 			aria-label="backdrop"
 			id="{id}-dropdown-backdrop"
 			class="cursor-auto fixed inset-0 z-10 {backgropClassName}"
-			onmousedown={toggleDropdown}
-			ontouchstart={toggleDropdown}
-			onclick={toggleDropdown}
+			onmousedown={(e) => {
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				toggleDropdown(e);
+			}}
+			ontouchstart={(e) => {
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				toggleDropdown(e);
+			}}
+			onclick={(e) => {
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				toggleDropdown(e);
+			}}
 			tabindex="-1"
 			role="presentation"
 		></div>
@@ -133,13 +145,11 @@
 			DropdownStateEnum.OPENED
 				? `transform opacity-100 scale-100 ${dropdownOpenClassName}`
 				: `transform opacity-0 scale-60 ${dropdownCloseClassName}`}"
-			style={
-				openMiddle
-					? 'top: 50%; transform: translateY(-50%);'
-					: openUpward
+			style={openMiddle
+				? 'top: 50%; transform: translateY(-50%);'
+				: openUpward
 					? 'bottom: 100%; margin-bottom: 4px;'
-					: 'top: 100%; margin-top: 4px;'
-			}
+					: 'top: 100%; margin-top: 4px;'}
 			tabindex="-1"
 		>
 			{@render dropdownSnippet?.()}
