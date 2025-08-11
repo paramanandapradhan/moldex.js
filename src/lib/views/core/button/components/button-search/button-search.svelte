@@ -25,6 +25,7 @@
 
 		dropdownClassName?: string;
 		searchText?: string;
+		placeholder?: string;
 	};
 
 	let {
@@ -39,6 +40,7 @@
 		children,
 		iconClassName,
 		dropdownClassName,
+		placeholder,
 		...others
 	}: ButtonProps & Props = $props();
 </script>
@@ -52,6 +54,7 @@
 			className="min-w-52 {searchClassName}"
 			appearance={searchAppearance}
 			size={searchSize}
+			{placeholder}
 		/>
 	</div>
 {/snippet}

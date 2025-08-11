@@ -11,5 +11,5 @@ export {
     CountryComboboxField,
     TextCountry,
     CountryLoader,
-    TextCountryState
+    TextCountryState,
 }
