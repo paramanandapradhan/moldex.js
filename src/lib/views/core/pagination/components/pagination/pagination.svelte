@@ -17,6 +17,7 @@
 		itemsText?: string;
 		pageSizeText?: string;
 		pageText?: string;
+		dropPosition?: 'top' | 'bottom' | 'middle' | undefined;
 		disableSizeMenuButton?: boolean;
 		onPageSizeChange?: (size: number) => void;
 		onPageIndexChange?: (index: number) => void;
@@ -30,6 +31,7 @@
 		itemsText = 'Items',
 		pageSizeText = 'Page Size',
 		pageText = 'Page',
+		dropPosition = 'bottom',
 		disableSizeMenuButton,
 		onPageSizeChange,
 		onPageIndexChange
@@ -98,6 +100,7 @@
 		<div>{pageSizeText}</div>
 		<div class="">
 			<ButtonMenu
+				{dropPosition}
 				disabled={disableSizeMenuButton}
 				iconPath={mdiChevronDown}
 				label={'' + pageSize}

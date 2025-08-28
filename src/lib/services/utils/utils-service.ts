@@ -444,6 +444,3 @@ export function isChrome() {
     // Note: Microsoft Edge's userAgent also contains "Chrome"
     return /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 }
-
-
- 
