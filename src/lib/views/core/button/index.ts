@@ -7,17 +7,20 @@ import ButtonOk from './components/button-ok/button-ok.svelte';
 import Button from './components/button/button.svelte';
 import ButtonSearch from './components/button-search/button-search.svelte';
 import ButtonMenu from './components/button-menu/button-menu.svelte';
+import Switch from './components/switch/switch.svelte';
 
 import type { ButtonListItemProps } from './components/button-list-item/button-list-item.svelte'
 import type { ButtonDropdownProps } from './components/button-dropdown/button-dropdown.svelte'
 import type { ButtonAppearance, ButtonProps, ButtonSize } from './components/button/button.svelte';
+import type { SwitchProps } from './components/switch/switch.svelte';
 
 export type {
     ButtonDropdownProps,
     ButtonListItemProps,
     ButtonAppearance,
     ButtonProps,
-    ButtonSize
+    ButtonSize,
+    SwitchProps,
 }
 
 export {
@@ -30,5 +33,6 @@ export {
     ButtonOk,
     ButtonSearch,
     ButtonMenu,
+    Switch
 };
 
