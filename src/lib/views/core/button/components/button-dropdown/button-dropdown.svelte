@@ -1,17 +1,11 @@
 <script lang="ts">
+	import { DropdownStateEnum } from '$lib/types.js';
 	import Button, {
 		type ButtonAppearance,
 		type ButtonSize,
 		type ButtonType
 	} from '../button/button.svelte';
 	import { onMount, type Snippet } from 'svelte';
-
-	enum DropdownStateEnum {
-		OPEN,
-		OPENED,
-		CLOSE,
-		CLOSED
-	}
 
 	export type ButtonDropdownProps = {
 		appearance?: ButtonAppearance;
@@ -21,7 +15,7 @@
 		children?: Snippet;
 		dropdownSnippet?: Snippet;
 		id?: string;
-		backgropClassName?: string;
+		backdropClassName?: string;
 		className?: string;
 		containerClassName?: string;
 		dropdownClassName?: string;
@@ -39,7 +33,7 @@
 		type,
 		children,
 		dropdownSnippet,
-		backgropClassName = '',
+		backdropClassName = '',
 		className = '',
 		containerClassName = '',
 		dropdownClassName = '',
@@ -119,7 +113,7 @@
 		<div
 			aria-label="backdrop"
 			id="{id}-dropdown-backdrop"
-			class="cursor-auto fixed inset-0 z-10 {backgropClassName}"
+			class="fixed inset-0 z-10 cursor-auto {backdropClassName}"
 			onmousedown={(e) => {
 				e.stopPropagation();
 				e.stopImmediatePropagation();
@@ -141,10 +135,10 @@
 
 		<div
 			role="dialog"
-			class="absolute z-10 min-w-40 max-h-[50vh] overflow-y-auto origin-top right-0 rounded-md bg-white dark:bg-base-800 shadow-lg dark:shadow-black transition ease-out duration-100 {dropdownClassName} {dropdownState ===
+			class="absolute right-0 z-10 max-h-[50vh] min-w-40 origin-top overflow-y-auto rounded-md bg-white shadow-lg transition duration-100 ease-out dark:bg-base-800 dark:shadow-black {dropdownClassName} {dropdownState ===
 			DropdownStateEnum.OPENED
-				? `transform opacity-100 scale-100 ${dropdownOpenClassName}`
-				: `transform opacity-0 scale-60 ${dropdownCloseClassName}`}"
+				? `scale-100 transform opacity-100 ${dropdownOpenClassName}`
+				: `scale-60 transform opacity-0 ${dropdownCloseClassName}`}"
 			style={openMiddle
 				? 'top: 50%; transform: translateY(-50%);'
 				: openUpward

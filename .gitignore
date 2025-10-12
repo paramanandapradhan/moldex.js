@@ -1,12 +1,14 @@
+test-results
 node_modules
 
 # Output
 .output
 .vercel
+.netlify
+.wrangler
 /.svelte-kit
 /build
 /dist
-/public
 
 # OS
 .DS_Store
@@ -21,5 +23,6 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-.vscode
 
+*storybook.log
+storybook-static

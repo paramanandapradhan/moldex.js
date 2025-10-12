@@ -1,0 +1,20 @@
+import { type ButtonAppearance, type ButtonProps, type ButtonSize, type InputFieldAppearance, type InputFieldSize } from '../../../../..';
+import type { Snippet } from 'svelte';
+type Props = {
+    searchAppearance?: InputFieldAppearance;
+    searchClassName?: string;
+    searchSize?: InputFieldSize;
+    onSearch?: (searchText: string) => void;
+    className?: string;
+    appearance?: ButtonAppearance;
+    size?: ButtonSize;
+    children?: Snippet;
+    iconClassName?: string;
+    dropdownClassName?: string;
+    searchText?: string;
+    placeholder?: string;
+};
+type $$ComponentProps = ButtonProps & Props;
+declare const ButtonSearch: import("svelte").Component<$$ComponentProps, {}, "searchText">;
+type ButtonSearch = ReturnType<typeof ButtonSearch>;
+export default ButtonSearch;

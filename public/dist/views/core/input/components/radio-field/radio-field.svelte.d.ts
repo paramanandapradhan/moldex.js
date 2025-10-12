@@ -1,0 +1,32 @@
+export type RadioValuetype = string | boolean | number | Date;
+export type RadioItem = {
+    value: any;
+    label: string;
+    desc?: string;
+};
+export type RadioItems = (RadioValuetype | RadioItem)[];
+export type RadioPosition = 'left' | 'right';
+export type RadioDiration = 'vertical' | 'horizontal';
+export type RadioPropsType = {
+    className?: string;
+    groupContainerClassName?: string;
+    hasPrimitiveItemsData?: boolean;
+    id?: string;
+    items?: RadioItems;
+    labelClassName?: string;
+    name?: string;
+    position?: RadioPosition;
+    direction?: RadioDiration;
+    radioContainerClassName?: string;
+    required?: boolean;
+    subtitle?: string;
+    subtitleClassName?: string;
+    title?: string;
+    titleClassName?: string;
+    value?: RadioValuetype;
+    descClassName?: string;
+    onChange?: (value: RadioValuetype) => void;
+};
+declare const RadioField: import("svelte").Component<RadioPropsType, {}, "value">;
+type RadioField = ReturnType<typeof RadioField>;
+export default RadioField;

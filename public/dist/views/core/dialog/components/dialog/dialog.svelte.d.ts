@@ -1,0 +1,92 @@
+/**
+ * Return a Promise<boolean> value, whic=h will indiacate dialog to close or not.
+ * false -> Dont close Dialog
+ * true -> Close dialog
+ */
+type DialogCloseButtonClickFunction = (ev: MouseEvent | TouchEvent) => Promise<boolean>;
+export type DialogSize = DialogSizeEnum.XS | DialogSizeEnum.SM | DialogSizeEnum.MD | DialogSizeEnum.LG | DialogSizeEnum.XL | DialogSizeEnum.FULL;
+export type DialogProps = {
+    backdropClassName?: string;
+    bodyClassName?: string;
+    bodyComponent?: any;
+    cancelable?: boolean;
+    scrollable?: boolean;
+    children?: Snippet;
+    className?: string;
+    component?: any;
+    containerClassName?: string;
+    footerClassName?: string;
+    footerCloseButtonClassName?: string;
+    footerCloseButtonLabel?: string;
+    footerOkButtonClassName?: string;
+    footerOkButtonEnabled?: boolean;
+    footerOkButtonSpinner?: boolean;
+    footerOkButtonType?: 'button' | 'submit' | 'reset';
+    footerOkButtonLabel?: string;
+    hasFooter?: boolean;
+    hasFooterCloseButton?: boolean;
+    hasFooterOkButton?: boolean;
+    hasFooterShadow?: boolean;
+    hasHeader?: boolean;
+    hasHeaderBack?: boolean;
+    hasHeaderClose?: boolean;
+    hasHeaderShadow?: boolean;
+    hasSubtitle?: boolean;
+    hasTitle?: boolean;
+    hasHeaderOkButton?: boolean;
+    headerBackButtonClassName?: string;
+    headerBackIconClassName?: string;
+    headerBackIconPath?: string;
+    headerClassName?: string;
+    headerCloseButtonClassName?: string;
+    headerCloseIconClassName?: string;
+    headerCloseIconPath?: string;
+    headerOkButtonClassName?: string;
+    headerOkButtonLabel?: string;
+    headerOkButtonIconPath?: string;
+    headerOkButtonIconClassName?: string;
+    id?: string;
+    onClose?: () => void;
+    onCloseClick?: DialogCloseButtonClickFunction;
+    onOkClick?: (ev: MouseEvent | TouchEvent, options: DialogExports) => void;
+    onResult?: (value: any) => void;
+    onData?: (data: any) => void;
+    props?: any;
+    size?: DialogSize;
+    targetFormId?: string;
+    subtitle?: string;
+    subtitleClassName?: string;
+    title?: string;
+    titleClassName?: string;
+};
+export type DialogExports = {
+    closeDialog: (result?: any) => void;
+    setResult: (result: any) => void;
+    setOkSpinner: (enable: boolean) => void;
+    setOkEnabled: (enable: boolean) => void;
+    setOnOkClick: (onclick: (ev: MouseEvent | TouchEvent) => void) => void;
+    setOnCloseClick: (onclick: DialogCloseButtonClickFunction) => void;
+    setOnData: (listener: (data: any) => void) => void;
+    setHeaderSnippet: (snippet: Snippet) => void;
+    setFooterSnippet: (snippet: Snippet) => void;
+    setDialogTitle: (title: string) => void;
+};
+import { type Component as ComponetType, type Snippet } from 'svelte';
+import { DialogSizeEnum } from '../../../../../services';
+declare const Dialog: ComponetType<DialogProps, {
+    toggleDialog: () => void;
+    openDialog: () => void;
+    closeDialog: (value?: any) => Promise<any>;
+    setResult: (value: any) => void;
+    setOkEnabled: (value: boolean) => void;
+    setOkSpinner: (value: boolean) => void;
+    setOnData: (listener: (data: any) => void) => void;
+    setOnOkClick: (onclick: (event: MouseEvent | TouchEvent, options: DialogExports) => void) => void;
+    setOnCloseClick: (onclick: DialogCloseButtonClickFunction) => void;
+    postData: (data: any) => void;
+    setHeaderSnippet: (snippet: Snippet) => void;
+    setFooterSnippet: (snippet: Snippet) => void;
+    setDialogTitle: (dialogTitle: string) => void;
+}, "">;
+type Dialog = ReturnType<typeof Dialog>;
+export default Dialog;

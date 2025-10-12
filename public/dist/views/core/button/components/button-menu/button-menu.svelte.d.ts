@@ -1,0 +1,32 @@
+export type Menu = {
+    _id?: string;
+    title?: string;
+    subtitle?: string;
+    hasIcon?: boolean;
+    iconPath?: string;
+    iconClassName?: string;
+    hasCheckbox?: boolean;
+    checkboxClassName?: string;
+    isChecked?: boolean;
+};
+import { type ButtonAppearance, type ButtonProps, type ButtonSize } from '../../../../..';
+import { type ButtonDropdownProps } from '../button-dropdown/button-dropdown.svelte';
+import type { Snippet } from 'svelte';
+type Props = {
+    label?: string;
+    className?: string;
+    appearance?: ButtonAppearance;
+    size?: ButtonSize;
+    children?: Snippet;
+    iconPath?: string;
+    iconClassName?: string;
+    menus?: string[] | Menu[];
+    onMenu?: (ev: MouseEvent, menu: string | Menu) => void;
+    dropdownClassName?: string;
+    menuIconClassName?: string;
+    disabled?: boolean;
+};
+type $$ComponentProps = ButtonDropdownProps & ButtonProps & Props;
+declare const ButtonMenu: import("svelte").Component<$$ComponentProps, {}, "">;
+type ButtonMenu = ReturnType<typeof ButtonMenu>;
+export default ButtonMenu;
