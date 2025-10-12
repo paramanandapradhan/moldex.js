@@ -1,6 +1,5 @@
 
 npm run build
-npm run build:tailwind
 rm -rf public
 mkdir public
 cp -R ./dist ./public/dist

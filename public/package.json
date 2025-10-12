@@ -1,0 +1,29 @@
+{
+    "name": "@cloudparker/moldex.js",
+    "version": "4.1.1",
+    "keywords": [
+        "svelte"
+    ],
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "svelte": "./dist/index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "!dist/**/*.test.*",
+        "!dist/**/*.spec.*"
+    ],
+    "type": "module",
+    "svelte": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "devDependencies": {
+        "@cloudparker/easy-script-loader-svelte": "^4.1.1",
+        "@cloudparker/easy-cropperjs-svelte": "^2.4.0",
+        "moment": "^2.30.1"
+    },
+    "peerDependencies": {
+        "svelte": "^5.39.5"
+    }
+}

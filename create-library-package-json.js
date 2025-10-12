@@ -1,6 +1,10 @@
 import path from 'path';
 import fs from 'fs';
-import json from './package.json' assert { type: 'json' };
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const packageJsonPath = path.resolve(__dirname, 'package.json');
+const json = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 
 let publicFolder = './public';
 
