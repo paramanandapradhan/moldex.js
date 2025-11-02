@@ -168,14 +168,14 @@
 								path={isSelected ? checkboxIconPath : uncheckboxIconPath}
 								className="w-5 h-5 {checkboxClassName} {isSelected
 									? `text-primary ${checkboxIconClassName}`
-									: `text-base-400 ${uncheckboxIconClassName}`}"
+									: `text-neutral-400 ${uncheckboxIconClassName}`}"
 							/>
 						</div>
 					{/if}
 
 					{#if hasArrow}
 						<div>
-							<Icon path={arrowIconPath} className="w-5 h-5 text-base-500 {arrowClassName}  " />
+							<Icon path={arrowIconPath} className="w-5 h-5 text-neutral-500 {arrowClassName}  " />
 						</div>
 					{/if}
 				</ButtonListItem>

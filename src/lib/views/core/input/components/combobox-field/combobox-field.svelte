@@ -52,11 +52,7 @@
 <script lang="ts">
 	import ButtonListItem from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
 	import Button from '$lib/views/core/button/components/button/button.svelte';
-	import {
-		mdiCheckCircle,
-		mdiCheckCircleOutline,
-		mdiUnfoldMoreHorizontal
-	} from '$lib/views/core/icon';
+	 
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import NoData from '$lib/views/core/no-data/components/no-data/no-data.svelte';
 	import type { Snippet } from 'svelte';
@@ -64,6 +60,7 @@
 	import SearchField from '../search-field/search-field.svelte';
 	import { SvelteSet } from 'svelte/reactivity';
 	import VirtualScrollingList from '$lib/views/core/common/components/virtual-scrolling/virtual-scrolling-list.svelte';
+	import { mdiCheckCircle, mdiCheckCircleOutline, mdiUnfoldMoreHorizontal } from '$lib/views/core/icon/index.js';
 
 	let {
 		appearance,
@@ -153,7 +150,11 @@
 
 		if (dropPosition === 'bottom' && spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
 			placement = 'bottom-full mb-1';
-		} else if (dropPosition === 'top' && spaceAbove < dropdownHeight && spaceBelow > dropdownHeight) {
+		} else if (
+			dropPosition === 'top' &&
+			spaceAbove < dropdownHeight &&
+			spaceBelow > dropdownHeight
+		) {
 			placement = 'mt-1';
 		} else if (dropPosition === 'middle') {
 			const spaceNeeded = dropdownHeight / 2;
@@ -364,7 +365,7 @@
 		{#if hasComboboxIcon}
 			<Icon
 				path={comboboxIconPath}
-				className=" text-base-500 {comboboxIconSizeClassName} {comboboxIconClassName}"
+				className=" text-neutral-500 {comboboxIconSizeClassName} {comboboxIconClassName}"
 			/>
 		{/if}
 	</div>
@@ -377,13 +378,13 @@
 		<div class="flex items-center {displayClassName}" title={displayItemsTitle}>
 			{#each displayItems?.slice(0, displayItemsCount) as item, index}
 				<div
-					class="inline-flex items-center bg-base-200 text-base-700 text-sm font-medium px-2 mx-1 rounded-full text-nowrap {chipClassName}"
+					class="inline-flex items-center bg-neutral-200 text-neutral-700 text-sm font-medium px-2 mx-1 rounded-full text-nowrap {chipClassName}"
 				>
 					{item}
 				</div>
 			{/each}
 			{#if displayItemsCount && displayItems?.length > (displayItemsCount || 1)}
-				<div class="px-2 text-base-400">+ {displayItems?.length - (displayItemsCount || 1)}</div>
+				<div class="px-2 text-neutral-400">+ {displayItems?.length - (displayItemsCount || 1)}</div>
 			{/if}
 		</div>
 	{:else}
@@ -428,7 +429,7 @@
 		<!-- svelte-ignore a11y_interactive_supports_focus -->
 		<div
 			bind:clientHeight={dropdownHeight}
-			class="absolute z-10 {placementClassName} max-h-80 w-full flex flex-col rounded-md bg-white dark:bg-base-900 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm {hasDropdownHeader
+			class="absolute z-10 {placementClassName} max-h-80 w-full flex flex-col rounded-md bg-white dark:bg-neutral-900 text-neutral-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm {hasDropdownHeader
 				? ''
 				: 'pt-1'} {hasDropdownFooter ? '' : 'pb-1'} {dropdownClassName}"
 			id="options"
@@ -489,7 +490,7 @@
 														path={isSelected ? checkboxIconPath : uncheckboxIconPath}
 														className="w-5 h-5 {checkboxClassName} {isSelected
 															? `text-primary ${checkboxIconClassName}`
-															: `text-base-400 ${uncheckboxIconClassName}`}"
+															: `text-neutral-400 ${uncheckboxIconClassName}`}"
 													/>
 												</div>
 											{/if}

@@ -128,7 +128,7 @@
 		{/if}
 		{#if subtitle}
 			<div
-				class="overflow-hidden whitespace-nowrap overflow-ellipsis text-base-400 dark:text-base-300 text-sm font-light {subtitleClassName}"
+				class="overflow-hidden whitespace-nowrap overflow-ellipsis text-neutral-400 dark:text-neutral-300 text-sm font-light {subtitleClassName}"
 			>
 				{subtitle || ''}
 			</div>
@@ -140,14 +140,14 @@
 				path={isChecked ? checkboxIconPath : uncheckboxIconPath}
 				className="w-5 h-5 {checkboxClassName} {isChecked
 					? `text-primary ${checkboxIconClassName}`
-					: `text-base-400 ${uncheckboxIconClassName}`}"
+					: `text-neutral-400 ${uncheckboxIconClassName}`}"
 			/>
 		</div>
 	{/if}
 
 	{#if hasArrow}
 		<div class="flex-none">
-			<Icon path={arrowIconPath} className="w-5 h-5 text-base-500 {arrowClassName}  " />
+			<Icon path={arrowIconPath} className="w-5 h-5 text-neutral-500 {arrowClassName}  " />
 		</div>
 	{/if}
 	{#if hasMenu}
@@ -167,7 +167,7 @@
 <Button
 	id="{id}-list-item-{index}"
 	type="button"
-	className="w-full !text-start !justify-start gap-4 hover:bg-base-50 transition rounded-none dark:hover:bg-base-700 h-full {className}"
+	className="w-full !text-start !justify-start gap-4 hover:bg-neutral-50 transition rounded-none dark:hover:bg-neutral-700 h-full {className}"
 	{onClick}
 	{disabled}
 	{appearance}

@@ -129,7 +129,7 @@
 					type="radio"
 					value={item.value}
 					checked={value === item.value}
-					class="h-6 w-6 appearance-none rounded-full bg-base-200 dark:bg-base-700 dark:checked:bg-primary checked:bg-primary checked:hover:bg-primary checked:focus:bg-primary focus:ring-primary focus:shadow-primary outline-primary border-base-300 dark:border-base-600 {className}"
+					class="h-6 w-6 appearance-none rounded-full bg-neutral-200 dark:bg-neutral-700 dark:checked:bg-primary checked:bg-primary checked:hover:bg-primary checked:focus:bg-primary focus:ring-primary focus:shadow-primary outline-primary border-neutral-300 dark:border-neutral-600 {className}"
 					onchange={(ev) => handleChange(ev, item)}
 				/>
 

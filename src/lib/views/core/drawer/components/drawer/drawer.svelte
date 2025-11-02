@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
-
 	type PositionType = 'left' | 'right' | 'top' | 'bottom';
 
 	type PropsType = {
@@ -60,7 +59,7 @@
 	<div {id} class="relative z-30 {containerClassName}" role="dialog" aria-modal="true">
 		<!-- Backdrop -->
 		<div
-			class="fixed inset-0 bg-base-900/10 bg-base-50/10 transition-opacity ease-linear duration-300 {isOpened
+			class="fixed inset-0 bg-neutral-900/10 bg-neutral-50/10 transition-opacity ease-linear duration-300 {isOpened
 				? 'opacity-100'
 				: 'opacity-0'}  {backdropClassName}"
 			aria-hidden="true"
@@ -86,7 +85,7 @@
 				{drawerClassName} "
 			>
 				<div
-					class="grow w-72 bg-white dark:bg-base-800 text-base-800 dark:text-base-200 border-base-100 dark:border-base-700 {className}"
+					class="grow w-72 bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border-neutral-100 dark:border-neutral-700 {className}"
 				>
 					{#if children}
 						{@render children()}
@@ -97,9 +96,15 @@
 						{@render floatingSnippet()}
 					{/if}
 				</div>
-				</div>
+			</div>
 
-			<button class="flex-grow cursor-auto" type="button" onclick={handelBackdropClick} aria-label="Close drawer" title="Close drawer"></button>
+			<button
+				class="flex-grow cursor-auto"
+				type="button"
+				onclick={handelBackdropClick}
+				aria-label="Close drawer"
+				title="Close drawer"
+			></button>
 		</div>
 	</div>
 {/if}

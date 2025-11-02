@@ -93,16 +93,16 @@
 	let btnAppearanceClassName = $derived.by(() => {
 		switch (appearance) {
 			case 'none':
-				return 'text-base-800 dark:text-base-300 hover:text-base-900 disabled:text-base-400 dark:disabled:text-base-500 dark:hover:text-base-200';
+				return 'text-neutral-800 dark:text-neutral-300 hover:text-neutral-900 disabled:text-neutral-400 dark:disabled:text-neutral-500 dark:hover:text-neutral-200';
 			case 'base':
-				return 'text-base-800 dark:text-base-300 hover:text-base-900 disabled:text-base-400 dark:disabled:text-base-500 dark:hover:text-base-200 bg-base-200 dark:bg-base-700 hover:bg-base-300 dark:hover:bg-base-600 disabled:hover:bg-base-200 dark:disabled:hover:bg-base-700 ';
+				return 'text-neutral-800 dark:text-neutral-300 hover:text-neutral-900 disabled:text-neutral-400 dark:disabled:text-neutral-500 dark:hover:text-neutral-200 bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 disabled:hover:bg-neutral-200 dark:disabled:hover:bg-neutral-700 ';
 			case 'primary':
-				return 'text-primary-100 hover:text-primary-50 bg-primary-600 hover:bg-primary-500 disabled:text-base-400 dark:disabled:text-base-500 disabled:bg-base-200 dark:disabled:bg-base-700 disabled:hover:bg-base-200 dark:disabled:hover:bg-base-700  ';
+				return 'text-primary-100 hover:text-primary-50 bg-primary-600 hover:bg-primary-500 disabled:text-neutral-400 dark:disabled:text-neutral-500 disabled:bg-neutral-200 dark:disabled:bg-neutral-700 disabled:hover:bg-neutral-200 dark:disabled:hover:bg-neutral-700  ';
 			case 'border':
 			case 'border-base':
-				return 'border-2 text-base-800 dark:text-base-300 hover:text-base-900 disabled:text-base-400 dark:disabled:text-base-500 dark:hover:text-base-200 border-base-200 hover:border-base-300 dark:border-base-700 dark:hover:border-base-600 dark:disabled:border-base-200 dark:disabled:hover:border-base-200 dark:disabled:border-base-700 dark:disabled:hover:border-base-700  ';
+				return 'border-2 text-neutral-800 dark:text-neutral-300 hover:text-neutral-900 disabled:text-neutral-400 dark:disabled:text-neutral-500 dark:hover:text-neutral-200 border-neutral-200 hover:border-neutral-300 dark:border-neutral-700 dark:hover:border-neutral-600 dark:disabled:border-neutral-200 dark:disabled:hover:border-neutral-200 dark:disabled:border-neutral-700 dark:disabled:hover:border-neutral-700  ';
 			case 'border-primary':
-				return 'border-2 text-primary hover:text-primary-500 disabled:text-base-400 dark:disabled:text-base-500 border-primary hover:border-primary-500 dark:border-primary-600 dark:hover:border-primary-500 dark:disabled:border-base-200 dark:disabled:hover:border-base-200 dark:disabled:border-base-700 dark:disabled:hover:border-base-700  ';
+				return 'border-2 text-primary hover:text-primary-500 disabled:text-neutral-400 dark:disabled:text-neutral-500 border-primary hover:border-primary-500 dark:border-primary-600 dark:hover:border-primary-500 dark:disabled:border-neutral-200 dark:disabled:hover:border-neutral-200 dark:disabled:border-neutral-700 dark:disabled:hover:border-neutral-700  ';
 		}
 	});
 

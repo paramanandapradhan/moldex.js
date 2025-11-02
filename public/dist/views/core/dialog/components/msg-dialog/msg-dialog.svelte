@@ -17,6 +17,6 @@
 	});
 </script>
 
-<div class="p-6 text-base-800 dark:text-base-300 {className}">
+<div class="p-6 text-neutral-800 dark:text-neutral-300 {className}">
 	<div>{@html msg || ''}</div>
 </div>

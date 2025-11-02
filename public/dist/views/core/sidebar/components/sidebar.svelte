@@ -38,7 +38,8 @@
 
 <div
 	{id}
-	class="hidden bg-white dark:bg-base-800 text-base-800 dark:text-base-200 border-base-100 dark:border-base-700 pt-16 {responsiveClassName} {position == 'right'
+	class="hidden bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border-neutral-100 dark:border-neutral-700 pt-16 {responsiveClassName} {position ==
+	'right'
 		? 'right-0'
 		: ''} {className}"
 >

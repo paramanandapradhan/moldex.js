@@ -94,7 +94,7 @@
 	<Button {disabled} {onClick} iconPath={icon} />
 {/snippet}
 
-<div class="flex items-center flex-wrap justify-end text-base-500 gap-3 -mb-2">
+<div class="flex items-center flex-wrap justify-end text-neutral-500 gap-3 -mb-2">
 	<div class="flex-grow">{itemsText} {itemsCount}</div>
 	<div class="flex items-center flex-nowrap gap-2">
 		<div>{pageSizeText}</div>
@@ -108,7 +108,7 @@
 				onMenu={(ev, menu) => handlePageSizeMenu(ev, menu as string)}
 			/>
 		</div>
-		<div class="text-base-500">
+		<div class="text-neutral-500">
 			<span>
 				{pageText}
 			</span>

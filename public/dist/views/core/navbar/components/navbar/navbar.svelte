@@ -78,13 +78,13 @@
 </script>
 
 <nav
-	class="sticky top-0 z-20 flex h-16 shrink-0 items-center px-2 border-b border-base-100 dark:border-base-700 bg-white dark:bg-base-800 shadow-sm {className}"
+	class="sticky top-0 z-20 flex h-16 shrink-0 items-center px-2 border-b border-neutral-100 dark:border-neutral-700 bg-white dark:bg-neutral-800 shadow-sm {className}"
 >
 	{#if hasBack}
 		<div class="h-full flex items-center">
 			<ButtonBack
 				iconPath={backIconPath}
-				className="text-base-800 dark:text-base-100 {backButtonClassName}"
+				className="text-neutral-800 dark:text-neutral-100 {backButtonClassName}"
 				onClick={onBack}
 			/>
 		</div>
@@ -93,7 +93,7 @@
 		<div class="h-full">
 			<button
 				type="button"
-				class="h-full px-2 text-base-800 dark:text-base-100 {drawerButtonClassName}"
+				class="h-full px-2 text-neutral-800 dark:text-neutral-100 {drawerButtonClassName}"
 				disabled={disabledLogo}
 				onclick={onMore}
 			>
@@ -106,7 +106,7 @@
 			<button
 				id="btn-more"
 				type="button"
-				class="h-full px-2 rounded-0 text-base-800 dark:text-base-100 {logoButtonClassName}"
+				class="h-full px-2 rounded-0 text-neutral-800 dark:text-neutral-100 {logoButtonClassName}"
 				disabled={!onLogo}
 				onclick={onLogo}
 			>
@@ -125,12 +125,12 @@
 		<div class="h-full flex items-center">
 			<div>
 				{#if hasTitle}
-					<div class="font-bold px-2 text-base-800 dark:text-base-100 {titleClassName}">
+					<div class="font-bold px-2 text-neutral-800 dark:text-neutral-100 {titleClassName}">
 						{title || ''}
 					</div>
 				{/if}
 				{#if hasSubtitle}
-					<div class="text-sm px-2 text-base-600 dark:text-base-500 {subtitleClassName}">
+					<div class="text-sm px-2 text-neutral-600 dark:text-neutral-500 {subtitleClassName}">
 						{subtitle || ''}
 					</div>
 				{/if}
@@ -158,7 +158,7 @@
 				<button
 					id="btn-more"
 					type="button"
-					class="h-full px-2 text-base-800 dark:text-base-100 {drawerButtonClassName}"
+					class="h-full px-2 text-neutral-800 dark:text-neutral-100 {drawerButtonClassName}"
 					disabled={!onMore}
 					onclick={onMore}
 				>

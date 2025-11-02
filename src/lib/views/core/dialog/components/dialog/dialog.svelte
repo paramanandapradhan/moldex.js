@@ -305,7 +305,7 @@
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		tabindex="-1"
-		class="relative flex flex-col transform overflow-hidden bg-base-50 dark:bg-base-800 text-left transition-all outline-none {size ==
+		class="relative flex flex-col transform overflow-hidden bg-neutral-50 dark:bg-neutral-800 text-left transition-all outline-none {size ==
 		DialogSizeEnum.FULL
 			? 'max-h-dvh max-w-dvw'
 			: 'max-h-[90dvh] max-w-[90dvw]'} {screenSizeClassNameMap[size]} {isOpened
@@ -337,12 +337,12 @@
 					</div>
 					<div class="py-2 flex-grow">
 						{#if hasTitle}
-							<div class="text-xl text-base-800 dark:text-base-300 {titleClassName}">
+							<div class="text-xl text-neutral-800 dark:text-neutral-300 {titleClassName}">
 								{@html customTitle || title || ''}
 							</div>
 						{/if}
 						{#if hasSubtitle}
-							<div class="text-sm text-gray-500 dark:text-base-500 {subtitleClassName}">
+							<div class="text-sm text-gray-500 dark:text-neutral-500 {subtitleClassName}">
 								{subtitle || ''}
 							</div>
 						{/if}

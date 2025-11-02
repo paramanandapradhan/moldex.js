@@ -46,10 +46,10 @@
 
 {#snippet labelSnippet()}
 	<div class="text-sm leading-6 mx-4 flex-grow">
-		<div class="font-medium text-sm text-base-900 dark:text-base-100 {labelClassName}">
+		<div class="font-medium text-sm text-neutral-900 dark:text-neutral-100 {labelClassName}">
 			{label || ''}
 		</div>
-		<div class="text-xs text-base-500 dark:text-base-500 {descClassName}">{desc || ''}</div>
+		<div class="text-xs text-neutral-500 dark:text-neutral-500 {descClassName}">{desc || ''}</div>
 	</div>
 {/snippet}
 <div class=" {containerClassName}">
@@ -64,7 +64,7 @@
 			aria-describedby="comments-description"
 			name={name || id}
 			type="checkbox"
-			class="h-6 w-6 appearance-none cursor-pointer rounded color-primary hover:color-primary bg-base-200 dark:bg-base-700 dark:checked:bg-primary checked:bg-primary checked:focus:bg-primary checked:hover:bg-primary focus:ring-primary focus:shadow-primary outline-primary border-base-300 dark:border-base-600 {className}"
+			class="h-6 w-6 appearance-none cursor-pointer rounded color-primary hover:color-primary bg-neutral-200 dark:bg-neutral-700 dark:checked:bg-primary checked:bg-primary checked:focus:bg-primary checked:hover:bg-primary focus:ring-primary focus:shadow-primary outline-primary border-neutral-300 dark:border-neutral-600 {className}"
 			onchange={(ev) => handleChange(ev)}
 		/>
 		{#if position == 'left'}

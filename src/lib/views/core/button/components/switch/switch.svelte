@@ -58,7 +58,7 @@
 	onclick={toggle}
 	aria-label="Switch"
 	class="relative inline-flex items-center rounded-full transition-colors duration-300
-		{checked ? 'bg-primary-600' : 'bg-base-300'} 
+		{checked ? 'bg-primary-600' : 'bg-neutral-300'} 
 		{disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} 
 		{sizeClass.wrapper} {className}"
 >

@@ -74,7 +74,7 @@
 	<button
 		id="btn-eye-{name || id}"
 		type="button"
-		class="px-3 h-full hover:bg-base-100 focus:outline-primary {btnRoundedClassName} {buttonClassName}"
+		class="px-3 h-full hover:bg-neutral-100 focus:outline-primary {btnRoundedClassName} {buttonClassName}"
 		use:ripple
 		onclick={handleTogglePassword}
 	>

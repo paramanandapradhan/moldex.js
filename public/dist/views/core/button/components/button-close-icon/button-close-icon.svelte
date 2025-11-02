@@ -33,7 +33,7 @@
 	<Button
 		{id}
 		{iconPath}
-		className="w-12 h-12 rounded-full text-base-500 hover:text-base-600 hover:bg-base-50 dark:hover:bg-base-900 transition-all {className}"
+		className="w-12 h-12 rounded-full text-neutral-500 hover:text-neutral-600 hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-all {className}"
 		{iconClassName}
 		{onClick}
 	/>
