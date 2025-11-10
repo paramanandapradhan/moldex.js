@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { ripple } from '$lib/actions';
-	import { colorToHex, isValidHexColor } from '$lib/services';
-	import { mdiSquare } from '$lib/views/core/icon';
+	import { ripple } from '$lib/actions/ripple.js';
+	import { colorToHex, isValidHexColor } from '$lib/services/index.js';
+
+ 
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
+	import { mdiSquare } from '$lib/views/core/icon/index.js';
 	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 
 	let {
@@ -15,9 +17,41 @@
 	}: InputFieldProps & { value?: string } = $props();
 
 	let colorRef: HTMLInputElement;
-	let btnIconSizeClassName: string = $state('');
-	let btnRoundedClassName: string = $state('');
-	let colorValue: string = $state('#000000');
+
+	let btnIconSizeClassName: string = $derived.by(() => {
+		let className = '';
+		if (size) {
+			switch (size) {
+				case 'lg':
+					className = '!h-7 !w-7';
+					break;
+				case 'md':
+					className = '!h-6 !w-6';
+					break;
+				case 'sm':
+					className = '!h-5 !w-5';
+					break;
+				case 'xs':
+					className = '!h-4 !w-4';
+					break;
+			}
+		}
+		return className;
+	});
+
+	let btnRoundedClassName: string = $derived.by(() => {
+		if (!appearance || appearance == 'normal') {
+			return 'rounded-tr-lg rounded-br-lg';
+		}
+		return '';
+	});
+
+	let colorValue: string = $derived.by(() => {
+		if (isValidHexColor(value)) {
+			colorValue = value;
+		}
+		return '#000000';
+	});
 
 	let inputRef: any | null = $state(null);
 
@@ -48,35 +82,9 @@
 
 	$effect(() => {
 		if (isValidHexColor(value)) {
-			colorValue = value;
 			if (colorRef) {
 				colorRef.value = colorToHex(value);
 			}
-		}
-	});
-
-	$effect(() => {
-		if (size) {
-			switch (size) {
-				case 'lg':
-					btnIconSizeClassName = '!h-7 !w-7';
-					break;
-				case 'md':
-					btnIconSizeClassName = '!h-6 !w-6';
-					break;
-				case 'sm':
-					btnIconSizeClassName = '!h-5 !w-5';
-					break;
-				case 'xs':
-					btnIconSizeClassName = '!h-4 !w-4';
-					break;
-			}
-		}
-	});
-
-	$effect(() => {
-		if (!appearance || appearance == 'normal') {
-			btnRoundedClassName = 'rounded-tr-lg rounded-br-lg';
 		}
 	});
 </script>
@@ -85,7 +93,7 @@
 	<button
 		id="btn-color-picker-{name || id}"
 		type="button"
-		class="px-2 h-full hover:bg-neutral-100 dark:hover:bg-neutral-900 focus:outline-primary {btnRoundedClassName}"
+		class="h-full px-2 hover:bg-neutral-100 focus:outline-primary dark:hover:bg-neutral-900 {btnRoundedClassName}"
 		use:ripple
 		onclick={handleColorBtnClick}
 	>

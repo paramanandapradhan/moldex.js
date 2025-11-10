@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { handleScreenSizeUpdate } from '../../../../services';
-	import { BROWSER } from 'esm-env';
+	import { handleScreenSizeUpdate } from '../../../../services/index.js';
+
+	import { onMount } from 'svelte';
 
 	let innerWidth: number = $state(0);
 
@@ -8,8 +9,8 @@
 		handleScreenSizeUpdate(size);
 	}
 
-	$effect(() => {
-		BROWSER && screenSizeChanged(innerWidth);
+	onMount(() => {
+		screenSizeChanged(innerWidth);
 	});
 </script>
 

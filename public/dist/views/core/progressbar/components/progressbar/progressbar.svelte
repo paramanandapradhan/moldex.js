@@ -17,28 +17,23 @@
 		children
 	}: PropsType = $props();
 
-	let progressValue: number = $state(0);
-
-	$effect(() => {
-		if (!className) {
-			className = 'h-4';
-		}
-	});
-
-	$effect(() => {
+	let progressValue: number = $derived.by(() => {
+		let v = value;
 		if (value < 0) {
-			progressValue = 0;
+			v = 0;
 		} else if (value >= 100) {
-			progressValue = 100;
+			v = 100;
 		} else {
-			progressValue = value;
+			v = value;
 		}
+		return v;
 	});
+
 </script>
 
-<div class="w-full bg-gray-200 rounded-full progressbar-container {backgroundClassName}" style="">
+<div class="progressbar-container w-full rounded-full bg-gray-200 {backgroundClassName}" style="">
 	<div
-		class="bg-indigo-600 rounded-full transition-all ease-in-out text-center text-xs text-white progressbar {className}"
+		class="progressbar rounded-full bg-indigo-600 text-center text-xs text-white transition-all ease-in-out {className}"
 		style="--progressWidth:{progressValue}%;"
 	>
 		{#if children}

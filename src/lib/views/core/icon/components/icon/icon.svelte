@@ -19,11 +19,9 @@
 		sizeClassName = 'w-6 h-6'
 	}: IconPropsType = $props();
 
-	$effect(() => {
-		viewBox = viewBox || `0 0 ${size} ${size}`;
-	});
+	let viewBoxDerived = $derived(viewBox || `0 0 ${size} ${size}`);
 </script>
 
-<svg class="align-middle {sizeClassName} {className}" {viewBox} fill={color || fill}>
+<svg class="align-middle {sizeClassName} {className}" viewBox={viewBoxDerived} fill={color || fill}>
 	<path d={path} />
 </svg>

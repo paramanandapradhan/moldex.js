@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { isSmallScreen } from '$lib/services';
-	import { mdiArrowLeft, mdiChevronRight, mdiClose } from '$lib/views/core/icon';
+	import { isSmallScreen } from '$lib/services/index.js';
+	import { mdiClose } from '$lib/views/core/icon/index.js';
+
+ 
 	import Button from '../button/button.svelte';
 
 	type PropsType = {
@@ -22,11 +24,8 @@
 		onClick
 	}: PropsType = $props();
 
-	let isMobileScreen = $state(false);
+	let isMobileScreen = $state(isSmallScreen() || false);
 
-	$effect(() => {
-		isMobileScreen = isSmallScreen();
-	});
 </script>
 
 {#snippet button()}

@@ -29,11 +29,8 @@
 		right: 'flex-row-reverse'
 	};
 
-	let iconPlacementClassName: string = $state('');
-
-	$effect(() => {
-		iconPlacementClassName = iconPlacementClassNameMap[iconPlacement];
-	});
+	let iconPlacementClassName: string = $derived(iconPlacementClassNameMap[iconPlacement]);
+ 
 </script>
 
 <div

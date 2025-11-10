@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { ripple } from '$lib/actions';
-	import { mdiEyeOffOutline, mdiEyeOutline } from '$lib/views/core/icon';
+	import { ripple } from '$lib/actions/ripple.js';
+
+ 
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
+	import { mdiEyeOffOutline, mdiEyeOutline } from '$lib/views/core/icon/index.js';
 	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 
 	let {
@@ -19,8 +21,33 @@
 		iconClassName?: string;
 	} = $props();
 
-	let btnRoundedClassName = $state('');
-	let btnIconSizeClassName = $state('');
+	let btnRoundedClassName = $derived.by(() => {
+		if (!appearance || appearance == 'normal') {
+			return 'rounded-tr-lg rounded-br-lg';
+		}
+		return '';
+	});
+
+	let btnIconSizeClassName = $derived.by(() => {
+		let className = '';
+		if (size) {
+			switch (size) {
+				case 'lg':
+					className = '!h-7 !w-7';
+					break;
+				case 'md':
+					className = '!h-6 !w-6';
+					break;
+				case 'sm':
+					className = '!h-5 !w-5';
+					break;
+				case 'xs':
+					className = '!h-4 !w-4';
+					break;
+			}
+		}
+		return className;
+	});
 
 	let inputFieldRef: any | null = $state(null);
 
@@ -44,37 +71,14 @@
 		}
 	}
 
-	$effect(() => {
-		if (size) {
-			switch (size) {
-				case 'lg':
-					btnIconSizeClassName = '!h-7 !w-7';
-					break;
-				case 'md':
-					btnIconSizeClassName = '!h-6 !w-6';
-					break;
-				case 'sm':
-					btnIconSizeClassName = '!h-5 !w-5';
-					break;
-				case 'xs':
-					btnIconSizeClassName = '!h-4 !w-4';
-					break;
-			}
-		}
-	});
-
-	$effect(() => {
-		if (!appearance || appearance == 'normal') {
-			btnRoundedClassName = 'rounded-tr-lg rounded-br-lg';
-		}
-	});
+ 
 </script>
 
 {#snippet showPasswordButton()}
 	<button
 		id="btn-eye-{name || id}"
 		type="button"
-		class="px-3 h-full hover:bg-neutral-100 focus:outline-primary {btnRoundedClassName} {buttonClassName}"
+		class="h-full px-3 hover:bg-neutral-100 focus:outline-primary {btnRoundedClassName} {buttonClassName}"
 		use:ripple
 		onclick={handleTogglePassword}
 	>

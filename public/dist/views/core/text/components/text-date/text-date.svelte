@@ -1,7 +1,10 @@
 <script lang="ts">
-	import { dateFormat, dateToAgo, toDate } from '../../../../../services';
+	import { dateFormat, dateToAgo, toDate } from '../../../../../services/index.js';
+
+ 
 
 	import { BROWSER } from 'esm-env';
+	import { onMount } from 'svelte';
 
 	type PropsType = {
 		input: Date | number | string | { seconds: number; nanoseconds: number };
@@ -27,8 +30,8 @@
 		}
 	}
 
-	$effect(() => {
-		BROWSER && prepareDate(input);
+	onMount(() => {
+		prepareDate(input);
 	});
 </script>
 

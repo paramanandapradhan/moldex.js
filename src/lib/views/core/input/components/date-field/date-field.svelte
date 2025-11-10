@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { dateFormat, toDate } from '$lib/services';
+	import { dateFormat, toDate } from '$lib/services/index.js';
+
+ 
 	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 
 	let {
@@ -7,14 +9,13 @@
 		...props
 	}: InputFieldProps & { value?: Date | string | number | null | undefined } = $props();
 
-	let _value: string | undefined = $state(undefined);
-
-	$effect(() => {
+	let _value: string | undefined = $derived.by(() => {
 		if (value) {
-			_value = dateFormat(toDate(value)!, 'YYYY-MM-DD') as string;
-			console.log('_value', _value);
+			return dateFormat(toDate(value)!, 'YYYY-MM-DD') as string;
 		}
 	});
+
+ 
 
 	let inputFieldRef: any | null = $state(null);
 

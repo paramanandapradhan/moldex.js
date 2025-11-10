@@ -32,23 +32,23 @@
 		onfocus
 	}: RangeFieldPropsType = $props();
 
-	let rangeSizeClassName = $state('');
-
-	$effect(() => {
+	let rangeSizeClassName = $derived.by(() => {
+		let className = '';
 		switch (size) {
 			case 'lg':
-				rangeSizeClassName = 'h-3 ';
+				className = 'h-3 ';
 				break;
 			case 'md':
-				rangeSizeClassName = 'h-2 ';
+				className = 'h-2 ';
 				break;
 			case 'sm':
-				rangeSizeClassName = 'h-1 ';
+				className = 'h-1 ';
 				break;
 			case 'xs':
-				rangeSizeClassName = 'h-2-px ';
+				className = 'h-2-px ';
 				break;
 		}
+		return className;
 	});
 
 	let inputRef: HTMLInputElement | null = $state(null);
@@ -72,7 +72,7 @@
 	{id}
 	{name}
 	type="range"
-	class="range-slider w-full bg-gray-200 appearance-none cursor-pointer dark:bg-gray-700 rounded-lg range-lg outline-none focus:outline-none {rangeSizeClassName} {className}"
+	class="range-slider range-lg w-full cursor-pointer appearance-none rounded-lg bg-gray-200 outline-none focus:outline-none dark:bg-gray-700 {rangeSizeClassName} {className}"
 	{min}
 	{max}
 	{step}
