@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { mdiMagnify } from '../../../icon';
+	 
 	import Icon from '../../../icon/components/icon/icon.svelte';
+	import { mdiMagnify } from '../../../icon/index.js';
 	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
 
 	let {

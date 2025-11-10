@@ -141,11 +141,123 @@
 
 	let inputRef: HTMLInputElement | HTMLTextAreaElement | null = $state(null);
 
-	let sizeClassName = $state('');
-	let appearanceClassName = $state('');
-	let floatingLabelClassName = $state('');
-	let floatingLabelPaddingClassName = $state('');
-	let floatingLabelTextClassName = $state('');
+	let nameDerived = $derived(name || id);
+	let idDerived = $derived(id || name);
+
+	let containerClassNameDerived = $derived.by(() => {
+		if (floatingLabel || leftSnippet != null || rightSnippet != null) {
+			return (containerClassName || '') + ' relative';
+		}
+		return containerClassName;
+	});
+
+	let sizeClassName = $derived.by(() => {
+		let sizeClassName = '';
+		if (size) {
+			switch (size) {
+				case 'lg':
+					sizeClassName = 'p-4 text-base';
+					break;
+				case 'md':
+					sizeClassName = 'p-2.5 text-sm';
+					break;
+				case 'sm':
+					sizeClassName = 'p-2 text-xs';
+					break;
+				case 'xs':
+					sizeClassName = 'p-1 text-xs';
+					break;
+			}
+		}
+		return sizeClassName;
+	});
+
+	let floatingLabelPaddingClassName = $derived.by(() => {
+		if (floatingLabel) {
+			if (size) {
+				let floatingClassName = '';
+				switch (size) {
+					case 'lg':
+						floatingClassName = ` px-1 peer-focus:px-1 peer-placeholder-shown:px-4 `;
+						break;
+					case 'md':
+						floatingClassName = ' px-1 peer-focus:px-1 peer-placeholder-shown:px-2.5 ';
+						break;
+					case 'sm':
+						floatingClassName = ' px-1 peer-focus:px-1 peer-placeholder-shown:px-2';
+						break;
+					case 'xs':
+						floatingClassName = ' px-0 peer-focus:px-0 peer-placeholder-shown:px-1 ';
+						break;
+				}
+				return floatingClassName;
+			}
+		}
+		return '';
+	});
+
+	let floatingLabelTextClassName = $derived.by(() => {
+		let className = '';
+		if (floatingLabel) {
+			if (size) {
+				switch (size) {
+					case 'lg':
+						className = 'text-base';
+						break;
+					case 'md':
+						className = 'text-sm';
+						break;
+					case 'sm':
+						className = 'text-xs';
+						break;
+					case 'xs':
+						className = 'text-xs';
+						break;
+				}
+			}
+		}
+		return className;
+	});
+
+	let floatingLabelClassName = $derived.by(() => {
+		if (floatingLabel) {
+			return `absolute duration-300 transform top-0 rounded -translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-0 peer-placeholder-shown:start-0 peer-focus:start-1 bg-white peer-focus:bg-white dark:bg-neutral-700 peer-focus:bg-neutral-800 peer-placeholder-shown:bg-transparent  start-1 ${floatingLabelPaddingClassName} ${floatingLabelTextClassName}`;
+		}
+		return '';
+	});
+
+	let appearanceClassName = $derived.by(() => {
+		let className = '';
+		if (appearance) {
+			switch (appearance) {
+				case 'normal':
+					className =
+						'border rounded-lg bg-neutral-100 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-500 text-neutral-950 dark:text-neutral-50 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 focus:bg-neutral-50 dark:focus:bg-neutral-800 ';
+					break;
+				case 'box':
+					className =
+						'border bg-neutral-100 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-500 text-neutral-950 dark:text-neutral-50 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 focus:bg-neutral-50 dark:focus:bg-neutral-800 ';
+					break;
+				case 'fill':
+					className =
+						' border-0 appearance-none  focus:ring-0 bg-neutral-100 dark:bg-neutral-700 text-neutral-950 dark:text-neutral-50 focus:bg-neutral-50 dark:focus:bg-neutral-800 ';
+					break;
+				case 'underline':
+					className =
+						'bg-transparent border-0 border-b-2 appearance-none focus:ring-0 text-neutral-950 dark:text-neutral-50 border-neutral-300 dark:border-neutral-700 focus:border-primary-500 dark:focus:border-primary-500';
+					break;
+				case 'fill-underline':
+					className =
+						'border-0 border-b-2 appearance-none ring-0 text-neutral-950 dark:text-neutral-50 bg-neutral-100 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-500 focus:border-primary-500 dark:focus:border-primary-500 ';
+					break;
+				case 'none':
+					className =
+						'border-0 focus:ring-0 appearance-none text-neutral-950 dark:text-neutral-50 bg-transparent dark:bg-transparent focus:bg-neutral-100 dark:focus:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800';
+					break;
+			}
+		}
+		return className;
+	});
 
 	export function focus() {
 		inputRef && inputRef.focus();
@@ -166,100 +278,6 @@
 	}
 
 	$effect(() => {
-		if (floatingLabel || leftSnippet != null || rightSnippet != null) {
-			containerClassName = (containerClassName || '') + ' relative';
-		}
-	});
-
-	$effect(() => {
-		if (floatingLabel) {
-			if (size) {
-				let flpcn = '';
-				switch (size) {
-					case 'lg':
-						flpcn = ` px-1 peer-focus:px-1 peer-placeholder-shown:px-4 `;
-						floatingLabelTextClassName = 'text-base';
-						break;
-					case 'md':
-						flpcn = ' px-1 peer-focus:px-1 peer-placeholder-shown:px-2.5 ';
-						floatingLabelTextClassName = 'text-sm';
-
-						break;
-					case 'sm':
-						flpcn = ' px-1 peer-focus:px-1 peer-placeholder-shown:px-2';
-						floatingLabelTextClassName = 'text-xs';
-						break;
-					case 'xs':
-						flpcn = ' px-0 peer-focus:px-0 peer-placeholder-shown:px-1 ';
-						floatingLabelTextClassName = 'text-xs';
-						break;
-				}
-				floatingLabelPaddingClassName = flpcn;
-			}
-
-			floatingLabelClassName = `absolute duration-300 transform top-0 rounded -translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-0 peer-placeholder-shown:start-0 peer-focus:start-1 bg-white peer-focus:bg-white dark:bg-neutral-700 peer-focus:bg-neutral-800 peer-placeholder-shown:bg-transparent  start-1 ${floatingLabelPaddingClassName} ${floatingLabelTextClassName}`;
-		}
-	});
-
-	$effect(() => {
-		if (appearance) {
-			switch (appearance) {
-				case 'normal':
-					appearanceClassName =
-						'border rounded-lg bg-neutral-100 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-500 text-neutral-950 dark:text-neutral-50 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 focus:bg-neutral-50 dark:focus:bg-neutral-800 ';
-					break;
-				case 'box':
-					appearanceClassName =
-						'border bg-neutral-100 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-500 text-neutral-950 dark:text-neutral-50 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 focus:bg-neutral-50 dark:focus:bg-neutral-800 ';
-					break;
-				case 'fill':
-					appearanceClassName =
-						' border-0 appearance-none  focus:ring-0 bg-neutral-100 dark:bg-neutral-700 text-neutral-950 dark:text-neutral-50 focus:bg-neutral-50 dark:focus:bg-neutral-800 ';
-					break;
-				case 'underline':
-					appearanceClassName =
-						'bg-transparent border-0 border-b-2 appearance-none focus:ring-0 text-neutral-950 dark:text-neutral-50 border-neutral-300 dark:border-neutral-700 focus:border-primary-500 dark:focus:border-primary-500';
-					break;
-				case 'fill-underline':
-					appearanceClassName =
-						'border-0 border-b-2 appearance-none ring-0 text-neutral-950 dark:text-neutral-50 bg-neutral-100 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-500 focus:border-primary-500 dark:focus:border-primary-500 ';
-					break;
-				case 'none':
-					appearanceClassName =
-						'border-0 focus:ring-0 appearance-none text-neutral-950 dark:text-neutral-50 bg-transparent dark:bg-transparent focus:bg-neutral-100 dark:focus:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-800';
-					break;
-			}
-		}
-	});
-
-	$effect(() => {
-		if (size) {
-			switch (size) {
-				case 'lg':
-					sizeClassName = 'p-4 text-base';
-					break;
-				case 'md':
-					sizeClassName = 'p-2.5 text-sm';
-					break;
-				case 'sm':
-					sizeClassName = 'p-2 text-xs';
-					break;
-				case 'xs':
-					sizeClassName = 'p-1 text-xs';
-					break;
-			}
-		}
-	});
-
-	$effect(() => {
-		if (name && !id) {
-			id = name;
-		} else if (id && !name) {
-			name = id;
-		}
-	});
-
-	$effect(() => {
 		setTimeout(() => {
 			if (inputRef && autofocus) {
 				inputRef.focus();
@@ -270,9 +288,9 @@
 
 {#snippet labelSnippet()}
 	<Label
-		forName={id}
+		forName={idDerived}
 		{label}
-		className=" {floatingLabel ? '' : 'mb-1 '} {floatingLabelClassName} {labelClassName}"
+		className=" {floatingLabel ? '' : 'mb-1 '} {floatingLabelClassName}  {labelClassName}"
 		{required}
 		{requiredSymbolColor}
 		{requiredSymbol}
@@ -284,10 +302,10 @@
 	{@render labelSnippet()}
 {/if}
 
-<div class="w-full {containerClassName}">
+<div class="w-full {containerClassNameDerived}">
 	{#if leftSnippet}
 		<div
-			class="absolute flex items-center justify-center left-children {leftSnippetContainerClassName}"
+			class="left-children absolute flex items-center justify-center {leftSnippetContainerClassName}"
 		>
 			{@render leftSnippet()}
 		</div>
@@ -297,10 +315,10 @@
 		<textarea
 			bind:this={inputRef}
 			bind:value
-			class="block w-full peer outline-none {appearanceClassName} {sizeClassName} {className}"
+			class="peer block w-full outline-none {appearanceClassName} {sizeClassName} {className}"
 			{title}
-			{id}
-			{name}
+			id={idDerived}
+			name={nameDerived}
 			{placeholder}
 			{required}
 			{disabled}
@@ -328,11 +346,11 @@
 		<input
 			bind:this={inputRef}
 			bind:value
-			class="block w-full peer outline-none {appearanceClassName} {sizeClassName} {className}"
+			class="peer block w-full outline-none {appearanceClassName} {sizeClassName} {className}"
 			{title}
 			{type}
-			{id}
-			{name}
+			id={idDerived}
+			name={nameDerived}
 			{placeholder}
 			{required}
 			{disabled}
@@ -365,14 +383,14 @@
 	{/if}
 	{#if contentSnippet}
 		<div
-			class="absolute inset-0 pointer-events-none block w-full overflow-hidden {appearanceClassName} {sizeClassName}   {contentSnippetClassName}"
+			class="pointer-events-none absolute inset-0 block w-full overflow-hidden {appearanceClassName} {sizeClassName}   {contentSnippetClassName}"
 		>
 			{@render contentSnippet()}
 		</div>
 	{/if}
 	{#if rightSnippet}
 		<div
-			class="absolute flex items-center justify-center right-children {rightSnippetContainerClassName}"
+			class="right-children absolute flex items-center justify-center {rightSnippetContainerClassName}"
 		>
 			{@render rightSnippet()}
 		</div>
