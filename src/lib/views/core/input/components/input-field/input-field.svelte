@@ -156,7 +156,7 @@
 		if (size) {
 			switch (size) {
 				case 'lg':
-					sizeClassName = 'p-4 text-base';
+					sizeClassName = 'p-4 text-neutral';
 					break;
 				case 'md':
 					sizeClassName = 'p-2.5 text-sm';
@@ -202,7 +202,7 @@
 			if (size) {
 				switch (size) {
 					case 'lg':
-						className = 'text-base';
+						className = 'text-neutral';
 						break;
 					case 'md':
 						className = 'text-sm';

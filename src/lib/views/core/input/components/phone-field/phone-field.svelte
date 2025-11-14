@@ -156,7 +156,7 @@
 </script>
 
 {#snippet dialCodePickerItemTile(item: any, index: number)}
-	<div class="w-14 text-sm font-bold text-base">
+	<div class="w-14 text-sm font-bold text-neutral">
 		{item.dialCode}
 	</div>
 	<div class="flex-grow">
