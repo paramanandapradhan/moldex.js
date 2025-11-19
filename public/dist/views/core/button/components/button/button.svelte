@@ -2,9 +2,9 @@
 	export type ButtonAppearance =
 		| 'none'
 		| 'primary'
-		| 'base'
+		| 'neutral'
 		| 'border'
-		| 'border-base'
+		| 'border-neutral'
 		| 'border-primary';
 
 	export type ButtonSize = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
@@ -50,8 +50,9 @@
 
 <script lang="ts">
 	import { ripple, type RipplePropsType } from '../../../../../actions/ripple.js';
-	import { Icon, mdiOpenInNew } from '../../../icon';
-	import { Spinner } from '../../../spinner';
+	import Icon from '../../../icon/components/icon/icon.svelte';
+	import { mdiOpenInNew } from '../../../icon/index.js';
+	import Spinner from '../../../spinner/components/spinner/spinner.svelte';
 	import type { Snippet } from 'svelte';
 
 	let {
@@ -94,12 +95,12 @@
 		switch (appearance) {
 			case 'none':
 				return 'text-neutral-800 dark:text-neutral-300 hover:text-neutral-900 disabled:text-neutral-400 dark:disabled:text-neutral-500 dark:hover:text-neutral-200';
-			case 'base':
+			case 'neutral':
 				return 'text-neutral-800 dark:text-neutral-300 hover:text-neutral-900 disabled:text-neutral-400 dark:disabled:text-neutral-500 dark:hover:text-neutral-200 bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 disabled:hover:bg-neutral-200 dark:disabled:hover:bg-neutral-700 ';
 			case 'primary':
 				return 'text-primary-100 hover:text-primary-50 bg-primary-600 hover:bg-primary-500 disabled:text-neutral-400 dark:disabled:text-neutral-500 disabled:bg-neutral-200 dark:disabled:bg-neutral-700 disabled:hover:bg-neutral-200 dark:disabled:hover:bg-neutral-700  ';
 			case 'border':
-			case 'border-base':
+			case 'border-neutral':
 				return 'border-2 text-neutral-800 dark:text-neutral-300 hover:text-neutral-900 disabled:text-neutral-400 dark:disabled:text-neutral-500 dark:hover:text-neutral-200 border-neutral-200 hover:border-neutral-300 dark:border-neutral-700 dark:hover:border-neutral-600 dark:disabled:border-neutral-200 dark:disabled:hover:border-neutral-200 dark:disabled:border-neutral-700 dark:disabled:hover:border-neutral-700  ';
 			case 'border-primary':
 				return 'border-2 text-primary hover:text-primary-500 disabled:text-neutral-400 dark:disabled:text-neutral-500 border-primary hover:border-primary-500 dark:border-primary-600 dark:hover:border-primary-500 dark:disabled:border-neutral-200 dark:disabled:hover:border-neutral-200 dark:disabled:border-neutral-700 dark:disabled:hover:border-neutral-700  ';
@@ -158,7 +159,7 @@
 		{id}
 		href={url}
 		{target}
-		class="relative w-max flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded {btnSizeClassName} {btnAppearanceClassName} {className}"
+		class="relative flex w-max items-center justify-center gap-2 rounded focus:outline-primary dark:focus:outline-primary {btnSizeClassName} {btnAppearanceClassName} {className}"
 		onclick={onClick}
 		use:handleRipple
 		ondblclick={onDblClick}
@@ -186,7 +187,7 @@
 		{type}
 		{form}
 		{title}
-		class="relative flex items-center justify-center gap-2 focus:outline-primary dark:focus:outline-primary rounded {btnSizeClassName} {btnAppearanceClassName} {className}"
+		class="relative flex items-center justify-center gap-2 rounded focus:outline-primary dark:focus:outline-primary {btnSizeClassName} {btnAppearanceClassName} {className}"
 		{disabled}
 		use:handleRipple
 		onclick={onClick}

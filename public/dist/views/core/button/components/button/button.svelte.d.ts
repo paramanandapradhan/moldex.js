@@ -1,4 +1,4 @@
-export type ButtonAppearance = 'none' | 'primary' | 'base' | 'border' | 'border-base' | 'border-primary';
+export type ButtonAppearance = 'none' | 'primary' | 'neutral' | 'border' | 'border-neutral' | 'border-primary';
 export type ButtonSize = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonProps = {

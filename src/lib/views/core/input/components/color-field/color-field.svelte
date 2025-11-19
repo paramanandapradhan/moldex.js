@@ -48,7 +48,7 @@
 
 	let colorValue: string = $derived.by(() => {
 		if (isValidHexColor(value)) {
-			colorValue = value;
+			return  value;
 		}
 		return '#000000';
 	});
