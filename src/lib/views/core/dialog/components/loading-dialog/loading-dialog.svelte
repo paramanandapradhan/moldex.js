@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Spinner } from '$lib/views/core/spinner';
-	import type { DialogExports } from '../dialog/dialog.svelte';
-
+	import Spinner from '$lib/views/core/spinner/components/spinner/spinner.svelte';
+	import type { DialogExports } from '../../types';
+ 	 
 	type PropsType = {
 		msg?: string;
 		msgClassName?: string;

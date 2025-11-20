@@ -1,19 +1,7 @@
-<script module lang="ts">
-	export type CropperDialogPropsType = {
-		outputAspectRatio?: number;
-		outputWidth?: number;
-		outputFormat?: OutputImageFormats;
-		outputQuality?: number;
-		outputType?: 'file' | 'base64';
-		inputImageFile?: File | null;
-		className?: string;
-	};
-</script>
-
 <script lang="ts">
 	import EasyCropperjs from '@cloudparker/easy-cropperjs-svelte';
-	import type { DialogExports } from '../dialog/dialog.svelte';
-	import { OutputImageFormatEnum, type OutputImageFormats } from '../../../../../services';
+	import { OutputImageFormatEnum } from '../../../../../services/index.js';
+	import type { CropperDialogProps, DialogExports } from '../../types';
 
 	let {
 		outputWidth,
@@ -28,7 +16,7 @@
 		closeDialog,
 		setOnData,
 		...props
-	}: CropperDialogPropsType & DialogExports = $props();
+	}: CropperDialogProps & DialogExports = $props();
 
 	let easyCropperjsRef: EasyCropperjs | null = $state(null);
 

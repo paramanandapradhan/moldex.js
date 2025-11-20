@@ -1,9 +1,9 @@
-import type { ToastPropsType } from "$lib/views";
-import Toast from "$lib/views/core/toast/components/toast/toast.svelte";
+
+import { Toast, type ToastPropsType } from "$lib/views";
 import { mount } from "svelte";
 
 function addToast(props: ToastPropsType) {
-    const toast = mount(Toast, { target: document.getElementsByTagName('body')[0]!, props });
+    const toast: any = mount(Toast, { target: document.getElementsByTagName('body')[0]!, props });
     toast.openToast();
     return toast;
 }

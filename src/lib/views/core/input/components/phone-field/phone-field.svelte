@@ -1,31 +1,11 @@
-<script module lang="ts">
-	export type LibPhoneNumberParseType = {
-		isValid: () => boolean;
-		nationalNumber: string;
-		countryCallingCode: string;
-	};
-
-	export type LibPhoneNumberType = {
-		parsePhoneNumber: (phoneNumber: string, dialCode?: string) => LibPhoneNumberParseType;
-	};
-
-	export type CountryType = {
-		name: string;
-		dialCode: string;
-		isoCode: string;
-	};
-
-	export type EasyCountryDataType = {
-		getCountries: () => CountryType[];
-		getCountry: (params: { name?: string; dialCode?: string; isoCode?: string }) => CountryType;
-	};
-</script>
+ 
 
 <script lang="ts">
 	import { ripple } from '$lib/actions';
 	import { openPickerDialog } from '$lib/services';
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
-	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
+	import InputField  from '../input-field/input-field.svelte';
+	import type { EasyCountryDataType, InputFieldProps, LibPhoneNumberType } from '../../types';
 
 	let {
 		id,
@@ -45,11 +25,11 @@
 	} = $props();
 
 	let EasyCountryData: EasyCountryDataType;
-	let LibPhonenumber: LibPhoneNumberType | null = $state(null);
+	let LibPhoneNumber: LibPhoneNumberType | null = $state(null);
 	let inputFieldRef: any | null = $state(null);
 
 	let dailCodeValue = $derived.by(() => {
-		if (value && LibPhonenumber) {
+		if (value && LibPhoneNumber) {
 			let { dialCode } = validatePhoneNumber(value);
 			return dialCode;
 		}
@@ -57,7 +37,7 @@
 	});
 
 	let phoneNumberValue = $derived.by(() => {
-		if (value && LibPhonenumber) {
+		if (value && LibPhoneNumber) {
 			let { phoneNumber } = validatePhoneNumber(value);
 			return phoneNumber;
 		}
@@ -72,7 +52,7 @@
 
 	function validatePhoneNumber(number: string) {
 		try {
-			let parsed = LibPhonenumber?.parsePhoneNumber(number as string);
+			let parsed = LibPhoneNumber?.parsePhoneNumber(number as string);
 			if (parsed && parsed.isValid()) {
 				return {
 					phoneNumber: parsed.nationalNumber || '',
@@ -124,8 +104,8 @@
 		EasyCountryData = lib;
 	}
 
-	function handleLibphonenumberScriptLoad(lib: LibPhoneNumberType) {
-		LibPhonenumber = lib;
+	function handleLibPhoneNumberScriptLoad(lib: LibPhoneNumberType) {
+		LibPhoneNumber = lib;
 	}
 
 	function handleNumberInput(ev: InputEvent) {
@@ -185,7 +165,7 @@
 <EasyScriptLoader
 	scriptName="libphonenumber"
 	scriptUrl="https://unpkg.com/libphonenumber-js@1.11.7/bundle/libphonenumber-min.js"
-	onLoad={handleLibphonenumberScriptLoad}
+	onLoad={handleLibPhoneNumberScriptLoad}
 />
 
 <InputField

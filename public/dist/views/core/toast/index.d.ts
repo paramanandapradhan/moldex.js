@@ -1,2 +1,3 @@
-import type { ToastPropsType } from './components/toast/toast.svelte';
-export { type ToastPropsType, };
+import Toast from './components/toast/toast.svelte';
+export * from './types';
+export { Toast };

@@ -1,10 +1,12 @@
 // import { goto, pushState } from '$app/navigation';
-import { createRefererStore } from '$lib/stores/referrer-store/referrer-store.svelte';
-
+ 
 import { BROWSER } from 'esm-env';
-import { playMelody } from '../utils/melody-service';
+ 
 import { goto } from '$app/navigation';
-import { vibrate } from '../utils/utils-service';
+import { createRefererStore } from '$lib/stores/referrer-store/referrer-store.svelte.js';
+import { vibrate } from '../utils/utils-service.js';
+import { playMelody } from '../utils/melody-service.js';
+ 
 
 // Define the extended options interface
 export interface NavigationOptions {

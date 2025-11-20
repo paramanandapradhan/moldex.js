@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { showToast } from '../../../../../services';
-	import { TextField } from '../../../input';
-	import type { InputValue } from '../../../input/components/input-field/input-field.svelte';
-	import type { DialogExports } from '../dialog/dialog.svelte';
+	import { showToast } from '../../../../../services/index.js';
+	import type { InputValue } from '../../../input';
+	import TextField from '../../../input/components/text-field/text-field.svelte';
+	import type { DialogExports } from '../../types';
 
 	type PropsType = {
 		value?: InputValue;

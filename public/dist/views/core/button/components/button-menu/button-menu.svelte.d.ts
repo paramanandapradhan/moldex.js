@@ -1,17 +1,6 @@
-export type Menu = {
-    _id?: string;
-    title?: string;
-    subtitle?: string;
-    hasIcon?: boolean;
-    iconPath?: string;
-    iconClassName?: string;
-    hasCheckbox?: boolean;
-    checkboxClassName?: string;
-    isChecked?: boolean;
-};
-import { type ButtonAppearance, type ButtonProps, type ButtonSize } from '../../../../..';
 import { type ButtonDropdownProps } from '../button-dropdown/button-dropdown.svelte';
 import type { Snippet } from 'svelte';
+import type { ButtonAppearance, ButtonProps, ButtonSize, Menu } from '../../types';
 type Props = {
     label?: string;
     className?: string;

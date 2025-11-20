@@ -1,5 +1,6 @@
-import { type ButtonAppearance, type ButtonProps, type ButtonSize, type InputFieldAppearance, type InputFieldSize } from '../../../../..';
 import type { Snippet } from 'svelte';
+import type { ButtonAppearance, ButtonProps, ButtonSize } from '../../types';
+import type { InputFieldAppearance, InputFieldSize } from '../../../input/types';
 type Props = {
     searchAppearance?: InputFieldAppearance;
     searchClassName?: string;

@@ -12,8 +12,8 @@ type CheckboxPropsType = {
     value?: boolean;
 };
 declare const CheckboxField: import("svelte").Component<CheckboxPropsType, {
-    getElement: () => HTMLInputElement | null;
-    select: () => void | null;
+    getElement: () => HTMLInputElement;
+    select: () => void;
 }, "value">;
 type CheckboxField = ReturnType<typeof CheckboxField>;
 export default CheckboxField;

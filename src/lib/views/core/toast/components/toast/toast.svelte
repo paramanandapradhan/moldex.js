@@ -1,28 +1,10 @@
-<script module lang="ts">
-	import type { Snippet } from 'svelte';
-
-	export type ToastPropsType = {
-		id?: string;
-		msg: string;
-		duration?: number;
-		className?: string;
-		children?: Snippet;
-	};
-</script>
-
 <script lang="ts">
+	import type { ToastPropsType } from '../../types';
+
 	let isPlaced: boolean = $state(false);
 	let isOpened: boolean = $state(false);
 
 	let { id, msg, duration = 3000, className, children }: ToastPropsType = $props();
-
-	// export function toggleDialog() {
-	// 	if (isOpened) {
-	// 		closeDialog();
-	// 	} else {
-	// 		openDialog();
-	// 	}
-	// }
 
 	export function openToast() {
 		isPlaced = true;
@@ -45,7 +27,7 @@
 {#if isPlaced}
 	<div
 		{id}
-		class="fixed bottom-20 left-1/2 transform -translate-x-1/2 p-3 px-6 max-w-full text-gray-700 bg-white shadow-xl dark:shadow-neutral-700 dark:bg-neutral-600 dark:text-neutral-300 rounded-full transition-opacity duration-300 {isOpened
+		class="fixed bottom-20 left-1/2 max-w-full -translate-x-1/2 transform rounded-full bg-white p-3 px-6 text-gray-700 shadow-xl transition-opacity duration-300 dark:bg-neutral-600 dark:text-neutral-300 dark:shadow-neutral-700 {isOpened
 			? 'opacity-100'
 			: 'opacity-0'} toast {className}"
 	>

@@ -1,96 +1,11 @@
-<script module lang="ts">
+<script lang="ts">
+	import { DialogSizeEnum, isMobileScreen } from '$lib/services/index.js';
 	import ButtonBack from '$lib/views/core/button/components/button-back/button-back.svelte';
 	import ButtonClose from '$lib/views/core/button/components/button-close-icon/button-close-icon.svelte';
-
-	/**
-	 * Return a Promise<boolean> value, whic=h will indiacate dialog to close or not.
-	 * false -> Dont close Dialog
-	 * true -> Close dialog
-	 */
-	type DialogCloseButtonClickFunction = (ev: MouseEvent | TouchEvent) => Promise<boolean>;
-
-	export type DialogSize =
-		| DialogSizeEnum.XS
-		| DialogSizeEnum.SM
-		| DialogSizeEnum.MD
-		| DialogSizeEnum.LG
-		| DialogSizeEnum.XL
-		| DialogSizeEnum.FULL;
-
-	export type DialogProps = {
-		backdropClassName?: string;
-		bodyClassName?: string;
-		bodyComponent?: any;
-		cancelable?: boolean;
-		scrollable?: boolean;
-		children?: Snippet;
-		className?: string;
-		component?: any;
-		containerClassName?: string;
-		footerClassName?: string;
-		footerCloseButtonClassName?: string;
-		footerCloseButtonLabel?: string;
-		footerOkButtonClassName?: string;
-		footerOkButtonEnabled?: boolean;
-		footerOkButtonSpinner?: boolean;
-		footerOkButtonType?: 'button' | 'submit' | 'reset';
-		footerOkButtonLabel?: string;
-		hasFooter?: boolean;
-		hasFooterCloseButton?: boolean;
-		hasFooterOkButton?: boolean;
-		hasFooterShadow?: boolean;
-		hasHeader?: boolean;
-		hasHeaderBack?: boolean;
-		hasHeaderClose?: boolean;
-		hasHeaderShadow?: boolean;
-		hasSubtitle?: boolean;
-		hasTitle?: boolean;
-		hasHeaderOkButton?: boolean;
-		headerBackButtonClassName?: string;
-		headerBackIconClassName?: string;
-		headerBackIconPath?: string;
-		headerClassName?: string;
-		headerCloseButtonClassName?: string;
-		headerCloseIconClassName?: string;
-		headerCloseIconPath?: string;
-		headerOkButtonClassName?: string;
-		headerOkButtonLabel?: string;
-		headerOkButtonIconPath?: string;
-		headerOkButtonIconClassName?: string;
-		id?: string;
-		onClose?: () => void;
-		onCloseClick?: DialogCloseButtonClickFunction;
-		onOkClick?: (ev: MouseEvent | TouchEvent, options: DialogExports) => void;
-		onResult?: (value: any) => void;
-		onData?: (data: any) => void;
-		props?: any;
-		size?: DialogSize;
-		targetFormId?: string;
-		subtitle?: string;
-		subtitleClassName?: string;
-		title?: string;
-		titleClassName?: string;
-	};
-
-	export type DialogExports = {
-		closeDialog: (result?: any) => void;
-		setResult: (result: any) => void;
-		setOkSpinner: (enable: boolean) => void;
-		setOkEnabled: (enable: boolean) => void;
-		setOnOkClick: (onclick: (ev: MouseEvent | TouchEvent) => void) => void;
-		setOnCloseClick: (onclick: DialogCloseButtonClickFunction) => void;
-		setOnData: (listener: (data: any) => void) => void;
-		setHeaderSnippet: (snippet: Snippet) => void;
-		setFooterSnippet: (snippet: Snippet) => void;
-		setDialogTitle: (title: string) => void;
-	};
-</script>
-
-<script lang="ts">
 	import Button from '$lib/views/core/button/components/button/button.svelte';
+	import { mdiArrowLeft, mdiClose } from '$lib/views/core/icon/index.js';
 	import { type Component as ComponetType, type Snippet } from 'svelte';
-	import { mdiArrowLeft, mdiClose } from '$lib/views/core/icon';
-	import { DialogSizeEnum, isMobileScreen } from '$lib/services';
+	import type { DialogCloseButtonClickFunction, DialogExports, DialogProps } from '../../types';
 
 	let {
 		backdropClassName = '',
@@ -305,12 +220,12 @@
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		tabindex="-1"
-		class="relative flex flex-col transform overflow-hidden bg-neutral-50 dark:bg-neutral-800 text-left transition-all outline-none {size ==
+		class="relative flex transform flex-col overflow-hidden bg-neutral-50 text-left transition-all outline-none dark:bg-neutral-800 {size ==
 		DialogSizeEnum.FULL
 			? 'max-h-dvh max-w-dvw'
 			: 'max-h-[90dvh] max-w-[90dvw]'} {screenSizeClassNameMap[size]} {isOpened
-			? 'ease-out duration-300 opacity-100 translate-y-0 sm:scale-100'
-			: 'ease-in duration-200 opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'} {size ==
+			? 'translate-y-0 opacity-100 duration-300 ease-out sm:scale-100'
+			: 'translate-y-4 opacity-0 duration-200 ease-in sm:translate-y-0 sm:scale-95'} {size ==
 		DialogSizeEnum.FULL
 			? ''
 			: 'rounded-lg shadow-xl dark:shadow-black'} {className}"
@@ -321,7 +236,7 @@
 		{:else}
 			{#if hasHeader}
 				<div
-					class="flex items-center gap-4 w-full cursor-default py-2 {hasHeaderShadow
+					class="flex w-full cursor-default items-center gap-4 py-2 {hasHeaderShadow
 						? 'border-b shadow-sm'
 						: ''} {headerClassName}"
 				>
@@ -335,7 +250,7 @@
 							/>
 						{/if}
 					</div>
-					<div class="py-2 flex-grow">
+					<div class="flex-grow py-2">
 						{#if hasTitle}
 							<div class="text-xl text-neutral-800 dark:text-neutral-300 {titleClassName}">
 								{@html customTitle || title || ''}
@@ -380,7 +295,7 @@
 
 			{#if hasFooter}
 				<div
-					class="flex items-center justify-end p-4 gap-4 {hasFooterShadow
+					class="flex items-center justify-end gap-4 p-4 {hasFooterShadow
 						? 'border-t'
 						: ''} {footerClassName}"
 				>
@@ -408,7 +323,7 @@
 						<Button
 							id="btn-close"
 							type="button"
-							appearance="base"
+							appearance="neutral"
 							className=" {footerCloseButtonClassName}"
 							label={footerCloseButtonLabel}
 							onClick={handleClose}
@@ -430,9 +345,9 @@
 	>
 		<div
 			id="backdrop"
-			class="fixed inset-0 bg-gray-500/20 dark:bg-gray-900/30 transition-opacity backdrop-blur-sm {isOpened
-				? 'ease-out duration-300 opacity-100'
-				: 'ease-in duration-200 opacity-0'} {backdropClassName}"
+			class="fixed inset-0 bg-gray-500/20 backdrop-blur-sm transition-opacity dark:bg-gray-900/30 {isOpened
+				? 'opacity-100 duration-300 ease-out'
+				: 'opacity-0 duration-200 ease-in'} {backdropClassName}"
 			aria-hidden="true"
 		></div>
 
@@ -443,7 +358,7 @@
 			onclick={handleBackdropClick}
 			onkeydown={handleKeyDown}
 		>
-			<div class="flex min-h-full justify-center items-center">
+			<div class="flex min-h-full items-center justify-center">
 				{@render dialogContent()}
 			</div>
 		</div>

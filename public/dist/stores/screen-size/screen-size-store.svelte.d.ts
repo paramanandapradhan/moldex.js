@@ -14,5 +14,5 @@ export declare function createScreenSizeStore(initial?: ScreenSizeEnum): {
     readonly isMd: boolean;
     readonly isSm: boolean;
     readonly isXs: boolean;
-    readonly isMobileScreen: boolean;
+    readonly isMobileScreen: any;
 };

@@ -1,43 +1,17 @@
-<script lang="ts" module>
-	export type PickerDialogProps = {
-		items?: string[] | any[];
-		multiple?: boolean;
-		value?: any;
-		identityFieldName?: string;
-		titleFieldName?: string;
-		searchFieldName?: string;
-		subtitleFieldName?: string;
-		hasCheckbox?: boolean;
-		hasArrow?: boolean;
-		maxlength?: number;
-		maxlengthMsg?: string;
-		checkboxIconPath?: string;
-		uncheckboxIconPath?: string;
-		checkboxIconClassName?: string;
-		uncheckboxIconClassName?: string;
-		checkboxClassName?: string;
-		arrowIconPath?: string;
-		arrowClassName?: string;
-		hasIcon?: boolean;
-		iconPath?: string;
-		iconClassName?: string;
-		isCircularIcon?: boolean;
-		circularIconClassName?: string;
-		itemTileSnippet?: Snippet<[item: any, index: number]>;
-	};
-</script>
-
 <script lang="ts">
-	import { showToast } from '$lib/services';
-
+	import { showToast } from '$lib/services/index.js';
 	import ButtonListItem from '$lib/views/core/button/components/button-list-item/button-list-item.svelte';
 	import ButtonSearch from '$lib/views/core/button/components/button-search/button-search.svelte';
 	import VirtualScrollingList from '$lib/views/core/common/components/virtual-scrolling/virtual-scrolling-list.svelte';
-	import { mdiCheckCircle, mdiCheckCircleOutline, mdiChevronRight } from '$lib/views/core/icon';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
-	import { onMount, type Snippet } from 'svelte';
+	import {
+		mdiCheckCircle,
+		mdiCheckCircleOutline,
+		mdiChevronRight
+	} from '$lib/views/core/icon/index.js';
+	import { onMount } from 'svelte';
 	import { SvelteSet } from 'svelte/reactivity';
-	import type { DialogExports } from '../dialog/dialog.svelte';
+	import type { DialogExports, PickerDialogProps } from '../../types';
 
 	let {
 		value,
@@ -154,7 +128,7 @@
 	<ButtonSearch className="rounded-full !p-3 " onSearch={handleSearch} />
 {/snippet}
 
-<div class="mb-4 min-h-96 h-full" bind:clientHeight={containerHeight}>
+<div class="mb-4 h-full min-h-96" bind:clientHeight={containerHeight}>
 	<VirtualScrollingList items={filteredRecords} {containerHeight} itemHeight={56}>
 		{#snippet itemSnippet(item: any, index: number)}
 			{@const isSelected = selectedSet.has(item[identityFieldName])}

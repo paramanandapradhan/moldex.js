@@ -1,11 +1,11 @@
-import type { DialogSize } from "$lib/views";
-import { DialogSizeEnum, openCropperDialog } from "../dialog/dialog-service";
-import { getExtFromFileType, readFileAsDataURL } from "./file-service";
-import { nanoid } from 'nanoid'
+import { DialogSizeEnum, openCropperDialog } from "../dialog/dialog-service.js";
+import { getExtFromFileType, readFileAsDataURL } from "./file-service.js";
+import { nanoid } from "nanoid";
+ 
 
-export type ImageCapttures = ImageCapttureEnum.USER | ImageCapttureEnum.ENVIRONMENT;
+export type ImageCaptures = ImageCaptureEnum.USER | ImageCaptureEnum.ENVIRONMENT;
 
-export enum ImageCapttureEnum {
+export enum ImageCaptureEnum {
     USER = 'user',
     ENVIRONMENT = 'environment',
 }
@@ -295,7 +295,7 @@ export async function cropImageFile(
         outputWidth?: number,
         outputQuality?: number,
         outputAspectRatio?: number,
-        dialogSize?: DialogSize,
+        dialogSize?: DialogSizeEnum,
     }
 ): Promise<File | null> {
     let imageFile: File | null = null;

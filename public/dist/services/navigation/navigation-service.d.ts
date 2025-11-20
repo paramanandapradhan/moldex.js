@@ -22,7 +22,7 @@ export declare const referrer: {
 export declare const pushBackState: (obj: BackStateType) => void;
 export declare const popBackState: () => BackStateType | undefined;
 export declare const registerBackPress: (state: BackStateType) => void;
-export declare const addBackKeyListener: (callback: (event?: PopStateEvent) => boolean) => ((event: PopStateEvent) => void) | undefined;
+export declare const addBackKeyListener: (callback: (event?: PopStateEvent) => boolean) => (event: PopStateEvent) => void;
 export declare const removeBackKeyListener: (listener: () => boolean) => void;
 export declare function goBack(): void;
 /**

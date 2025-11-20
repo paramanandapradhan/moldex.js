@@ -1,7 +1,5 @@
-import { type DialogProps, type DialogSize, type InputFieldProps } from '../../views';
-import { type CropperDialogPropsType } from '../../views/core/dialog/components/cropper-dialog/cropper-dialog.svelte';
-import type { PickerDialogProps } from '../../views/core/dialog/components/picker-dialog/picker-dialog.svelte';
-import { ImageCapttureEnum, type ImageCapttures, type OutputImageFormats } from '../utils/image-service';
+import { ImageCaptureEnum, type ImageCaptures, type OutputImageFormats } from '../utils/image-service';
+import { type CropperDialogProps, type DialogProps, type DialogSize, type InputFieldProps, type PickerDialogProps } from '../../views/index.js';
 export declare enum DialogSizeEnum {
     XS = "xs",
     SM = "sm",
@@ -51,27 +49,13 @@ export declare function openLoadingDialog({ msg, loadingDialogContainerClassName
     loadingDialogClassName?: string;
     loadingDialogSpinnerClassName?: string;
     loadingDialogMsgClassName?: string;
-}): Promise<{
-    toggleDialog: () => void;
-    openDialog: () => void;
-    closeDialog: (value?: any) => Promise<any>;
-    setResult: (value: any) => void;
-    setOkEnabled: (value: boolean) => void;
-    setOkSpinner: (value: boolean) => void;
-    setOnData: (listener: (data: any) => void) => void;
-    setOnOkClick: (onclick: (event: MouseEvent | TouchEvent, options: import("../../views").DialogExports) => void) => void;
-    setOnCloseClick: (onclick: (ev: MouseEvent | TouchEvent) => Promise<boolean>) => void;
-    postData: (data: any) => void;
-    setHeaderSnippet: (snippet: import("svelte").Snippet) => void;
-    setFooterSnippet: (snippet: import("svelte").Snippet) => void;
-    setDialogTitle: (dialogTitle: string) => void;
-}>;
+}): Promise<any>;
 /**
  * Return Cropped Image DataUrl
  * @param props
  * @returns
  */
-export declare function openCropperDialog<T, R>({ outputWidth, outputFormat, outputQuality, outputType, inputImageFile, className, outputAspectRatio, ...params }: DialogProps & CropperDialogPropsType): Promise<R | string | File>;
+export declare function openCropperDialog<T, R>({ outputWidth, outputFormat, outputQuality, outputType, inputImageFile, className, outputAspectRatio, ...params }: DialogProps & CropperDialogProps): Promise<R | string | File>;
 /**
  * Opens a file picker dialog and returns the selected file or files.
  * This function uses native browser APIs to ensure compatibility across different browsers.
@@ -91,7 +75,7 @@ export declare function openFilePickerDialog<T extends File | File[]>(accepts?: 
  */
 export declare function openImagePickerDialog<T extends File | File[]>(accepts?: string | string[], options?: {
     multiple?: boolean;
-    capture?: ImageCapttures;
+    capture?: ImageCaptures;
     maxWidth?: number;
     maxHeight?: number;
     maxSizeInBytes?: number;
@@ -104,7 +88,7 @@ export declare function openImagePickerDialogWithCropper({ outputFormat, outputW
     outputQuality?: number;
     outputAspectRatio?: number;
     dialogSize?: DialogSize;
-    capture?: ImageCapttureEnum;
+    capture?: ImageCaptureEnum;
     maxWidth?: number;
     maxHeight?: number;
     maxSizeInBytes?: number;

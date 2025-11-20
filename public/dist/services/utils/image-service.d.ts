@@ -1,6 +1,6 @@
-import type { DialogSize } from "../../views";
-export type ImageCapttures = ImageCapttureEnum.USER | ImageCapttureEnum.ENVIRONMENT;
-export declare enum ImageCapttureEnum {
+import { DialogSizeEnum } from "../dialog/dialog-service.js";
+export type ImageCaptures = ImageCaptureEnum.USER | ImageCaptureEnum.ENVIRONMENT;
+export declare enum ImageCaptureEnum {
     USER = "user",
     ENVIRONMENT = "environment"
 }
@@ -103,5 +103,5 @@ export declare function cropImageFile({ inputImageFile, outputFormat, outputWidt
     outputWidth?: number;
     outputQuality?: number;
     outputAspectRatio?: number;
-    dialogSize?: DialogSize;
+    dialogSize?: DialogSizeEnum;
 }): Promise<File | null>;

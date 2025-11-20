@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { dateFormat, toDate } from '../../../../../services/index.js';
-
- 
-	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
+	import type { InputFieldProps } from '../../types';
+	import InputField from '../input-field/input-field.svelte';
 
 	let {
 		value = $bindable(null),
@@ -14,8 +13,6 @@
 			return dateFormat(toDate(value)!, 'YYYY-MM-DD') as string;
 		}
 	});
-
- 
 
 	let inputFieldRef: any | null = $state(null);
 

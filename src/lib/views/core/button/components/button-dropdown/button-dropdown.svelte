@@ -1,11 +1,8 @@
 <script lang="ts">
 	import { DropdownStateEnum } from '$lib/types.js';
-	import Button, {
-		type ButtonAppearance,
-		type ButtonSize,
-		type ButtonType
-	} from '../button/button.svelte';
 	import { onMount, type Snippet } from 'svelte';
+	import type { ButtonAppearance, ButtonSize, ButtonType } from '../../types';
+	import Button from '../button/button.svelte';
 
 	export type ButtonDropdownProps = {
 		appearance?: ButtonAppearance;

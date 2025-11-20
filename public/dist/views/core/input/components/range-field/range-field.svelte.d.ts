@@ -1,4 +1,4 @@
-import { type InputFieldSize } from '../input-field/input-field.svelte';
+import type { InputFieldSize } from "../../types";
 type RangeFieldPropsType = {
     id?: string;
     name?: string;
@@ -15,9 +15,9 @@ type RangeFieldPropsType = {
     onblur?: (ev: any) => void;
 };
 declare const RangeField: import("svelte").Component<RangeFieldPropsType, {
-    getElement: () => HTMLInputElement | null;
-    focus: () => void | null;
-    select: () => void | null;
+    getElement: () => HTMLInputElement;
+    focus: () => void;
+    select: () => void;
 }, "value">;
 type RangeField = ReturnType<typeof RangeField>;
 export default RangeField;

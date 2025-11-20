@@ -1,11 +1,4 @@
-import type { Snippet } from 'svelte';
-export type ToastPropsType = {
-    id?: string;
-    msg: string;
-    duration?: number;
-    className?: string;
-    children?: Snippet;
-};
+import type { ToastPropsType } from '../../types';
 declare const Toast: import("svelte").Component<ToastPropsType, {
     openToast: () => void;
     closeClose: () => void;

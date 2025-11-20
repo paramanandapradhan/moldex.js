@@ -1,9 +1,5 @@
-export type Country = {
-    isoCode: string;
-    dialCode: string;
-    name: string;
-};
 import type { Snippet } from 'svelte';
+import type { Country } from '../types';
 type Props = {
     countries?: Country[];
     onLoad?: (countries?: Country[]) => void;

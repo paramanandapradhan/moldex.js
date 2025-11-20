@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { ripple } from '../../../../../actions/ripple.js';
 	import { colorToHex, isValidHexColor } from '../../../../../services/index.js';
-
- 
 	import Icon from '../../../icon/components/icon/icon.svelte';
 	import { mdiSquare } from '../../../icon/index.js';
-	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
+	import type { InputFieldProps } from '../../types';
+	import InputField  from '../input-field/input-field.svelte';
 
 	let {
 		id,

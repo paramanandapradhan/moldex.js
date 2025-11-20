@@ -1,4 +1,4 @@
-import Toast from "../../views/core/toast/components/toast/toast.svelte";
+import { Toast } from "../../views";
 import { mount } from "svelte";
 function addToast(props) {
     const toast = mount(Toast, { target: document.getElementsByTagName('body')[0], props });

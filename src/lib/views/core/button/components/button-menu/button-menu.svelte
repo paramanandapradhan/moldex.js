@@ -1,30 +1,13 @@
-<script lang="ts" module>
-	export type Menu = {
-		_id?: string;
-		title?: string;
-		subtitle?: string;
-		hasIcon?: boolean;
-		iconPath?: string;
-		iconClassName?: string;
-		hasCheckbox?: boolean;
-		checkboxClassName?: string;
-		isChecked?: boolean;
-	};
-</script>
-
 <script lang="ts">
-	import {
-		mdiDotsHorizontal,
-		type ButtonAppearance,
-		type ButtonProps,
-		type ButtonSize
-	} from '$lib';
 	import ButtonDropdown, {
 		type ButtonDropdownProps
 	} from '$lib/views/core/button/components/button-dropdown/button-dropdown.svelte';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import type { Snippet } from 'svelte';
 	import ButtonListItem from '../button-list-item/button-list-item.svelte';
+	 
+	import { mdiDotsHorizontal } from '$lib/views/core/icon/index.js';
+	import type { ButtonAppearance, ButtonProps, ButtonSize, Menu } from '../../types';
 	type Props = {
 		label?: string;
 		className?: string;

@@ -1,66 +1,16 @@
-<script module lang="ts">
-	export type ComboboxFieldProps = {
-		chipClassName?: string;
-		comboboxIconClassName?: string;
-		comboboxIconPath?: string;
-		createButtonClassName?: string;
-		createButtonLabel?: string;
-		displayClassName?: string;
-		displayFieldName?: string;
-		displayItemsCount?: number;
-		dropdownBodyClassName?: string;
-		dropdownBodySnippet?: Snippet;
-		dropdownClassName?: string;
-		dropdownFooterClassName?: string;
-		dropdownFooterSnippet?: Snippet;
-		dropdownHeaderClassName?: string;
-		dropdownHeaderSnippet?: Snippet;
-		emptyMessage?: string;
-		emptyMessageSnippet?: Snippet;
-		hasComboboxIcon?: boolean;
-		hasDropdownFooter?: boolean;
-		hasDropdownFooterCreateButton?: boolean;
-		hasDropdownHeader?: boolean;
-		hasDropdownHeaderSearch?: boolean;
-		hasCheckbox?: boolean;
-		iconClassName?: string;
-		iconPathFieldName?: string;
-		identityFieldName?: string;
-		itemClassName?: string;
-		items?: any[];
-		multiple?: boolean;
-		onCreateButtonClick?: (ev: MouseEvent) => void;
-		onSearch?: (value: string) => void;
-		searchClassName?: string;
-		searchFieldName?: string;
-		searchPlaceholder?: string;
-		showChip?: boolean;
-		subtitleClassName?: string;
-		subtitleFieldName?: string;
-		titleClassName?: string;
-		titleFieldName?: string;
-		checkboxIconPath?: string;
-		uncheckboxIconPath?: string;
-		checkboxIconClassName?: string;
-		uncheckboxIconClassName?: string;
-		checkboxClassName?: string;
-		dropPosition?: 'top' | 'bottom' | 'middle';
-		itemTileSnippet?: Snippet<[item: any, index: any]>;
-	};
-</script>
 
 <script lang="ts">
 	import ButtonListItem from '../../../button/components/button-list-item/button-list-item.svelte';
 	import Button from '../../../button/components/button/button.svelte';
 	 
-	import Icon from '../../../icon/components/icon/icon.svelte';
-	import NoData from '../../../no-data/components/no-data/no-data.svelte';
-	import type { Snippet } from 'svelte';
-	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
-	import SearchField from '../search-field/search-field.svelte';
-	import { SvelteSet } from 'svelte/reactivity';
 	import VirtualScrollingList from '../../../common/components/virtual-scrolling/virtual-scrolling-list.svelte';
+	import Icon from '../../../icon/components/icon/icon.svelte';
 	import { mdiCheckCircle, mdiCheckCircleOutline, mdiUnfoldMoreHorizontal } from '../../../icon/index.js';
+	import NoData from '../../../no-data/components/no-data/no-data.svelte';
+	import { SvelteSet } from 'svelte/reactivity';
+	import InputField  from '../input-field/input-field.svelte';
+	import SearchField from '../search-field/search-field.svelte';
+	import type { ComboboxFieldProps, InputFieldProps } from '../../types';
 
 	let {
 		appearance,

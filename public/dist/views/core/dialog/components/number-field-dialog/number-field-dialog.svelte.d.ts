@@ -1,4 +1,4 @@
-import type { DialogExports } from '../dialog/dialog.svelte';
+import type { DialogExports } from '../../types';
 type PropsType = {
     value?: number;
     label?: string;

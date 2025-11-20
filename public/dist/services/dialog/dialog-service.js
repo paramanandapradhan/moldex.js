@@ -1,14 +1,7 @@
-import { Dialog } from '../../views';
-import CropperDialog, {} from '../../views/core/dialog/components/cropper-dialog/cropper-dialog.svelte';
-import LoadingDialog from '../../views/core/dialog/components/loading-dialog/loading-dialog.svelte';
-import MsgDialog from '../../views/core/dialog/components/msg-dialog/msg-dialog.svelte';
-import NumberFieldDialog from '../../views/core/dialog/components/number-field-dialog/number-field-dialog.svelte';
-import PickerDialog from '../../views/core/dialog/components/picker-dialog/picker-dialog.svelte';
-import TextFieldDialog from '../../views/core/dialog/components/text-field-dialog/text-field-dialog.svelte';
-import TextareaFieldDialog from '../../views/core/dialog/components/textarea-field-dialog/textarea-field-dialog.svelte';
 import { mount } from 'svelte';
+import { cropImageFile, FilePickerAccepts, ImageCaptureEnum, OutputImageFormatEnum, processImageFile } from '../utils/image-service';
+import { CropperDialog, Dialog, LoadingDialog, MsgDialog, NumberFieldDialog, PickerDialog, TextareaFieldDialog, TextFieldDialog } from '../../views/index.js';
 import { getDialogSize, isMobileScreen } from '../screen/screen-service';
-import { cropImageFile, FilePickerAccepts, ImageCapttureEnum, OutputImageFormatEnum, processImageFile } from '../utils/image-service';
 export var DialogSizeEnum;
 (function (DialogSizeEnum) {
     DialogSizeEnum["XS"] = "xs";

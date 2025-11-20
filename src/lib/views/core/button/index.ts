@@ -1,27 +1,17 @@
-import ButtonBack from './components/button-back/button-back.svelte';
+
+export * from './types';
+
 import ButtonCloseIcon from './components/button-close-icon/button-close-icon.svelte';
 import ButtonClose from './components/button-close/button-close.svelte';
 import ButtonListItem from './components/button-list-item/button-list-item.svelte';
 import ButtonDropdown from './components/button-dropdown/button-dropdown.svelte';
 import ButtonOk from './components/button-ok/button-ok.svelte';
 import Button from './components/button/button.svelte';
+import ButtonBack from './components/button-back/button-back.svelte';
 import ButtonSearch from './components/button-search/button-search.svelte';
 import ButtonMenu from './components/button-menu/button-menu.svelte';
 import Switch from './components/switch/switch.svelte';
 
-import type { ButtonListItemProps } from './components/button-list-item/button-list-item.svelte'
-import type { ButtonDropdownProps } from './components/button-dropdown/button-dropdown.svelte'
-import type { ButtonAppearance, ButtonProps, ButtonSize } from './components/button/button.svelte';
-import type { SwitchProps } from './components/switch/switch.svelte';
-
-export type {
-    ButtonDropdownProps,
-    ButtonListItemProps,
-    ButtonAppearance,
-    ButtonProps,
-    ButtonSize,
-    SwitchProps,
-}
 
 export {
     Button,

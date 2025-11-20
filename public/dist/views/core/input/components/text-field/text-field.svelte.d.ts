@@ -1,4 +1,4 @@
-import { type InputFieldProps } from '../input-field/input-field.svelte';
+import type { InputFieldProps } from '../../types';
 type $$ComponentProps = InputFieldProps & {
     value?: string | null | undefined;
 };

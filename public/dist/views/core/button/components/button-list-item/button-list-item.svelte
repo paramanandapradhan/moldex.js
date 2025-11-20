@@ -1,60 +1,12 @@
-<script module lang="ts">
-	export type ButtonListItemProps = {
-		appearance?: ButtonAppearance;
-		size?: ButtonSize;
-		index?: number;
-		id?: string;
-		className?: string;
-		checkboxIconPath?: string;
-		uncheckboxIconPath?: string;
-		checkboxIconClassName?: string;
-		uncheckboxIconClassName?: string;
-		hasIcon?: boolean;
-		iconClassName?: string;
-		hasImg?: boolean;
-		imgClassName?: string;
-		hasArrow?: boolean;
-		arrowIconPath?: string;
-		arrowClassName?: string;
-		title?: string;
-		subtitle?: string;
-		titleClassName?: string;
-		subtitleClassName?: string;
-		url?: string;
-		disabled?: boolean;
-		iconPath?: string;
-		isCircularIcon?: boolean;
-		circularIconClassName?: string;
-		imgSrc?: string;
-		hasCheckbox?: boolean;
-		checkboxClassName?: string;
-		isChecked?: boolean;
-		hasMenu?: boolean;
-		menus?: Menu[] | string[];
-		menuIconPath?: string;
-		menuIconClassName?: string;
-		menuButtonClassName?: string;
-		menuButtonLabel?: string;
-		hasDivider?: boolean;
-		dividerClassName?: string;
-		onMenu?: (ev: Event, menu: Menu | string) => void;
-		onClick?: (ev: MouseEvent) => void;
-		children?: Snippet;
-	};
-</script>
-
+ 
 <script lang="ts">
-	import {
-		Icon,
-		mdiCheckCircle,
-		mdiCheckCircleOutline,
-		mdiChevronRight
-	} from '../../../icon';
-	import type { Snippet } from 'svelte';
-	import Button, { type ButtonAppearance, type ButtonSize } from '../button/button.svelte';
-	import type { Menu } from '../button-menu/button-menu.svelte';
+
 	import ButtonMenu from '../button-menu/button-menu.svelte';
 	import IconCircle from '../../../icon/components/icon-circle/icon-circle.svelte';
+	import { mdiCheckCircle, mdiCheckCircleOutline, mdiChevronRight } from '../../../icon/index.js';
+	import Icon from '../../../icon/components/icon/icon.svelte';
+	import type { ButtonListItemProps } from '../../types';
+	import Button from '../button/button.svelte';
 
 	let {
 		appearance,

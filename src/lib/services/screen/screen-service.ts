@@ -1,6 +1,8 @@
-import { createScreenSizeStore, ScreenSizeEnum } from "$lib/stores/screen-size/screen-size-store.svelte";
+
+import { createScreenSizeStore, ScreenSizeEnum } from "$lib/stores/screen-size/screen-size-store.svelte.js";
 import { BROWSER } from "esm-env";
-import { DialogSizeEnum } from "../dialog/dialog-service";
+import { DialogSizeEnum } from "../dialog/dialog-service.js";
+ 
 
 export const screenSize = createScreenSizeStore();
 

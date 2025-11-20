@@ -1,14 +1,8 @@
-<script lang="ts" module>
-	export type Country = {
-		isoCode: string;
-		dialCode: string;
-		name: string;
-	};
-</script>
-
+ 
 <script lang="ts">
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
 	import type { Snippet } from 'svelte';
+	import type { Country } from '../types';
 
 	type Props = {
 		countries?: Country[];

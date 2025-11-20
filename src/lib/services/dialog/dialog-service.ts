@@ -1,17 +1,11 @@
 
-import { Dialog, type DialogProps, type DialogSize, type InputFieldProps } from '$lib/views';
-import CropperDialog, { type CropperDialogPropsType } from '$lib/views/core/dialog/components/cropper-dialog/cropper-dialog.svelte';
-import LoadingDialog from '$lib/views/core/dialog/components/loading-dialog/loading-dialog.svelte';
-import MsgDialog from '$lib/views/core/dialog/components/msg-dialog/msg-dialog.svelte';
-import NumberFieldDialog from '$lib/views/core/dialog/components/number-field-dialog/number-field-dialog.svelte';
-import type { PickerDialogProps } from '$lib/views/core/dialog/components/picker-dialog/picker-dialog.svelte';
-import PickerDialog from '$lib/views/core/dialog/components/picker-dialog/picker-dialog.svelte';
-import TextFieldDialog from '$lib/views/core/dialog/components/text-field-dialog/text-field-dialog.svelte';
-import TextareaFieldDialog from '$lib/views/core/dialog/components/textarea-field-dialog/textarea-field-dialog.svelte';
+ 
 import { mount } from 'svelte';
+import { cropImageFile, FilePickerAccepts, ImageCaptureEnum, OutputImageFormatEnum, processImageFile, type ImageCaptures, type OutputImageFormats } from '../utils/image-service';
+ 
+import { CropperDialog, Dialog, LoadingDialog, MsgDialog, NumberFieldDialog, PickerDialog, TextareaFieldDialog, TextFieldDialog, type CropperDialogProps, type DialogProps, type DialogSize, type InputFieldProps, type PickerDialogProps } from '$lib/views/index.js';
 import { getDialogSize, isMobileScreen } from '../screen/screen-service';
-import { cropImageFile, FilePickerAccepts, ImageCapttureEnum, OutputImageFormatEnum, processImageFile, type ImageCapttures, type OutputImageFormats } from '../utils/image-service';
-
+ 
 export enum DialogSizeEnum {
     XS = 'xs',
     SM = 'sm',
@@ -45,7 +39,7 @@ function addDialog(props: DialogProps) {
 
 export async function openDialog<R>(props: DialogProps = {}): Promise<R> {
     return new Promise((resolve) => {
-        let dialog = addDialog({ ...props, onClose, onResult, });
+        let dialog:any = addDialog({ ...props, onClose, onResult, });
         dialog.openDialog();
         function onClose() {
             if (dialog) {
@@ -258,7 +252,7 @@ export async function openLoadingDialog({
         size: DialogSizeEnum.SM,
     }
 
-    let dialog = addDialog(props);
+    let dialog:any = addDialog(props);
     dialog.openDialog();
 
     return dialog;
@@ -278,7 +272,7 @@ export async function openCropperDialog<T, R>({
     className,
     outputAspectRatio,
     ...params
-}: DialogProps & CropperDialogPropsType): Promise<R | string | File> {
+}: DialogProps & CropperDialogProps): Promise<R | string | File> {
     return await openDialog<R>({
         bodyComponent: CropperDialog,
         props: {
@@ -377,7 +371,7 @@ export async function openImagePickerDialog<T extends File | File[]>(
     accepts: string | string[] = 'image/*',
     options: {
         multiple?: boolean; // Allow selecting multiple images
-        capture?: ImageCapttures; // Camera direction: 'user' for front, 'environment' for back
+        capture?: ImageCaptures; // Camera direction: 'user' for front, 'environment' for back
         maxWidth?: number; // Maximum width for the resized image
         maxHeight?: number; // Maximum height for the resized image
         maxSizeInBytes?: number; // Maximum file size in bytes after compression
@@ -468,7 +462,7 @@ export async function openImagePickerDialogWithCropper({
     outputQuality?: number,
     outputAspectRatio?: number,
     dialogSize?: DialogSize,
-    capture?: ImageCapttureEnum,
+    capture?: ImageCaptureEnum,
     maxWidth?: number; // Maximum width for the resized image
     maxHeight?: number; // Maximum height for the resized image
     maxSizeInBytes?: number; // Maximum file size in bytes after compression

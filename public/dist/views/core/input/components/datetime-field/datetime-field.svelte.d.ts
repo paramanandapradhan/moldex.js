@@ -1,4 +1,4 @@
-import { type InputFieldProps } from '../input-field/input-field.svelte';
+import type { InputFieldProps } from '../../types';
 declare const DatetimeField: import("svelte").Component<InputFieldProps, {
     focus: () => void;
     getElement: () => any;

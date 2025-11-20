@@ -1,59 +1,11 @@
-<script module lang="ts">
-	export type ButtonAppearance =
-		| 'none'
-		| 'primary'
-		| 'neutral'
-		| 'border'
-		| 'border-neutral'
-		| 'border-primary';
-
-	export type ButtonSize = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-
-	export type ButtonType = 'button' | 'submit' | 'reset';
-
-	export type ButtonProps = {
-		title?: string;
-		id?: string;
-		type?: ButtonType;
-		appearance?: ButtonAppearance;
-		size?: ButtonSize;
-		form?: string | null;
-		className?: string;
-		iconPath?: string;
-		iconClassName?: string;
-		label?: string;
-		rightIconPath?: string;
-		rightIconClassName?: string;
-		spinner?: boolean;
-		disabled?: boolean;
-		spinnerClassName?: string;
-		onlySpinner?: boolean;
-		children?: Snippet;
-		hasRipple?: boolean;
-		rippleColor?: string | 'light' | 'dark';
-		url?: string;
-		target?: string;
-		hasOpenInNew?: boolean;
-		openInNewIconClassName?: string;
-		openInNewIcon?: string;
-		onClick?: (ev: MouseEvent) => void;
-		onDblClick?: (ev: MouseEvent) => void;
-		onContextMenu?: (ev: MouseEvent) => void;
-		onDrop?: (ev: DragEvent) => void;
-		onDragStart?: (ev: DragEvent) => void;
-		onDragEnd?: (ev: DragEvent) => void;
-		onDragEnter?: (ev: DragEvent) => void;
-		onDragLeave?: (ev: DragEvent) => void;
-		onDragOver?: (ev: DragEvent) => void;
-	};
-</script>
-
+ 
 <script lang="ts">
 	import { ripple, type RipplePropsType } from '$lib/actions/ripple.js';
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import { mdiOpenInNew } from '$lib/views/core/icon/index.js';
 	import Spinner from '$lib/views/core/spinner/components/spinner/spinner.svelte';
-	import type { Snippet } from 'svelte';
+	import type { ButtonProps } from '../../types';
+ 
 
 	let {
 		title,

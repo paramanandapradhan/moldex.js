@@ -1,10 +1,4 @@
-import Navbar from "./components/navbar/navbar.svelte";
-import { type NavbarProps } from "./components/navbar/navbar.svelte";
+export { default as Navbar } from "./components/navbar/navbar.svelte";
 
-export type {
-    NavbarProps,
-}
+export * from './types';
 
-export {
-    Navbar
-}

@@ -1,4 +1,4 @@
-import { isTouchDevice } from '../services';
+import { isTouchDevice } from '../services/index.js';
 import './ripple.css';
 const DARK_RIPPLE_COLOR = 'rgba(0, 0, 0, 0.12)';
 const LIGHT_RIPPLE_COLOR = 'rgba(255, 255, 255, 0.12)';

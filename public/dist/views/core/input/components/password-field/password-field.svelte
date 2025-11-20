@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { ripple } from '../../../../../actions/ripple.js';
-
- 
 	import Icon from '../../../icon/components/icon/icon.svelte';
 	import { mdiEyeOffOutline, mdiEyeOutline } from '../../../icon/index.js';
-	import InputField, { type InputFieldProps } from '../input-field/input-field.svelte';
+	import type { InputFieldProps } from '../../types';
+	import InputField from '../input-field/input-field.svelte';
 
 	let {
 		type = 'password',
@@ -70,8 +69,6 @@
 			type = 'password';
 		}
 	}
-
- 
 </script>
 
 {#snippet showPasswordButton()}

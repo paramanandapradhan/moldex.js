@@ -1,4 +1,5 @@
-import { isTouchDevice } from '$lib/services';
+
+import { isTouchDevice } from '$lib/services/index.js';
 import './ripple.css';
 
 export type RipplePropsType = {
@@ -51,7 +52,7 @@ export function ripple(node: HTMLElement, { color }: RipplePropsType = {}) {
         const diameter = Math.max(node.clientWidth, node.clientHeight);
         const radius = diameter / 2;
         const rect = node.getBoundingClientRect();
-        const touch = (event as TouchEvent).touches?.[0] || {};
+        const touch: any = (event as TouchEvent).touches?.[0] || {};
 
         const circleX = (event instanceof MouseEvent ? event.clientX : touch.clientX) - rect.left - radius;
         const circleY = (event instanceof MouseEvent ? event.clientY : touch.clientY) - rect.top - radius;

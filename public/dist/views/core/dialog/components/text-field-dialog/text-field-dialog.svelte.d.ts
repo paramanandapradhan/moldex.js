@@ -1,5 +1,5 @@
-import type { InputValue } from '../../../input/components/input-field/input-field.svelte';
-import type { DialogExports } from '../dialog/dialog.svelte';
+import type { InputValue } from '../../../input';
+import type { DialogExports } from '../../types';
 type PropsType = {
     value?: InputValue;
     label?: string;

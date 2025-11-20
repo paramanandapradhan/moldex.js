@@ -1,16 +1,13 @@
 <script lang="ts">
-	import {
-		mdiMagnify,
-		type ButtonAppearance,
-		type ButtonProps,
-		type ButtonSize,
-		type InputFieldAppearance,
-		type InputFieldSize
-	} from '../../../../..';
 	import ButtonDropdown from '../button-dropdown/button-dropdown.svelte';
 	import Icon from '../../../icon/components/icon/icon.svelte';
 	import SearchField from '../../../input/components/search-field/search-field.svelte';
 	import type { Snippet } from 'svelte';
+
+	import { mdiMagnify } from '../../../icon/index.js';
+	import type { ButtonAppearance, ButtonProps, ButtonSize } from '../../types';
+	import type { InputFieldAppearance, InputFieldSize } from '../../../input/types';
+	
 	type Props = {
 		searchAppearance?: InputFieldAppearance;
 		searchClassName?: string;

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import CountryLoader, { type Country } from '../loaders/country-loader.svelte';
+	import CountryLoader  from '../loaders/country-loader.svelte';
+	import type { Country } from '../types';
 
 	type Props = {
 		input?: string;

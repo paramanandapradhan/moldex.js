@@ -1,5 +1,5 @@
-import { type ButtonAppearance, type ButtonSize, type ButtonType } from '../button/button.svelte';
 import { type Snippet } from 'svelte';
+import type { ButtonAppearance, ButtonSize, ButtonType } from '../../types';
 export type ButtonDropdownProps = {
     appearance?: ButtonAppearance;
     size?: ButtonSize;

@@ -1,15 +1,7 @@
-<script module lang="ts">
-	export type SwitchProps = {
-		id?: string;
-		checked?: boolean;
-		disabled?: boolean;
-		className?: string;
-		size?: 'sm' | 'md' | 'lg';
-		onChange?: (checked: boolean) => void;
-	};
-</script>
-
+ 
 <script lang="ts">
+	import type { SwitchProps } from "../../types";
+
 	let {
 		id = '',
 		checked = false,

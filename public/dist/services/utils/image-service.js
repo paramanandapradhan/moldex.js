@@ -1,11 +1,11 @@
-import { DialogSizeEnum, openCropperDialog } from "../dialog/dialog-service";
-import { getExtFromFileType, readFileAsDataURL } from "./file-service";
-import { nanoid } from 'nanoid';
-export var ImageCapttureEnum;
-(function (ImageCapttureEnum) {
-    ImageCapttureEnum["USER"] = "user";
-    ImageCapttureEnum["ENVIRONMENT"] = "environment";
-})(ImageCapttureEnum || (ImageCapttureEnum = {}));
+import { DialogSizeEnum, openCropperDialog } from "../dialog/dialog-service.js";
+import { getExtFromFileType, readFileAsDataURL } from "./file-service.js";
+import { nanoid } from "nanoid";
+export var ImageCaptureEnum;
+(function (ImageCaptureEnum) {
+    ImageCaptureEnum["USER"] = "user";
+    ImageCaptureEnum["ENVIRONMENT"] = "environment";
+})(ImageCaptureEnum || (ImageCaptureEnum = {}));
 export var OutputImageFormatEnum;
 (function (OutputImageFormatEnum) {
     OutputImageFormatEnum["WEBP"] = "image/webp";

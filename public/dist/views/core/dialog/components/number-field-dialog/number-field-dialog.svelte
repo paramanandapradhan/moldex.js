@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { showToast } from '../../../../../services';
+	import { showToast } from '../../../../../services/index.js';
 	import NumberField from '../../../input/components/number-field/number-field.svelte';
-	import type { DialogExports } from '../dialog/dialog.svelte';
+	import type { DialogExports } from '../../types';
 
 	type PropsType = {
 		value?: number;
