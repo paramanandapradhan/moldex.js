@@ -1,13 +1,6 @@
-export declare enum ScreenSizeEnum {
-    XS = "xs",
-    SM = "sm",
-    MD = "md",
-    LG = "lg",
-    XL = "xl",
-    XXL = "2xl"
-}
-export declare function createScreenSizeStore(initial?: ScreenSizeEnum): {
-    size: ScreenSizeEnum;
+import { ScreenSize } from "../../types";
+export declare function createScreenSizeStore(initial?: ScreenSize): {
+    size: ScreenSize;
     readonly isXXL: boolean;
     readonly isXL: boolean;
     readonly isLg: boolean;

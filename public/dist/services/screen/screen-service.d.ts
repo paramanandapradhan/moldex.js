@@ -1,7 +1,7 @@
-import { ScreenSizeEnum } from "../../stores/screen-size/screen-size-store.svelte.js";
 import { DialogSizeEnum } from "../dialog/dialog-service.js";
-export declare const screenSize: {
-    size: ScreenSizeEnum;
+import { ScreenSize } from "../../types.js";
+export declare const screenSizeStore: {
+    size: ScreenSize;
     readonly isXXL: boolean;
     readonly isXL: boolean;
     readonly isLg: boolean;

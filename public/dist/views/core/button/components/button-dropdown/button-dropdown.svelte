@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { DropdownStateEnum } from '../../../../../types.js';
+	import { DropdownState } from '../../../../../types.js';
 	import { onMount, type Snippet } from 'svelte';
 	import type { ButtonAppearance, ButtonSize, ButtonType } from '../../types';
 	import Button from '../button/button.svelte';
@@ -42,7 +42,7 @@
 	}: ButtonDropdownProps = $props();
 
 	let placement = $state(false);
-	let dropdownState = $state(DropdownStateEnum.CLOSED);
+	let dropdownState = $state(DropdownState.CLOSED);
 	let openUpward = $state(false);
 	let openMiddle = $state(false);
 	let buttonElement: HTMLDivElement;
@@ -51,11 +51,11 @@
 		ev.stopPropagation();
 
 		if (placement) {
-			dropdownState = DropdownStateEnum.CLOSED;
+			dropdownState = DropdownState.CLOSED;
 			setTimeout(() => (placement = false), 100);
 		} else {
 			placement = true;
-			setTimeout(() => (dropdownState = DropdownStateEnum.OPENED), 1);
+			setTimeout(() => (dropdownState = DropdownState.OPENED), 1);
 			adjustDropdownPosition();
 		}
 	}
@@ -133,7 +133,7 @@
 		<div
 			role="dialog"
 			class="absolute right-0 z-10 max-h-[50vh] min-w-40 origin-top overflow-y-auto rounded-md bg-white shadow-lg transition duration-100 ease-out dark:bg-neutral-800 dark:shadow-black {dropdownClassName} {dropdownState ===
-			DropdownStateEnum.OPENED
+			DropdownState.OPENED
 				? `scale-100 transform opacity-100 ${dropdownOpenClassName}`
 				: `scale-60 transform opacity-0 ${dropdownCloseClassName}`}"
 			style={openMiddle

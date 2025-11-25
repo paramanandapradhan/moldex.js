@@ -1,35 +1,27 @@
-export var ScreenSizeEnum;
-(function (ScreenSizeEnum) {
-    ScreenSizeEnum["XS"] = "xs";
-    ScreenSizeEnum["SM"] = "sm";
-    ScreenSizeEnum["MD"] = "md";
-    ScreenSizeEnum["LG"] = "lg";
-    ScreenSizeEnum["XL"] = "xl";
-    ScreenSizeEnum["XXL"] = "2xl";
-})(ScreenSizeEnum || (ScreenSizeEnum = {}));
-export function createScreenSizeStore(initial = ScreenSizeEnum.XXL) {
+import { ScreenSize } from "../../types";
+export function createScreenSizeStore(initial = ScreenSize.XXL) {
     let _size = $state(initial);
     return {
         get size() {
             return _size;
         },
         get isXXL() {
-            return _size === ScreenSizeEnum.XXL;
+            return _size === ScreenSize.XXL;
         },
         get isXL() {
-            return _size === ScreenSizeEnum.XL;
+            return _size === ScreenSize.XL;
         },
         get isLg() {
-            return _size === ScreenSizeEnum.LG;
+            return _size === ScreenSize.LG;
         },
         get isMd() {
-            return _size === ScreenSizeEnum.MD;
+            return _size === ScreenSize.MD;
         },
         get isSm() {
-            return _size === ScreenSizeEnum.SM;
+            return _size === ScreenSize.SM;
         },
         get isXs() {
-            return _size === ScreenSizeEnum.XS;
+            return _size === ScreenSize.XS;
         },
         get isMobileScreen() {
             return this.isXs || this.isSm || this.isMd;

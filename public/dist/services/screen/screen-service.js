@@ -1,32 +1,33 @@
-import { createScreenSizeStore, ScreenSizeEnum } from "../../stores/screen-size/screen-size-store.svelte.js";
+import { createScreenSizeStore, } from "../../stores/screen-size/screen-size-store.svelte.js";
 import { BROWSER } from "esm-env";
 import { DialogSizeEnum } from "../dialog/dialog-service.js";
-export const screenSize = createScreenSizeStore();
+import { ScreenSize } from "../../types.js";
+export const screenSizeStore = createScreenSizeStore();
 export const handleScreenSizeUpdate = (size) => {
     // console.log('screenSizeChanged', size)
     if (BROWSER && size) {
         if (size >= 1400) {
-            screenSize.size = ScreenSizeEnum.XXL;
+            screenSizeStore.size = ScreenSize.XXL;
         }
         else if (size >= 1200) {
-            screenSize.size = ScreenSizeEnum.XL;
+            screenSizeStore.size = ScreenSize.XL;
         }
         else if (size >= 992) {
-            screenSize.size = ScreenSizeEnum.LG;
+            screenSizeStore.size = ScreenSize.LG;
         }
         else if (size >= 768) {
-            screenSize.size = ScreenSizeEnum.MD;
+            screenSizeStore.size = ScreenSize.MD;
         }
         else if (size >= 576) {
-            screenSize.size = ScreenSizeEnum.SM;
+            screenSizeStore.size = ScreenSize.SM;
         }
         else if (size < 576) {
-            screenSize.size = ScreenSizeEnum.SM;
+            screenSizeStore.size = ScreenSize.SM;
         }
     }
 };
 export function isSmallScreen() {
-    return screenSize.isSm || screenSize.isXs;
+    return screenSizeStore.isSm || screenSizeStore.isXs;
 }
 export function isMobileScreen() {
     return isSmallScreen();
