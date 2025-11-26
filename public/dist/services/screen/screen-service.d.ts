@@ -1,6 +1,6 @@
 import { DialogSizeEnum } from "../dialog/dialog-service.js";
 import { ScreenSize } from "../../types.js";
-export declare const screenSizeStore: {
+export declare const screenSize: {
     size: ScreenSize;
     readonly isXXL: boolean;
     readonly isXL: boolean;

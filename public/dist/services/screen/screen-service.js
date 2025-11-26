@@ -2,32 +2,32 @@ import { createScreenSizeStore, } from "../../stores/screen-size/screen-size-sto
 import { BROWSER } from "esm-env";
 import { DialogSizeEnum } from "../dialog/dialog-service.js";
 import { ScreenSize } from "../../types.js";
-export const screenSizeStore = createScreenSizeStore();
+export const screenSize = createScreenSizeStore();
 export const handleScreenSizeUpdate = (size) => {
     // console.log('screenSizeChanged', size)
     if (BROWSER && size) {
         if (size >= 1400) {
-            screenSizeStore.size = ScreenSize.XXL;
+            screenSize.size = ScreenSize.XXL;
         }
         else if (size >= 1200) {
-            screenSizeStore.size = ScreenSize.XL;
+            screenSize.size = ScreenSize.XL;
         }
         else if (size >= 992) {
-            screenSizeStore.size = ScreenSize.LG;
+            screenSize.size = ScreenSize.LG;
         }
         else if (size >= 768) {
-            screenSizeStore.size = ScreenSize.MD;
+            screenSize.size = ScreenSize.MD;
         }
         else if (size >= 576) {
-            screenSizeStore.size = ScreenSize.SM;
+            screenSize.size = ScreenSize.SM;
         }
         else if (size < 576) {
-            screenSizeStore.size = ScreenSize.SM;
+            screenSize.size = ScreenSize.SM;
         }
     }
 };
 export function isSmallScreen() {
-    return screenSizeStore.isSm || screenSizeStore.isXs;
+    return screenSize.isSm || screenSize.isXs;
 }
 export function isMobileScreen() {
     return isSmallScreen();
