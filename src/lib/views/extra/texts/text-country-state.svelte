@@ -1,7 +1,6 @@
 <script lang="ts">
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
-	import { BROWSER } from 'esm-env';
-	import { mount, onMount } from 'svelte';
+	import {  onMount } from 'svelte';
 
 	let { input }: { input: string } = $props();
 

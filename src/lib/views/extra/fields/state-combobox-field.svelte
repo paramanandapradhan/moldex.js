@@ -4,7 +4,7 @@
 	import StateLoader, { type State } from '$lib/views/extra/loaders/state-loader.svelte';
 
 	type Props = {
-		value?: State | null;
+		value?: string | null;
 		countryCode?: string;
 	};
 
