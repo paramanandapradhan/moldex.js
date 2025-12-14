@@ -6,6 +6,11 @@ type Props = {
     children?: Snippet;
 };
 declare const CountryLoader: import("svelte").Component<Props, {
+    getCountry: ({ isoCode, dialCode, name }: {
+        isoCode?: string;
+        dialCode?: string;
+        name?: string;
+    }) => Promise<any>;
     loadCountries: () => Promise<void>;
 }, "countries">;
 type CountryLoader = ReturnType<typeof CountryLoader>;

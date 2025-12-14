@@ -19,6 +19,13 @@
 
 	let EasyCountryStateData: any;
 
+    export async function getState(id:string){
+        if(EasyCountryStateData){
+            return EasyCountryStateData.getState(id);
+        }
+        return null;
+    }
+
 	export async function loadStates(countryCode?: string) {
 		if (EasyCountryStateData) {
 			states = EasyCountryStateData.getStates(countryCode || null);

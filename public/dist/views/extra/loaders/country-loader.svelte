@@ -1,4 +1,3 @@
- 
 <script lang="ts">
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
 	import type { Snippet } from 'svelte';
@@ -13,6 +12,21 @@
 	let { countries = $bindable([]), onLoad, children }: Props = $props();
 
 	let EasyCountryData: any;
+
+	export async function getCountry({
+		isoCode,
+		dialCode,
+		name
+	}: {
+		isoCode?: string;
+		dialCode?: string;
+		name?: string;
+	}) {
+		if (EasyCountryData) {
+			return EasyCountryData.getCountry({ isoCode, dialCode, name });
+		}
+		return null;
+	}
 
 	export async function loadCountries() {
 		if (EasyCountryData) {
