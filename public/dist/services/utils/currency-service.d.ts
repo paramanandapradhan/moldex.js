@@ -43,6 +43,28 @@ export declare enum CurrencySymbols {
     VND = "\u20AB",
     ZAR = "R"
 }
+export interface CurrencyRates {
+    [currencyCode: string]: number;
+}
+export interface CurrencyApiResponse {
+    result: string;
+    provider: string;
+    documentation: string;
+    terms_of_use: string;
+    time_last_update_unix: number;
+    time_last_update_utc: string;
+    time_next_update_unix: number;
+    time_next_update_utc: string;
+    time_eol_unix: number;
+    base_code: string;
+    rates: CurrencyRates;
+}
+export interface CurrencyData {
+    baseCode: string;
+    rates: CurrencyRates;
+    lastUpdate: string;
+    nextUpdate: string;
+}
 /**
  * Converts a number into words based on the Indian numbering system.
  * Supports up to Crore level and works for numbers up to 99 Crore.
@@ -89,3 +111,45 @@ export declare function toCurrency(value?: number, symbol?: string): string;
  * @returns A string formatted with commas as per the Indian numbering system.
  */
 export declare function formatIndianCurrency(amount: number | string): string;
+/**
+ * Fetches currency exchange rates for a given base currency
+ * @param baseCurrency - The base currency code (e.g., 'USD', 'EUR', 'INR')
+ * @param forceRefresh - Force a refresh even if cached data exists (default: false)
+ * @returns Currency data with exchange rates
+ * @throws Error if the API request fails
+ */
+export declare function getCurrencyRates(baseCurrency?: string, forceRefresh?: boolean): Promise<CurrencyData>;
+/**
+ * Converts an amount from one currency to another
+ * @param amount - The amount to convert
+ * @param fromCurrency - The source currency code
+ * @param toCurrency - The target currency code
+ * @returns The converted amount
+ */
+export declare function convertCurrency(amount: number, fromCurrency: string, toCurrency: string): Promise<number>;
+/**
+ * Gets a specific exchange rate between two currencies
+ * @param fromCurrency - The source currency code
+ * @param toCurrency - The target currency code
+ * @returns The exchange rate
+ */
+export declare function getExchangeRate(fromCurrency: string, toCurrency: string): Promise<number>;
+/**
+ * Clears the currency cache for a specific currency or all currencies
+ * @param baseCurrency - Optional base currency to clear, if not provided clears all
+ */
+export declare function clearCurrencyCache(baseCurrency?: string): void;
+/**
+ * Gets the cached currency data without fetching
+ * @param baseCurrency - The base currency code
+ * @returns Cached currency data or null if not cached
+ */
+export declare function getCachedCurrencyRates(baseCurrency: string): CurrencyData | null;
+/**
+ * Formats a currency amount with the appropriate symbol and formatting
+ * @param amount - The amount to format
+ * @param currencyCode - The currency code (e.g., 'USD', 'EUR', 'INR')
+ * @param locale - The locale for formatting (defaults to 'en-US')
+ * @returns Formatted currency string
+ */
+export declare function formatCurrency(amount: number, currencyCode: string, locale?: string): string;

@@ -47,6 +47,8 @@ export var CurrencySymbols;
     CurrencySymbols["VND"] = "\u20AB";
     CurrencySymbols["ZAR"] = "R";
 })(CurrencySymbols || (CurrencySymbols = {}));
+const CURRENCY_API_BASE = 'https://open.er-api.com/v6/latest';
+const currencyCache = new Map();
 /**
  * Converts a number into words based on the Indian numbering system.
  * Supports up to Crore level and works for numbers up to 99 Crore.
@@ -137,4 +139,157 @@ export function formatIndianCurrency(amount) {
         otherDigits = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
     }
     return otherDigits + (otherDigits ? "," : "") + lastThreeDigits + "." + decimalPart;
+}
+/**
+ * Checks if cached currency data is still valid
+ * @param cachedData - The cached currency data
+ * @returns true if cache is valid, false otherwise
+ */
+function isCacheValid(cachedData) {
+    const nowUnix = Math.floor(Date.now() / 1000);
+    return cachedData.nextUpdateUnix > nowUnix;
+}
+/**
+ * Fetches currency exchange rates for a given base currency
+ * @param baseCurrency - The base currency code (e.g., 'USD', 'EUR', 'INR')
+ * @param forceRefresh - Force a refresh even if cached data exists (default: false)
+ * @returns Currency data with exchange rates
+ * @throws Error if the API request fails
+ */
+export async function getCurrencyRates(baseCurrency = 'USD', forceRefresh = false) {
+    const cacheKey = baseCurrency.toUpperCase();
+    // Check cache first
+    if (!forceRefresh) {
+        const cached = currencyCache.get(cacheKey);
+        if (cached && isCacheValid(cached)) {
+            console.log(`[currency.service] Using cached rates for ${cacheKey}`);
+            return {
+                baseCode: cached.baseCode,
+                rates: cached.rates,
+                lastUpdate: cached.lastUpdate,
+                nextUpdate: cached.nextUpdate
+            };
+        }
+    }
+    try {
+        console.log(`[currency.service] Fetching fresh rates for ${cacheKey}`);
+        const response = await fetch(`${CURRENCY_API_BASE}/${cacheKey}`);
+        if (!response.ok) {
+            throw new Error(`Currency API request failed: ${response.status} ${response.statusText}`);
+        }
+        const data = await response.json();
+        if (data.result !== 'success') {
+            throw new Error('Currency API returned unsuccessful result');
+        }
+        const currencyData = {
+            baseCode: data.base_code,
+            rates: data.rates,
+            lastUpdate: data.time_last_update_utc,
+            nextUpdate: data.time_next_update_utc,
+            nextUpdateUnix: data.time_next_update_unix
+        };
+        // Store in cache
+        currencyCache.set(cacheKey, currencyData);
+        return {
+            baseCode: currencyData.baseCode,
+            rates: currencyData.rates,
+            lastUpdate: currencyData.lastUpdate,
+            nextUpdate: currencyData.nextUpdate
+        };
+    }
+    catch (error) {
+        console.error('[currency.service] Failed to fetch currency rates:', error);
+        // If fetch fails, try to return stale cache as fallback
+        const cached = currencyCache.get(cacheKey);
+        if (cached) {
+            console.warn('[currency.service] Returning stale cached data due to fetch error');
+            return {
+                baseCode: cached.baseCode,
+                rates: cached.rates,
+                lastUpdate: cached.lastUpdate,
+                nextUpdate: cached.nextUpdate
+            };
+        }
+        throw error;
+    }
+}
+/**
+ * Converts an amount from one currency to another
+ * @param amount - The amount to convert
+ * @param fromCurrency - The source currency code
+ * @param toCurrency - The target currency code
+ * @returns The converted amount
+ */
+export async function convertCurrency(amount, fromCurrency, toCurrency) {
+    const data = await getCurrencyRates(fromCurrency);
+    const rate = data.rates[toCurrency.toUpperCase()];
+    if (!rate) {
+        throw new Error(`Exchange rate not found for ${toCurrency}`);
+    }
+    return amount * rate;
+}
+/**
+ * Gets a specific exchange rate between two currencies
+ * @param fromCurrency - The source currency code
+ * @param toCurrency - The target currency code
+ * @returns The exchange rate
+ */
+export async function getExchangeRate(fromCurrency, toCurrency) {
+    const data = await getCurrencyRates(fromCurrency);
+    const rate = data.rates[toCurrency.toUpperCase()];
+    if (!rate) {
+        throw new Error(`Exchange rate not found for ${toCurrency}`);
+    }
+    return rate;
+}
+/**
+ * Clears the currency cache for a specific currency or all currencies
+ * @param baseCurrency - Optional base currency to clear, if not provided clears all
+ */
+export function clearCurrencyCache(baseCurrency) {
+    if (baseCurrency) {
+        currencyCache.delete(baseCurrency.toUpperCase());
+        console.log(`[currency.service] Cleared cache for ${baseCurrency.toUpperCase()}`);
+    }
+    else {
+        currencyCache.clear();
+        console.log('[currency.service] Cleared all currency cache');
+    }
+}
+/**
+ * Gets the cached currency data without fetching
+ * @param baseCurrency - The base currency code
+ * @returns Cached currency data or null if not cached
+ */
+export function getCachedCurrencyRates(baseCurrency) {
+    const cached = currencyCache.get(baseCurrency.toUpperCase());
+    if (!cached)
+        return null;
+    return {
+        baseCode: cached.baseCode,
+        rates: cached.rates,
+        lastUpdate: cached.lastUpdate,
+        nextUpdate: cached.nextUpdate
+    };
+}
+/**
+ * Formats a currency amount with the appropriate symbol and formatting
+ * @param amount - The amount to format
+ * @param currencyCode - The currency code (e.g., 'USD', 'EUR', 'INR')
+ * @param locale - The locale for formatting (defaults to 'en-US')
+ * @returns Formatted currency string
+ */
+export function formatCurrency(amount, currencyCode, locale = 'en-US') {
+    try {
+        return new Intl.NumberFormat(locale, {
+            style: 'currency',
+            currency: currencyCode.toUpperCase(),
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(amount);
+    }
+    catch (error) {
+        console.error('[currency.service] Failed to format currency:', error);
+        return `${currencyCode.toUpperCase()} ${amount.toFixed(2)}`;
+    }
 }
