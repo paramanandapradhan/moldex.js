@@ -50,6 +50,38 @@ export enum CurrencySymbols {
     ZAR = "R"
 }
 
+export interface CurrencyRates {
+    [currencyCode: string]: number;
+}
+
+export interface CurrencyApiResponse {
+    result: string;
+    provider: string;
+    documentation: string;
+    terms_of_use: string;
+    time_last_update_unix: number;
+    time_last_update_utc: string;
+    time_next_update_unix: number;
+    time_next_update_utc: string;
+    time_eol_unix: number;
+    base_code: string;
+    rates: CurrencyRates;
+}
+
+export interface CurrencyData {
+    baseCode: string;
+    rates: CurrencyRates;
+    lastUpdate: string;
+    nextUpdate: string;
+}
+
+interface CachedCurrencyData extends CurrencyData {
+    nextUpdateUnix: number;
+}
+
+const CURRENCY_API_BASE = 'https://open.er-api.com/v6/latest';
+const currencyCache = new Map<string, CachedCurrencyData>();
+
 
 /**
  * Converts a number into words based on the Indian numbering system.
@@ -152,37 +184,6 @@ export function formatIndianCurrency(amount: number | string): string {
     return otherDigits + (otherDigits ? "," : "") + lastThreeDigits + "." + decimalPart;
 }
 
-export interface CurrencyRates {
-    [currencyCode: string]: number;
-}
-
-export interface CurrencyApiResponse {
-    result: string;
-    provider: string;
-    documentation: string;
-    terms_of_use: string;
-    time_last_update_unix: number;
-    time_last_update_utc: string;
-    time_next_update_unix: number;
-    time_next_update_utc: string;
-    time_eol_unix: number;
-    base_code: string;
-    rates: CurrencyRates;
-}
-
-export interface CurrencyData {
-    baseCode: string;
-    rates: CurrencyRates;
-    lastUpdate: string;
-    nextUpdate: string;
-}
-
-interface CachedCurrencyData extends CurrencyData {
-    nextUpdateUnix: number;
-}
-
-const CURRENCY_API_BASE = 'https://open.er-api.com/v6/latest';
-const currencyCache = new Map<string, CachedCurrencyData>();
 
 /**
  * Checks if cached currency data is still valid
