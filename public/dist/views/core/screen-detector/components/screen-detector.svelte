@@ -12,6 +12,10 @@
 	onMount(() => {
 		screenSizeChanged(innerWidth);
 	});
+
+	$effect(() => {
+		screenSizeChanged(innerWidth);
+	});
 </script>
 
 <svelte:window bind:innerWidth />
