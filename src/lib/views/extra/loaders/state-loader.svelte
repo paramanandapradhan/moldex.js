@@ -46,7 +46,7 @@
 </script>
 
 <EasyScriptLoader
-	scriptUrl="hhttps://cdn.jsdelivr.net/gh/paramanandapradhan/easy-country-state-data@main/dist/index.js"
+	scriptUrl="https://cdn.jsdelivr.net/gh/paramanandapradhan/easy-country-state-data@main/dist/index.js"
 	scriptName="EasyCountryStateData"
 	onLoad={handleStatesLoaded}
 />

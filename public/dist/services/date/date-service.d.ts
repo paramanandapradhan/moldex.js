@@ -14,10 +14,6 @@ export declare class PeriodEnum {
     static NEXT_YEAR: number;
     static DATE: number;
 }
-export type FirestoreTimestamp = {
-    seconds: number;
-    nanoseconds: number;
-};
 export declare function getDateWith(yearChange: number): Date;
 export declare function getDateTime(date: string | Date | any): number;
 export declare function momentDiff({ startDate, endDate, unit }: {
@@ -37,9 +33,6 @@ export declare function getPeriodDates(period: PeriodEnum, currentDate?: Date): 
 export declare function padTo2Digits(num: number): string;
 export declare function millisToTimeString(milliseconds: number): string;
 export declare function timestampToMillis(timestamp: any): number;
-export declare function timestampToDate(timestamp: FirestoreTimestamp): Date;
-export declare function timestampToDateString(timestamp: FirestoreTimestamp): string;
-export declare function timestampToAgo(timestamp: FirestoreTimestamp): string;
 export declare function dateToTimestamp(date: Date): {
     seconds: number;
     nanoseconds: number;
@@ -50,3 +43,9 @@ export declare function millisToDate(millis: number): Date;
 export declare function dateFormat(date: Date, format?: 'MM-DD-YYYY hh:mm a' | 'MM-DD-YYYY' | 'YYYY-MM-DD' | 'YYYY-MM-DDTHH:MM' | string): string;
 export declare function isDateBetween(date: Date, startDate: Date, endDate: Date): boolean;
 export declare function toDate(value: any): Date;
+/**
+ * Formats a duration in seconds to mm:ss or hh:mm:ss format
+ * @param seconds - The duration in seconds
+ * @returns Formatted duration string (mm:ss if less than an hour, hh:mm:ss if an hour or more)
+ */
+export declare function formatDuration(seconds: number): string;

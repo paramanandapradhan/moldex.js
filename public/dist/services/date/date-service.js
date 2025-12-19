@@ -141,21 +141,6 @@ export function timestampToMillis(timestamp) {
         return (timestamp.seconds * 1000) + (timestamp.nanoseconds / 1000000);
     }
 }
-export function timestampToDate(timestamp) {
-    if (timestamp && timestamp.seconds) {
-        return new Date((timestamp.seconds * 1000) + (timestamp.nanoseconds / 1000000));
-    }
-}
-export function timestampToDateString(timestamp) {
-    if (timestamp && timestamp.seconds) {
-        return moment(new Date(timestamp.seconds * 1000)).format('MM-DD-YYYY hh:mm a');
-    }
-}
-export function timestampToAgo(timestamp) {
-    if (timestamp && timestamp.seconds) {
-        return moment(new Date(timestamp.seconds * 1000)).fromNow();
-    }
-}
 export function dateToTimestamp(date) {
     return { seconds: date.getTime() / 1000, nanoseconds: 0 };
 }
@@ -198,9 +183,26 @@ export function toDate(value) {
         else if (typeof value == 'string') {
             result = moment(value).toDate();
         }
-        else if (value.seconds) {
-            result = timestampToDate(value);
-        }
     }
     return result;
+}
+/**
+ * Formats a duration in seconds to mm:ss or hh:mm:ss format
+ * @param seconds - The duration in seconds
+ * @returns Formatted duration string (mm:ss if less than an hour, hh:mm:ss if an hour or more)
+ */
+export function formatDuration(seconds) {
+    if (seconds < 0) {
+        seconds = 0;
+    }
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
+    const mm = minutes.toString().padStart(2, '0');
+    const ss = secs.toString().padStart(2, '0');
+    if (hours > 0) {
+        const hh = hours.toString().padStart(2, '0');
+        return `${hh}:${mm}:${ss}`;
+    }
+    return `${mm}:${ss}`;
 }
