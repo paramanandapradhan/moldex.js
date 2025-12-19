@@ -32,6 +32,11 @@
 		toggleDrawer();
 	}
 
+	function preventScroll(e: Event) {
+		e.preventDefault();
+		e.stopPropagation();
+	}
+
 	export function toggleDrawer() {
 		if (!isPlaced) {
 			openDrawer();
@@ -102,6 +107,8 @@
 				class="flex-grow cursor-auto"
 				type="button"
 				onclick={handelBackdropClick}
+				onwheel={preventScroll}
+				ontouchmove={preventScroll}
 				aria-label="Close drawer"
 				title="Close drawer"
 			></button>
