@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '../../../button/components/button/button.svelte';
-	import {   copyToClipboard, showToast } from '../../../../../services/index.js';
+	import { copyToClipboard, showToast } from '../../../../../services/index.js';
 	import { mdiContentCopy } from '../../../icon';
 
 	type PropsType = {
@@ -9,6 +9,7 @@
 		buttonClassName?: string;
 		iconClassName?: string;
 		iconPath?: string;
+		textClassName?: string;
 	};
 
 	let {
@@ -16,7 +17,8 @@
 		containerClassName = '',
 		buttonClassName = '',
 		iconClassName = '',
-		iconPath = mdiContentCopy
+		iconPath = mdiContentCopy,
+		textClassName = ''
 	}: PropsType = $props();
 
 	function handleCopy() {
@@ -28,7 +30,7 @@
 </script>
 
 <span class="flex items-center {containerClassName}">
-	<span>{input || ''}</span>
+	<span class={textClassName}>{input || ''}</span>
 	{#if input}
 		<Button
 			onClick={handleCopy}

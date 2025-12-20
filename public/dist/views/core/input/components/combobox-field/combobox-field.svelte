@@ -1,14 +1,17 @@
-
 <script lang="ts">
 	import ButtonListItem from '../../../button/components/button-list-item/button-list-item.svelte';
 	import Button from '../../../button/components/button/button.svelte';
-	 
+
 	import VirtualScrollingList from '../../../common/components/virtual-scrolling/virtual-scrolling-list.svelte';
 	import Icon from '../../../icon/components/icon/icon.svelte';
-	import { mdiCheckCircle, mdiCheckCircleOutline, mdiUnfoldMoreHorizontal } from '../../../icon/index.js';
+	import {
+		mdiCheckCircle,
+		mdiCheckCircleOutline,
+		mdiUnfoldMoreHorizontal
+	} from '../../../icon/index.js';
 	import NoData from '../../../no-data/components/no-data/no-data.svelte';
 	import { SvelteSet } from 'svelte/reactivity';
-	import InputField  from '../input-field/input-field.svelte';
+	import InputField from '../input-field/input-field.svelte';
 	import SearchField from '../search-field/search-field.svelte';
 	import type { ComboboxFieldProps, InputFieldProps } from '../../types';
 
@@ -328,7 +331,7 @@
 		<div class="flex items-center {displayClassName}" title={displayItemsTitle}>
 			{#each displayItems?.slice(0, displayItemsCount) as item, index}
 				<div
-					class="inline-flex items-center bg-neutral-200 text-neutral-700 text-sm font-medium px-2 mx-1 rounded-full text-nowrap {chipClassName}"
+					class="mx-1 inline-flex items-center rounded-full bg-neutral-200 px-2 text-sm font-medium text-nowrap text-neutral-700 {chipClassName}"
 				>
 					{item}
 				</div>
@@ -379,7 +382,7 @@
 		<!-- svelte-ignore a11y_interactive_supports_focus -->
 		<div
 			bind:clientHeight={dropdownHeight}
-			class="absolute z-10 {placementClassName} max-h-80 w-full flex flex-col rounded-md bg-white dark:bg-neutral-900 text-neutral-600 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm {hasDropdownHeader
+			class="absolute z-10 {placementClassName} flex max-h-80 w-full flex-col rounded-md bg-white text-neutral-600 shadow-lg focus:outline-none sm:text-sm dark:bg-neutral-900 {hasDropdownHeader
 				? ''
 				: 'pt-1'} {hasDropdownFooter ? '' : 'pb-1'} {dropdownClassName}"
 			id="options"
@@ -389,7 +392,7 @@
 			{#if hasDropdownHeader}
 				<div
 					id="dropdown-header"
-					class=" flex items-center p-2 px-3 my-1 w-full {dropdownHeaderClassName}"
+					class=" my-1 flex w-full items-center p-2 px-3 {dropdownHeaderClassName}"
 				>
 					{#if dropdownHeaderSnippet}
 						{@render dropdownHeaderSnippet()}
@@ -407,7 +410,7 @@
 			{/if}
 			<div
 				id="dropdown-body"
-				class="flex-grow overflow-y-auto h-60 {dropdownBodyClassName}"
+				class="h-60 flex-grow overflow-y-auto {dropdownBodyClassName}"
 				bind:clientHeight={bodyHeight}
 			>
 				{#if dropdownBodySnippet}
@@ -422,7 +425,7 @@
 							{#snippet itemSnippet(item, index)}
 								{@const isSelected = selectedItemsSet.has(item[identityFieldName])}
 								<li
-									class="select-none h-full"
+									class="h-full select-none"
 									id="item-{index}"
 									role="option"
 									tabindex="-1"
@@ -480,6 +483,7 @@
 						{@render dropdownFooterSnippet()}
 					{:else if hasDropdownFooterCreateButton}
 						<Button
+							appearance="none"
 							label={createButtonLabel}
 							className="px-3 py-1 {createButtonClassName}"
 							onClick={onCreateButtonClick}
