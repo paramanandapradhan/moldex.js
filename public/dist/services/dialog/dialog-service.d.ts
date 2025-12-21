@@ -40,16 +40,41 @@ export declare function openNumberFieldDialog({ title, value, label, name, maxle
 export declare function openTextFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, ...params }?: DialogProps & InputFieldProps & {
     fieldClassName?: string;
 }): Promise<unknown>;
-export declare function openTextareaFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, rows, ...params }?: DialogProps & InputFieldProps & {
+export declare function openDateFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, rows, ...params }?: DialogProps & InputFieldProps & {
     fieldClassName?: string;
 }): Promise<unknown>;
+export declare function openDateTimeFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, rows, ...params }?: DialogProps & InputFieldProps & {
+    fieldClassName?: string;
+    value?: Date | string | null;
+}): Promise<Date>;
+export declare function openTextareaFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, rows, ...params }?: DialogProps & InputFieldProps & {
+    fieldClassName?: string;
+    value?: Date | string | null;
+}): Promise<Date>;
 export declare function openLoadingDialog({ msg, loadingDialogContainerClassName, loadingDialogClassName, loadingDialogSpinnerClassName, loadingDialogMsgClassName, ...params }?: DialogProps & {
     msg?: string;
     loadingDialogContainerClassName?: string;
     loadingDialogClassName?: string;
     loadingDialogSpinnerClassName?: string;
     loadingDialogMsgClassName?: string;
-}): Promise<any>;
+}): Promise<{
+    $on?(type: string, callback: (e: any) => void): () => void;
+    $set?(props: Partial<DialogProps>): void;
+} & {
+    toggleDialog: () => void;
+    openDialog: () => void;
+    closeDialog: (value?: any) => Promise<any>;
+    setResult: (value: any) => void;
+    setOkEnabled: (value: boolean) => void;
+    setOkSpinner: (value: boolean) => void;
+    setOnData: (listener: (data: any) => void) => void;
+    setOnOkClick: (onclick: (event: MouseEvent | TouchEvent, options: import("../../views/index.js").DialogExports) => void) => void;
+    setOnCloseClick: (onclick: import("../../views/index.js").DialogCloseButtonClickFunction) => void;
+    postData: (data: any) => void;
+    setHeaderSnippet: (snippet: import("svelte").Snippet) => void;
+    setFooterSnippet: (snippet: import("svelte").Snippet) => void;
+    setDialogTitle: (dialogTitle: string) => void;
+}>;
 /**
  * Return Cropped Image DataUrl
  * @param props

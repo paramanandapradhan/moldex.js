@@ -1,6 +1,6 @@
 import { mount } from 'svelte';
 import { cropImageFile, FilePickerAccepts, ImageCaptureEnum, OutputImageFormatEnum, processImageFile } from '../utils/image-service';
-import { CropperDialog, Dialog, LoadingDialog, MsgDialog, NumberFieldDialog, PickerDialog, TextareaFieldDialog, TextFieldDialog } from '../../views/index.js';
+import { CropperDialog, DateFieldDialog, DatetimeFieldDialog, Dialog, LoadingDialog, MsgDialog, NumberFieldDialog, PickerDialog, TextareaFieldDialog, TextFieldDialog } from '../../views/index.js';
 import { getDialogSize, isMobileScreen } from '../screen/screen-service';
 export var DialogSizeEnum;
 (function (DialogSizeEnum) {
@@ -148,6 +148,42 @@ export async function openTextFieldDialog({ title, value, label, name, maxlength
         hasFooterOkButton: true,
         footerOkButtonType: 'submit',
         targetFormId: 'text-field-dialog-form'
+    });
+}
+export async function openDateFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, rows, ...params } = {}) {
+    return await openDialog({
+        bodyComponent: DateFieldDialog,
+        props: { value, label, name, maxlength, className: fieldClassName, autofocus, required, appearance, size, floatingLabel, rows },
+        ...params,
+        hasHeader: true,
+        hasHeaderBack: isMobileScreen(),
+        hasHeaderClose: !isMobileScreen(),
+        size: isMobileScreen() ? DialogSizeEnum.FULL : DialogSizeEnum.SM,
+        hasTitle: true,
+        title: title || 'Prompt',
+        hasFooter: true,
+        hasFooterCloseButton: true,
+        hasFooterOkButton: true,
+        footerOkButtonType: 'submit',
+        targetFormId: 'date-field-dialog-form'
+    });
+}
+export async function openDateTimeFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, rows, ...params } = {}) {
+    return await openDialog({
+        bodyComponent: DatetimeFieldDialog,
+        props: { value, label, name, maxlength, className: fieldClassName, autofocus, required, appearance, size, floatingLabel, rows },
+        ...params,
+        hasHeader: true,
+        hasHeaderBack: isMobileScreen(),
+        hasHeaderClose: !isMobileScreen(),
+        size: isMobileScreen() ? DialogSizeEnum.FULL : DialogSizeEnum.SM,
+        hasTitle: true,
+        title: title || 'Prompt',
+        hasFooter: true,
+        hasFooterCloseButton: true,
+        hasFooterOkButton: true,
+        footerOkButtonType: 'submit',
+        targetFormId: 'datetime-field-dialog-form'
     });
 }
 export async function openTextareaFieldDialog({ title, value, label, name, maxlength, fieldClassName, autofocus, required, appearance, size, floatingLabel, rows, ...params } = {}) {

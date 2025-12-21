@@ -483,7 +483,6 @@
 						{@render dropdownFooterSnippet()}
 					{:else if hasDropdownFooterCreateButton}
 						<Button
-							appearance="none"
 							label={createButtonLabel}
 							className="px-3 py-1 {createButtonClassName}"
 							onClick={onCreateButtonClick}

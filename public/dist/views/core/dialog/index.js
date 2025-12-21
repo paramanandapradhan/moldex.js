@@ -6,4 +6,6 @@ export { default as NumberFieldDialog } from './components/number-field-dialog/n
 export { default as PickerDialog } from './components/picker-dialog/picker-dialog.svelte';
 export { default as TextFieldDialog } from './components/text-field-dialog/text-field-dialog.svelte';
 export { default as TextareaFieldDialog } from './components/textarea-field-dialog/textarea-field-dialog.svelte';
+export { default as DateFieldDialog } from './components/date-field-dialog/date-field-dialog.svelte';
+export { default as DatetimeFieldDialog } from './components/datetime-field-dialog/datetime-field-dialog.svelte';
 export * from './types';
