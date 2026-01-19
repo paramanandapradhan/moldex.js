@@ -37,6 +37,7 @@ export type ButtonProps = {
     hasOpenInNew?: boolean;
     openInNewIconClassName?: string;
     openInNewIcon?: string;
+    labelClassName?: string;
     onClick?: (ev: MouseEvent) => void;
     onDblClick?: (ev: MouseEvent) => void;
     onContextMenu?: (ev: MouseEvent) => void;

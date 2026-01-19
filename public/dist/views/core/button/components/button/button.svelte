@@ -33,6 +33,7 @@
 		hasOpenInNew,
 		openInNewIconClassName,
 		openInNewIcon = mdiOpenInNew,
+		labelClassName="grow-1",
 		onDblClick,
 		onContextMenu,
 		onDrop,
@@ -98,7 +99,7 @@
 			<Icon path={iconPath} className="w-6 h-6 {iconClassName}" />
 		{/if}
 		{#if label}
-			<span>{label || ''}</span>
+			<span class=" {labelClassName}">{label || ''}</span>
 		{/if}
 		{#if rightIconPath}
 			<Icon path={rightIconPath} className="w-6 h-6 {rightIconClassName}" />
