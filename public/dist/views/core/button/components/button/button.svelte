@@ -33,7 +33,7 @@
 		hasOpenInNew,
 		openInNewIconClassName,
 		openInNewIcon = mdiOpenInNew,
-		labelClassName="grow-1 text-left",
+		labelClassName="grow-1",
 		onDblClick,
 		onContextMenu,
 		onDrop,
