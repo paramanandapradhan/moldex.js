@@ -141,7 +141,7 @@
 
 	let floatingLabelClassName = $derived.by(() => {
 		if (floatingLabel) {
-			return `absolute duration-300 transform top-0 rounded -translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-0 peer-placeholder-shown:start-0 peer-focus:start-1 bg-white peer-focus:bg-white dark:bg-neutral-700 peer-focus:bg-neutral-800 peer-placeholder-shown:bg-transparent  start-1 ${floatingLabelPaddingClassName} ${floatingLabelTextClassName}`;
+			return `absolute duration-300 transform top-0 rounded -translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-0 peer-placeholder-shown:start-0 peer-focus:start-1 bg-white dark:bg-neutral-800 peer-focus:bg-white dark:peer-focus:bg-neutral-800 peer-placeholder-shown:bg-transparent start-1 ${floatingLabelPaddingClassName} ${floatingLabelTextClassName}`;
 		}
 		return '';
 	});

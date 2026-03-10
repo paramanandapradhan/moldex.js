@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { BROWSER } from 'esm-env';
 	import { DialogSizeEnum, isMobileScreen } from '$lib/services/index.js';
 	import ButtonBack from '$lib/views/core/button/components/button-back/button-back.svelte';
 	import ButtonClose from '$lib/views/core/button/components/button-close-icon/button-close-icon.svelte';
@@ -83,28 +84,67 @@
 	let footerSnippet: Snippet | null = $state(null);
 
 	let CustomComponent: ComponetType | null = $derived(component);
-
 	let BodyComponent: ComponetType | null = $derived(bodyComponent);
 
 	let result: any;
+	let customTitle: string = $state('');
 
-	let xsSizeClassName = 'w-64';
-	let smSizeClassName = 'w-96';
-	let mdSizeClassName = 'w-1/3';
-	let lgSizeClassName = 'w-1/2';
-	let xlSizeClassName = 'w-7/10';
-	let fullSizeClassName = 'fixed inset-0 w-screen h-screen ';
+	// ── History / browser-back handling ──────────────────────────────────────
+	// When the dialog opens we push a dummy history entry so the browser back
+	// gesture (and Android hardware back key) fires a popstate event instead
+	// of navigating away. We intercept that event and close the dialog.
 
-	let screenSizeClassNameMap: { [key: string]: string } = {
-		xs: xsSizeClassName,
-		sm: smSizeClassName,
-		md: mdSizeClassName,
-		lg: lgSizeClassName,
-		xl: xlSizeClassName,
-		full: fullSizeClassName
+	let _popstateListener: ((e: PopStateEvent) => void) | null = null;
+
+	function _registerBackState() {
+		if (!BROWSER) return;
+		_popstateListener = (_e: PopStateEvent) => {
+			_cleanupBackState();
+			if (cancelable) {
+				_performClose();
+			} else {
+				// Non-cancelable — re-push so user cannot dismiss with back key
+				window.history.pushState({ _moldexDialog: true }, '');
+			}
+		};
+		window.history.pushState({ _moldexDialog: true }, '');
+		window.addEventListener('popstate', _popstateListener);
+	}
+
+	function _cleanupBackState() {
+		if (_popstateListener) {
+			window.removeEventListener('popstate', _popstateListener);
+			_popstateListener = null;
+		}
+	}
+
+	// ── Size map ──────────────────────────────────────────────────────────────
+
+	const screenSizeClassNameMap: Record<string, string> = {
+		xs: 'w-64',
+		sm: 'w-96',
+		md: 'w-1/3',
+		lg: 'w-1/2',
+		xl: 'w-7/10',
+		full: 'fixed inset-0 w-screen h-screen'
 	};
 
-	let customTitle: string = $state('');
+	// ── Internal close (no history manipulation) ──────────────────────────────
+
+	function _performClose(value?: any): Promise<any> {
+		return new Promise((resolve) => {
+			isOpened = false;
+			document.body.style.overflow = '';
+			setTimeout(() => {
+				isPlaced = false;
+				onClose?.();
+				onResult?.(result ?? value);
+				resolve(result);
+			}, 300);
+		});
+	}
+
+	// ── Public API ────────────────────────────────────────────────────────────
 
 	export function toggleDialog() {
 		if (isOpened) {
@@ -116,29 +156,22 @@
 
 	export function openDialog() {
 		isPlaced = true;
-
-		// Disable background scroll
 		document.body.style.overflow = 'hidden';
-
 		setTimeout(() => {
 			isOpened = true;
+			_registerBackState();
 		}, 0);
 	}
 
 	export function closeDialog(value?: any): Promise<any> {
-		return new Promise((resolve) => {
-			isOpened = false;
-
-			// Re-enable background scroll
-			document.body.style.overflow = '';
-
-			setTimeout(() => {
-				isPlaced = false;
-				onClose && onClose();
-				onResult && onResult(result || value);
-				resolve(result);
-			}, 300);
-		});
+		// Remove our popstate listener first so the history.back() below does
+		// not re-trigger our own handler.
+		if (BROWSER && _popstateListener) {
+			_cleanupBackState();
+			// Go back one step to remove the dummy entry we pushed on open.
+			window.history.back();
+		}
+		return _performClose(value);
 	}
 
 	export function setResult(value: any) {
@@ -257,7 +290,7 @@
 							</div>
 						{/if}
 						{#if hasSubtitle}
-							<div class="text-sm text-gray-500 dark:text-neutral-500 {subtitleClassName}">
+							<div class="text-sm text-neutral-500 dark:text-neutral-400 {subtitleClassName}">
 								{subtitle || ''}
 							</div>
 						{/if}
@@ -345,7 +378,7 @@
 	>
 		<div
 			id="backdrop"
-			class="fixed inset-0 bg-gray-500/20 backdrop-blur-sm transition-opacity dark:bg-gray-900/30 {isOpened
+			class="fixed inset-0 bg-neutral-500/20 backdrop-blur-sm transition-opacity dark:bg-neutral-900/40 {isOpened
 				? 'opacity-100 duration-300 ease-out'
 				: 'opacity-0 duration-200 ease-in'} {backdropClassName}"
 			aria-hidden="true"

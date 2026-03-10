@@ -65,7 +65,7 @@
 </script>
 
 {#snippet searchIcon()}
-	<Icon path={mdiMagnify} className="mx-3 text-gray-400 {iconClassName}"></Icon>
+	<Icon path={mdiMagnify} className="mx-3 text-neutral-400 dark:text-neutral-500 {iconClassName}"></Icon>
 {/snippet}
 <InputField
 	bind:value

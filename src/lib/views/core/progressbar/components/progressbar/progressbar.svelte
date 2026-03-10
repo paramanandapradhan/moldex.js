@@ -31,9 +31,9 @@
 
 </script>
 
-<div class="progressbar-container w-full rounded-full bg-gray-200 {backgroundClassName}" style="">
+<div class="progressbar-container w-full rounded-full bg-neutral-200 dark:bg-neutral-700 {backgroundClassName}">
 	<div
-		class="progressbar rounded-full bg-indigo-600 text-center text-xs text-white transition-all ease-in-out {className}"
+		class="progressbar rounded-full bg-primary text-center text-xs text-white transition-all ease-in-out {className}"
 		style="--progressWidth:{progressValue}%;"
 	>
 		{#if children}

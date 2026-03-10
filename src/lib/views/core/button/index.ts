@@ -8,6 +8,7 @@ import ButtonDropdown from './components/button-dropdown/button-dropdown.svelte'
 import ButtonOk from './components/button-ok/button-ok.svelte';
 import Button from './components/button/button.svelte';
 import ButtonBack from './components/button-back/button-back.svelte';
+import ButtonHome from './components/button-home/button-home.svelte';
 import ButtonSearch from './components/button-search/button-search.svelte';
 import ButtonMenu from './components/button-menu/button-menu.svelte';
 import Switch from './components/switch/switch.svelte';
@@ -16,6 +17,7 @@ import Switch from './components/switch/switch.svelte';
 export {
     Button,
     ButtonBack,
+    ButtonHome,
     ButtonClose,
     ButtonCloseIcon,
     ButtonListItem,

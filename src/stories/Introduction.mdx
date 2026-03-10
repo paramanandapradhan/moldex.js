@@ -1,0 +1,139 @@
+{/* Introduction.mdx */}
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# Moldex.js — Svelte 5 UI Library
+
+**@cloudparker/moldex.js** is a production-ready component library built on top of **Svelte 5** and **Tailwind CSS v4**.
+It provides a comprehensive set of accessible, themeable, and composable UI components for building modern web applications.
+
+---
+
+## ✨ Features
+
+- **Svelte 5 Runes** — All components use `$state`, `$derived`, `$props` — no legacy Options API
+- **Tailwind CSS v4** — Zero-config utility-first styling with latest Tailwind syntax
+- **Dark & Light themes** — Toggle via `.dark` class on `<html>`. All components adapt automatically
+- **Primary + Neutral palette** — Consistent purple primary + slate neutral color system across all components
+- **Fully accessible** — Semantic HTML, ARIA roles, keyboard navigation, focus management
+- **TypeScript** — Full type definitions for all props
+- **Modular** — Import only what you need; tree-shaken by Vite
+
+---
+
+## 🎨 Color System
+
+The library uses two semantic color scales:
+
+| Scale | Purpose | Light | Dark |
+|-------|---------|-------|------|
+| `primary` | Brand actions, active states | `#7f22fe` (primary-600) | `#8e51ff` (primary-500) |
+| `neutral` | Text, borders, backgrounds | `#334155` (neutral-700) | `#e2e8f0` (neutral-200) |
+| `background` | Page/card backgrounds | `#f8fafc` (neutral-50) | `#0f172a` (neutral-900) |
+| `foreground` | Body text | `#0f172a` (neutral-900) | `#f8fafc` (neutral-50) |
+
+Dark mode is activated by adding the `dark` class to the `<html>` element.
+
+---
+
+## 📦 Installation
+
+```bash
+npm install @cloudparker/moldex.js
+```
+
+### Setup Tailwind CSS v4
+
+In your `app.css`:
+
+```css
+@import 'tailwindcss';
+@import '@cloudparker/moldex.js/dist/style.css';
+```
+
+---
+
+## 🚀 Quick Start
+
+```svelte
+<script>
+  import { Button, Alert, Card } from '@cloudparker/moldex.js';
+</script>
+
+<Card>
+  <Alert variant="success" message="Library installed!" />
+  <Button appearance="primary" label="Get Started" />
+</Card>
+```
+
+---
+
+## 🗂 Component Categories
+
+### Core Components
+
+| Category | Components |
+|----------|-----------|
+| **Buttons** | `Button`, `ButtonBack`, `ButtonClose`, `ButtonMenu`, `ButtonDropdown`, `ButtonListItem`, `Switch` |
+| **Inputs** | `TextField`, `EmailField`, `PasswordField`, `NumberField`, `DateField`, `DateTimeField`, `TimeField`, `TextareaField`, `CheckboxField`, `RadioField`, `RangeField`, `ComboboxField`, `ColorField`, `FileField`, `SearchField` |
+| **Feedback** | `Alert`, `Toast`, `Spinner`, `Loading`, `Progressbar`, `NoData` |
+| **Overlay** | `Dialog`, `Drawer`, `MsgDialog`, `PickerDialog`, `LoadingDialog`, `CropperDialog` |
+| **Navigation** | `Navbar`, `Sidebar`, `Breadcrumb`, `Pagination`, `Tabs` |
+| **Data Display** | `Card`, `Badge`, `Avatar`, `Icon`, `IconCircle`, `Tooltip`, `Accordion`, `Divider` |
+| **Typography** | `TextCopy`, `TextDate`, `TextCurrency`, `TextEmail`, `TextPhone`, `TextHtml`, `TextAwait` |
+| **Layout** | `ContentArea`, `VirtualScrollingList`, `VerticalRuler`, `ScreenDetector` |
+
+### Extra Components
+
+| Component | Description |
+|-----------|-------------|
+| `CountryComboboxField` | Country selector with flags |
+| `StateComboboxField` | State/region selector |
+| `TextCountry`, `TextCountryState` | Display formatted country/state |
+
+---
+
+## 🌗 Dark Mode
+
+Add `.dark` to your `<html>` element:
+
+```js
+// Toggle dark mode
+document.documentElement.classList.toggle('dark');
+```
+
+Or use a store/reactive variable tied to user preference.
+
+---
+
+## ⚙️ Services
+
+| Service | Purpose |
+|---------|---------|
+| `DialogService` | Programmatic dialog management |
+| `ToastService` | Toast notification queue |
+| `DateService` | Date formatting utilities |
+| `ScreenService` | Responsive breakpoint detection |
+| `ColorService` | Color conversion utilities |
+| `CurrencyService` | Currency formatting |
+| `HttpService` | HTTP client utilities |
+
+---
+
+## 🎭 Actions
+
+| Action | Purpose |
+|--------|---------|
+| `ripple` | Material Design ripple effect |
+| `badge` | Badge overlay on any element |
+| `noContextMenu` | Prevent right-click context menu |
+
+---
+
+## 📖 Usage Tips
+
+1. **`className` prop** — Every component accepts a `className` prop to pass extra Tailwind classes
+2. **Snippets** — Components use Svelte 5 `{#snippet}` for flexible slot-based composition
+3. **`$bindable`** — Key props like `value` and `checked` support two-way binding
+4. **Exports** — Import from `@cloudparker/moldex.js` for components, services, and actions

@@ -1,0 +1,335 @@
+{/* Inputs.mdx */}
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Inputs" />
+
+# Input Components
+
+`@cloudparker/moldex.js` provides a complete set of form input components built on top of a shared `InputField` base. All inputs support dark mode, multiple appearance styles, and size variants.
+
+---
+
+## Installation
+
+```bash
+npm install @cloudparker/moldex.js
+```
+
+```svelte
+<script>
+  import { TextField, PasswordField, CheckboxField } from '@cloudparker/moldex.js';
+</script>
+```
+
+---
+
+## Appearance Variants
+
+All field components accept an `appearance` prop:
+
+| Value | Description |
+|-------|-------------|
+| `normal` | Rounded border with light background (default) |
+| `box` | Rectangle border, no rounding |
+| `fill` | Filled background, no border |
+| `underline` | Bottom border only, transparent background |
+| `fill-underline` | Filled background with bottom border |
+| `none` | No border or background |
+
+---
+
+## Size Variants
+
+| Value | Description |
+|-------|-------------|
+| `xs` | Extra small — compact UI |
+| `sm` | Small |
+| `md` | Medium (default) |
+| `lg` | Large |
+
+---
+
+## TextField
+
+Standard single-line text input.
+
+```svelte
+<script>
+  import { TextField } from '@cloudparker/moldex.js';
+  let name = $state('');
+</script>
+
+<TextField bind:value={name} name="name" label="Full Name" placeholder="Enter your name" required />
+```
+
+**Key props**: `label`, `placeholder`, `value` (bindable), `required`, `disabled`, `readonly`, `appearance`, `size`, `floatingLabel`, `maxlength`
+
+---
+
+## EmailField
+
+Email input with built-in validation pattern.
+
+```svelte
+<script>
+  import { EmailField } from '@cloudparker/moldex.js';
+  let email = $state('');
+</script>
+
+<EmailField bind:value={email} name="email" label="Email Address" />
+```
+
+---
+
+## PasswordField
+
+Password input with a toggle button to show/hide the password.
+
+```svelte
+<script>
+  import { PasswordField } from '@cloudparker/moldex.js';
+  let password = $state('');
+</script>
+
+<PasswordField bind:value={password} name="password" label="Password" />
+```
+
+---
+
+## NumberField
+
+Numeric input.
+
+```svelte
+<NumberField bind:value={qty} name="qty" label="Quantity" min={1} max={100} />
+```
+
+---
+
+## PhoneField
+
+Phone number input with country dial code selector.
+
+```svelte
+<PhoneField bind:value={phone} name="phone" label="Phone Number" />
+```
+
+---
+
+## DateField / DateTimeField / TimeField
+
+Date, date-time, and time pickers.
+
+```svelte
+<DateField bind:value={date} name="date" label="Date of Birth" />
+<DateTimeField bind:value={dt} name="dt" label="Appointment" />
+<TimeField bind:value={time} name="time" label="Meeting Time" />
+```
+
+---
+
+## SearchField
+
+Search input with debounced `onSearch` callback (300ms delay).
+
+```svelte
+<script>
+  import { SearchField } from '@cloudparker/moldex.js';
+
+  function handleSearch(query) {
+    // Called 300ms after user stops typing
+    console.log('Search:', query);
+  }
+</script>
+
+<SearchField name="search" placeholder="Search..." onSearch={handleSearch} />
+```
+
+---
+
+## ColorField
+
+Color picker input. Accepts a hex string value. Clicking the color swatch opens the browser native color picker.
+
+```svelte
+<script>
+  import { ColorField } from '@cloudparker/moldex.js';
+  let color = $state('#7f22fe');
+</script>
+
+<ColorField bind:value={color} name="color" label="Brand Color" />
+```
+
+---
+
+## FileField
+
+File picker input. Clicking the attachment icon opens the native file dialog.
+
+```svelte
+<script>
+  import { FileField } from '@cloudparker/moldex.js';
+  let file = $state(null);
+</script>
+
+<!-- Single file -->
+<FileField bind:value={file} name="avatar" label="Profile Photo" accepts="image/*" />
+
+<!-- Multiple files -->
+<FileField bind:value={files} name="docs" label="Documents" multiple />
+```
+
+**Props**: `accepts` (MIME type string), `multiple` (boolean), `value` (File | File[] | null)
+
+---
+
+## TextareaField
+
+Multi-line text input.
+
+```svelte
+<TextareaField bind:value={bio} name="bio" label="Biography" rows={5} />
+```
+
+---
+
+## CheckboxField
+
+Single checkbox with optional label and description.
+
+```svelte
+<script>
+  import { CheckboxField } from '@cloudparker/moldex.js';
+  let agreed = $state(false);
+</script>
+
+<CheckboxField bind:value={agreed} name="terms" label="I agree to the terms" desc="You must accept to continue." />
+```
+
+**Props**: `label`, `desc`, `value` (bindable boolean), `position` (`'left'` | `'right'`), `onChange`
+
+---
+
+## RadioField
+
+Radio group supporting both primitive and object items.
+
+```svelte
+<script>
+  import { RadioField } from '@cloudparker/moldex.js';
+  let plan = $state('free');
+</script>
+
+<!-- Primitive items -->
+<RadioField bind:value={plan} name="plan" title="Select Plan" items={['Free', 'Pro', 'Enterprise']} />
+
+<!-- Object items -->
+<RadioField
+  bind:value={plan}
+  name="plan"
+  title="Select Plan"
+  items={[
+    { label: 'Free', value: 'free', desc: 'Up to 5 projects' },
+    { label: 'Pro', value: 'pro', desc: 'Unlimited projects' },
+  ]}
+/>
+```
+
+**Props**: `title`, `subtitle`, `items`, `value` (bindable), `direction` (`'vertical'` | `'horizontal'`), `position` (`'left'` | `'right'`), `required`, `onChange`
+
+---
+
+## RangeField
+
+Slider input.
+
+```svelte
+<script>
+  import { RangeField } from '@cloudparker/moldex.js';
+  let volume = $state(50);
+</script>
+
+<RangeField bind:value={volume} name="volume" min={0} max={100} step={5} size="md" />
+```
+
+**Props**: `min`, `max`, `step`, `size`, `thumbSize` (CSS string like `'16px'`)
+
+---
+
+## ComboboxField
+
+Dropdown select with optional search, multi-select, chips, and custom item templates.
+
+```svelte
+<script>
+  import { ComboboxField } from '@cloudparker/moldex.js';
+  let selected = $state(null);
+</script>
+
+<!-- Simple string list -->
+<ComboboxField
+  bind:value={selected}
+  name="country"
+  label="Country"
+  placeholder="Select..."
+  items={['Australia', 'Canada', 'France']}
+/>
+
+<!-- Object items with search -->
+<ComboboxField
+  bind:value={selected}
+  name="role"
+  label="Role"
+  placeholder="Select role..."
+  hasDropdownHeader
+  hasDropdownHeaderSearch
+  items={[
+    { _id: 'admin', name: 'Administrator' },
+    { _id: 'editor', name: 'Editor' },
+  ]}
+/>
+
+<!-- Multi-select with checkboxes -->
+<ComboboxField
+  bind:value={selectedIds}
+  name="skills"
+  label="Skills"
+  multiple
+  hasCheckbox
+  items={[...]}
+/>
+```
+
+**Key props**: `items`, `value` (bindable), `multiple`, `hasCheckbox`, `identityFieldName` (default `'_id'`), `titleFieldName` (default `'name'`), `subtitleFieldName`, `searchFieldName`, `displayFieldName`, `hasDropdownHeader`, `hasDropdownHeaderSearch`, `hasDropdownFooter`, `hasDropdownFooterCreateButton`, `dropPosition` (`'top'` | `'bottom'` | `'middle'`), `showChip`, `displayItemsCount`, `onChange`
+
+---
+
+## Floating Labels
+
+Any text-based input supports `floatingLabel` mode:
+
+```svelte
+<TextField name="email" label="Email" floatingLabel placeholder=" " />
+```
+
+> **Note**: Use `placeholder=" "` (a space) to enable the floating label animation — the label animates up when the input has content.
+
+---
+
+## Common Props (all inputs)
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `name` | `string` | | HTML name attribute |
+| `id` | `string` | | HTML id attribute |
+| `label` | `string` | | Label text |
+| `placeholder` | `string` | `''` | Placeholder text |
+| `value` | bindable | | Input value |
+| `required` | `boolean` | `false` | Mark as required |
+| `disabled` | `boolean` | `false` | Disable input |
+| `readonly` | `boolean` | `false` | Make read-only |
+| `appearance` | `string` | `'normal'` | Visual style |
+| `size` | `string` | `'md'` | Input size |
+| `floatingLabel` | `boolean` | `false` | Floating label mode |
+| `className` | `string` | | Extra Tailwind classes |
+| `containerClassName` | `string` | | Container div classes |

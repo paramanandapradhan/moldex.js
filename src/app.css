@@ -39,10 +39,10 @@
     --color-neutral: var(--color-neutral-700);
 }
  
-@theme .dark {
+/* Dark mode overrides — applied when .dark class is on <html> or ancestor */
+.dark {
     --color-background: var(--color-neutral-900);
     --color-foreground: var(--color-neutral-50);
- 
     --color-primary: var(--color-primary-500);
     --color-neutral: var(--color-neutral-200);
 }

@@ -1,0 +1,333 @@
+{/* Dialogs.mdx */}
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Docs/Dialogs" />
+
+# Dialog Components & Service
+
+`@cloudparker/moldex.js` provides a `Dialog` component for inline use and a `DialogService` for programmatic dialog management. All dialogs support dark mode, browser back-button interception, and mobile hardware back key handling.
+
+---
+
+## Installation
+
+```bash
+npm install @cloudparker/moldex.js
+```
+
+```svelte
+<script>
+  import { Dialog } from '@cloudparker/moldex.js';
+  import {
+    openConfirmDialog,
+    openAlertDialog,
+    openDeleteConfirmDialog,
+    openPickerDialog,
+    openTextFieldDialog,
+    openLoadingDialog,
+  } from '@cloudparker/moldex.js';
+</script>
+```
+
+---
+
+## Dialog Component
+
+Use `Dialog` directly when you need custom content with full control.
+
+```svelte
+<script>
+  import { Dialog, Button } from '@cloudparker/moldex.js';
+  let dialogRef = $state(null);
+</script>
+
+<Button label="Open" onClick={() => dialogRef?.openDialog()} />
+
+<Dialog
+  bind:this={dialogRef}
+  size="sm"
+  title="Confirm Action"
+  hasHeader
+  hasTitle
+  hasFooter
+  hasFooterOkButton
+  hasFooterCloseButton
+  footerOkButtonLabel="Confirm"
+>
+  {#snippet children()}
+    <p class="p-6 text-neutral-700 dark:text-neutral-300">Are you sure?</p>
+  {/snippet}
+</Dialog>
+```
+
+### Dialog Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'sm'` | Dialog width |
+| `title` | `string` | `''` | Header title text |
+| `subtitle` | `string` | `''` | Header subtitle |
+| `hasHeader` | `boolean` | `false` | Show header area |
+| `hasTitle` | `boolean` | `false` | Show title in header |
+| `hasSubtitle` | `boolean` | `false` | Show subtitle |
+| `hasHeaderBack` | `boolean` | auto | Show back arrow (auto on mobile) |
+| `hasHeaderClose` | `boolean` | auto | Show close button (auto on desktop) |
+| `hasFooter` | `boolean` | `false` | Show footer area |
+| `hasFooterOkButton` | `boolean` | `false` | Show OK/Save button |
+| `hasFooterCloseButton` | `boolean` | `false` | Show Close/Cancel button |
+| `footerOkButtonLabel` | `string` | `'Save'` | OK button text |
+| `footerCloseButtonLabel` | `string` | `'Close'` | Close button text |
+| `footerOkButtonClassName` | `string` | | Extra OK button classes |
+| `footerOkButtonEnabled` | `boolean` | `true` | Enable/disable OK button |
+| `footerOkButtonSpinner` | `boolean` | `false` | Show spinner on OK button |
+| `cancelable` | `boolean` | `true` | Close on backdrop / Escape |
+| `scrollable` | `boolean` | `true` | Scroll body content |
+| `targetFormId` | `string` | | Submit a form on OK click |
+| `className` | `string` | | Extra dialog container classes |
+
+### Dialog Methods (via `bind:this`)
+
+| Method | Description |
+|--------|-------------|
+| `openDialog()` | Opens the dialog |
+| `closeDialog(value?)` | Closes the dialog, resolves with value |
+| `toggleDialog()` | Toggle open/close |
+| `setResult(value)` | Set the resolved value |
+| `setOkEnabled(bool)` | Enable/disable OK button |
+| `setOkSpinner(bool)` | Show/hide spinner on OK button |
+| `setOnOkClick(fn)` | Set OK click handler from body component |
+| `setOnCloseClick(fn)` | Override close click behavior |
+| `setDialogTitle(title)` | Update title dynamically |
+| `postData(data)` | Send data to body component |
+
+### Dialog Snippets
+
+| Snippet | Description |
+|---------|-------------|
+| `children` | Main body content |
+| `footerSnippet` | Custom footer content |
+| `headerSnippet` | Extra content in header |
+
+---
+
+## Browser Back Button
+
+Dialogs automatically intercept the browser back button and Android hardware back key. When a dialog opens, a dummy history entry is pushed. Pressing back closes the dialog instead of navigating away.
+
+For **non-cancelable** dialogs (`cancelable={false}`), the back key is blocked — pressing it re-pushes the history state.
+
+---
+
+## DialogService
+
+Use `DialogService` functions for fully programmatic dialogs without placing components in templates.
+
+### openConfirmDialog
+
+```svelte
+<script>
+  import { openConfirmDialog } from '@cloudparker/moldex.js';
+
+  async function handleSave() {
+    const confirmed = await openConfirmDialog({
+      title: 'Save Changes',
+      msg: 'Save all pending changes?',
+      footerOkButtonLabel: 'Save',
+    });
+
+    if (confirmed) {
+      // proceed with save
+    }
+  }
+</script>
+```
+
+### openAlertDialog
+
+```svelte
+await openAlertDialog({
+  title: 'Success',
+  msg: 'Your changes have been saved.',
+});
+```
+
+### openDeleteConfirmDialog
+
+```svelte
+const deleted = await openDeleteConfirmDialog({
+  msg: 'Delete this record? This cannot be undone.',
+});
+```
+
+Renders with a red Delete button. Returns `true` if confirmed.
+
+### openPickerDialog
+
+Single-select picker:
+
+```svelte
+const selected = await openPickerDialog({
+  title: 'Select Country',
+  items: ['Australia', 'Canada', 'France', 'Germany'],
+});
+// selected = 'Canada' (string) or undefined
+```
+
+Object items with multi-select:
+
+```svelte
+const ids = await openPickerDialog({
+  title: 'Select Skills',
+  multiple: true,
+  hasCheckbox: true,
+  items: [
+    { _id: 'svelte', name: 'Svelte' },
+    { _id: 'ts', name: 'TypeScript' },
+  ],
+  footerOkButtonLabel: 'Done',
+});
+// ids = ['svelte', 'ts']
+```
+
+**PickerDialog props**: `items`, `multiple`, `hasCheckbox`, `hasArrow`, `identityFieldName`, `titleFieldName`, `subtitleFieldName`, `searchFieldName`, `maxlength`, `maxlengthMsg`, `hasIcon`, `iconPath`, `isCircularIcon`, `itemTileSnippet`
+
+### openTextFieldDialog
+
+```svelte
+const name = await openTextFieldDialog({
+  title: 'Edit Name',
+  label: 'Full Name',
+  name: 'name',
+  value: currentName,
+  required: true,
+  maxlength: 100,
+});
+```
+
+### openNumberFieldDialog
+
+```svelte
+const qty = await openNumberFieldDialog({
+  title: 'Set Quantity',
+  label: 'Quantity',
+  name: 'qty',
+  value: 1,
+});
+```
+
+### openTextareaFieldDialog
+
+```svelte
+const note = await openTextareaFieldDialog({
+  title: 'Write a Note',
+  label: 'Note',
+  name: 'note',
+  rows: 5,
+});
+```
+
+### openDateFieldDialog / openDateTimeFieldDialog
+
+```svelte
+const date = await openDateFieldDialog({
+  title: 'Select Date',
+  label: 'Event Date',
+  name: 'event_date',
+});
+
+const dt = await openDateTimeFieldDialog({
+  title: 'Select Date & Time',
+  label: 'Appointment',
+  name: 'appointment',
+});
+```
+
+### openLoadingDialog
+
+Returns a dialog instance. Call `closeDialog()` when the operation completes.
+
+```svelte
+const dialog = await openLoadingDialog({ msg: 'Saving...' });
+
+try {
+  await saveData();
+} finally {
+  dialog.closeDialog();
+}
+```
+
+Update the loading message dynamically:
+
+```svelte
+dialog.postData({ msg: 'Almost done...' });
+```
+
+---
+
+## Custom Dialog (openDialog)
+
+Use `openDialog` directly for full control with any body component.
+
+```svelte
+import { openDialog } from '@cloudparker/moldex.js';
+import MyCustomBody from './MyCustomBody.svelte';
+
+const result = await openDialog({
+  title: 'Custom Dialog',
+  bodyComponent: MyCustomBody,
+  props: { /* passed to MyCustomBody */ },
+  hasHeader: true,
+  hasTitle: true,
+  hasFooter: true,
+  hasFooterOkButton: true,
+  hasFooterCloseButton: true,
+  size: 'md',
+});
+```
+
+### Body Component Contract
+
+Body components receive `DialogExports` props injected automatically:
+
+```typescript
+type DialogExports = {
+  closeDialog: (value?: any) => void;
+  setResult: (value: any) => void;
+  setOkEnabled: (value: boolean) => void;
+  setOkSpinner: (value: boolean) => void;
+  setOnOkClick: (fn: (ev, exports) => void) => void;
+  setOnCloseClick: (fn: () => boolean | Promise<boolean>) => void;
+  setOnData: (fn: (data: any) => void) => void;
+  setHeaderSnippet: (snippet: Snippet) => void;
+  setFooterSnippet: (snippet: Snippet) => void;
+  setDialogTitle: (title: string) => void;
+};
+```
+
+Example body component:
+
+```svelte
+<script lang="ts">
+  import type { DialogExports } from '@cloudparker/moldex.js';
+
+  let { msg, setOnOkClick, setResult, closeDialog }: { msg: string } & DialogExports = $props();
+
+  $effect(() => {
+    setOnOkClick(() => {
+      setResult(true);
+      closeDialog();
+    });
+  });
+</script>
+
+<div class="p-6">{msg}</div>
+```
+
+---
+
+## Mobile Behavior
+
+On mobile screens (`isMobileScreen()` returns `true`):
+- Dialogs default to `size="full"` (full screen)
+- Header shows a back arrow button instead of close icon
+- `hasHeaderBack` defaults to `true`, `hasHeaderClose` defaults to `false`

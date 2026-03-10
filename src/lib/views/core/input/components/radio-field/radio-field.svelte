@@ -62,11 +62,11 @@
 
 {#snippet labelSnippet(item: RadioItem, index: number)}
 	<div class="leading-6">
-		<div class="ml-4 block text-sm font-medium text-gray-900 flex-grow {labelClassName}">
+		<div class="ml-4 block text-sm font-medium text-neutral-900 dark:text-neutral-100 flex-grow {labelClassName}">
 			{item.label || ''}
 		</div>
 		{#if item.desc}
-			<div class="ml-4 block text-xs text-gray-500 flex-grow {descClassName}">
+			<div class="ml-4 block text-xs text-neutral-500 dark:text-neutral-400 flex-grow {descClassName}">
 				{item.desc || ''}
 			</div>
 		{/if}
@@ -76,13 +76,13 @@
 <fieldset id={fieldsetId}>
 	{#if title}
 		<legend
-			class="text-sm font-semibold leading-6 text-gray-900 {required
+			class="text-sm font-semibold leading-6 text-neutral-900 dark:text-neutral-100 {required
 				? 'required'
 				: ''} {titleClassName}">{title}</legend
 		>
 	{/if}
 	{#if subtitle}
-		<p class="mt-1 text-sm leading-6 text-gray-600 {subtitleClassName}">{subtitle}</p>
+		<p class="mt-1 text-sm leading-6 text-neutral-600 dark:text-neutral-400 {subtitleClassName}">{subtitle}</p>
 	{/if}
 
 	<div
