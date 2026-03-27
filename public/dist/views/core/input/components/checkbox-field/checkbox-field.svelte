@@ -1,4 +1,6 @@
 <script lang="ts">
+	type CheckboxSizeType = 'sm' | 'md' | 'lg';
+
 	type CheckboxPropsType = {
 		className?: string;
 		containerClassName?: string;
@@ -10,7 +12,14 @@
 		name?: string;
 		onChange?: (value: boolean) => void;
 		position?: 'left' | 'right';
+		size?: CheckboxSizeType;
 		value?: boolean;
+	};
+
+	const sizeMap: Record<CheckboxSizeType, { icon: string; label: string; desc: string }> = {
+		sm: { icon: 'h-4 w-4', label: 'text-xs', desc: 'text-xs' },
+		md: { icon: 'h-5 w-5', label: 'text-sm', desc: 'text-xs' },
+		lg: { icon: 'h-6 w-6', label: 'text-base', desc: 'text-sm' }
 	};
 
 	let {
@@ -24,8 +33,11 @@
 		name,
 		onChange,
 		position = 'left',
+		size = 'md',
 		value = $bindable(false)
 	}: CheckboxPropsType = $props();
+
+	let sizes = $derived(sizeMap[size]);
 
 	let inputRef: HTMLInputElement | null = $state(null);
 
@@ -45,15 +57,15 @@
 </script>
 
 {#snippet labelSnippet()}
-	<div class="text-sm leading-6 mx-4 flex-grow">
-		<div class="font-medium text-sm text-neutral-900 dark:text-neutral-100 {labelClassName}">
+	<div class="flex-grow">
+		<div class="font-medium {sizes.label} text-neutral-900 dark:text-neutral-100 {labelClassName}">
 			{label || ''}
 		</div>
-		<div class="text-xs text-neutral-500 dark:text-neutral-500 {descClassName}">{desc || ''}</div>
+		<div class="{sizes.desc} text-neutral-500 dark:text-neutral-500 {descClassName}">{desc || ''}</div>
 	</div>
 {/snippet}
 <div class=" {containerClassName}">
-	<label for={id || name} class="flex items-center cursor-pointer select-none">
+	<label for={id || name} class="flex items-center gap-2 cursor-pointer select-none">
 		{#if position == 'right'}
 			{@render labelSnippet()}
 		{/if}
@@ -64,7 +76,7 @@
 			aria-describedby="comments-description"
 			name={name || id}
 			type="checkbox"
-			class="h-6 w-6 appearance-none cursor-pointer rounded color-primary hover:color-primary bg-neutral-200 dark:bg-neutral-700 dark:checked:bg-primary checked:bg-primary checked:focus:bg-primary checked:hover:bg-primary focus:ring-primary focus:shadow-primary outline-primary border-neutral-300 dark:border-neutral-600 {className}"
+			class="{sizes.icon} appearance-none cursor-pointer rounded color-primary hover:color-primary bg-neutral-200 dark:bg-neutral-700 dark:checked:bg-primary checked:bg-primary checked:focus:bg-primary checked:hover:bg-primary focus:ring-primary focus:shadow-primary outline-primary border-neutral-300 dark:border-neutral-600 {className}"
 			onchange={(ev) => handleChange(ev)}
 		/>
 		{#if position == 'left'}

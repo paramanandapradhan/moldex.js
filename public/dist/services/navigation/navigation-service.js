@@ -1,10 +1,12 @@
-// import { goto, pushState } from '$app/navigation';
 import { BROWSER } from 'esm-env';
 import { goto } from '$app/navigation';
 import { createRefererStore } from '../../stores/referrer-store/referrer-store.svelte.js';
 import { vibrate } from '../utils/utils-service.js';
 import { playMelody } from '../utils/melody-service.js';
+// ─── Referrer store ───────────────────────────────────────────────────────────
 export const referrer = createRefererStore();
+// ─── Back-state stack ─────────────────────────────────────────────────────────
+// Plain array — intentionally not reactive (not UI state)
 let backStateArray = [];
 export const pushBackState = (obj) => {
     backStateArray.push(obj);
@@ -12,17 +14,22 @@ export const pushBackState = (obj) => {
 export const popBackState = () => {
     return backStateArray.pop();
 };
+/**
+ * Push a dummy history entry so the browser's back gesture fires a `popstate`
+ * event instead of leaving the page. Stores the id in the state object so we
+ * can identify Moldex-pushed entries.
+ */
 export const registerBackPress = (state) => {
     if (BROWSER) {
         pushBackState(state);
-        window.history.pushState({}, '');
+        window.history.pushState({ _moldex: state._id }, '');
     }
 };
 export const addBackKeyListener = (callback) => {
     if (BROWSER) {
-        let listener = (event) => {
+        const listener = (event) => {
             if (callback) {
-                let result = callback(event);
+                const result = callback(event);
                 if (result) {
                     window.history.pushState({}, '');
                 }
@@ -38,63 +45,75 @@ export const removeBackKeyListener = (listener) => {
         window.removeEventListener('popstate', listener);
     }
 };
-export function goBack() {
-    history.back();
+// ─── Safe back navigation ─────────────────────────────────────────────────────
+/**
+ * Returns `true` when there is a previous entry in session history that
+ * belongs to the same origin — i.e. the user navigated here from within
+ * the same application.
+ */
+export function canGoBack() {
+    if (!BROWSER)
+        return false;
+    // history.length > 1 → at least one entry exists before the current page
+    // document.referrer from the same origin → we arrived from our own app
+    const sameOriginReferrer = document.referrer !== '' &&
+        document.referrer.startsWith(window.location.origin);
+    return window.history.length > 1 && sameOriginReferrer;
 }
 /**
- * Jump back to the first history entry in this tab (i.e. “home”).
- * Falls back to a hard redirect if history is too shallow or cross‑origin.
+ * Navigate back to the previous page **only** if it is within the same app.
+ * Falls back to `homePath` (default `/`) when there is no in-app history,
+ * so the user is never stranded on a blank tab or sent to an external site.
  */
-export function goHome() {
-    // number of steps back to the first entry
-    const stepsBack = -(window.history.length - 1);
-    // if we have at least one previous entry, navigate there
-    if (stepsBack < 0) {
-        window.history.go(stepsBack);
+export function goBack(homePath = '/') {
+    if (!BROWSER)
+        return;
+    if (canGoBack()) {
+        window.history.back();
     }
     else {
-        // no history to go back to — just load your root
-        window.location.replace('/');
+        goto(homePath, { replaceState: true });
     }
 }
+/**
+ * Navigate to the application home page via SvelteKit's `goto`
+ * (keeps it a SPA navigation, no full page reload).
+ */
+export function goHome(homePath = '/') {
+    if (!BROWSER)
+        return;
+    goto(homePath);
+}
+// ─── Misc helpers ─────────────────────────────────────────────────────────────
 export function createRedirectUrl() {
-    let pathname = window.location.pathname;
-    let redirectUrl = pathname + window.location.search || '';
-    let redirectInSearchParams = new URLSearchParams(window.location.search).get('redirect');
-    return redirectInSearchParams || redirectUrl || '';
+    if (!BROWSER)
+        return null;
+    const pathname = window.location.pathname;
+    const redirectInSearchParams = new URLSearchParams(window.location.search).get('redirect');
+    return redirectInSearchParams || pathname + window.location.search || '';
 }
 /**
- * Navigate to a URL with support for opening in a new tab, vibration, and sound effects.
- * @param url - The destination URL.
- * @param options - Extended options including vibration and sound.
+ * Navigate to a URL with optional Ctrl+click new-tab, vibration, and sound.
  */
 export async function navigate(url, options = {}) {
     const { event, vibration, sound, ...gotoOptions } = options;
-    // Ensure window.open is safe and avoids potential abuse
     const openInNewTab = (targetUrl, tabName) => {
         const sanitizedUrl = new URL(targetUrl, window.location.origin).href;
         const safeTabName = tabName?.replace(/[^a-zA-Z0-9-_]/g, '') || '_blank';
         window.open(sanitizedUrl, safeTabName, 'noopener,noreferrer');
     };
-    ;
     try {
-        // Handle vibration if supported
-        if (vibration) {
+        if (vibration)
             vibrate(vibration);
-        }
-        // Handle sound playback
-        if (sound) {
+        if (sound)
             playMelody(sound);
-        }
-        // Handle Ctrl key for opening in a new tab
-        if (event && event instanceof MouseEvent && event.ctrlKey) {
+        if (event instanceof MouseEvent && event.ctrlKey) {
             openInNewTab(url, gotoOptions.state?.tabName);
             return;
         }
-        // Perform navigation using goto
         goto(url, gotoOptions);
     }
     catch (error) {
-        console.error('Error navigating with enhancements:', error);
+        console.error('Error navigating:', error);
     }
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { isSmallScreen } from '../../../../../services/index.js';
+	import { goBack } from '../../../../../services/navigation/navigation-service.js';
 	import { mdiArrowLeft } from '../../../icon/index.js';
-
 	import Button from '../button/button.svelte';
 
 	type PropsType = {
@@ -10,6 +10,14 @@
 		iconClassName?: string;
 		className?: string;
 		onlyMobile?: boolean;
+		/**
+		 * Fallback path when there is no in-app history to go back to.
+		 * Defaults to '/' (the application root).
+		 */
+		homePath?: string;
+		/**
+		 * Custom click handler. When provided it overrides the default goBack behaviour.
+		 */
 		onClick?: (ev: MouseEvent) => void;
 	};
 
@@ -19,10 +27,19 @@
 		iconClassName = '',
 		className = '',
 		onlyMobile,
+		homePath = '/',
 		onClick
 	}: PropsType = $props();
 
 	let isMobileScreen = $derived(isSmallScreen() || false);
+
+	function handleClick(ev: MouseEvent) {
+		if (onClick) {
+			onClick(ev);
+		} else {
+			goBack(homePath);
+		}
+	}
 </script>
 
 {#snippet button()}
@@ -33,7 +50,7 @@
 		{iconPath}
 		className="w-12 h-12 rounded-full hover:bg-neutral-50 dark:hover:bg-neutral-900 {className}"
 		{iconClassName}
-		{onClick}
+		onClick={handleClick}
 	/>
 {/snippet}
 

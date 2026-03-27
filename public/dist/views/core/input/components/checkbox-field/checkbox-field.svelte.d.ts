@@ -1,3 +1,4 @@
+type CheckboxSizeType = 'sm' | 'md' | 'lg';
 type CheckboxPropsType = {
     className?: string;
     containerClassName?: string;
@@ -9,6 +10,7 @@ type CheckboxPropsType = {
     name?: string;
     onChange?: (value: boolean) => void;
     position?: 'left' | 'right';
+    size?: CheckboxSizeType;
     value?: boolean;
 };
 declare const CheckboxField: import("svelte").Component<CheckboxPropsType, {

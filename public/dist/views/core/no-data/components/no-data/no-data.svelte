@@ -34,7 +34,7 @@
 </script>
 
 <div
-	class="flex items-center justify-center gap-3 text-gray-500 p-4 {iconPlacementClassName}  {className}"
+	class="flex items-center justify-center gap-3 text-neutral-500 dark:text-neutral-400 p-4 {iconPlacementClassName} {className}"
 >
 	{#if children}
 		{@render children()}

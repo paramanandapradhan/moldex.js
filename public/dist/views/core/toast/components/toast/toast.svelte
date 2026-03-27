@@ -11,23 +11,28 @@
 		setTimeout(() => {
 			isOpened = true;
 			setTimeout(() => {
-				closeClose();
+				closeToast();
 			}, duration);
 		}, 0);
 	}
 
-	export function closeClose() {
+	export function closeToast() {
 		isOpened = false;
 		setTimeout(() => {
 			isPlaced = false;
 		}, 300);
+	}
+
+	/** @deprecated use closeToast() */
+	export function closeClose() {
+		closeToast();
 	}
 </script>
 
 {#if isPlaced}
 	<div
 		{id}
-		class="fixed bottom-20 left-1/2 max-w-full -translate-x-1/2 transform rounded-full bg-white p-3 px-6 text-gray-700 shadow-xl transition-opacity duration-300 dark:bg-neutral-600 dark:text-neutral-300 dark:shadow-neutral-700 {isOpened
+		class="fixed bottom-20 left-1/2 max-w-full -translate-x-1/2 transform rounded-full bg-neutral-800 dark:bg-neutral-700 p-3 px-6 text-neutral-100 shadow-xl dark:shadow-neutral-900 transition-opacity duration-300 {isOpened
 			? 'opacity-100'
 			: 'opacity-0'} toast {className}"
 	>

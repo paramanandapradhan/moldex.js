@@ -35,7 +35,7 @@
 		<div>
 			<Spinner className={spinnerClassName} />
 		</div>
-		<div class="text-gray-400 {msgClassName}">
+		<div class="text-neutral-500 dark:text-neutral-400 {msgClassName}">
 			{@html msg || ''}
 		</div>
 	</div>
