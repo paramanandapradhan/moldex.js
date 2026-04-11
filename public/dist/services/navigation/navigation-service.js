@@ -47,28 +47,28 @@ export const removeBackKeyListener = (listener) => {
 };
 // ─── Safe back navigation ─────────────────────────────────────────────────────
 /**
- * Returns `true` when there is a previous entry in session history that
- * belongs to the same origin — i.e. the user navigated here from within
- * the same application.
+ * Counter of in-app navigations performed via `navigate()`.
+ * Used by `goBack()` to determine whether there is in-app history to return to,
+ * without relying on `document.referrer` (which is not updated on SPA navigations).
+ */
+let inAppNavigationCount = 0;
+/**
+ * Returns `true` when at least one in-app navigation has been recorded,
+ * meaning `goBack()` can safely step back without leaving the application.
  */
 export function canGoBack() {
-    if (!BROWSER)
-        return false;
-    // history.length > 1 → at least one entry exists before the current page
-    // document.referrer from the same origin → we arrived from our own app
-    const sameOriginReferrer = document.referrer !== '' &&
-        document.referrer.startsWith(window.location.origin);
-    return window.history.length > 1 && sameOriginReferrer;
+    return inAppNavigationCount > 0;
 }
 /**
- * Navigate back to the previous page **only** if it is within the same app.
+ * Go back exactly one step in history **only** if that step is within the app.
  * Falls back to `homePath` (default `/`) when there is no in-app history,
- * so the user is never stranded on a blank tab or sent to an external site.
+ * so the user is never sent to another application or an external site.
  */
 export function goBack(homePath = '/') {
     if (!BROWSER)
         return;
-    if (canGoBack()) {
+    if (inAppNavigationCount > 0) {
+        inAppNavigationCount--;
         window.history.back();
     }
     else {
@@ -96,6 +96,10 @@ export function createRedirectUrl() {
  * Navigate to a URL with optional Ctrl+click new-tab, vibration, and sound.
  */
 export async function navigate(url, options = {}) {
+    if (typeof url !== 'string') {
+        console.error('[navigate] Expected a string URL but received:', url);
+        return;
+    }
     const { event, vibration, sound, ...gotoOptions } = options;
     const openInNewTab = (targetUrl, tabName) => {
         const sanitizedUrl = new URL(targetUrl, window.location.origin).href;
@@ -110,6 +114,9 @@ export async function navigate(url, options = {}) {
         if (event instanceof MouseEvent && event.ctrlKey) {
             openInNewTab(url, gotoOptions.state?.tabName);
             return;
+        }
+        if (!gotoOptions.replaceState) {
+            inAppNavigationCount++;
         }
         goto(url, gotoOptions);
     }

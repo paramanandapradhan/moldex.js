@@ -30,15 +30,14 @@ export declare const registerBackPress: (state: BackStateType) => void;
 export declare const addBackKeyListener: (callback: (event?: PopStateEvent) => boolean) => (event: PopStateEvent) => void;
 export declare const removeBackKeyListener: (listener: EventListener) => void;
 /**
- * Returns `true` when there is a previous entry in session history that
- * belongs to the same origin — i.e. the user navigated here from within
- * the same application.
+ * Returns `true` when at least one in-app navigation has been recorded,
+ * meaning `goBack()` can safely step back without leaving the application.
  */
 export declare function canGoBack(): boolean;
 /**
- * Navigate back to the previous page **only** if it is within the same app.
+ * Go back exactly one step in history **only** if that step is within the app.
  * Falls back to `homePath` (default `/`) when there is no in-app history,
- * so the user is never stranded on a blank tab or sent to an external site.
+ * so the user is never sent to another application or an external site.
  */
 export declare function goBack(homePath?: string): void;
 /**
