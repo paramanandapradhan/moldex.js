@@ -31,7 +31,7 @@
 		itemsText = 'Items',
 		pageSizeText = 'Page Size',
 		pageText = 'Page',
-		dropPosition = 'bottom',
+		dropPosition = 'top',
 		disableSizeMenuButton,
 		onPageSizeChange,
 		onPageIndexChange
@@ -96,7 +96,7 @@
 
 <div class="flex items-center flex-wrap justify-end text-neutral-500 gap-3 -mb-2">
 	<div class="flex-grow">{itemsText} {itemsCount}</div>
-	<div class="flex items-center flex-nowrap gap-2">
+	<div class="flex items-center gap-2">
 		<div>{pageSizeText}</div>
 		<div class="">
 			<ButtonMenu
