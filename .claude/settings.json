@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "mcp__plugin_context-mode_context-mode__ctx_doctor",
+      "mcp__plugin_context-mode_context-mode__ctx_batch_execute"
+    ],
+    "additionalDirectories": [
+      "/Users/param/.claude/projects/-Users-param-code-crawlink-svelte5-moldex-svelte"
+    ]
+  }
+}
