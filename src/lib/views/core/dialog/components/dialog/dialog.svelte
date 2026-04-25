@@ -222,6 +222,15 @@
 		}
 	}
 
+	function preventScroll(e: Event) {
+		e.preventDefault();
+		e.stopPropagation();
+	}
+
+	function stopPropagationOnly(e: Event) {
+		e.stopPropagation();
+	}
+
 	async function handleClose(ev: MouseEvent | TouchEvent) {
 		if (onCloseClick) {
 			if (await onCloseClick(ev)) {
@@ -382,6 +391,8 @@
 				? 'opacity-100 duration-300 ease-out'
 				: 'opacity-0 duration-200 ease-in'} {backdropClassName}"
 			aria-hidden="true"
+			onwheel={preventScroll}
+			ontouchmove={preventScroll}
 		></div>
 
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -390,8 +401,10 @@
 			class="fixed inset-0 z-20 w-screen cursor-auto"
 			onclick={handleBackdropClick}
 			onkeydown={handleKeyDown}
+			onwheel={preventScroll}
+			ontouchmove={preventScroll}
 		>
-			<div class="flex min-h-full items-center justify-center">
+			<div class="flex min-h-full items-center justify-center" onwheel={stopPropagationOnly} ontouchmove={stopPropagationOnly}>
 				{@render dialogContent()}
 			</div>
 		</div>

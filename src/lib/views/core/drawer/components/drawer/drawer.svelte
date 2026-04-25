@@ -55,6 +55,7 @@
 
 	function _performClose() {
 		isOpened = false;
+		document.body.style.overflow = '';
 		setTimeout(() => {
 			isPlaced = false;
 		}, 300);
@@ -95,6 +96,7 @@
 
 	export function openDrawer() {
 		isPlaced = true;
+		document.body.style.overflow = 'hidden';
 		setTimeout(() => {
 			isOpened = true;
 			_registerBackState();
@@ -120,6 +122,10 @@
 		e.preventDefault();
 		e.stopPropagation();
 	}
+
+	function stopPropagationOnly(e: Event) {
+		e.stopPropagation();
+	}
 </script>
 
 {#if isPlaced}
@@ -133,9 +139,15 @@
 		></div>
 
 		<!-- Drawer panel + backdrop-click area -->
-		<div class="fixed inset-0 flex {flexDirection}">
+		<div
+			class="fixed inset-0 flex {flexDirection}"
+			onwheel={preventScroll}
+			ontouchmove={preventScroll}
+		>
 			<div
 				class="relative flex transition ease-in-out duration-300 transform {flexDirection} {translateClass} {drawerClassName}"
+				onwheel={stopPropagationOnly}
+				ontouchmove={stopPropagationOnly}
 			>
 				<div
 					class="grow w-72 bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border-r border-neutral-100 dark:border-neutral-700 {className}"

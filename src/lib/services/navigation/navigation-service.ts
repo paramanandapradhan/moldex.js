@@ -75,46 +75,86 @@ export const removeBackKeyListener = (listener: EventListener) => {
     }
 };
 
-// ─── Safe back navigation ─────────────────────────────────────────────────────
+// ─── Safe back / home navigation ─────────────────────────────────────────────
+//
+// Apps that add <NavigationTracker /> to their root layout get precise stack-
+// based back/home behaviour.  Apps that don't use NavigationTracker fall back
+// to the legacy inAppNavigationCount counter (unchanged behaviour).
+
+/** @internal — written by NavigationTracker, read by goBack / goHome */
+let _navStack: string[] = [];
+
+/** @internal — set by goBack/goHome to suppress the next afterNavigate record */
+let _skipNextRecord = false;
 
 /**
- * Counter of in-app navigations performed via `navigate()`.
- * Used by `goBack()` to determine whether there is in-app history to return to,
- * without relying on `document.referrer` (which is not updated on SPA navigations).
+ * Called by NavigationTracker on every SPA navigation.
+ * Do not call this manually.
  */
-let inAppNavigationCount = 0;
-
-/**
- * Returns `true` when at least one in-app navigation has been recorded,
- * meaning `goBack()` can safely step back without leaving the application.
- */
-export function canGoBack(): boolean {
-    return inAppNavigationCount > 0;
-}
-
-/**
- * Go back exactly one step in history **only** if that step is within the app.
- * Falls back to `homePath` (default `/`) when there is no in-app history,
- * so the user is never sent to another application or an external site.
- */
-export function goBack(homePath = '/'): void {
-    if (!BROWSER) return;
-    if (inAppNavigationCount > 0) {
-        inAppNavigationCount--;
-        window.history.back();
-    } else {
-        goto(homePath, { replaceState: true });
+export function recordNavigation(url: string): void {
+    if (_skipNextRecord) {
+        _skipNextRecord = false;
+        return;
+    }
+    if (_navStack[_navStack.length - 1] !== url) {
+        _navStack.push(url);
     }
 }
 
 /**
- * Navigate to the application home page via SvelteKit's `goto`
- * (keeps it a SPA navigation, no full page reload).
+ * Returns `true` when the NavigationTracker has recorded at least one prior
+ * page, meaning goBack() can safely step back.
+ */
+export function canGoBack(): boolean {
+    return _navStack.length > 1;
+}
+
+/**
+ * Go back exactly one step within the current app.
+ * - When NavigationTracker is active: pops the stack and navigates to the
+ *   previous page; never leaves the app (relative paths only).
+ * - Fallback (no tracker): legacy counter-based behaviour.
+ * - Floor: always lands on `homePath` at minimum (default `/`).
+ */
+export function goBack(homePath = '/'): void {
+    if (!BROWSER) return;
+    const safePath = typeof homePath === 'string' && homePath.startsWith('/') ? homePath : '/';
+
+    if (_navStack.length > 0) {
+        // Stack-based path (NavigationTracker is active)
+        _skipNextRecord = true;
+        _navStack.pop();
+        const target = _navStack[_navStack.length - 1] ?? safePath;
+        // Safety: only follow relative paths (never leave this origin)
+        goto(target.startsWith('/') ? target : safePath, { replaceState: true });
+        return;
+    }
+
+    // Legacy fallback for apps without NavigationTracker
+    if (inAppNavigationCount > 0) {
+        inAppNavigationCount--;
+        window.history.back();
+    } else {
+        goto(safePath, { replaceState: true });
+    }
+}
+
+/**
+ * Navigate to the app home page and clear all back history so the user
+ * cannot navigate back past this point.
  */
 export function goHome(homePath = '/'): void {
     if (!BROWSER) return;
-    goto(homePath);
+    const safePath = typeof homePath === 'string' && homePath.startsWith('/') ? homePath : '/';
+    _skipNextRecord = true;
+    _navStack = [safePath];
+    // replaceState so pressing back after going home stays on home
+    goto(safePath, { replaceState: true });
 }
+
+// ─── Legacy counter (kept for apps without NavigationTracker) ─────────────────
+
+let inAppNavigationCount = 0;
 
 // ─── Misc helpers ─────────────────────────────────────────────────────────────
 
