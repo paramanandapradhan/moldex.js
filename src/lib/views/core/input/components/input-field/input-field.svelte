@@ -79,7 +79,7 @@
 					sizeClassName = 'p-4 text-neutral';
 					break;
 				case 'md':
-					sizeClassName = 'p-2.5 text-sm';
+					sizeClassName = 'p-2 text-sm';
 					break;
 				case 'sm':
 					sizeClassName = 'p-2 text-xs';
@@ -101,7 +101,7 @@
 						floatingClassName = ` px-1 peer-focus:px-1 peer-placeholder-shown:px-4 `;
 						break;
 					case 'md':
-						floatingClassName = ' px-1 peer-focus:px-1 peer-placeholder-shown:px-2.5 ';
+						floatingClassName = ' px-1 peer-focus:px-1 peer-placeholder-shown:px-2 ';
 						break;
 					case 'sm':
 						floatingClassName = ' px-1 peer-focus:px-1 peer-placeholder-shown:px-2';
@@ -152,7 +152,7 @@
 			switch (appearance) {
 				case 'normal':
 					className =
-						'border rounded-lg bg-neutral-100 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-500 text-neutral-950 dark:text-neutral-50 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 focus:bg-neutral-50 dark:focus:bg-neutral-800 ';
+						'border rounded-xl bg-neutral-100 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-500 text-neutral-950 dark:text-neutral-50 focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 focus:bg-neutral-50 dark:focus:bg-neutral-800 ';
 					break;
 				case 'box':
 					className =

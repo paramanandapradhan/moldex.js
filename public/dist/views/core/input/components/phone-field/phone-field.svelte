@@ -46,7 +46,7 @@
 
 	let btnRoundedClassName = $derived.by(() => {
 		if (!appearance || appearance == 'normal') {
-			return 'rounded-tl-lg rounded-bl-lg';
+			return 'rounded-tl-xl rounded-bl-xl';
 		}
 	});
 

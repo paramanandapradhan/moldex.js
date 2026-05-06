@@ -22,7 +22,7 @@
 
 	let btnRoundedClassName = $derived.by(() => {
 		if (!appearance || appearance == 'normal') {
-			return 'rounded-tr-lg rounded-br-lg';
+			return 'rounded-tr-xl rounded-br-xl';
 		}
 		return '';
 	});

@@ -382,7 +382,7 @@
 		<!-- svelte-ignore a11y_interactive_supports_focus -->
 		<div
 			bind:clientHeight={dropdownHeight}
-			class="absolute z-10 {placementClassName} flex max-h-80 w-full flex-col rounded-md bg-white text-neutral-600 shadow-lg focus:outline-none sm:text-sm dark:bg-neutral-900 {hasDropdownHeader
+			class="absolute z-10 {placementClassName} flex max-h-80 w-full flex-col rounded-xl bg-white text-neutral-600 shadow-lg focus:outline-none sm:text-sm dark:bg-neutral-900 {hasDropdownHeader
 				? ''
 				: 'pt-1'} {hasDropdownFooter ? '' : 'pb-1'} {dropdownClassName}"
 			id="options"
