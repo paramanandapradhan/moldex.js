@@ -58,7 +58,7 @@
 				type="button"
 				class="h-full px-2 text-neutral-800 dark:text-neutral-100 {drawerButtonClassName}"
 				disabled={disabledLogo}
-				onclick={onMore}
+				onclick={() => onMore?.()}
 			>
 				<Icon path={moreIconPath} />
 			</button>
@@ -71,7 +71,7 @@
 				type="button"
 				class="h-full px-2 rounded-0 text-neutral-800 dark:text-neutral-100 {logoButtonClassName}"
 				disabled={!onLogo}
-				onclick={onLogo}
+				onclick={() => onLogo?.()}
 			>
 				{#if logoIconPath}
 					<Icon path={logoIconPath} className="h-10 w-10 {logoIconClassName}" />
@@ -123,7 +123,7 @@
 					type="button"
 					class="h-full px-2 text-neutral-800 dark:text-neutral-100 {drawerButtonClassName}"
 					disabled={!onMore}
-					onclick={onMore}
+					onclick={() => onMore?.()}
 				>
 					<Icon path={moreIconPath} />
 				</button>

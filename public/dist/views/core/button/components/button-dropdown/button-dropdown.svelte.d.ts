@@ -16,9 +16,10 @@ export type ButtonDropdownProps = {
     dropdownOpenClassName?: string;
     disabled?: boolean;
     dropPosition?: 'top' | 'bottom' | 'middle';
+    dropdownAlign?: 'left' | 'right';
 };
 declare const ButtonDropdown: import("svelte").Component<ButtonDropdownProps, {
-    toggleDropdown: (ev: MouseEvent | TouchEvent) => void;
+    toggleDropdown: (ev: MouseEvent | TouchEvent) => Promise<void>;
 }, "">;
 type ButtonDropdown = ReturnType<typeof ButtonDropdown>;
 export default ButtonDropdown;
