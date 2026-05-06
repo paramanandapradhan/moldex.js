@@ -129,7 +129,7 @@
 {/snippet}
 
 <div class="mb-4 h-full min-h-96" bind:clientHeight={containerHeight}>
-	<VirtualScrollingList items={filteredRecords} {containerHeight} itemHeight={56}>
+	<VirtualScrollingList items={filteredRecords} {containerHeight} itemHeight={40}>
 		{#snippet itemSnippet(item: any, index: number)}
 			{@const isSelected = selectedSet.has(item[identityFieldName])}
 

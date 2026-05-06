@@ -419,7 +419,7 @@
 					<ul>
 						<VirtualScrollingList
 							items={filteredItems}
-							itemHeight={56}
+							itemHeight={40}
 							containerHeight={bodyHeight}
 						>
 							{#snippet itemSnippet(item, index)}
@@ -434,7 +434,8 @@
 									{#if itemTileSnippet}
 										<ButtonListItem
 											onClick={(ev) => handleItemClick(ev, item, index)}
-											className="h-full"
+											className="h-full !py-0 !px-3"
+											size="sm"
 										>
 											{@render itemTileSnippet(item, index)}
 											{#if hasCheckbox}
@@ -454,7 +455,8 @@
 											subtitle={item[subtitleFieldName || ''] || ''}
 											{index}
 											{hasCheckbox}
-											className=" {itemClassName}"
+											size="sm"
+											className="h-full !py-0 !px-3 {itemClassName}"
 											titleClassName=" {titleClassName}"
 											subtitleClassName=" {subtitleClassName}"
 											isChecked={isSelected}

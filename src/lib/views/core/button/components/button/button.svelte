@@ -69,7 +69,7 @@
 			case 'sm':
 				return 'px-3 py-1 text-sm';
 			case 'md':
-				return 'px-4 py-2';
+				return 'px-4 py-1';
 			case 'lg':
 				return 'px-6 py-3 text-lg';
 			case 'xl':
@@ -112,7 +112,7 @@
 		{id}
 		href={url}
 		{target}
-		class="relative cursor-pointer flex w-max items-center justify-center gap-2 rounded focus:outline-primary dark:focus:outline-primary {btnSizeClassName} {btnAppearanceClassName} {className}"
+		class="relative cursor-pointer flex w-max items-center justify-center gap-2 rounded-xl focus:outline-primary dark:focus:outline-primary {btnSizeClassName} {btnAppearanceClassName} {className}"
 		onclick={onClick}
 		use:handleRipple
 		ondblclick={onDblClick}
@@ -140,7 +140,7 @@
 		{type}
 		{form}
 		{title}
-		class="relative cursor-pointer flex items-center justify-center gap-2 rounded focus:outline-primary dark:focus:outline-primary {btnSizeClassName} {btnAppearanceClassName} {className}"
+		class="relative cursor-pointer flex items-center justify-center gap-2 rounded-xl focus:outline-primary dark:focus:outline-primary {btnSizeClassName} {btnAppearanceClassName} {className}"
 		{disabled}
 		use:handleRipple
 		onclick={onClick}

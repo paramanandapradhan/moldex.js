@@ -419,7 +419,7 @@
 					<ul>
 						<VirtualScrollingList
 							items={filteredItems}
-							itemHeight={38}
+							itemHeight={40}
 							containerHeight={bodyHeight}
 						>
 							{#snippet itemSnippet(item, index)}

@@ -69,7 +69,7 @@
 			case 'sm':
 				return 'px-3 py-1 text-sm';
 			case 'md':
-				return 'px-4 py-2';
+				return 'px-4 py-1';
 			case 'lg':
 				return 'px-6 py-3 text-lg';
 			case 'xl':
