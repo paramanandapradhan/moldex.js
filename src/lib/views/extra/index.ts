@@ -5,7 +5,7 @@ import TimezoneComboboxField from "./fields/timezone-combobox-field.svelte";
 import DatetimeFormatComboboxField from "./fields/datetime-format-combobox-field.svelte";
 import TextCountry from "./texts/text-country.svelte";
 import TextCountryState from "./texts/text-country-state.svelte";
-import TextCurrency from "./texts/text-currency.svelte";
+import TextCurrencyInfo from "./texts/text-currency.svelte";
 import TextTimezone from "./texts/text-timezone.svelte";
 import TextDatetimeFormat from "./texts/text-datetime-format.svelte";
 import CountryLoader from "./loaders/country-loader.svelte";
@@ -29,7 +29,7 @@ export {
     DatetimeFormatComboboxField,
     TextCountry,
     TextCountryState,
-    TextCurrency,
+    TextCurrencyInfo,
     TextTimezone,
     TextDatetimeFormat,
     CountryLoader,

@@ -5,6 +5,7 @@ import TextDate from "./components/text-date/text-date.svelte";
 import TextEmail from "./components/text-email/text-email.svelte";
 import TextHtml from "./components/text-html/text-html.svelte";
 import TextPhone from "./components/text-phone/text-phone.svelte";
+import TextTags from "./components/text-tags/text-tags.svelte";
 
 export {
     TextAwait,
@@ -14,4 +15,5 @@ export {
     TextEmail,
     TextHtml,
     TextPhone,
+    TextTags,
 }

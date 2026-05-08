@@ -156,6 +156,47 @@ export type RadioItem = { value: any; label: string; desc?: string };
 export type RadioItems = (RadioValueType | RadioItem)[];
 export type RadioPosition = 'left' | 'right';
 export type RadioDirection = 'vertical' | 'horizontal';
+export type TagItem = {
+    id: string;
+    name: string;
+    desc?: string;
+    [key: string]: any;
+};
+
+export type TagsFieldValue = string | string[] | null | undefined;
+
+export type TagsFieldProps = {
+    allowCreate?: boolean;
+    chipClassName?: string;
+    chipCloseIconClassName?: string;
+    chipsContainerClassName?: string;
+    closeIconPath?: string;
+    descClassName?: string;
+    descFieldName?: string;
+    dropdownClassName?: string;
+    dropdownItemClassName?: string;
+    emptyMessage?: string;
+    hasDropdown?: boolean;
+    identityFieldName?: string;
+    items?: TagItem[];
+    nameFieldName?: string;
+    onTagsChange?: (value: TagsFieldValue) => void;
+    separator?: string;
+    valueType?: 'array' | 'csv';
+};
+
+export type TextTagsProps = {
+    chipClassName?: string;
+    chipsContainerClassName?: string;
+    descFieldName?: string;
+    identityFieldName?: string;
+    items?: TagItem[];
+    nameFieldName?: string;
+    separator?: string;
+    showDesc?: boolean;
+    value?: TagsFieldValue;
+};
+
 export type RadioPropsType = {
     className?: string;
     groupContainerClassName?: string;
