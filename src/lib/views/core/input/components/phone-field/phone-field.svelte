@@ -1,10 +1,8 @@
- 
-
 <script lang="ts">
 	import { ripple } from '$lib/actions';
 	import { openPickerDialog } from '$lib/services';
 	import EasyScriptLoader from '@cloudparker/easy-script-loader-svelte';
-	import InputField  from '../input-field/input-field.svelte';
+	import InputField from '../input-field/input-field.svelte';
 	import type { EasyCountryDataType, InputFieldProps, LibPhoneNumberType } from '../../types';
 
 	let {
@@ -31,7 +29,7 @@
 	let dailCodeValue = $derived.by(() => {
 		if (value && LibPhoneNumber) {
 			let { dialCode } = validatePhoneNumber(value);
-			return dialCode;
+			if (dialCode) return dialCode;
 		}
 		return formatDialCode(dialCode);
 	});
@@ -39,9 +37,9 @@
 	let phoneNumberValue = $derived.by(() => {
 		if (value && LibPhoneNumber) {
 			let { phoneNumber } = validatePhoneNumber(value);
-			return phoneNumber;
+			if (phoneNumber) return phoneNumber;
 		}
-		return '';
+		return stripToDigits(value || '').slice(-15);
 	});
 
 	let btnRoundedClassName = $derived.by(() => {
@@ -49,6 +47,21 @@
 			return 'rounded-tl-xl rounded-bl-xl';
 		}
 	});
+
+	function stripToDigits(s: string): string {
+		return (s || '').replace(/\D+/g, '');
+	}
+
+	function normalizePastedPhone(raw: string): string {
+		// Keep leading + if any, strip everything non-digit, and re-prepend +
+		const trimmed = (raw || '').trim();
+		const hasPlus = trimmed.startsWith('+') || trimmed.startsWith('00');
+		const digits = stripToDigits(trimmed);
+		if (!digits) return '';
+		// '00' international prefix → '+'
+		if (trimmed.startsWith('00')) return `+${digits.replace(/^0+/, '')}`;
+		return hasPlus ? `+${digits}` : digits;
+	}
 
 	function validatePhoneNumber(number: string) {
 		try {
@@ -76,8 +89,8 @@
 	}
 
 	function formatDialCode(dialcode: string) {
-		dialcode = `${dialCode}`.trim();
-		return dialCode.startsWith('+') ? dialcode : `+${dialCode}`;
+		dialcode = `${dialcode}`.trim();
+		return dialcode.startsWith('+') ? dialcode : `+${dialcode}`;
 	}
 
 	async function handleDialCodePicker() {
@@ -108,30 +121,82 @@
 		LibPhoneNumber = lib;
 	}
 
+	function applyDialAndNumber(nextDial: string, nextNumber: string) {
+		dialCode = formatDialCode(nextDial);
+		value = nextNumber ? `${dialCode}${nextNumber}` : '';
+	}
+
 	function handleNumberInput(ev: InputEvent) {
-		let target: HTMLInputElement = ev.target as HTMLInputElement;
-		let text: string = target?.value || '';
-		let { phoneNumber } = validatePhoneNumber(`${dialCode}${text}`);
-		if (phoneNumber) {
-			value = `${dialCode}${phoneNumber}`;
-		}
+		const target = ev.target as HTMLInputElement;
+		const cleaned = stripToDigits(target.value || '').slice(0, 15);
+		if (target.value !== cleaned) target.value = cleaned;
+		// Try canonical parse with current dial; fall back to raw digits
+		const parsed = validatePhoneNumber(`${formatDialCode(dialCode)}${cleaned}`);
+		applyDialAndNumber(dialCode, parsed.phoneNumber || cleaned);
 	}
 
 	function handleNumberKeyDown(ev: KeyboardEvent) {
-		if (
-			!(
-				(ev.key >= '0' && ev.key <= '9') ||
-				ev.key === 'Backspace' ||
-				ev.key === 'Delete' ||
-				ev.key === 'ArrowLeft' ||
-				ev.key === 'ArrowRight' ||
-				ev.key === 'ArrowUp' ||
-				ev.key === 'ArrowDown' ||
-				ev.key === 'Tab'
-			)
-		) {
-			ev.preventDefault();
+		// allow clipboard / selection / nav shortcuts
+		if (ev.ctrlKey || ev.metaKey) return;
+		const allowed = [
+			'Backspace',
+			'Delete',
+			'ArrowLeft',
+			'ArrowRight',
+			'ArrowUp',
+			'ArrowDown',
+			'Tab',
+			'Home',
+			'End',
+			'Enter'
+		];
+		if (allowed.includes(ev.key)) return;
+		if (ev.key >= '0' && ev.key <= '9') return;
+		ev.preventDefault();
+	}
+
+	function handlePaste(ev: ClipboardEvent) {
+		const raw = ev.clipboardData?.getData('text') || '';
+		if (!raw) return;
+		ev.preventDefault();
+
+		const normalized = normalizePastedPhone(raw);
+		if (!normalized) return;
+
+		// If pasted value carries a country code, try to parse + split
+		if (normalized.startsWith('+') && LibPhoneNumber) {
+			const parsed = validatePhoneNumber(normalized);
+			if (parsed.dialCode && parsed.phoneNumber) {
+				applyDialAndNumber(parsed.dialCode, parsed.phoneNumber);
+				return;
+			}
+			// Best-effort split: strip leading + and try common dial-code lengths
+			const digits = normalized.slice(1);
+			for (const len of [3, 2, 1]) {
+				if (digits.length <= len) continue;
+				const guessDial = digits.slice(0, len);
+				const guessNum = digits.slice(len);
+				const tryParsed = validatePhoneNumber(`+${guessDial}${guessNum}`);
+				if (tryParsed.dialCode && tryParsed.phoneNumber) {
+					applyDialAndNumber(tryParsed.dialCode, tryParsed.phoneNumber);
+					return;
+				}
+			}
+			// Fallback: assume +<1-3 digit dial><rest> by trimming current dialCode if it matches
+			const curDigits = stripToDigits(dialCode);
+			if (curDigits && digits.startsWith(curDigits)) {
+				applyDialAndNumber(`+${curDigits}`, digits.slice(curDigits.length).slice(0, 15));
+				return;
+			}
+			// Last resort: keep current dial, take last 15 digits as national
+			applyDialAndNumber(dialCode, digits.slice(-15));
+			return;
 		}
+
+		// No country code in paste → treat as national for current dialCode
+		const nationalDigits = stripToDigits(normalized).slice(0, 15);
+		const parsed = validatePhoneNumber(`${formatDialCode(dialCode)}${nationalDigits}`);
+		applyDialAndNumber(dialCode, parsed.phoneNumber || nationalDigits);
 	}
 </script>
 
@@ -175,7 +240,7 @@
 	type="tel"
 	{id}
 	{name}
-	maxlength={props?.maxlength || 12}
+	maxlength={props?.maxlength || 15}
 	leftSnippet={showDialCodeButton}
 	{size}
 	{appearance}
@@ -184,4 +249,5 @@
 	labelClassName=" {floatingLabel ? 'peer-placeholder-shown:ps-16' : ''} {labelClassName}"
 	onInput={handleNumberInput}
 	onKeyDown={handleNumberKeyDown}
+	onPaste={handlePaste}
 />

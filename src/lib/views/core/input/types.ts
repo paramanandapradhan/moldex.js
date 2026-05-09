@@ -114,6 +114,7 @@ export type InputFieldProps = {
     onKeyUp?: (ev: KeyboardEvent) => void;
     onMouseDown?: (ev: MouseEvent) => void;
     onMouseUp?: (ev: MouseEvent) => void;
+    onPaste?: (ev: ClipboardEvent) => void;
     pattern?: string;
     placeholder?: string;
     readonly?: boolean;
