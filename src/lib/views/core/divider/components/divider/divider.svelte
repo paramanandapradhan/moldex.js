@@ -56,8 +56,5 @@
 		{/if}
 	</div>
 {:else}
-	<hr
-		class="border-0 border-t border-neutral-200 dark:border-neutral-700 {className}"
-		role="separator"
-	/>
+	<hr class="border-0 border-t border-neutral-200 dark:border-neutral-700 {className}" />
 {/if}

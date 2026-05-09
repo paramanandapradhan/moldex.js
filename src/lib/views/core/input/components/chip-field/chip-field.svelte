@@ -262,12 +262,6 @@
 		onBlur && onBlur(ev);
 	}
 
-	function handleFieldClick(ev: MouseEvent) {
-		const target = ev.target as HTMLElement;
-		if (target.closest('button[data-chip-close]')) return;
-		focus();
-	}
-
 	function handleSuggestClick(it: ChipItem) {
 		addChip(String(it[identityFieldName]));
 		inputText = '';
@@ -302,10 +296,9 @@
 {/if}
 
 <div class="relative w-full {containerClassName}">
-	<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
-	<div
+	<label
+		for={idDerived}
 		class="flex w-full flex-wrap items-center {sizeClassName} {appearanceClassName} {fieldClassName}"
-		onclick={handleFieldClick}
 	>
 		<div class="contents {chipsContainerClassName}">
 			{#each selectedChips as chip (chip.id)}
@@ -350,7 +343,7 @@
 			onfocus={handleFocus}
 			onblur={handleBlur}
 		/>
-	</div>
+	</label>
 
 	{#if showDropdown}
 		<div

@@ -4,6 +4,6 @@ import TextCurrency from "./components/text-currency/text-currency.svelte";
 import TextDate from "./components/text-date/text-date.svelte";
 import TextEmail from "./components/text-email/text-email.svelte";
 import TextHtml from "./components/text-html/text-html.svelte";
+import TextChip from "./components/text-chip/text-chip.svelte";
 import TextPhone from "./components/text-phone/text-phone.svelte";
-import TextTags from "./components/text-tags/text-tags.svelte";
-export { TextAwait, TextCopy, TextCurrency, TextDate, TextEmail, TextHtml, TextPhone, TextTags, };
+export { TextAwait, TextChip, TextCopy, TextCurrency, TextDate, TextEmail, TextHtml, TextPhone, };
