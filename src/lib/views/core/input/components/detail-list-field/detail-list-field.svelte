@@ -1,74 +1,58 @@
 <script lang="ts">
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import NoData from '$lib/views/core/no-data/components/no-data/no-data.svelte';
-	import Label from '../label/label.svelte';
+	import InputField from '../input-field/input-field.svelte';
 	import type { DetailItem, DetailListFieldProps, InputFieldProps } from '../../types';
 
 	let {
-		appearance = 'normal',
 		className = '',
-		containerClassName = '',
+		descClassName = '',
 		descFieldName = 'desc',
-		direction = 'horizontal',
-		disabled = false,
-		dividers = true,
-		emptyMessage = 'No items',
+		dropdownClassName = '',
+		dropdownItemClassName = '',
+		emptyMessage = 'No matches',
 		emptyMessageSnippet,
-		fieldClassName = '',
-		hasRequiredSymbol = true,
 		iconClassName = '',
 		iconPathFieldName = 'iconPath',
 		id = '',
 		identityFieldName = 'id',
-		itemClassName = '',
-		itemDescClassName = '',
 		itemLabelClassName = '',
 		itemSnippet,
-		itemValueClassName = '',
 		items = [],
-		label = '',
-		labelClassName = '',
 		labelFieldName = 'label',
+		minSearchLength = 0,
 		name = '',
-		onItemClick,
-		required = false,
-		requiredSymbol = '*',
-		requiredSymbolColor = 'red',
+		onChange,
+		onItemSelect,
 		size = 'md',
-		valueFieldName = 'value'
+		useNativeDatalist = false,
+		value = $bindable(''),
+		valueFieldName = 'value',
+		...props
 	}: InputFieldProps & DetailListFieldProps = $props();
 
-	const idDerived = $derived(id || name);
+	let inputFieldRef: any = $state(null);
+	let isOpen: boolean = $state(false);
+	let activeIndex: number = $state(-1);
 
-	const sizeClassName = $derived.by(() => {
-		switch (size) {
-			case 'lg':
-				return 'text-base';
-			case 'md':
-				return 'text-sm';
-			case 'sm':
-				return 'text-xs';
-			case 'xs':
-				return 'text-xs';
-			default:
-				return 'text-sm';
-		}
+	const inputId = $derived(id || name || `detail-list-${Math.random().toString(36).slice(2, 9)}`);
+	const datalistId = $derived(`${inputId}-datalist`);
+
+	const valueText = $derived(value == null ? '' : String(value));
+
+	const filteredItems = $derived.by(() => {
+		const q = valueText.trim().toLowerCase();
+		if (q.length < minSearchLength) return [] as DetailItem[];
+		if (!q) return items;
+		return items.filter((it) => {
+			const lbl = String(it?.[labelFieldName] ?? '').toLowerCase();
+			const val = String(it?.[valueFieldName] ?? '').toLowerCase();
+			const dsc = String(it?.[descFieldName] ?? '').toLowerCase();
+			return lbl.includes(q) || val.includes(q) || dsc.includes(q);
+		});
 	});
 
-	const itemPaddingClassName = $derived.by(() => {
-		switch (size) {
-			case 'lg':
-				return 'px-4 py-3';
-			case 'md':
-				return 'px-3 py-2';
-			case 'sm':
-				return 'px-2 py-1.5';
-			case 'xs':
-				return 'px-2 py-1';
-			default:
-				return 'px-3 py-2';
-		}
-	});
+	const showDropdown = $derived(!useNativeDatalist && isOpen && filteredItems.length > 0);
 
 	const iconSizeClassName = $derived.by(() => {
 		switch (size) {
@@ -83,88 +67,120 @@
 		}
 	});
 
-	const appearanceClassName = $derived.by(() => {
-		switch (appearance) {
-			case 'normal':
-				return 'border rounded-xl bg-neutral-100 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-500 text-neutral-950 dark:text-neutral-50';
-			case 'box':
-				return 'border bg-neutral-100 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-500 text-neutral-950 dark:text-neutral-50';
-			case 'fill':
-				return 'bg-neutral-100 dark:bg-neutral-700 text-neutral-950 dark:text-neutral-50';
-			case 'underline':
-				return 'border-b-2 bg-transparent text-neutral-950 dark:text-neutral-50 border-neutral-300 dark:border-neutral-700';
-			case 'fill-underline':
-				return 'border-b-2 bg-neutral-100 dark:bg-neutral-700 text-neutral-950 dark:text-neutral-50 border-neutral-300 dark:border-neutral-500';
-			case 'none':
-				return 'bg-transparent text-neutral-950 dark:text-neutral-50';
-			default:
-				return '';
-		}
-	});
-
-	const dividerClassName = $derived(
-		dividers ? 'divide-y divide-neutral-200 dark:divide-neutral-600' : ''
-	);
-
 	function getKey(item: DetailItem, index: number) {
-		const id = item?.[identityFieldName];
-		return id != null ? id : index;
+		const idVal = item?.[identityFieldName];
+		return idVal != null ? idVal : index;
 	}
 
-	function handleClick(item: DetailItem, index: number) {
-		if (disabled) return;
-		onItemClick && onItemClick(item, index);
+	function selectItem(item: DetailItem) {
+		const next = item?.[valueFieldName] ?? item?.[labelFieldName] ?? '';
+		value = String(next);
+		onItemSelect && onItemSelect(item);
+		onChange && onChange(value as any);
+		isOpen = false;
+		activeIndex = -1;
+		inputFieldRef?.focus?.();
+	}
+
+	function handleInput(ev: any) {
+		value = ev?.target?.value ?? '';
+		isOpen = true;
+		activeIndex = -1;
+	}
+
+	function handleFocus() {
+		isOpen = true;
+	}
+
+	function handleBlur() {
+		setTimeout(() => {
+			isOpen = false;
+		}, 150);
+	}
+
+	function handleKeyDown(ev: KeyboardEvent) {
+		if (useNativeDatalist) return;
+		if (ev.key === 'ArrowDown') {
+			if (filteredItems.length === 0) return;
+			ev.preventDefault();
+			isOpen = true;
+			activeIndex = (activeIndex + 1) % filteredItems.length;
+		} else if (ev.key === 'ArrowUp') {
+			if (filteredItems.length === 0) return;
+			ev.preventDefault();
+			isOpen = true;
+			activeIndex = activeIndex <= 0 ? filteredItems.length - 1 : activeIndex - 1;
+		} else if (ev.key === 'Enter') {
+			if (isOpen && activeIndex >= 0 && filteredItems[activeIndex]) {
+				ev.preventDefault();
+				selectItem(filteredItems[activeIndex]);
+			}
+		} else if (ev.key === 'Escape') {
+			isOpen = false;
+			activeIndex = -1;
+		}
+	}
+
+	export function focus() {
+		inputFieldRef?.focus?.();
 	}
 </script>
 
-{#if label}
-	<Label
-		forName={idDerived}
-		{label}
-		className="mb-1 {labelClassName}"
-		{required}
-		{requiredSymbolColor}
-		{requiredSymbol}
-		{hasRequiredSymbol}
+<div class="relative w-full">
+	<InputField
+		bind:this={inputFieldRef}
+		bind:value
+		{...props}
+		id={inputId}
+		{name}
+		{size}
+		{className}
+		role="combobox"
+		ariaControls={datalistId}
+		ariaExpanded={isOpen}
+		onInput={handleInput}
+		onFocus={handleFocus}
+		onBlur={handleBlur}
+		onKeyDown={handleKeyDown}
 	/>
-{/if}
 
-<div
-	id={idDerived}
-	class="w-full overflow-hidden {appearanceClassName} {sizeClassName} {fieldClassName} {containerClassName}"
->
-	{#if items.length === 0}
-		{#if emptyMessageSnippet}
-			{@render emptyMessageSnippet()}
-		{:else}
-			<NoData message={emptyMessage} />
-		{/if}
-	{:else}
-		<ul class="flex w-full flex-col {dividerClassName}">
-			{#each items as item, index (getKey(item, index))}
-				{@const clickable = !!onItemClick && !disabled}
-				<li class="w-full">
-					{#if itemSnippet}
-						{#if clickable}
-							<button
-								type="button"
-								class="block w-full text-left hover:bg-neutral-200/60 dark:hover:bg-neutral-600/40 {itemPaddingClassName} {itemClassName} {className}"
-								onclick={() => handleClick(item, index)}
-							>
-								{@render itemSnippet(item, index)}
-							</button>
-						{:else}
-							<div class="block w-full {itemPaddingClassName} {itemClassName} {className}">
-								{@render itemSnippet(item, index)}
-							</div>
-						{/if}
-					{:else}
-						{@const iconPath = item?.[iconPathFieldName]}
-						{@const lbl = item?.[labelFieldName]}
-						{@const val = item?.[valueFieldName]}
-						{@const dsc = item?.[descFieldName]}
-						{#snippet rowContent()}
-							<div class="flex w-full items-start gap-3">
+	{#if useNativeDatalist}
+		<datalist id={datalistId}>
+			{#each items as it (getKey(it, 0))}
+				<option value={String(it?.[valueFieldName] ?? it?.[labelFieldName] ?? '')}>
+					{it?.[labelFieldName] ?? ''}
+				</option>
+			{/each}
+		</datalist>
+	{:else if showDropdown}
+		<div
+			id={datalistId}
+			class="absolute z-20 mt-1 max-h-72 w-full overflow-y-auto rounded-xl bg-white shadow-lg dark:bg-neutral-900 {dropdownClassName}"
+			role="listbox"
+		>
+			<ul class="py-1">
+				{#each filteredItems as it, index (getKey(it, index))}
+					{@const lbl = it?.[labelFieldName]}
+					{@const dsc = it?.[descFieldName]}
+					{@const iconPath = it?.[iconPathFieldName]}
+					{@const isActive = index === activeIndex}
+					<li>
+						<button
+							type="button"
+							role="option"
+							aria-selected={isActive}
+							class="flex w-full items-start gap-2 px-3 py-2 text-left {isActive
+								? 'bg-neutral-100 dark:bg-neutral-800'
+								: 'hover:bg-neutral-100 dark:hover:bg-neutral-800'} {dropdownItemClassName}"
+							onmousedown={(e) => {
+								e.preventDefault();
+								selectItem(it);
+							}}
+							onmouseenter={() => (activeIndex = index)}
+						>
+							{#if itemSnippet}
+								{@render itemSnippet(it, index)}
+							{:else}
 								{#if iconPath}
 									<Icon
 										path={iconPath}
@@ -172,56 +188,31 @@
 										className="mt-0.5 shrink-0 text-neutral-500 dark:text-neutral-400 {iconClassName}"
 									/>
 								{/if}
-								<div
-									class="flex flex-1 min-w-0 {direction === 'vertical'
-										? 'flex-col gap-0.5'
-										: 'flex-row items-center justify-between gap-3'}"
-								>
-									<div class="min-w-0">
-										{#if lbl != null}
-											<div
-												class="font-medium text-neutral-700 dark:text-neutral-200 {itemLabelClassName}"
-											>
-												{lbl}
-											</div>
-										{/if}
-										{#if dsc}
-											<div
-												class="text-xs text-neutral-500 dark:text-neutral-400 {itemDescClassName}"
-											>
-												{dsc}
-											</div>
-										{/if}
-									</div>
-									{#if val != null && val !== ''}
-										<div
-											class="min-w-0 truncate text-neutral-900 dark:text-neutral-100 {direction ===
-											'vertical'
-												? ''
-												: 'text-right'} {itemValueClassName}"
-										>
-											{val}
-										</div>
+								<div class="flex min-w-0 flex-1 flex-col">
+									<span class="text-sm text-neutral-900 dark:text-neutral-100 {itemLabelClassName}">
+										{lbl}
+									</span>
+									{#if dsc}
+										<span class="text-xs text-neutral-500 dark:text-neutral-400 {descClassName}">
+											{dsc}
+										</span>
 									{/if}
 								</div>
-							</div>
-						{/snippet}
-						{#if clickable}
-							<button
-								type="button"
-								class="block w-full text-left hover:bg-neutral-200/60 dark:hover:bg-neutral-600/40 {itemPaddingClassName} {itemClassName} {className}"
-								onclick={() => handleClick(item, index)}
-							>
-								{@render rowContent()}
-							</button>
-						{:else}
-							<div class="block w-full {itemPaddingClassName} {itemClassName} {className}">
-								{@render rowContent()}
-							</div>
-						{/if}
-					{/if}
-				</li>
-			{/each}
-		</ul>
+							{/if}
+						</button>
+					</li>
+				{/each}
+			</ul>
+		</div>
+	{:else if !useNativeDatalist && isOpen && valueText.trim() && filteredItems.length === 0}
+		<div
+			class="absolute z-20 mt-1 w-full rounded-xl bg-white shadow-lg dark:bg-neutral-900 {dropdownClassName}"
+		>
+			{#if emptyMessageSnippet}
+				{@render emptyMessageSnippet()}
+			{:else}
+				<NoData message={emptyMessage} />
+			{/if}
+		</div>
 	{/if}
 </div>

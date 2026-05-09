@@ -197,23 +197,22 @@ export type DetailItem = {
 };
 
 export type DetailListFieldProps = {
+    descClassName?: string;
     descFieldName?: string;
-    direction?: 'horizontal' | 'vertical';
-    dividers?: boolean;
+    dropdownClassName?: string;
+    dropdownItemClassName?: string;
     emptyMessage?: string;
     emptyMessageSnippet?: Snippet;
-    fieldClassName?: string;
     iconClassName?: string;
     iconPathFieldName?: string;
     identityFieldName?: string;
-    itemClassName?: string;
-    itemDescClassName?: string;
     itemLabelClassName?: string;
     itemSnippet?: Snippet<[item: any, index: number]>;
-    itemValueClassName?: string;
     items?: DetailItem[];
     labelFieldName?: string;
-    onItemClick?: (item: DetailItem, index: number) => void;
+    minSearchLength?: number;
+    onItemSelect?: (item: DetailItem) => void;
+    useNativeDatalist?: boolean;
     valueFieldName?: string;
 };
 

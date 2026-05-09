@@ -1,7 +1,7 @@
 <script module>
   import { defineMeta } from '@storybook/addon-svelte-csf';
   import DetailListField from './components/detail-list-field/detail-list-field.svelte';
-  import { mdiAccount, mdiEmail, mdiPhone, mdiMapMarker } from '$lib/views/core/icon';
+  import { mdiAccount, mdiEmailOutline, mdiPhone, mdiHome } from '$lib/views/core/icon';
 
   const { Story } = defineMeta({
     title: 'Core/Input/DetailListField',
@@ -16,81 +16,111 @@
         control: { type: 'select' },
         options: ['xs', 'sm', 'md', 'lg'],
       },
-      direction: {
-        control: { type: 'inline-radio' },
-        options: ['horizontal', 'vertical'],
-      },
-      dividers: { control: 'boolean' },
+      useNativeDatalist: { control: 'boolean' },
+      disabled: { control: 'boolean' },
+      required: { control: 'boolean' },
     },
     args: {
       appearance: 'normal',
       size: 'md',
-      direction: 'horizontal',
-      dividers: true,
+      useNativeDatalist: false,
     },
   });
 
-  const profile = [
-    { id: 'name', label: 'Name', value: 'Param Pradhan' },
-    { id: 'email', label: 'Email', value: 'crawlinktest@gmail.com' },
-    { id: 'phone', label: 'Phone', value: '+91 98765 43210' },
-    { id: 'addr', label: 'Address', value: 'Bhubaneswar, Odisha' },
+  const browsers = [
+    { id: 'edge', label: 'Edge', value: 'Edge', desc: 'Microsoft Edge' },
+    { id: 'firefox', label: 'Firefox', value: 'Firefox', desc: 'Mozilla Firefox' },
+    { id: 'chrome', label: 'Chrome', value: 'Chrome', desc: 'Google Chrome' },
+    { id: 'opera', label: 'Opera', value: 'Opera', desc: 'Opera browser' },
+    { id: 'safari', label: 'Safari', value: 'Safari', desc: 'Apple Safari' },
+    { id: 'brave', label: 'Brave', value: 'Brave', desc: 'Privacy-focused browser' },
   ];
 
-  const profileWithIcons = [
-    { id: 'name', label: 'Name', value: 'Param Pradhan', iconPath: mdiAccount },
-    { id: 'email', label: 'Email', value: 'crawlinktest@gmail.com', iconPath: mdiEmail },
-    { id: 'phone', label: 'Phone', value: '+91 98765 43210', iconPath: mdiPhone },
-    { id: 'addr', label: 'Address', value: 'Bhubaneswar, Odisha', iconPath: mdiMapMarker },
+  const skills = [
+    { id: 'js', label: 'JavaScript', value: 'JavaScript', desc: 'Frontend & backend scripting', iconPath: mdiAccount },
+    { id: 'ts', label: 'TypeScript', value: 'TypeScript', desc: 'Typed superset of JavaScript', iconPath: mdiAccount },
+    { id: 'svelte', label: 'Svelte', value: 'Svelte', desc: 'Reactive UI framework', iconPath: mdiAccount },
+    { id: 'go', label: 'Go', value: 'Go', desc: 'Systems language', iconPath: mdiAccount },
+    { id: 'py', label: 'Python', value: 'Python', desc: 'General purpose', iconPath: mdiAccount },
+    { id: 'rust', label: 'Rust', value: 'Rust', desc: 'Memory-safe systems', iconPath: mdiAccount },
   ];
 
-  const withDesc = [
-    { id: 'plan', label: 'Plan', value: 'Pro', desc: 'Renews on 2026-06-01' },
-    { id: 'seats', label: 'Seats', value: '5 / 10', desc: 'Add more in settings' },
-    { id: 'usage', label: 'Usage', value: '42 GB', desc: '58 GB remaining' },
+  const contacts = [
+    { id: 1, label: 'Param Pradhan', value: 'param@example.com', desc: 'crawlinktest@gmail.com', iconPath: mdiAccount },
+    { id: 2, label: 'Alice Smith', value: 'alice@example.com', desc: 'alice.smith@example.com', iconPath: mdiAccount },
+    { id: 3, label: 'Bob Jones', value: 'bob@example.com', desc: 'bob.jones@example.com', iconPath: mdiAccount },
+    { id: 4, label: 'Carol Davis', value: 'carol@example.com', desc: 'carol.davis@example.com', iconPath: mdiAccount },
   ];
 </script>
 
-<Story name="Horizontal Detail">
+<Story name="Browser Picker (Datalist Style)">
   {#snippet template(args)}
-    <div class="max-w-md p-4">
-      <DetailListField {...args} label="Profile" items={profile} />
+    <div class="max-w-md p-4 h-80">
+      <DetailListField
+        {...args}
+        label="Choose your browser from the list"
+        placeholder="Type or pick..."
+        items={browsers}
+      />
     </div>
   {/snippet}
 </Story>
 
-<Story name="Vertical Detail">
+<Story name="With Icons + Description">
   {#snippet template(args)}
-    <div class="max-w-md p-4">
-      <DetailListField {...args} label="Profile" items={profile} direction="vertical" />
+    <div class="max-w-md p-4 h-96">
+      <DetailListField
+        {...args}
+        label="Skill"
+        placeholder="Search skills..."
+        items={skills}
+      />
     </div>
   {/snippet}
 </Story>
 
-<Story name="With Icons">
+<Story name="Contact Picker">
   {#snippet template(args)}
-    <div class="max-w-md p-4">
-      <DetailListField {...args} label="Contact" items={profileWithIcons} />
+    <div class="max-w-md p-4 h-96">
+      <DetailListField
+        {...args}
+        label="To"
+        placeholder="Search contacts..."
+        items={contacts}
+        labelFieldName="label"
+        valueFieldName="value"
+        descFieldName="desc"
+      />
     </div>
   {/snippet}
 </Story>
 
-<Story name="With Description">
-  {#snippet template(args)}
-    <div class="max-w-md p-4">
-      <DetailListField {...args} label="Subscription" items={withDesc} direction="vertical" />
-    </div>
-  {/snippet}
-</Story>
-
-<Story name="Clickable Rows">
+<Story name="Native HTML Datalist">
   {#snippet template(args)}
     <div class="max-w-md p-4">
       <DetailListField
         {...args}
-        label="Settings"
-        items={profileWithIcons}
-        onItemClick={(item) => alert('Clicked: ' + item.label)}
+        label="Choose your browser (native datalist)"
+        placeholder="Type or pick..."
+        items={browsers}
+        useNativeDatalist={true}
+      />
+      <p class="mt-2 text-xs text-neutral-500">
+        Uses native &lt;datalist&gt; — browser-rendered suggestions.
+      </p>
+    </div>
+  {/snippet}
+</Story>
+
+<Story name="Min Search Length">
+  {#snippet template(args)}
+    <div class="max-w-md p-4 h-96">
+      <DetailListField
+        {...args}
+        label="Type at least 2 characters"
+        placeholder="Search..."
+        items={skills}
+        minSearchLength={2}
       />
     </div>
   {/snippet}
@@ -98,13 +128,18 @@
 
 <Story name="Custom Item Snippet">
   {#snippet template(args)}
-    <div class="max-w-md p-4">
-      <DetailListField {...args} label="Custom Rows" items={profileWithIcons}>
+    <div class="max-w-md p-4 h-96">
+      <DetailListField
+        {...args}
+        label="Custom Rendering"
+        placeholder="Search skills..."
+        items={skills}
+      >
         {#snippet itemSnippet(item, index)}
-          <div class="flex items-center justify-between gap-3">
-            <span class="text-neutral-500">#{index + 1}</span>
+          <div class="flex w-full items-center justify-between gap-3">
+            <span class="text-neutral-400 text-xs">#{index + 1}</span>
             <span class="font-semibold flex-1">{item.label}</span>
-            <span class="text-primary">{item.value}</span>
+            <span class="text-xs text-primary-500">{item.desc}</span>
           </div>
         {/snippet}
       </DetailListField>
@@ -112,29 +147,13 @@
   {/snippet}
 </Story>
 
-<Story name="Empty State">
-  {#snippet template(args)}
-    <div class="max-w-md p-4">
-      <DetailListField {...args} label="Empty" items={[]} emptyMessage="Nothing here yet" />
-    </div>
-  {/snippet}
-</Story>
-
-<Story name="No Dividers">
-  {#snippet template(args)}
-    <div class="max-w-md p-4">
-      <DetailListField {...args} label="Compact" items={profile} dividers={false} />
-    </div>
-  {/snippet}
-</Story>
-
 <Story name="All Sizes">
   {#snippet template()}
     <div class="flex flex-col gap-4 max-w-md p-4">
-      <DetailListField size="xs" label="xs" items={profile} />
-      <DetailListField size="sm" label="sm" items={profile} />
-      <DetailListField size="md" label="md" items={profile} />
-      <DetailListField size="lg" label="lg" items={profile} />
+      <DetailListField size="xs" label="xs" placeholder="Browser..." items={browsers} />
+      <DetailListField size="sm" label="sm" placeholder="Browser..." items={browsers} />
+      <DetailListField size="md" label="md" placeholder="Browser..." items={browsers} />
+      <DetailListField size="lg" label="lg" placeholder="Browser..." items={browsers} />
     </div>
   {/snippet}
 </Story>
@@ -142,11 +161,25 @@
 <Story name="All Appearances">
   {#snippet template()}
     <div class="flex flex-col gap-4 max-w-md p-4">
-      <DetailListField appearance="normal" label="normal" items={profile} />
-      <DetailListField appearance="box" label="box" items={profile} />
-      <DetailListField appearance="fill" label="fill" items={profile} />
-      <DetailListField appearance="underline" label="underline" items={profile} />
-      <DetailListField appearance="none" label="none" items={profile} />
+      <DetailListField appearance="normal" label="normal" placeholder="..." items={browsers} />
+      <DetailListField appearance="box" label="box" placeholder="..." items={browsers} />
+      <DetailListField appearance="fill" label="fill" placeholder="..." items={browsers} />
+      <DetailListField appearance="underline" label="underline" placeholder="..." items={browsers} />
+      <DetailListField appearance="fill-underline" label="fill-underline" placeholder="..." items={browsers} />
+    </div>
+  {/snippet}
+</Story>
+
+<Story name="Disabled">
+  {#snippet template(args)}
+    <div class="max-w-md p-4">
+      <DetailListField
+        {...args}
+        label="Disabled"
+        value="Chrome"
+        items={browsers}
+        disabled
+      />
     </div>
   {/snippet}
 </Story>
