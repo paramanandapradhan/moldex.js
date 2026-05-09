@@ -82,10 +82,10 @@
 					sizeClassName = 'p-2 text-sm';
 					break;
 				case 'sm':
-					sizeClassName = 'p-2 text-xs';
+					sizeClassName = 'px-2 py-1.5 text-xs';
 					break;
 				case 'xs':
-					sizeClassName = 'p-1 text-xs';
+					sizeClassName = 'px-2 py-0.5 text-xs';
 					break;
 			}
 		}

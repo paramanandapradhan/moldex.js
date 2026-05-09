@@ -156,17 +156,18 @@ export type RadioItem = { value: any; label: string; desc?: string };
 export type RadioItems = (RadioValueType | RadioItem)[];
 export type RadioPosition = 'left' | 'right';
 export type RadioDirection = 'vertical' | 'horizontal';
-export type TagItem = {
+export type ChipItem = {
     id: string;
     name: string;
     desc?: string;
     [key: string]: any;
 };
 
-export type TagsFieldValue = string | string[] | null | undefined;
+export type ChipFieldValue = string | string[] | null | undefined;
 
-export type TagsFieldProps = {
+export type ChipFieldProps = {
     allowCreate?: boolean;
+    autoSuggest?: boolean;
     chipClassName?: string;
     chipCloseIconClassName?: string;
     chipsContainerClassName?: string;
@@ -176,25 +177,25 @@ export type TagsFieldProps = {
     dropdownClassName?: string;
     dropdownItemClassName?: string;
     emptyMessage?: string;
-    hasDropdown?: boolean;
+    fieldClassName?: string;
     identityFieldName?: string;
-    items?: TagItem[];
+    items?: ChipItem[];
     nameFieldName?: string;
-    onTagsChange?: (value: TagsFieldValue) => void;
+    onChipsChange?: (value: ChipFieldValue) => void;
     separator?: string;
     valueType?: 'array' | 'csv';
 };
 
-export type TextTagsProps = {
+export type TextChipProps = {
     chipClassName?: string;
     chipsContainerClassName?: string;
     descFieldName?: string;
     identityFieldName?: string;
-    items?: TagItem[];
+    items?: ChipItem[];
     nameFieldName?: string;
     separator?: string;
     showDesc?: boolean;
-    value?: TagsFieldValue;
+    value?: ChipFieldValue;
 };
 
 export type RadioPropsType = {

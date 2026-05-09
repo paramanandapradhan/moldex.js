@@ -1,10 +1,10 @@
 <script module>
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import TextTags from './components/text-tags/text-tags.svelte';
+  import TextChip from './components/text-chip/text-chip.svelte';
 
   const { Story } = defineMeta({
-    title: 'Core/Text/TextTags',
-    component: TextTags,
+    title: 'Core/Text/TextChip',
+    component: TextChip,
     tags: ['autodocs'],
     args: { showDesc: false },
   });
@@ -19,7 +19,7 @@
 <Story name="CSV String">
   {#snippet template(args)}
     <div class="p-4">
-      <TextTags {...args} value="alpha, beta, gamma" />
+      <TextChip {...args} value="alpha, beta, gamma" />
     </div>
   {/snippet}
 </Story>
@@ -27,7 +27,7 @@
 <Story name="Array Of Strings">
   {#snippet template(args)}
     <div class="p-4">
-      <TextTags {...args} value={['red', 'green', 'blue']} />
+      <TextChip {...args} value={['red', 'green', 'blue']} />
     </div>
   {/snippet}
 </Story>
@@ -35,7 +35,7 @@
 <Story name="With Items Lookup">
   {#snippet template(args)}
     <div class="p-4">
-      <TextTags {...args} value={['js', 'svelte']} items={skillItems} />
+      <TextChip {...args} value={['js', 'svelte']} items={skillItems} />
     </div>
   {/snippet}
 </Story>
@@ -43,7 +43,7 @@
 <Story name="With Desc">
   {#snippet template(args)}
     <div class="p-4">
-      <TextTags {...args} value={['js', 'ts']} items={skillItems} showDesc />
+      <TextChip {...args} value={['js', 'ts']} items={skillItems} showDesc />
     </div>
   {/snippet}
 </Story>

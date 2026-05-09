@@ -1,10 +1,10 @@
 <script module>
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import TagsField from './components/tags-field/tags-field.svelte';
+  import ChipField from './components/chip-field/chip-field.svelte';
 
   const { Story } = defineMeta({
-    title: 'Core/Input/TagsField',
-    component: TagsField,
+    title: 'Core/Input/ChipField',
+    component: ChipField,
     tags: ['autodocs'],
     argTypes: {
       appearance: {
@@ -16,12 +16,14 @@
         options: ['xs', 'sm', 'md', 'lg'],
       },
       allowCreate: { control: 'boolean' },
+      autoSuggest: { control: 'boolean' },
       disabled: { control: 'boolean' },
     },
     args: {
       appearance: 'normal',
       size: 'md',
       allowCreate: true,
+      autoSuggest: true,
     },
   });
 
@@ -32,33 +34,32 @@
     { id: 'go', name: 'Go', desc: 'Systems programming language' },
     { id: 'py', name: 'Python', desc: 'General purpose, ML, scripting' },
     { id: 'rust', name: 'Rust', desc: 'Memory-safe systems language' },
+    { id: 'java', name: 'Java', desc: 'JVM language' },
+    { id: 'kotlin', name: 'Kotlin', desc: 'Modern JVM language' },
   ];
 </script>
 
 <Story name="Free Text (CSV)">
   {#snippet template(args)}
     <div class="max-w-md p-4">
-      <TagsField
+      <ChipField
         {...args}
-        name="tags"
+        name="chips"
         label="Tags"
         placeholder="Type and press Enter or comma"
       />
-      <p class="mt-2 text-xs text-neutral-500">
-        Press Enter or "," to add. Backspace on empty input removes last.
-      </p>
     </div>
   {/snippet}
 </Story>
 
-<Story name="With Items + Desc">
+<Story name="With Items + Autosuggest">
   {#snippet template(args)}
     <div class="max-w-md p-4 h-72">
-      <TagsField
+      <ChipField
         {...args}
         name="skills"
         label="Skills"
-        placeholder="Pick or create skills"
+        placeholder="Pick or create"
         items={skillItems}
       />
     </div>
@@ -67,8 +68,8 @@
 
 <Story name="Items, No Create">
   {#snippet template(args)}
-    <div class="max-w-md p-4 h-72">
-      <TagsField
+    <div class="max-w-md p-4 h-80">
+      <ChipField
         {...args}
         name="skills"
         label="Pick from list"
@@ -80,12 +81,25 @@
   {/snippet}
 </Story>
 
+<Story name="Many Chips (Auto Height)">
+  {#snippet template(args)}
+    <div class="max-w-md p-4">
+      <ChipField
+        {...args}
+        name="chips"
+        label="Tags"
+        value={['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa']}
+      />
+    </div>
+  {/snippet}
+</Story>
+
 <Story name="Disabled">
   {#snippet template(args)}
     <div class="max-w-md p-4">
-      <TagsField
+      <ChipField
         {...args}
-        name="tags"
+        name="chips"
         label="Tags"
         value={['alpha', 'beta', 'gamma']}
         disabled

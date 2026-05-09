@@ -1,5 +1,6 @@
 
 import CheckboxField from "./components/checkbox-field/checkbox-field.svelte";
+import ChipField from "./components/chip-field/chip-field.svelte";
 import ColorField from "./components/color-field/color-field.svelte";
 import ComboboxField from "./components/combobox-field/combobox-field.svelte";
 import DateField from "./components/date-field/date-field.svelte";
@@ -14,7 +15,6 @@ import PhoneField from "./components/phone-field/phone-field.svelte";
 import RadioField from "./components/radio-field/radio-field.svelte";
 import RangeField from "./components/range-field/range-field.svelte";
 import SearchField from "./components/search-field/search-field.svelte";
-import TagsField from "./components/tags-field/tags-field.svelte";
 import TextField from "./components/text-field/text-field.svelte";
 import TextareaField from "./components/textarea-field/textarea-field.svelte";
 import TimeField from "./components/time-field/time-field.svelte";
@@ -23,6 +23,7 @@ export * from './types';
 
 export {
     CheckboxField,
+    ChipField,
     ColorField,
     ComboboxField,
     DateField,
@@ -37,7 +38,6 @@ export {
     RadioField,
     RangeField,
     SearchField,
-    TagsField,
     TextareaField,
     TextField,
     TimeField
