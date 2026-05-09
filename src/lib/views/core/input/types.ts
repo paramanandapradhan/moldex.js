@@ -187,6 +187,36 @@ export type ChipFieldProps = {
     valueType?: 'array' | 'csv';
 };
 
+export type DetailItem = {
+    id?: string | number;
+    label?: string;
+    value?: string | number | null;
+    desc?: string;
+    iconPath?: string;
+    [key: string]: any;
+};
+
+export type DetailListFieldProps = {
+    descFieldName?: string;
+    direction?: 'horizontal' | 'vertical';
+    dividers?: boolean;
+    emptyMessage?: string;
+    emptyMessageSnippet?: Snippet;
+    fieldClassName?: string;
+    iconClassName?: string;
+    iconPathFieldName?: string;
+    identityFieldName?: string;
+    itemClassName?: string;
+    itemDescClassName?: string;
+    itemLabelClassName?: string;
+    itemSnippet?: Snippet<[item: any, index: number]>;
+    itemValueClassName?: string;
+    items?: DetailItem[];
+    labelFieldName?: string;
+    onItemClick?: (item: DetailItem, index: number) => void;
+    valueFieldName?: string;
+};
+
 export type TextChipProps = {
     chipClassName?: string;
     chipsContainerClassName?: string;

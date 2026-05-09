@@ -107,3 +107,26 @@
     </div>
   {/snippet}
 </Story>
+
+<Story name="All Sizes">
+  {#snippet template()}
+    <div class="flex flex-col gap-4 max-w-md p-4">
+      <ChipField size="xs" label="xs" value={['alpha', 'beta', 'gamma']} placeholder="Type..." />
+      <ChipField size="sm" label="sm" value={['alpha', 'beta', 'gamma']} placeholder="Type..." />
+      <ChipField size="md" label="md" value={['alpha', 'beta', 'gamma']} placeholder="Type..." />
+      <ChipField size="lg" label="lg" value={['alpha', 'beta', 'gamma']} placeholder="Type..." />
+    </div>
+  {/snippet}
+</Story>
+
+<Story name="All Appearances">
+  {#snippet template()}
+    <div class="flex flex-col gap-4 max-w-md p-4">
+      <ChipField appearance="normal" label="normal" value={['one', 'two']} placeholder="Add..." />
+      <ChipField appearance="box" label="box" value={['one', 'two']} placeholder="Add..." />
+      <ChipField appearance="fill" label="fill" value={['one', 'two']} placeholder="Add..." />
+      <ChipField appearance="underline" label="underline" value={['one', 'two']} placeholder="Add..." />
+      <ChipField appearance="fill-underline" label="fill-underline" value={['one', 'two']} placeholder="Add..." />
+    </div>
+  {/snippet}
+</Story>

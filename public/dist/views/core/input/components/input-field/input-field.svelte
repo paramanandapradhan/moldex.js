@@ -43,6 +43,7 @@
 		onKeyUp,
 		onMouseDown,
 		onMouseUp,
+		onPaste,
 		pattern,
 		placeholder = '',
 		readonly = false,
@@ -261,6 +262,7 @@
 			ondrop={onDrop}
 			ondrag={onDrag}
 			ondragover={onDragOver}
+			onpaste={onPaste}
 		></textarea>
 	{:else}
 		<input
@@ -297,6 +299,7 @@
 			ondrop={onDrop}
 			ondrag={onDrag}
 			ondragover={onDragOver}
+			onpaste={onPaste}
 			aria-controls={ariaControls}
 			aria-expanded={ariaExpanded}
 		/>

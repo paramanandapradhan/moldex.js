@@ -47,3 +47,14 @@
     </div>
   {/snippet}
 </Story>
+
+<Story name="Many Chips">
+  {#snippet template(args)}
+    <div class="max-w-md p-4">
+      <TextChip
+        {...args}
+        value={['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa', 'lambda', 'mu']}
+      />
+    </div>
+  {/snippet}
+</Story>

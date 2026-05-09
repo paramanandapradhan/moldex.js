@@ -124,7 +124,7 @@
 			case 'sm':
 				return 'px-2 py-1 gap-1 text-xs min-h-8';
 			case 'xs':
-				return 'px-1.5 py-0 gap-0.5 text-xs min-h-6';
+				return 'px-1.5 py-0 gap-0.5 text-[11px] min-h-5';
 			default:
 				return 'p-1.5 gap-1 text-sm min-h-10';
 		}
@@ -149,7 +149,7 @@
 			case 'sm':
 				return 'text-xs px-1.5 py-0.5';
 			case 'xs':
-				return 'text-xs px-1 py-0';
+				return 'text-[10px] leading-tight px-1 py-0';
 			default:
 				return 'text-xs px-2 py-0.5';
 		}
