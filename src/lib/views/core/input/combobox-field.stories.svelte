@@ -131,3 +131,111 @@
     </div>
   {/snippet}
 </Story>
+
+<Story name="Multiple With Chips">
+  {#snippet template()}
+    <div class="max-w-md p-4 h-96">
+      <ComboboxField
+        name="skills"
+        label="Skills"
+        placeholder="Pick skills"
+        multiple
+        showChip
+        hasCheckbox
+        hasDropdownHeader
+        hasDropdownHeaderSearch
+        items={[
+          { _id: 'svelte', name: 'Svelte' },
+          { _id: 'react', name: 'React' },
+          { _id: 'vue', name: 'Vue' },
+          { _id: 'angular', name: 'Angular' },
+          { _id: 'typescript', name: 'TypeScript' },
+          { _id: 'tailwind', name: 'Tailwind CSS' },
+        ]}
+        value={['svelte', 'typescript']}
+      />
+      <p class="mt-2 text-xs text-neutral-500">
+        Click X on a chip to remove. Open dropdown to add more.
+      </p>
+    </div>
+  {/snippet}
+</Story>
+
+<Story name="Multiple With Chips - Strings">
+  {#snippet template()}
+    <div class="max-w-md p-4 h-96">
+      <ComboboxField
+        name="tags"
+        label="Tags"
+        placeholder="Pick tags"
+        multiple
+        showChip
+        hasCheckbox
+        items={['Alpha', 'Beta', 'Gamma', 'Delta', 'Epsilon', 'Zeta']}
+        value={['Alpha', 'Gamma']}
+      />
+    </div>
+  {/snippet}
+</Story>
+
+<Story name="Multiple With Chips - Limited Display">
+  {#snippet template()}
+    <div class="max-w-md p-4 h-96">
+      <ComboboxField
+        name="skills"
+        label="Show first 2 only"
+        placeholder="Pick"
+        multiple
+        showChip
+        hasCheckbox
+        displayItemsCount={2}
+        items={[
+          { _id: 'svelte', name: 'Svelte' },
+          { _id: 'react', name: 'React' },
+          { _id: 'vue', name: 'Vue' },
+          { _id: 'angular', name: 'Angular' },
+          { _id: 'typescript', name: 'TypeScript' },
+        ]}
+        value={['svelte', 'react', 'typescript', 'vue']}
+      />
+    </div>
+  {/snippet}
+</Story>
+
+<Story name="Multiple With Chips - Not Removable">
+  {#snippet template()}
+    <div class="max-w-md p-4 h-96">
+      <ComboboxField
+        name="skills"
+        label="Read-only chips (no X)"
+        placeholder="Pick"
+        multiple
+        showChip
+        chipRemovable={false}
+        hasCheckbox
+        items={[
+          { _id: 'svelte', name: 'Svelte' },
+          { _id: 'react', name: 'React' },
+          { _id: 'vue', name: 'Vue' },
+        ]}
+        value={['svelte', 'react']}
+      />
+    </div>
+  {/snippet}
+</Story>
+
+<Story name="Multiple With Chips - All Sizes">
+  {#snippet template()}
+    {@const items = [
+      { _id: 'svelte', name: 'Svelte' },
+      { _id: 'react', name: 'React' },
+      { _id: 'vue', name: 'Vue' },
+    ]}
+    <div class="flex flex-col gap-4 max-w-md p-4">
+      <ComboboxField size="xs" label="xs" multiple showChip hasCheckbox {items} value={['svelte', 'react']} placeholder="Pick" />
+      <ComboboxField size="sm" label="sm" multiple showChip hasCheckbox {items} value={['svelte', 'react']} placeholder="Pick" />
+      <ComboboxField size="md" label="md" multiple showChip hasCheckbox {items} value={['svelte', 'react']} placeholder="Pick" />
+      <ComboboxField size="lg" label="lg" multiple showChip hasCheckbox {items} value={['svelte', 'react']} placeholder="Pick" />
+    </div>
+  {/snippet}
+</Story>

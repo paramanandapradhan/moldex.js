@@ -4,6 +4,11 @@ import type { AriaRole, HTMLInputTypeAttribute } from "svelte/elements";
 
 export type ComboboxFieldProps = {
     chipClassName?: string;
+    chipCloseIconClassName?: string;
+    chipCloseIconPath?: string;
+    chipRemovable?: boolean;
+    chipsContainerClassName?: string;
+    onChipRemove?: (item: any) => void;
     comboboxIconClassName?: string;
     comboboxIconPath?: string;
     createButtonClassName?: string;

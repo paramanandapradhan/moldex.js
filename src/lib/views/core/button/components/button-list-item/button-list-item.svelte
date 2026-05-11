@@ -74,13 +74,13 @@
 
 	<div class="flex-grow min-w-0">
 		{#if title}
-			<div class="overflow-hidden whitespace-nowrap overflow-ellipsis {titleClassName}">
+			<div class="overflow-hidden whitespace-nowrap overflow-ellipsis leading-tight {titleClassName}">
 				{title || ''}
 			</div>
 		{/if}
 		{#if subtitle}
 			<div
-				class="overflow-hidden whitespace-nowrap overflow-ellipsis text-neutral-400 dark:text-neutral-300 text-sm font-light {subtitleClassName}"
+				class="overflow-hidden whitespace-nowrap overflow-ellipsis text-neutral-400 dark:text-neutral-300 text-xs font-light leading-tight {subtitleClassName}"
 			>
 				{subtitle || ''}
 			</div>

@@ -7,6 +7,7 @@
 	import {
 		mdiCheckCircle,
 		mdiCheckCircleOutline,
+		mdiClose,
 		mdiUnfoldMoreHorizontal
 	} from '$lib/views/core/icon/index.js';
 	import NoData from '$lib/views/core/no-data/components/no-data/no-data.svelte';
@@ -18,6 +19,11 @@
 	let {
 		appearance,
 		chipClassName,
+		chipCloseIconClassName = '',
+		chipCloseIconPath = mdiClose,
+		chipsContainerClassName = '',
+		chipRemovable = true,
+		onChipRemove,
 		className,
 		comboboxIconClassName,
 		comboboxIconPath = mdiUnfoldMoreHorizontal,
@@ -123,6 +129,32 @@
 		value ? new SvelteSet<any>(Array.isArray(value) ? value : [value]) : new SvelteSet<any>()
 	);
 
+	let chipSizeClassName = $derived.by(() => {
+		switch (size) {
+			case 'lg':
+				return 'text-sm px-2 py-1';
+			case 'sm':
+				return 'text-xs px-1.5 py-0.5';
+			case 'xs':
+				return 'text-[10px] leading-tight px-1 py-0';
+			default:
+				return 'text-xs px-2 py-0.5';
+		}
+	});
+
+	let chipCloseIconSizeClassName = $derived.by(() => {
+		switch (size) {
+			case 'lg':
+				return 'h-4 w-4';
+			case 'sm':
+				return 'h-3 w-3';
+			case 'xs':
+				return 'h-2.5 w-2.5';
+			default:
+				return 'h-3.5 w-3.5';
+		}
+	});
+
 	let comboboxIconSizeClassName = $derived.by(() => {
 		if (size) {
 			switch (size) {
@@ -167,6 +199,21 @@
 			}
 		});
 		return results;
+	});
+
+	let selectedChipItems: { id: any; label: string }[] = $derived.by(() => {
+		let array = Array.from(selectedItemsSet);
+		return array.map((id) => {
+			if (hasPrimitiveItemsData) {
+				return { id, label: String(id) };
+			}
+			const item = itemsIdentityMap[id];
+			const label =
+				item && displayFieldName && item.hasOwnProperty(displayFieldName)
+					? String(item[displayFieldName])
+					: String(id);
+			return { id, label };
+		});
 	});
 
 	let displayItemsTitle = $derived(displayItems.join(', '));
@@ -281,6 +328,21 @@
 		searchText = value;
 	}
 
+	function removeSelectedItem(id: any) {
+		if (!selectedItemsSet.has(id)) return;
+		selectedItemsSet.delete(id);
+		items = [...(items || [])];
+		const array = Array.from(selectedItemsSet);
+		if (array.length) {
+			value = multiple ? array : array[0];
+		} else {
+			value = null;
+		}
+		const removedItem = hasPrimitiveItemsData ? id : itemsIdentityMap[id];
+		onChipRemove && onChipRemove(removedItem);
+		onChange && onChange(value);
+	}
+
 	function handleItemClick(ev: MouseEvent, item: any, index: number) {
 		let id = item[identityFieldName];
 		if (multiple) {
@@ -328,16 +390,45 @@
 	{#if contentSnippet}
 		{@render contentSnippet()}
 	{:else if showChip}
-		<div class="flex items-center {displayClassName}" title={displayItemsTitle}>
-			{#each displayItems?.slice(0, displayItemsCount) as item, index}
-				<div
-					class="mx-1 inline-flex items-center rounded-full bg-neutral-200 px-2 text-sm font-medium text-nowrap text-neutral-700 {chipClassName}"
+		{@const visibleChips = displayItemsCount
+			? selectedChipItems.slice(0, displayItemsCount)
+			: selectedChipItems}
+		{@const overflow = displayItemsCount ? selectedChipItems.length - displayItemsCount : 0}
+		<div
+			class="flex flex-wrap items-center gap-1 {chipsContainerClassName} {displayClassName}"
+			title={displayItemsTitle}
+		>
+			{#each visibleChips as chip (chip.id)}
+				<span
+					class="pointer-events-auto inline-flex items-center gap-1 rounded-full bg-neutral-200 font-medium text-neutral-700 dark:bg-neutral-600 dark:text-neutral-100 {chipSizeClassName} {chipClassName}"
 				>
-					{item}
-				</div>
+					<span class="text-nowrap">{chip.label}</span>
+					{#if multiple && chipRemovable && !props.disabled && !props.readonly}
+						<button
+							type="button"
+							class="inline-flex cursor-pointer items-center rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-500"
+							onmousedown={(e) => {
+								e.preventDefault();
+								e.stopPropagation();
+								removeSelectedItem(chip.id);
+							}}
+							onclick={(e) => {
+								e.preventDefault();
+								e.stopPropagation();
+							}}
+							aria-label="Remove {chip.label}"
+						>
+							<Icon
+								path={chipCloseIconPath}
+								sizeClassName={chipCloseIconSizeClassName}
+								className={chipCloseIconClassName}
+							/>
+						</button>
+					{/if}
+				</span>
 			{/each}
-			{#if displayItemsCount && displayItems?.length > (displayItemsCount || 1)}
-				<div class="px-2 text-neutral-400">+ {displayItems?.length - (displayItemsCount || 1)}</div>
+			{#if overflow > 0}
+				<span class="px-2 text-neutral-400">+ {overflow}</span>
 			{/if}
 		</div>
 	{:else}
