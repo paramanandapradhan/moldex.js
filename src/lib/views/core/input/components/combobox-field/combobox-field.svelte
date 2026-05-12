@@ -132,13 +132,13 @@
 	let chipSizeClassName = $derived.by(() => {
 		switch (size) {
 			case 'lg':
-				return 'text-sm px-2 py-1';
+				return 'text-base px-2 py-0.5';
 			case 'sm':
-				return 'text-xs px-1.5 py-0.5';
+				return 'text-xs px-1.5 py-0';
 			case 'xs':
-				return 'text-[10px] leading-tight px-1 py-0';
+				return 'text-xs leading-tight px-1.5 py-0';
 			default:
-				return 'text-xs px-2 py-0.5';
+				return 'text-sm px-2 py-0';
 		}
 	});
 
@@ -149,7 +149,7 @@
 			case 'sm':
 				return 'h-3 w-3';
 			case 'xs':
-				return 'h-2.5 w-2.5';
+				return 'h-3 w-3';
 			default:
 				return 'h-3.5 w-3.5';
 		}
@@ -159,14 +159,27 @@
 		if (size) {
 			switch (size) {
 				case 'lg':
-					return '!h-7 !w-7';
-				case 'md':
 					return '!h-6 !w-6';
-				case 'sm':
+				case 'md':
 					return '!h-5 !w-5';
-				case 'xs':
+				case 'sm':
 					return '!h-4 !w-4';
+				case 'xs':
+					return '!h-3.5 !w-3.5';
 			}
+		}
+	});
+
+	let comboboxPaddingRightClassName = $derived.by(() => {
+		switch (size) {
+			case 'lg':
+				return 'pr-10';
+			case 'sm':
+				return 'pr-7';
+			case 'xs':
+				return 'pr-6';
+			default:
+				return 'pr-8';
 		}
 	});
 
@@ -448,7 +461,7 @@
 		type="text"
 		role="combobox"
 		onClick={handleInputClick}
-		className="pr-8 text-transparent {className}"
+		className="{comboboxPaddingRightClassName} text-transparent {className}"
 		rightSnippet={rightIcon}
 		rightSnippetContainerClassName="pointer-events-none"
 		readonly

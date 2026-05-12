@@ -22,6 +22,17 @@
   });
 </script>
 
+<Story name="Sizes">
+  {#snippet template()}
+    <div class="max-w-sm p-4 space-y-4">
+      <DateTimeField name="dtxs" label="XS" size="xs" />
+      <DateTimeField name="dtsm" label="SM" size="sm" />
+      <DateTimeField name="dtmd" label="MD" size="md" />
+      <DateTimeField name="dtlg" label="LG" size="lg" />
+    </div>
+  {/snippet}
+</Story>
+
 <Story name="Default">
   {#snippet template()}
     <div class="max-w-sm p-4">

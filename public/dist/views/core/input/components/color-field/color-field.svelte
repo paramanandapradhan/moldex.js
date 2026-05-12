@@ -22,20 +22,46 @@
 		if (size) {
 			switch (size) {
 				case 'lg':
-					className = '!h-7 !w-7';
-					break;
-				case 'md':
 					className = '!h-6 !w-6';
 					break;
-				case 'sm':
+				case 'md':
 					className = '!h-5 !w-5';
 					break;
-				case 'xs':
+				case 'sm':
 					className = '!h-4 !w-4';
+					break;
+				case 'xs':
+					className = '!h-3.5 !w-3.5';
 					break;
 			}
 		}
 		return className;
+	});
+
+	let btnPaddingClassName: string = $derived.by(() => {
+		switch (size) {
+			case 'lg':
+				return 'px-3';
+			case 'sm':
+				return 'px-1.5';
+			case 'xs':
+				return 'px-1';
+			default:
+				return 'px-2';
+		}
+	});
+
+	let inputPaddingRightClassName: string = $derived.by(() => {
+		switch (size) {
+			case 'lg':
+				return 'pr-10';
+			case 'sm':
+				return 'pr-7';
+			case 'xs':
+				return 'pr-6';
+			default:
+				return 'pr-8';
+		}
 	});
 
 	let btnRoundedClassName: string = $derived.by(() => {
@@ -92,7 +118,7 @@
 	<button
 		id="btn-color-picker-{name || id}"
 		type="button"
-		class="h-full px-2 hover:bg-neutral-100 focus:outline-primary dark:hover:bg-neutral-900 {btnRoundedClassName}"
+		class="h-full {btnPaddingClassName} hover:bg-neutral-100 focus:outline-primary dark:hover:bg-neutral-900 {btnRoundedClassName}"
 		use:ripple
 		onclick={handleColorBtnClick}
 	>
@@ -107,7 +133,7 @@
 		{id}
 		{name}
 		bind:this={inputRef}
-		className="pr-8 {props?.className}"
+		className="{inputPaddingRightClassName} {props?.className}"
 		rightSnippet={colorButton}
 		maxlength={9}
 		bind:value={value as string}

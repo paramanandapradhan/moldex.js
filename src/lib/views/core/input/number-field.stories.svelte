@@ -34,6 +34,17 @@
   });
 </script>
 
+<Story name="All Sizes">
+  {#snippet template()}
+    <div class="flex flex-col gap-4 max-w-sm">
+      <NumberField size="xs" label="XSmall" placeholder="0" />
+      <NumberField size="sm" label="Small" placeholder="0" />
+      <NumberField size="md" label="Medium" placeholder="0" />
+      <NumberField size="lg" label="Large" placeholder="0" />
+    </div>
+  {/snippet}
+</Story>
+
 <Story name="Default" args={{ label: 'Quantity', placeholder: '0' }} />
 
 <Story name="With Min Max" args={{ label: 'Age', placeholder: '18', min: 0, max: 120 }} />

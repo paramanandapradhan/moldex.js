@@ -118,15 +118,15 @@
 	const sizeClassName = $derived.by(() => {
 		switch (size) {
 			case 'lg':
-				return 'p-2 gap-1.5 text-base min-h-12';
+				return 'px-2 py-1 gap-1.5 text-base min-h-12';
 			case 'md':
-				return 'p-1.5 gap-1 text-sm min-h-10';
+				return 'px-2 py-1 gap-1 text-sm min-h-10';
 			case 'sm':
-				return 'px-2 py-1 gap-1 text-xs min-h-8';
+				return 'px-2 py-0.5 gap-1 text-xs min-h-8';
 			case 'xs':
-				return 'px-1.5 py-0 gap-0.5 text-[11px] min-h-5';
+				return 'px-1.5 py-0 gap-0.5 text-xs min-h-6';
 			default:
-				return 'p-1.5 gap-1 text-sm min-h-10';
+				return 'px-2 py-1 gap-1 text-sm min-h-10';
 		}
 	});
 
@@ -145,13 +145,13 @@
 	const chipSizeClassName = $derived.by(() => {
 		switch (size) {
 			case 'lg':
-				return 'text-sm px-2 py-1';
+				return 'text-base px-2 py-0.5';
 			case 'sm':
-				return 'text-xs px-1.5 py-0.5';
+				return 'text-xs px-1.5 py-0';
 			case 'xs':
-				return 'text-[10px] leading-tight px-1 py-0';
+				return 'text-xs leading-tight px-1.5 py-0';
 			default:
-				return 'text-xs px-2 py-0.5';
+				return 'text-sm px-2 py-0';
 		}
 	});
 
@@ -162,7 +162,7 @@
 			case 'sm':
 				return 'h-3 w-3';
 			case 'xs':
-				return 'h-2.5 w-2.5';
+				return 'h-3 w-3';
 			default:
 				return 'h-3.5 w-3.5';
 		}

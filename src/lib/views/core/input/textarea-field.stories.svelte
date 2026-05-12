@@ -32,6 +32,17 @@
   });
 </script>
 
+<Story name="All Sizes">
+  {#snippet template()}
+    <div class="flex flex-col gap-4 max-w-sm">
+      <TextareaField size="xs" label="XSmall" placeholder="XSmall" />
+      <TextareaField size="sm" label="Small" placeholder="Small" />
+      <TextareaField size="md" label="Medium" placeholder="Medium" />
+      <TextareaField size="lg" label="Large" placeholder="Large" />
+    </div>
+  {/snippet}
+</Story>
+
 <Story name="Default" args={{ label: 'Description', placeholder: 'Write a description...' }} />
 
 <Story name="With Max Length" args={{ label: 'Bio', placeholder: 'Tell us about yourself...', maxlength: 150 }} />

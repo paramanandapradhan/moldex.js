@@ -32,14 +32,6 @@
   });
 </script>
 
-<Story name="Default" args={{ label: 'Name', placeholder: 'John Doe' }} />
-
-<Story name="With Max Length" args={{ label: 'Username', placeholder: 'Enter username', maxlength: 30 }} />
-
-<Story name="Required" args={{ label: 'Full Name', placeholder: 'Enter your full name', required: true }} />
-
-<Story name="Disabled" args={{ label: 'Name', placeholder: 'Not editable', disabled: true }} />
-
 <Story name="All Sizes">
   {#snippet template()}
     <div class="flex flex-col gap-4 max-w-sm">
@@ -50,6 +42,14 @@
     </div>
   {/snippet}
 </Story>
+
+<Story name="Default" args={{ label: 'Name', placeholder: 'John Doe' }} />
+
+<Story name="With Max Length" args={{ label: 'Username', placeholder: 'Enter username', maxlength: 30 }} />
+
+<Story name="Required" args={{ label: 'Full Name', placeholder: 'Enter your full name', required: true }} />
+
+<Story name="Disabled" args={{ label: 'Name', placeholder: 'Not editable', disabled: true }} />
 
 <Story name="All Appearances">
   {#snippet template()}

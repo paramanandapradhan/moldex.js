@@ -24,6 +24,22 @@
   });
 </script>
 
+<Story name="All Sizes">
+  {#snippet template()}
+    {@const items = [
+      { _id: 'svelte', name: 'Svelte' },
+      { _id: 'react', name: 'React' },
+      { _id: 'vue', name: 'Vue' },
+    ]}
+    <div class="flex flex-col gap-4 max-w-md p-4">
+      <ComboboxField size="xs" label="xs" {items} placeholder="Pick" />
+      <ComboboxField size="sm" label="sm" {items} placeholder="Pick" />
+      <ComboboxField size="md" label="md" {items} placeholder="Pick" />
+      <ComboboxField size="lg" label="lg" {items} placeholder="Pick" />
+    </div>
+  {/snippet}
+</Story>
+
 <Story name="Simple Strings">
   {#snippet template()}
     <div class="max-w-sm p-4 h-72">

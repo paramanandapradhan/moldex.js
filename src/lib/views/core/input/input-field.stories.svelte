@@ -34,6 +34,17 @@
   });
 </script>
 
+<Story name="All Sizes">
+  {#snippet template()}
+    <div class="flex flex-col gap-4 max-w-sm">
+      <InputField size="xs" label="XSmall" placeholder="XSmall" />
+      <InputField size="sm" label="Small" placeholder="Small" />
+      <InputField size="md" label="Medium" placeholder="Medium" />
+      <InputField size="lg" label="Large" placeholder="Large" />
+    </div>
+  {/snippet}
+</Story>
+
 <Story name="Normal" args={{ appearance: 'normal', label: 'Label', placeholder: 'Type here...' }} />
 
 <Story name="Box" args={{ appearance: 'box', label: 'Box Input', placeholder: 'Type here...' }} />
@@ -58,17 +69,6 @@
       <InputField appearance="fill" label="Fill" placeholder="Fill appearance" />
       <InputField appearance="underline" label="Underline" placeholder="Underline appearance" />
       <InputField appearance="fill-underline" label="Fill Underline" placeholder="Fill underline" />
-    </div>
-  {/snippet}
-</Story>
-
-<Story name="All Sizes">
-  {#snippet template()}
-    <div class="flex flex-col gap-4 max-w-sm">
-      <InputField size="xs" label="XSmall" placeholder="XSmall" />
-      <InputField size="sm" label="Small" placeholder="Small" />
-      <InputField size="md" label="Medium" placeholder="Medium" />
-      <InputField size="lg" label="Large" placeholder="Large" />
     </div>
   {/snippet}
 </Story>

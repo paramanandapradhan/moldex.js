@@ -53,6 +53,17 @@
   ];
 </script>
 
+<Story name="All Sizes">
+  {#snippet template()}
+    <div class="flex flex-col gap-4 max-w-md p-4">
+      <DetailListField size="xs" label="xs" placeholder="Browser..." items={browsers} />
+      <DetailListField size="sm" label="sm" placeholder="Browser..." items={browsers} />
+      <DetailListField size="md" label="md" placeholder="Browser..." items={browsers} />
+      <DetailListField size="lg" label="lg" placeholder="Browser..." items={browsers} />
+    </div>
+  {/snippet}
+</Story>
+
 <Story name="Browser Picker (Datalist Style)">
   {#snippet template(args)}
     <div class="max-w-md p-4 h-80">
@@ -143,17 +154,6 @@
           </div>
         {/snippet}
       </DetailListField>
-    </div>
-  {/snippet}
-</Story>
-
-<Story name="All Sizes">
-  {#snippet template()}
-    <div class="flex flex-col gap-4 max-w-md p-4">
-      <DetailListField size="xs" label="xs" placeholder="Browser..." items={browsers} />
-      <DetailListField size="sm" label="sm" placeholder="Browser..." items={browsers} />
-      <DetailListField size="md" label="md" placeholder="Browser..." items={browsers} />
-      <DetailListField size="lg" label="lg" placeholder="Browser..." items={browsers} />
     </div>
   {/snippet}
 </Story>

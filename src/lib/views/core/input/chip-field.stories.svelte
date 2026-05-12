@@ -39,6 +39,17 @@
   ];
 </script>
 
+<Story name="All Sizes">
+  {#snippet template()}
+    <div class="flex flex-col gap-4 max-w-md p-4">
+      <ChipField size="xs" label="xs" value={['alpha', 'beta', 'gamma']} placeholder="Type..." />
+      <ChipField size="sm" label="sm" value={['alpha', 'beta', 'gamma']} placeholder="Type..." />
+      <ChipField size="md" label="md" value={['alpha', 'beta', 'gamma']} placeholder="Type..." />
+      <ChipField size="lg" label="lg" value={['alpha', 'beta', 'gamma']} placeholder="Type..." />
+    </div>
+  {/snippet}
+</Story>
+
 <Story name="Free Text (CSV)">
   {#snippet template(args)}
     <div class="max-w-md p-4">
@@ -104,17 +115,6 @@
         value={['alpha', 'beta', 'gamma']}
         disabled
       />
-    </div>
-  {/snippet}
-</Story>
-
-<Story name="All Sizes">
-  {#snippet template()}
-    <div class="flex flex-col gap-4 max-w-md p-4">
-      <ChipField size="xs" label="xs" value={['alpha', 'beta', 'gamma']} placeholder="Type..." />
-      <ChipField size="sm" label="sm" value={['alpha', 'beta', 'gamma']} placeholder="Type..." />
-      <ChipField size="md" label="md" value={['alpha', 'beta', 'gamma']} placeholder="Type..." />
-      <ChipField size="lg" label="lg" value={['alpha', 'beta', 'gamma']} placeholder="Type..." />
     </div>
   {/snippet}
 </Story>

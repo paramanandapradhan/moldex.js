@@ -23,6 +23,17 @@
   });
 </script>
 
+<Story name="Sizes">
+  {#snippet template()}
+    <div class="max-w-sm p-4 space-y-4">
+      <PasswordField name="pxs" label="XS" placeholder="Extra small" size="xs" />
+      <PasswordField name="psm" label="SM" placeholder="Small" size="sm" />
+      <PasswordField name="pmd" label="MD" placeholder="Medium" size="md" />
+      <PasswordField name="plg" label="LG" placeholder="Large" size="lg" />
+    </div>
+  {/snippet}
+</Story>
+
 <Story name="Default">
   {#snippet template()}
     <div class="max-w-sm p-4">
@@ -39,17 +50,6 @@
       <PasswordField name="p3" label="Fill" placeholder="Fill" appearance="fill" />
       <PasswordField name="p4" label="Underline" placeholder="Underline" appearance="underline" />
       <PasswordField name="p5" label="Fill Underline" placeholder="Fill Underline" appearance="fill-underline" />
-    </div>
-  {/snippet}
-</Story>
-
-<Story name="Sizes">
-  {#snippet template()}
-    <div class="max-w-sm p-4 space-y-4">
-      <PasswordField name="pxs" label="XS" placeholder="Extra small" size="xs" />
-      <PasswordField name="psm" label="SM" placeholder="Small" size="sm" />
-      <PasswordField name="pmd" label="MD" placeholder="Medium" size="md" />
-      <PasswordField name="plg" label="LG" placeholder="Large" size="lg" />
     </div>
   {/snippet}
 </Story>

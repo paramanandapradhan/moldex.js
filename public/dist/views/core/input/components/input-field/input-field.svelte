@@ -77,16 +77,16 @@
 		if (size) {
 			switch (size) {
 				case 'lg':
-					sizeClassName = 'p-4 text-neutral';
+					sizeClassName = 'px-4 py-2 text-base min-h-12';
 					break;
 				case 'md':
-					sizeClassName = 'p-2 text-sm';
+					sizeClassName = 'px-3 py-1.5 text-sm min-h-10';
 					break;
 				case 'sm':
-					sizeClassName = 'px-2 py-1.5 text-xs';
+					sizeClassName = 'px-2 py-1 text-xs min-h-8';
 					break;
 				case 'xs':
-					sizeClassName = 'px-2 py-0.5 text-xs';
+					sizeClassName = 'px-2 py-0.5 text-xs min-h-6';
 					break;
 			}
 		}
@@ -123,7 +123,7 @@
 			if (size) {
 				switch (size) {
 					case 'lg':
-						className = 'text-neutral';
+						className = 'text-base';
 						break;
 					case 'md':
 						className = 'text-sm';

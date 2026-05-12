@@ -14,6 +14,10 @@
         control: { type: 'select' },
         options: ['left', 'right'],
       },
+      size: {
+        control: { type: 'select' },
+        options: ['xs', 'sm', 'md', 'lg'],
+      },
     },
     args: {
       label: 'Accept terms',
@@ -22,6 +26,17 @@
     },
   });
 </script>
+
+<Story name="Sizes">
+  {#snippet template()}
+    <div class="space-y-3">
+      <CheckboxField name="cxs" label="XS" size="xs" />
+      <CheckboxField name="csm" label="SM" size="sm" />
+      <CheckboxField name="cmd" label="MD" size="md" />
+      <CheckboxField name="clg" label="LG" size="lg" />
+    </div>
+  {/snippet}
+</Story>
 
 <Story name="Default">
   {#snippet template()}

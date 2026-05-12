@@ -24,6 +24,17 @@
   });
 </script>
 
+<Story name="Sizes">
+  {#snippet template()}
+    <div class="max-w-sm p-4 space-y-4">
+      <FileField name="fxs" label="XS" size="xs" placeholder="Choose..." />
+      <FileField name="fsm" label="SM" size="sm" placeholder="Choose..." />
+      <FileField name="fmd" label="MD" size="md" placeholder="Choose..." />
+      <FileField name="flg" label="LG" size="lg" placeholder="Choose..." />
+    </div>
+  {/snippet}
+</Story>
+
 <Story name="Default">
   {#snippet template()}
     <div class="max-w-sm p-4">

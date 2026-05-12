@@ -31,6 +31,17 @@
   });
 </script>
 
+<Story name="All Sizes">
+  {#snippet template()}
+    <div class="flex flex-col gap-4 max-w-sm">
+      <EmailField size="xs" label="XSmall" placeholder="user@example.com" />
+      <EmailField size="sm" label="Small" placeholder="user@example.com" />
+      <EmailField size="md" label="Medium" placeholder="user@example.com" />
+      <EmailField size="lg" label="Large" placeholder="user@example.com" />
+    </div>
+  {/snippet}
+</Story>
+
 <Story name="Default" args={{ label: 'Email', placeholder: 'user@example.com' }} />
 
 <Story name="Required" args={{ label: 'Work Email', placeholder: 'name@company.com', required: true }} />

@@ -31,6 +31,17 @@
   });
 </script>
 
+<Story name="All Sizes">
+  {#snippet template()}
+    <div class="flex flex-col gap-4 max-w-sm">
+      <PhoneField size="xs" label="xs" placeholder="Phone..." />
+      <PhoneField size="sm" label="sm" placeholder="Phone..." />
+      <PhoneField size="md" label="md" placeholder="Phone..." />
+      <PhoneField size="lg" label="lg" placeholder="Phone..." />
+    </div>
+  {/snippet}
+</Story>
+
 <Story name="Default" args={{ label: 'Phone Number', placeholder: '(555) 123-4567' }} />
 
 <Story name="Required" args={{ label: 'Contact Phone', placeholder: 'Enter phone...', required: true }} />
@@ -44,17 +55,6 @@
       <PhoneField appearance="box" label="Box" placeholder="Phone..." />
       <PhoneField appearance="fill" label="Fill" placeholder="Phone..." />
       <PhoneField appearance="underline" label="Underline" placeholder="Phone..." />
-    </div>
-  {/snippet}
-</Story>
-
-<Story name="All Sizes">
-  {#snippet template()}
-    <div class="flex flex-col gap-4 max-w-sm">
-      <PhoneField size="xs" label="xs" placeholder="Phone..." />
-      <PhoneField size="sm" label="sm" placeholder="Phone..." />
-      <PhoneField size="md" label="md" placeholder="Phone..." />
-      <PhoneField size="lg" label="lg" placeholder="Phone..." />
     </div>
   {/snippet}
 </Story>

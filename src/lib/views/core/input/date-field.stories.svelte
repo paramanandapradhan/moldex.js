@@ -22,6 +22,17 @@
   });
 </script>
 
+<Story name="Sizes">
+  {#snippet template()}
+    <div class="max-w-sm p-4 space-y-4">
+      <DateField name="dxs" label="XS" size="xs" />
+      <DateField name="dsm" label="SM" size="sm" />
+      <DateField name="dmd" label="MD" size="md" />
+      <DateField name="dlg" label="LG" size="lg" />
+    </div>
+  {/snippet}
+</Story>
+
 <Story name="Default">
   {#snippet template()}
     <div class="max-w-sm p-4">
@@ -38,17 +49,6 @@
       <DateField name="d3" label="Fill" appearance="fill" />
       <DateField name="d4" label="Underline" appearance="underline" />
       <DateField name="d5" label="Fill Underline" appearance="fill-underline" />
-    </div>
-  {/snippet}
-</Story>
-
-<Story name="Sizes">
-  {#snippet template()}
-    <div class="max-w-sm p-4 space-y-4">
-      <DateField name="dxs" label="XS" size="xs" />
-      <DateField name="dsm" label="SM" size="sm" />
-      <DateField name="dmd" label="MD" size="md" />
-      <DateField name="dlg" label="LG" size="lg" />
     </div>
   {/snippet}
 </Story>

@@ -24,14 +24,6 @@
   });
 </script>
 
-<Story name="Default">
-  {#snippet template()}
-    <div class="p-4 max-w-sm">
-      <RangeField name="volume" value={50} />
-    </div>
-  {/snippet}
-</Story>
-
 <Story name="Sizes">
   {#snippet template()}
     <div class="p-4 max-w-sm space-y-6">
@@ -51,6 +43,14 @@
         <p class="text-xs text-neutral-500 mb-2">lg</p>
         <RangeField name="lg" size="lg" value={90} />
       </div>
+    </div>
+  {/snippet}
+</Story>
+
+<Story name="Default">
+  {#snippet template()}
+    <div class="p-4 max-w-sm">
+      <RangeField name="volume" value={50} />
     </div>
   {/snippet}
 </Story>

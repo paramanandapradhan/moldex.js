@@ -23,6 +23,17 @@
   });
 </script>
 
+<Story name="Sizes">
+  {#snippet template()}
+    <div class="max-w-sm p-4 space-y-4">
+      <ColorField name="cxs" label="XS" size="xs" value="#7f22fe" />
+      <ColorField name="csm" label="SM" size="sm" value="#7f22fe" />
+      <ColorField name="cmd" label="MD" size="md" value="#7f22fe" />
+      <ColorField name="clg" label="LG" size="lg" value="#7f22fe" />
+    </div>
+  {/snippet}
+</Story>
+
 <Story name="Default">
   {#snippet template()}
     <div class="max-w-sm p-4">

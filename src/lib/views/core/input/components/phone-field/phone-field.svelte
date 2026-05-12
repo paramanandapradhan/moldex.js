@@ -48,6 +48,45 @@
 		}
 	});
 
+	let btnSizeClassName = $derived.by(() => {
+		switch (size) {
+			case 'lg':
+				return 'w-20 text-base';
+			case 'sm':
+				return 'w-14 text-xs';
+			case 'xs':
+				return 'w-12 text-xs';
+			default:
+				return 'w-16 text-sm';
+		}
+	});
+
+	let inputPaddingLeftClassName = $derived.by(() => {
+		switch (size) {
+			case 'lg':
+				return 'pl-20';
+			case 'sm':
+				return 'pl-14';
+			case 'xs':
+				return 'pl-12';
+			default:
+				return 'pl-16';
+		}
+	});
+
+	let labelPaddingStartClassName = $derived.by(() => {
+		switch (size) {
+			case 'lg':
+				return 'peer-placeholder-shown:ps-20';
+			case 'sm':
+				return 'peer-placeholder-shown:ps-14';
+			case 'xs':
+				return 'peer-placeholder-shown:ps-12';
+			default:
+				return 'peer-placeholder-shown:ps-16';
+		}
+	});
+
 	function stripToDigits(s: string): string {
 		return (s || '').replace(/\D+/g, '');
 	}
@@ -213,7 +252,7 @@
 	<button
 		id="btn-dialcode-picker-{name || id}"
 		type="button"
-		class="w-16 h-full hover:bg-gray-100 font-bold text-gray-400 focus:outline-primary {btnRoundedClassName} {buttonClassName}"
+		class="{btnSizeClassName} h-full hover:bg-gray-100 font-bold text-gray-400 focus:outline-primary {btnRoundedClassName} {buttonClassName}"
 		use:ripple
 		onclick={handleDialCodePicker}
 	>
@@ -245,8 +284,8 @@
 	{size}
 	{appearance}
 	{floatingLabel}
-	className="pl-16  {className}"
-	labelClassName=" {floatingLabel ? 'peer-placeholder-shown:ps-16' : ''} {labelClassName}"
+	className="{inputPaddingLeftClassName}  {className}"
+	labelClassName=" {floatingLabel ? labelPaddingStartClassName : ''} {labelClassName}"
 	onInput={handleNumberInput}
 	onKeyDown={handleNumberKeyDown}
 	onPaste={handlePaste}
