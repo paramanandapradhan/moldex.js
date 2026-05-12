@@ -132,13 +132,13 @@
 	let chipSizeClassName = $derived.by(() => {
 		switch (size) {
 			case 'lg':
-				return 'text-base px-2 py-0.5';
+				return 'text-base leading-none px-2 py-0';
 			case 'sm':
-				return 'text-xs px-1.5 py-0';
+				return 'text-xs leading-none px-1.5 py-0';
 			case 'xs':
-				return 'text-xs leading-tight px-1.5 py-0';
+				return 'text-xs leading-none px-1.5 py-0';
 			default:
-				return 'text-sm px-2 py-0';
+				return 'text-sm leading-none px-2 py-0';
 		}
 	});
 

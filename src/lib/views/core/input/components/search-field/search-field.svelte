@@ -9,6 +9,7 @@
 		className,
 		placeholder,
 		iconClassName,
+		size = 'md',
 		value = $bindable(''),
 		onSearch,
 		...props
@@ -16,6 +17,45 @@
 		iconClassName?: string;
 		onSearch?: (value: string) => void;
 	} = $props();
+
+	let iconSizeClassName = $derived.by(() => {
+		switch (size) {
+			case 'lg':
+				return '!h-6 !w-6';
+			case 'sm':
+				return '!h-4 !w-4';
+			case 'xs':
+				return '!h-3.5 !w-3.5';
+			default:
+				return '!h-5 !w-5';
+		}
+	});
+
+	let iconMarginClassName = $derived.by(() => {
+		switch (size) {
+			case 'lg':
+				return 'mx-3';
+			case 'sm':
+				return 'mx-2';
+			case 'xs':
+				return 'mx-1.5';
+			default:
+				return 'mx-2.5';
+		}
+	});
+
+	let inputPaddingLeftClassName = $derived.by(() => {
+		switch (size) {
+			case 'lg':
+				return 'pl-12';
+			case 'sm':
+				return 'pl-8';
+			case 'xs':
+				return 'pl-7';
+			default:
+				return 'pl-10';
+		}
+	});
 
 	const debouncedSearch = debounce(search, 300);
 	let lastQuery: string;
@@ -65,16 +105,17 @@
 </script>
 
 {#snippet searchIcon()}
-	<Icon path={mdiMagnify} className="mx-3 text-neutral-400 dark:text-neutral-500 {iconClassName}"></Icon>
+	<Icon path={mdiMagnify} sizeClassName={iconSizeClassName} className="{iconMarginClassName} text-neutral-400 dark:text-neutral-500 {iconClassName}"></Icon>
 {/snippet}
 <InputField
 	bind:value
 	bind:this={inputFieldRef}
 	{...props}
+	{size}
 	type="search"
 	maxlength={props?.maxlength || 200}
 	leftSnippet={searchIcon}
-	className="pl-12 {className}"
+	className="{inputPaddingLeftClassName} {className}"
 	{placeholder}
 	onInput={handleInput}
 />

@@ -77,16 +77,16 @@
 		if (size) {
 			switch (size) {
 				case 'lg':
-					sizeClassName = 'px-4 py-2 text-base min-h-12';
+					sizeClassName = 'px-4 py-2 text-base min-h-[46px]';
 					break;
 				case 'md':
-					sizeClassName = 'px-3 py-1.5 text-sm min-h-10';
+					sizeClassName = 'px-3 py-1.5 text-sm min-h-[38px]';
 					break;
 				case 'sm':
-					sizeClassName = 'px-2 py-1 text-xs min-h-8';
+					sizeClassName = 'px-2 py-1 text-xs min-h-[30px]';
 					break;
 				case 'xs':
-					sizeClassName = 'px-2 py-0.5 text-xs min-h-6';
+					sizeClassName = 'px-2 py-0.5 text-xs min-h-[24px]';
 					break;
 			}
 		}

@@ -14,6 +14,7 @@
 		position = 'left',
 		radioContainerClassName,
 		required,
+		size = 'md',
 		subtitle,
 		subtitleClassName,
 		title,
@@ -21,7 +22,44 @@
 		value = $bindable(),
 		descClassName,
 		onChange
-	}: RadioPropsType = $props();
+	}: RadioPropsType & { size?: 'xs' | 'sm' | 'md' | 'lg' } = $props();
+
+	let radioSizeClassName = $derived.by(() => {
+		switch (size) {
+			case 'lg':
+				return 'h-6 w-6';
+			case 'sm':
+				return 'h-4 w-4';
+			case 'xs':
+				return 'h-3.5 w-3.5';
+			default:
+				return 'h-5 w-5';
+		}
+	});
+
+	let labelSizeClassName = $derived.by(() => {
+		switch (size) {
+			case 'lg':
+				return 'text-base';
+			case 'sm':
+				return 'text-xs';
+			case 'xs':
+				return 'text-xs';
+			default:
+				return 'text-sm';
+		}
+	});
+
+	let descSizeClassName = $derived.by(() => {
+		switch (size) {
+			case 'lg':
+				return 'text-sm';
+			case 'xs':
+				return 'text-[10px]';
+			default:
+				return 'text-xs';
+		}
+	});
 
 	let hasPrimitiveItemsData = $derived.by(() => {
 		if (items?.length) {
@@ -61,12 +99,12 @@
 </script>
 
 {#snippet labelSnippet(item: RadioItem, index: number)}
-	<div class="leading-6">
-		<div class="ml-4 block text-sm font-medium text-neutral-900 dark:text-neutral-100 flex-grow {labelClassName}">
+	<div class="leading-tight">
+		<div class="ml-4 block {labelSizeClassName} font-medium text-neutral-900 dark:text-neutral-100 flex-grow {labelClassName}">
 			{item.label || ''}
 		</div>
 		{#if item.desc}
-			<div class="ml-4 block text-xs text-neutral-500 dark:text-neutral-400 flex-grow {descClassName}">
+			<div class="ml-4 block {descSizeClassName} text-neutral-500 dark:text-neutral-400 flex-grow {descClassName}">
 				{item.desc || ''}
 			</div>
 		{/if}
@@ -105,7 +143,7 @@
 					type="radio"
 					value={item.value}
 					checked={value === item.value}
-					class="h-6 w-6 appearance-none rounded-full bg-neutral-200 dark:bg-neutral-700 dark:checked:bg-primary checked:bg-primary checked:hover:bg-primary checked:focus:bg-primary focus:ring-primary focus:shadow-primary outline-primary border-neutral-300 dark:border-neutral-600 {className}"
+					class="{radioSizeClassName} appearance-none rounded-full bg-neutral-200 dark:bg-neutral-700 dark:checked:bg-primary checked:bg-primary checked:hover:bg-primary checked:focus:bg-primary focus:ring-primary focus:shadow-primary outline-primary border-neutral-300 dark:border-neutral-600 {className}"
 					onchange={(ev) => handleChange(ev, item)}
 				/>
 

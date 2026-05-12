@@ -15,6 +15,10 @@
         control: { type: 'select' },
         options: ['left', 'right'],
       },
+      size: {
+        control: { type: 'select' },
+        options: ['xs', 'sm', 'md', 'lg'],
+      },
     },
     args: {
       direction: 'vertical',
@@ -22,6 +26,17 @@
     },
   });
 </script>
+
+<Story name="Sizes">
+  {#snippet template()}
+    <div class="space-y-6">
+      <RadioField name="rxs" title="XS" size="xs" items={['Apple', 'Banana', 'Cherry']} />
+      <RadioField name="rsm" title="SM" size="sm" items={['Apple', 'Banana', 'Cherry']} />
+      <RadioField name="rmd" title="MD" size="md" items={['Apple', 'Banana', 'Cherry']} />
+      <RadioField name="rlg" title="LG" size="lg" items={['Apple', 'Banana', 'Cherry']} />
+    </div>
+  {/snippet}
+</Story>
 
 <Story name="Simple Strings">
   {#snippet template()}

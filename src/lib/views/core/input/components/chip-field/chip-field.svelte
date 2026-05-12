@@ -118,40 +118,41 @@
 	const sizeClassName = $derived.by(() => {
 		switch (size) {
 			case 'lg':
-				return 'px-2 py-1 gap-1.5 text-base min-h-12';
+				return 'px-4 py-0 gap-1.5 text-base min-h-[46px]';
 			case 'md':
-				return 'px-2 py-1 gap-1 text-sm min-h-10';
+				return 'px-3 py-0 gap-1 text-sm min-h-[38px]';
 			case 'sm':
-				return 'px-2 py-0.5 gap-1 text-xs min-h-8';
+				return 'px-2 py-0 gap-1 text-xs min-h-[30px]';
 			case 'xs':
-				return 'px-1.5 py-0 gap-0.5 text-xs min-h-6';
+				return 'px-2 py-0 gap-0.5 text-xs min-h-[24px]';
 			default:
-				return 'px-2 py-1 gap-1 text-sm min-h-10';
+				return 'px-3 py-0 gap-1 text-sm min-h-[38px]';
 		}
 	});
 
 	const inputSizeClassName = $derived.by(() => {
 		switch (size) {
 			case 'lg':
-				return 'text-base px-1';
+				return 'text-base leading-none h-6 py-0 px-1';
 			case 'sm':
+				return 'text-xs leading-none h-4 py-0 px-1';
 			case 'xs':
-				return 'text-xs px-1';
+				return 'text-xs leading-none h-4 py-0 px-1';
 			default:
-				return 'text-sm px-1';
+				return 'text-sm leading-none h-5 py-0 px-1';
 		}
 	});
 
 	const chipSizeClassName = $derived.by(() => {
 		switch (size) {
 			case 'lg':
-				return 'text-base px-2 py-0.5';
+				return 'text-base leading-none px-2 py-0';
 			case 'sm':
-				return 'text-xs px-1.5 py-0';
+				return 'text-xs leading-none px-1.5 py-0';
 			case 'xs':
-				return 'text-xs leading-tight px-1.5 py-0';
+				return 'text-xs leading-none px-1.5 py-0';
 			default:
-				return 'text-sm px-2 py-0';
+				return 'text-sm leading-none px-2 py-0';
 		}
 	});
 
