@@ -14,7 +14,7 @@
 		position = 'left',
 		radioContainerClassName,
 		required,
-		size = 'md',
+		size = 'sm',
 		subtitle,
 		subtitleClassName,
 		title,

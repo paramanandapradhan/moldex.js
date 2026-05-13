@@ -1,5 +1,5 @@
 <script lang="ts">
-	type CheckboxSizeType = 'sm' | 'md' | 'lg';
+	type CheckboxSizeType = 'xs' | 'sm' | 'md' | 'lg';
 
 	type CheckboxPropsType = {
 		className?: string;
@@ -17,6 +17,7 @@
 	};
 
 	const sizeMap: Record<CheckboxSizeType, { icon: string; label: string; desc: string }> = {
+		xs: { icon: 'h-3.5 w-3.5', label: 'text-xs', desc: 'text-[10px]' },
 		sm: { icon: 'h-4 w-4', label: 'text-xs', desc: 'text-xs' },
 		md: { icon: 'h-5 w-5', label: 'text-sm', desc: 'text-xs' },
 		lg: { icon: 'h-6 w-6', label: 'text-base', desc: 'text-sm' }
@@ -33,7 +34,7 @@
 		name,
 		onChange,
 		position = 'left',
-		size = 'md',
+		size = 'sm',
 		value = $bindable(false)
 	}: CheckboxPropsType = $props();
 

@@ -34,7 +34,7 @@
 		name,
 		onChange,
 		position = 'left',
-		size = 'md',
+		size = 'sm',
 		value = $bindable(false)
 	}: CheckboxPropsType = $props();
 

@@ -1,4 +1,4 @@
-type CheckboxSizeType = 'sm' | 'md' | 'lg';
+type CheckboxSizeType = 'xs' | 'sm' | 'md' | 'lg';
 type CheckboxPropsType = {
     className?: string;
     containerClassName?: string;

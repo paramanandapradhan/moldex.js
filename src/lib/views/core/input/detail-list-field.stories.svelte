@@ -22,7 +22,7 @@
     },
     args: {
       appearance: 'normal',
-      size: 'md',
+      size: 'sm',
       useNativeDatalist: false,
     },
   });

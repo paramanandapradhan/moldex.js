@@ -24,7 +24,7 @@
       label: 'Email',
       placeholder: 'Enter email address...',
       appearance: 'normal',
-      size: 'md',
+      size: 'sm',
       disabled: false,
       required: false,
     },

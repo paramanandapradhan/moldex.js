@@ -62,7 +62,7 @@
 		searchFieldName = 'name',
 		searchPlaceholder = 'Search...',
 		showChip,
-		size,
+		size = 'sm',
 		subtitleClassName,
 		subtitleFieldName,
 		titleClassName,

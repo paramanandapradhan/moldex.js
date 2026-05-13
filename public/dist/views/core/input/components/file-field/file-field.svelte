@@ -10,7 +10,7 @@
 
 	let {
 		appearance,
-		size,
+		size = 'sm',
 		className,
 		accepts = '',
 		multiple = false,

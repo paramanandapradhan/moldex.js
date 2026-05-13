@@ -47,7 +47,7 @@
 		requiredSymbol = '*',
 		requiredSymbolColor = 'red',
 		separator = ',',
-		size = 'md',
+		size = 'sm',
 		value = $bindable(),
 		valueType
 	}: InputFieldProps & ChipFieldProps = $props();

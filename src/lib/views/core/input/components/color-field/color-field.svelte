@@ -9,7 +9,7 @@
 	let {
 		id,
 		name,
-		size = 'md',
+		size = 'sm',
 		appearance = 'normal',
 		value = $bindable('#000000'),
 		...props

@@ -24,7 +24,7 @@
       label: 'Phone',
       placeholder: 'Enter phone number...',
       appearance: 'normal',
-      size: 'md',
+      size: 'sm',
       disabled: false,
       required: false,
     },

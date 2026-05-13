@@ -24,7 +24,7 @@
 		name = '',
 		onChange,
 		onItemSelect,
-		size = 'md',
+		size = 'sm',
 		useNativeDatalist = false,
 		value = $bindable(''),
 		valueFieldName = 'value',

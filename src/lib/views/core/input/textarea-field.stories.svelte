@@ -25,7 +25,7 @@
       label: 'Description',
       placeholder: 'Enter description...',
       appearance: 'normal',
-      size: 'md',
+      size: 'sm',
       disabled: false,
       required: false,
     },

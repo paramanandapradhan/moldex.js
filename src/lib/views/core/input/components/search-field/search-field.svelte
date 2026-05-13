@@ -9,7 +9,7 @@
 		className,
 		placeholder,
 		iconClassName,
-		size = 'md',
+		size = 'sm',
 		value = $bindable(''),
 		onSearch,
 		...props

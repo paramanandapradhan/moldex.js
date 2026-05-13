@@ -54,7 +54,7 @@
 		rightSnippetContainerClassName = '',
 		role,
 		rows = 5,
-		size = 'md',
+		size = 'sm',
 		step,
 		type = 'text',
 		value = $bindable()

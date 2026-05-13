@@ -9,8 +9,8 @@
 	let {
 		id,
 		name,
-		size,
-		appearance,
+		size = 'sm',
+		appearance = 'normal',
 		value = $bindable('#000000'),
 		...props
 	}: InputFieldProps & { value?: string } = $props();
@@ -132,6 +132,8 @@
 		type="text"
 		{id}
 		{name}
+		{size}
+		{appearance}
 		bind:this={inputRef}
 		className="{inputPaddingRightClassName} {props?.className}"
 		rightSnippet={colorButton}

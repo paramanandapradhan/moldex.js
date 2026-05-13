@@ -21,7 +21,7 @@
 	let {
 		id,
 		value = $bindable(0),
-		size = 'md',
+		size = 'sm',
 		min = 0,
 		max = 100,
 		name,

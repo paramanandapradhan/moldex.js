@@ -9,7 +9,7 @@
 		id,
 		name,
 		value = $bindable(''),
-		size,
+		size = 'sm',
 		appearance,
 		buttonClassName,
 		className,

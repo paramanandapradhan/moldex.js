@@ -25,7 +25,7 @@
       label: 'Name',
       placeholder: 'Enter name...',
       appearance: 'normal',
-      size: 'md',
+      size: 'sm',
       disabled: false,
       required: false,
     },

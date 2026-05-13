@@ -27,7 +27,7 @@
       label: 'Amount',
       placeholder: 'Enter number...',
       appearance: 'normal',
-      size: 'md',
+      size: 'sm',
       disabled: false,
       required: false,
     },

@@ -7,7 +7,7 @@
 
 	let {
 		type = 'password',
-		size,
+		size = 'sm',
 		appearance,
 		buttonClassName,
 		iconClassName,

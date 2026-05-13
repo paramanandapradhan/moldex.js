@@ -26,7 +26,7 @@
       label: 'Email',
       placeholder: 'Enter email...',
       appearance: 'normal',
-      size: 'md',
+      size: 'sm',
       disabled: false,
       required: false,
       floatingLabel: false,

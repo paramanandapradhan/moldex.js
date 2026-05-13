@@ -21,7 +21,7 @@
     },
     args: {
       appearance: 'normal',
-      size: 'md',
+      size: 'sm',
       allowCreate: true,
       autoSuggest: true,
     },
