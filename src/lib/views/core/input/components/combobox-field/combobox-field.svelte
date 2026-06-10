@@ -27,6 +27,9 @@
 		className,
 		comboboxIconClassName,
 		comboboxIconPath = mdiUnfoldMoreHorizontal,
+		showClear = false,
+		clearIconPath = mdiClose,
+		clearIconClassName = '',
 		contentSnippet,
 		createButtonClassName,
 		createButtonLabel = 'Add',
@@ -171,15 +174,17 @@
 	});
 
 	let comboboxPaddingRightClassName = $derived.by(() => {
+		const hasClear =
+			showClear && selectedItemsSet.size && !props.disabled && !props.readonly;
 		switch (size) {
 			case 'lg':
-				return 'pr-10';
+				return hasClear ? 'pr-16' : 'pr-10';
 			case 'sm':
-				return 'pr-7';
+				return hasClear ? 'pr-12' : 'pr-7';
 			case 'xs':
-				return 'pr-6';
+				return hasClear ? 'pr-10' : 'pr-6';
 			default:
-				return 'pr-8';
+				return hasClear ? 'pr-14' : 'pr-8';
 		}
 	});
 
@@ -326,8 +331,8 @@
 			searchFieldRef && searchFieldRef.focus();
 		} else if (event.key === 'Backspace' || event.key === 'Delete') {
 			event.preventDefault(); // Prevent default action for these keys if necessary
-			selectedItemsSet.clear();
-			value = null;
+			if (props.disabled || props.readonly) return;
+			clearAll();
 		}
 	}
 
@@ -354,6 +359,23 @@
 		const removedItem = hasPrimitiveItemsData ? id : itemsIdentityMap[id];
 		onChipRemove && onChipRemove(removedItem);
 		onChange && onChange(value);
+	}
+
+	function clearAll() {
+		if (!selectedItemsSet.size) return;
+		selectedItemsSet.clear();
+		value = null;
+		items = [...(items || [])];
+		onChange && onChange(value);
+	}
+
+	function handleClearMouseDown(event: MouseEvent) {
+		// Left click only — a right-click (context menu) must not clear the selection.
+		if (event.button !== 0) return;
+		event.preventDefault();
+		event.stopPropagation();
+		clearAll();
+		focus();
 	}
 
 	function handleItemClick(ev: MouseEvent, item: any, index: number) {
@@ -389,7 +411,25 @@
 </script>
 
 {#snippet rightIcon()}
-	<div class="px-1">
+	<div class="flex items-center gap-0.5 px-1">
+		{#if showClear && selectedItemsSet.size && !props.disabled && !props.readonly}
+			<button
+				type="button"
+				class="pointer-events-auto inline-flex cursor-pointer items-center rounded-full p-0.5 text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700 dark:hover:bg-neutral-600 dark:hover:text-neutral-100"
+				onmousedown={handleClearMouseDown}
+				onclick={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+				}}
+				aria-label="Clear selection"
+				title="Clear"
+			>
+				<Icon
+					path={clearIconPath}
+					className=" {comboboxIconSizeClassName} {clearIconClassName}"
+				/>
+			</button>
+		{/if}
 		{#if hasComboboxIcon}
 			<Icon
 				path={comboboxIconPath}
@@ -421,6 +461,7 @@
 							type="button"
 							class="inline-flex cursor-pointer items-center rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-500"
 							onmousedown={(e) => {
+								if (e.button !== 0) return;
 								e.preventDefault();
 								e.stopPropagation();
 								removeSelectedItem(chip.id);

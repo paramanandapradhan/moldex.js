@@ -39,7 +39,10 @@
 			let { phoneNumber } = validatePhoneNumber(value);
 			if (phoneNumber) return phoneNumber;
 		}
-		return stripToDigits(value || '').slice(-15);
+		// Incomplete / unparseable number: show the national part only. We MUST
+		// drop the dial-code prefix here — otherwise the dial-code digits leak into
+		// the number box and get re-prepended on every keystroke (e.g. "91919191…").
+		return stripDialPrefix(value || '', dialCode);
 	});
 
 	let btnRoundedClassName = $derived.by(() => {
@@ -91,6 +94,25 @@
 		return (s || '').replace(/\D+/g, '');
 	}
 
+	// Returns the national digits of a stored value, removing the dial-code prefix.
+	// The value is stored as `${dialCode}${national}` (e.g. "+919999999999"), so we
+	// strip exactly one leading dial-code occurrence. When the value carries no
+	// explicit dial prefix (no leading "+"), every digit is treated as national so
+	// we never accidentally chop real digits that happen to match the dial code.
+	function stripDialPrefix(val: string, dial: string): string {
+		const trimmed = (val || '').trim();
+		const dialFmt = formatDialCode(dial);
+		if (trimmed.startsWith(dialFmt)) {
+			return stripToDigits(trimmed.slice(dialFmt.length)).slice(0, 15);
+		}
+		const digits = stripToDigits(trimmed);
+		const dialDigits = stripToDigits(dial);
+		if (trimmed.startsWith('+') && dialDigits && digits.startsWith(dialDigits)) {
+			return digits.slice(dialDigits.length).slice(0, 15);
+		}
+		return digits.slice(0, 15);
+	}
+
 	function normalizePastedPhone(raw: string): string {
 		// Keep leading + if any, strip everything non-digit, and re-prepend +
 		const trimmed = (raw || '').trim();
@@ -136,17 +158,19 @@
 		if (EasyCountryData) {
 			let items = EasyCountryData.getCountries();
 			let res: string = await openPickerDialog<string>({
-				value: dialCode,
+				value: dailCodeValue,
 				items,
 				identityFieldName: 'dialCode',
 				itemTileSnippet: dialCodePickerItemTile
 			});
 
 			if (res) {
-				dialCode = res;
-				if (dialCode && phoneNumberValue) {
-					value = `${dialCode}${phoneNumberValue}`;
-				}
+				// Capture the national number under the CURRENT (old) dial first, then
+				// switch the dial and recompose — otherwise the old dial code leaks
+				// into the national part when the new dial doesn't match the prefix.
+				const national = phoneNumberValue;
+				dialCode = formatDialCode(res);
+				value = national ? `${dialCode}${national}` : '';
 				inputFieldRef && inputFieldRef.focus();
 			}
 		}
@@ -169,9 +193,14 @@
 		const target = ev.target as HTMLInputElement;
 		const cleaned = stripToDigits(target.value || '').slice(0, 15);
 		if (target.value !== cleaned) target.value = cleaned;
+		// Use the DISPLAYED dial (parsed from the current value when it is valid),
+		// not the raw `dialCode` prop — when the parent sets a value with a
+		// different country code without binding dialCode, the prop is stale and
+		// the first keystroke would silently rewrite the number to the wrong dial.
+		const dial = dailCodeValue;
 		// Try canonical parse with current dial; fall back to raw digits
-		const parsed = validatePhoneNumber(`${formatDialCode(dialCode)}${cleaned}`);
-		applyDialAndNumber(dialCode, parsed.phoneNumber || cleaned);
+		const parsed = validatePhoneNumber(`${dial}${cleaned}`);
+		applyDialAndNumber(dial, parsed.phoneNumber || cleaned);
 	}
 
 	function handleNumberKeyDown(ev: KeyboardEvent) {
@@ -221,21 +250,21 @@
 					return;
 				}
 			}
-			// Fallback: assume +<1-3 digit dial><rest> by trimming current dialCode if it matches
-			const curDigits = stripToDigits(dialCode);
+			// Fallback: assume +<1-3 digit dial><rest> by trimming current dial if it matches
+			const curDigits = stripToDigits(dailCodeValue);
 			if (curDigits && digits.startsWith(curDigits)) {
 				applyDialAndNumber(`+${curDigits}`, digits.slice(curDigits.length).slice(0, 15));
 				return;
 			}
 			// Last resort: keep current dial, take last 15 digits as national
-			applyDialAndNumber(dialCode, digits.slice(-15));
+			applyDialAndNumber(dailCodeValue, digits.slice(-15));
 			return;
 		}
 
-		// No country code in paste → treat as national for current dialCode
+		// No country code in paste → treat as national for the displayed dial
 		const nationalDigits = stripToDigits(normalized).slice(0, 15);
-		const parsed = validatePhoneNumber(`${formatDialCode(dialCode)}${nationalDigits}`);
-		applyDialAndNumber(dialCode, parsed.phoneNumber || nationalDigits);
+		const parsed = validatePhoneNumber(`${dailCodeValue}${nationalDigits}`);
+		applyDialAndNumber(dailCodeValue, parsed.phoneNumber || nationalDigits);
 	}
 </script>
 

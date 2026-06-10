@@ -11,6 +11,9 @@ export type ComboboxFieldProps = {
     onChipRemove?: (item: any) => void;
     comboboxIconClassName?: string;
     comboboxIconPath?: string;
+    showClear?: boolean;
+    clearIconPath?: string;
+    clearIconClassName?: string;
     createButtonClassName?: string;
     createButtonLabel?: string;
     displayClassName?: string;
