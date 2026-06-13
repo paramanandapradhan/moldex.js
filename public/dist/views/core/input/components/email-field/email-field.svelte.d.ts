@@ -1,8 +1,0 @@
-import type { InputFieldProps } from '../../types';
-declare const EmailField: import("svelte").Component<InputFieldProps, {
-    focus: () => void;
-    getElement: () => any;
-    select: () => void;
-}, "value">;
-type EmailField = ReturnType<typeof EmailField>;
-export default EmailField;
