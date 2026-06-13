@@ -56,6 +56,7 @@ export type ComboboxFieldProps = {
     uncheckboxIconClassName?: string;
     checkboxClassName?: string;
     dropPosition?: 'top' | 'bottom' | 'middle';
+    dropdownAlign?: 'left' | 'right' | 'auto';
     itemTileSnippet?: Snippet<[item: any, index: any]>;
 };
 

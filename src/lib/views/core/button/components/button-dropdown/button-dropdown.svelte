@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { DropdownState } from '$lib/types.js';
+	import { computeDropdownPosition } from '$lib/services/utils/dropdown-service.js';
 	import { tick, onMount, type Snippet } from 'svelte';
 	import type { ButtonAppearance, ButtonSize, ButtonType } from '../../types';
 	import Button from '../button/button.svelte';
@@ -20,7 +21,7 @@
 		dropdownOpenClassName?: string;
 		disabled?: boolean;
 		dropPosition?: 'top' | 'bottom' | 'middle';
-		dropdownAlign?: 'left' | 'right';
+		dropdownAlign?: 'left' | 'right' | 'auto';
 	};
 
 	let {
@@ -39,7 +40,7 @@
 		dropdownOpenClassName = '',
 		disabled = false,
 		dropPosition = 'bottom',
-		dropdownAlign = 'left',
+		dropdownAlign = 'auto',
 		...others
 	}: ButtonDropdownProps = $props();
 
@@ -48,63 +49,19 @@
 	let isMeasured = $state(false);
 	let buttonElement: HTMLDivElement;
 	let dropdownElement: HTMLDivElement | null = $state(null);
-	let dropdownStyle = $state('top: 100%; margin-top: 4px; left: 0;');
-
-	const MARGIN = 8;
-
-	function getVerticalStyle(rect: DOMRect, dropHeight: number): { style: string; maxH: number } {
-		const vh = window.innerHeight;
-		const spaceBelow = vh - rect.bottom - MARGIN;
-		const spaceAbove = rect.top - MARGIN;
-
-		if (dropPosition === 'middle') {
-			const maxH = Math.max(0, vh - 2 * MARGIN);
-			return { style: 'top: 50%; transform: translateY(-50%);', maxH };
-		}
-
-		const preferTop = dropPosition === 'top';
-		const fitsPreferred = preferTop ? dropHeight <= spaceAbove : dropHeight <= spaceBelow;
-		const fitsOther = preferTop ? dropHeight <= spaceBelow : dropHeight <= spaceAbove;
-
-		if (preferTop && (fitsPreferred || !fitsOther)) {
-			return { style: 'bottom: 100%; margin-bottom: 4px;', maxH: spaceAbove };
-		}
-		if (!preferTop && (fitsPreferred || !fitsOther)) {
-			return { style: 'top: 100%; margin-top: 4px;', maxH: spaceBelow };
-		}
-		// Flip — preferred didn't fit, the other side does
-		return preferTop
-			? { style: 'top: 100%; margin-top: 4px;', maxH: spaceBelow }
-			: { style: 'bottom: 100%; margin-bottom: 4px;', maxH: spaceAbove };
-	}
-
-	function getHorizontalStyle(buttonRect: DOMRect, dropWidth: number): string {
-		const vw = window.innerWidth;
-
-		if (dropdownAlign === 'right') {
-			const dropLeft = buttonRect.right - dropWidth;
-			if (dropLeft < MARGIN) {
-				return `left: ${MARGIN - buttonRect.left}px;`;
-			}
-			return 'right: 0; left: auto;';
-		}
-
-		const rightOverflow = buttonRect.left + dropWidth - (vw - MARGIN);
-		if (rightOverflow > 0) {
-			const offsetLeft = Math.max(MARGIN - buttonRect.left, -rightOverflow);
-			return `left: ${offsetLeft}px;`;
-		}
-		return 'left: 0;';
-	}
+	let dropdownStyle = $state('position: fixed; top: 0; left: 0;');
 
 	function computeDropdownStyle() {
 		if (!buttonElement || !dropdownElement) return;
 		const rect = buttonElement.getBoundingClientRect();
-		const dropWidth = dropdownElement.offsetWidth;
-		const dropHeight = dropdownElement.scrollHeight;
-		const v = getVerticalStyle(rect, dropHeight);
-		const h = getHorizontalStyle(rect, dropWidth);
-		dropdownStyle = `${v.style} ${h} max-height: ${v.maxH}px;`;
+		const { style } = computeDropdownPosition({
+			anchorRect: rect,
+			dropdownWidth: dropdownElement.offsetWidth,
+			dropdownHeight: dropdownElement.scrollHeight,
+			position: dropPosition,
+			align: dropdownAlign
+		});
+		dropdownStyle = style;
 	}
 
 	export async function toggleDropdown(ev: MouseEvent | TouchEvent) {
@@ -131,13 +88,18 @@
 		}
 	}
 
-	function handleResize() {
+	function handleReposition() {
 		if (placement) computeDropdownStyle();
 	}
 
 	onMount(() => {
-		window.addEventListener('resize', handleResize);
-		return () => window.removeEventListener('resize', handleResize);
+		window.addEventListener('resize', handleReposition);
+		// Capture phase so we also follow scrolling of any nested scroll container.
+		window.addEventListener('scroll', handleReposition, true);
+		return () => {
+			window.removeEventListener('resize', handleReposition);
+			window.removeEventListener('scroll', handleReposition, true);
+		};
 	});
 </script>
 
@@ -173,7 +135,7 @@
 		<div
 			bind:this={dropdownElement}
 			role="dialog"
-			class="absolute z-10 min-w-40 origin-top overflow-y-auto rounded-md bg-white shadow-lg transition duration-100 ease-out dark:bg-neutral-800 dark:shadow-black {dropdownClassName} {!isMeasured
+			class="fixed z-20 min-w-40 overflow-y-auto rounded-md bg-white shadow-lg transition duration-100 ease-out dark:bg-neutral-800 dark:shadow-black {dropdownClassName} {!isMeasured
 				? 'pointer-events-none invisible opacity-0'
 				: dropdownState === DropdownState.OPENED
 					? `scale-100 transform opacity-100 ${dropdownOpenClassName}`

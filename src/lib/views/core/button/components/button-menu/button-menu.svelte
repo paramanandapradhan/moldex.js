@@ -5,7 +5,7 @@
 	import Icon from '$lib/views/core/icon/components/icon/icon.svelte';
 	import type { Snippet } from 'svelte';
 	import ButtonListItem from '../button-list-item/button-list-item.svelte';
-	 
+
 	import { mdiDotsHorizontal } from '$lib/views/core/icon/index.js';
 	import type { ButtonAppearance, ButtonProps, ButtonSize, Menu } from '../../types';
 	type Props = {
@@ -36,6 +36,7 @@
 		dropdownClassName,
 		menuIconClassName,
 		disabled,
+		dropdownAlign = 'right',
 		...others
 	}: ButtonDropdownProps & ButtonProps & Props = $props();
 
@@ -88,6 +89,7 @@
 	{size}
 	{dropdownClassName}
 	{disabled}
+	{dropdownAlign}
 	{...others}
 >
 	{#if children}

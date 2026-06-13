@@ -12,6 +12,8 @@
 	} from '$lib/views/core/icon/index.js';
 	import NoData from '$lib/views/core/no-data/components/no-data/no-data.svelte';
 	import { SvelteSet } from 'svelte/reactivity';
+	import { onMount } from 'svelte';
+	import { computeDropdownPosition } from '$lib/services/utils/dropdown-service.js';
 	import InputField from '../input-field/input-field.svelte';
 	import SearchField from '../search-field/search-field.svelte';
 	import type { ComboboxFieldProps, InputFieldProps } from '../../types';
@@ -77,6 +79,7 @@
 		uncheckboxIconClassName = '',
 		checkboxClassName = '',
 		dropPosition = 'bottom',
+		dropdownAlign = 'left',
 		itemTileSnippet,
 		onChange,
 		...props
@@ -89,43 +92,44 @@
 	let dropdownHeight = $state(0);
 	let windowScrollY = $state(0);
 	let bodyHeight: number = $state(0);
+	let dropdownStyle = $state('position: fixed; top: 0; left: 0;');
 
-	let placementClassName = $derived.by(() => {
-		if (!isPlaced) return 'mt-1';
-
+	function computeDropdownStyle() {
+		if (!isPlaced || !inputFieldRef) return;
 		const rect = inputFieldRef.getBoundingClientRect();
-		const spaceBelow = window.innerHeight - rect.bottom;
-		const spaceAbove = rect.top;
+		if (!rect) return;
+		const { style } = computeDropdownPosition({
+			anchorRect: rect,
+			dropdownWidth: rect.width,
+			// 320 == max-h-80; used until the real height is measured so the
+			// initial flip decision is sensible even on the first frame.
+			dropdownHeight: dropdownHeight || 320,
+			position: dropPosition,
+			align: dropdownAlign,
+			matchAnchorWidth: true
+		});
+		dropdownStyle = style;
+	}
 
-		let placement;
-
-		switch (dropPosition) {
-			case 'top':
-				placement = 'bottom-full mb-1';
-				break;
-			case 'middle':
-				placement = '-translate-y-1/2 top-1/2';
-				break;
-			default:
-				placement = 'mt-1';
+	// Recompute whenever the dropdown is open and its height or the scroll
+	// position changes (window scroll is bound via <svelte:window>).
+	$effect(() => {
+		if (isPlaced) {
+			void dropdownHeight;
+			void windowScrollY;
+			computeDropdownStyle();
 		}
+	});
 
-		if (dropPosition === 'bottom' && spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
-			placement = 'bottom-full mb-1';
-		} else if (
-			dropPosition === 'top' &&
-			spaceAbove < dropdownHeight &&
-			spaceBelow > dropdownHeight
-		) {
-			placement = 'mt-1';
-		} else if (dropPosition === 'middle') {
-			const spaceNeeded = dropdownHeight / 2;
-			if (spaceAbove < spaceNeeded || spaceBelow < spaceNeeded) {
-				placement = spaceAbove > spaceBelow ? 'bottom-full mb-1' : 'mt-1';
-			}
-		}
-
-		return placement;
+	onMount(() => {
+		const reposition = () => isPlaced && computeDropdownStyle();
+		window.addEventListener('resize', reposition);
+		// Capture phase so nested scroll containers also reposition the dropdown.
+		window.addEventListener('scroll', reposition, true);
+		return () => {
+			window.removeEventListener('resize', reposition);
+			window.removeEventListener('scroll', reposition, true);
+		};
 	});
 
 	let selectedItemsSet: SvelteSet<any> = $derived(
@@ -527,9 +531,10 @@
 		<!-- svelte-ignore a11y_interactive_supports_focus -->
 		<div
 			bind:clientHeight={dropdownHeight}
-			class="absolute z-10 {placementClassName} flex max-h-80 w-full flex-col rounded-xl bg-white text-neutral-600 shadow-lg focus:outline-none sm:text-sm dark:bg-neutral-900 {hasDropdownHeader
+			class="fixed z-20 flex max-h-80 flex-col rounded-xl bg-white text-neutral-600 shadow-lg focus:outline-none sm:text-sm dark:bg-neutral-900 {hasDropdownHeader
 				? ''
 				: 'pt-1'} {hasDropdownFooter ? '' : 'pb-1'} {dropdownClassName}"
+			style={dropdownStyle}
 			id="options"
 			role="listbox"
 			onkeydown={handleDropdownKeyDown}
