@@ -321,10 +321,14 @@ export function getExtFromFileType(type: string): string | null {
 export function ellipsisFileNameAtCenter(name: string, sizeLimit: number = 15, startLength: number = 5, endLength: number = 3) {
     name = name || '';
     if (name.length > sizeLimit) {
+        const dotIndex = name.lastIndexOf('.');
+        // When there is no extension, keep the last `endLength` characters of the name.
+        // Otherwise keep `endLength` characters before the dot through the extension.
+        const tailStart = dotIndex === -1 ? name.length - endLength : dotIndex - endLength;
         name = [
             name.substring(0, startLength),
             '…',
-            name.substring(name.lastIndexOf('.') - endLength, name.length)
+            name.substring(Math.max(tailStart, startLength), name.length)
         ].join('');
         return name;
     }

@@ -20,8 +20,8 @@ export const handleScreenSizeUpdate = (size: number) => {
             screenSize.size = ScreenSize.MD;
         } else if (size >= 576) {
             screenSize.size = ScreenSize.SM;
-        } else if (size < 576) {
-            screenSize.size = ScreenSize.SM;
+        } else {
+            screenSize.size = ScreenSize.XS;
         }
     }
 };

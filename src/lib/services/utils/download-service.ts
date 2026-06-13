@@ -159,7 +159,14 @@ export function isUrl(str: string): boolean {
  * @returns The extracted filename, or 'download' if the URL does not contain a filename.
  */
 export function getFilenameFromUrl(url: string): string {
-    const segments = url.split('/');
+    // Use the URL pathname so the host and query string are not mistaken for a filename.
+    let pathname = url;
+    try {
+        pathname = new URL(url).pathname;
+    } catch (_) {
+        // Not an absolute URL; fall back to treating the raw string as a path.
+    }
+    const segments = pathname.split('/');
     const filename = segments.pop();
     return filename && filename.includes('.') ? filename : 'download';
 }
