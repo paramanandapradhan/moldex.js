@@ -438,6 +438,28 @@ export function sanitizePhoneNumber(input: string): string {
     return input.replace(/\D/g, "");
 }
 
+/**
+ * Escapes a value for safe interpolation into HTML, neutralising XSS payloads.
+ *
+ * Use this whenever data-driven text must be passed through an `{@html ...}` sink
+ * (or otherwise injected as markup). Non-string values are coerced; `null`/`undefined`
+ * become an empty string.
+ *
+ * @param value - The value to escape.
+ * @returns The HTML-escaped string.
+ *
+ * @example
+ * escapeHtml('<img src=x onerror=alert(1)>'); // "&lt;img src=x onerror=alert(1)&gt;"
+ */
+export function escapeHtml(value: unknown): string {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 
 
 export function isChrome() {

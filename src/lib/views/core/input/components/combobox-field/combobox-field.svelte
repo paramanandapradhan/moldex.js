@@ -14,6 +14,9 @@
 	import { SvelteSet } from 'svelte/reactivity';
 	import { onMount } from 'svelte';
 	import { computeDropdownPosition } from '$lib/services/utils/dropdown-service.js';
+	import { portal } from '$lib/actions/index.js';
+	import { escapeHtml } from '$lib/services/utils/utils-service.js';
+	import { removeSelection, toggleSelection } from './combobox-utils.js';
 	import InputField from '../input-field/input-field.svelte';
 	import SearchField from '../search-field/search-field.svelte';
 	import type { ComboboxFieldProps, InputFieldProps } from '../../types';
@@ -241,7 +244,10 @@
 	let displayItemsTitle = $derived(displayItems.join(', '));
 
 	let displayText: string = $derived.by(() => {
-		let results: string[] = displayItems;
+		// Escape every data-driven label: this string is rendered through {@html},
+		// so unescaped item text would be an XSS sink. Only the trusted overflow
+		// "+ N" span (a number we generate) is allowed to remain real markup.
+		let results: string[] = displayItems.map(escapeHtml);
 		if (!showChip) {
 			if (results?.length) {
 				if (multiple) {
@@ -352,14 +358,8 @@
 
 	function removeSelectedItem(id: any) {
 		if (!selectedItemsSet.has(id)) return;
-		selectedItemsSet.delete(id);
+		value = removeSelection({ currentValue: value, id, multiple });
 		items = [...(items || [])];
-		const array = Array.from(selectedItemsSet);
-		if (array.length) {
-			value = multiple ? array : array[0];
-		} else {
-			value = null;
-		}
 		const removedItem = hasPrimitiveItemsData ? id : itemsIdentityMap[id];
 		onChipRemove && onChipRemove(removedItem);
 		onChange && onChange(value);
@@ -383,26 +383,9 @@
 	}
 
 	function handleItemClick(ev: MouseEvent, item: any, index: number) {
-		let id = item[identityFieldName];
-		if (multiple) {
-			if (selectedItemsSet.has(id)) {
-				selectedItemsSet.delete(id);
-			} else {
-				selectedItemsSet.add(id);
-			}
-		} else {
-			selectedItemsSet.clear();
-			selectedItemsSet.add(id);
-		}
-
+		const id = item[identityFieldName];
+		value = toggleSelection({ currentValue: value, id, multiple });
 		items = [...(items || [])];
-
-		let array = Array.from(selectedItemsSet);
-		if (array.length) {
-			value = multiple ? array : array[0];
-		} else {
-			value = null;
-		}
 
 		if (!multiple) {
 			closeDropdown();
@@ -521,17 +504,22 @@
 		title={displayItemsTitle || ''}
 	/>
 	{#if isPlaced}
+		<!-- Portalled to <body> so the fixed-positioned dropdown escapes any ancestor
+		     `transform` / `overflow-hidden` (e.g. an animated dialog panel) that would
+		     otherwise clip it or break its viewport positioning. -->
 		<button
 			id="backdrop"
-			class="fixed inset-0 z-10"
+			use:portal
+			class="fixed inset-0 z-40"
 			onclick={handleBackdropClick}
 			tabindex="-1"
 			aria-label="backdrop"
 		></button>
 		<!-- svelte-ignore a11y_interactive_supports_focus -->
 		<div
+			use:portal
 			bind:clientHeight={dropdownHeight}
-			class="fixed z-20 flex max-h-80 flex-col rounded-xl bg-white text-neutral-600 shadow-lg focus:outline-none sm:text-sm dark:bg-neutral-900 {hasDropdownHeader
+			class="fixed z-50 flex max-h-80 flex-col rounded-xl bg-white text-neutral-600 shadow-lg focus:outline-none sm:text-sm dark:bg-neutral-900 {hasDropdownHeader
 				? ''
 				: 'pt-1'} {hasDropdownFooter ? '' : 'pb-1'} {dropdownClassName}"
 			style={dropdownStyle}

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { BROWSER } from 'esm-env';
-	import { DialogSizeEnum, isMobileScreen } from '$lib/services/index.js';
+	import { DialogSizeEnum, isMobileScreen, lockScroll, unlockScroll } from '$lib/services/index.js';
 	import ButtonBack from '$lib/views/core/button/components/button-back/button-back.svelte';
 	import ButtonClose from '$lib/views/core/button/components/button-close-icon/button-close-icon.svelte';
 	import Button from '$lib/views/core/button/components/button/button.svelte';
@@ -61,7 +61,8 @@
 		subtitle = '',
 		subtitleClassName = '',
 		title = '',
-		titleClassName = ''
+		titleClassName = '',
+		titleAllowHtml = false
 	}: DialogProps = $props();
 
 	let dialogExports: DialogExports = {
@@ -132,9 +133,10 @@
 	// ── Internal close (no history manipulation) ──────────────────────────────
 
 	function _performClose(value?: any): Promise<any> {
+		if (!isPlaced) return Promise.resolve(result);
 		return new Promise((resolve) => {
 			isOpened = false;
-			document.body.style.overflow = '';
+			unlockScroll();
 			setTimeout(() => {
 				isPlaced = false;
 				onClose?.();
@@ -155,8 +157,9 @@
 	}
 
 	export function openDialog() {
+		if (isPlaced) return;
 		isPlaced = true;
-		document.body.style.overflow = 'hidden';
+		lockScroll();
 		setTimeout(() => {
 			isOpened = true;
 			_registerBackState();
@@ -295,7 +298,9 @@
 					<div class="flex-grow py-2">
 						{#if hasTitle}
 							<div class="text-xl text-neutral-800 dark:text-neutral-300 {titleClassName}">
-								{@html customTitle || title || ''}
+								{#if titleAllowHtml}{@html customTitle || title || ''}{:else}{customTitle ||
+										title ||
+										''}{/if}
 							</div>
 						{/if}
 						{#if hasSubtitle}

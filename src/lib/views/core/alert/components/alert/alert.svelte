@@ -15,6 +15,8 @@
 		variant?: AlertVariant;
 		title?: string;
 		message?: string;
+		/** Render `message` as raw HTML. Default false → escaped as plain text (XSS-safe). */
+		allowHtml?: boolean;
 		dismissible?: boolean;
 		className?: string;
 		iconPath?: string;
@@ -26,6 +28,7 @@
 		variant = 'info',
 		title = '',
 		message = '',
+		allowHtml = false,
 		dismissible = false,
 		className = '',
 		iconPath,
@@ -81,7 +84,7 @@
 					<div class="font-semibold text-sm mb-1">{title}</div>
 				{/if}
 				{#if message}
-					<div class="text-sm">{@html message}</div>
+					<div class="text-sm">{#if allowHtml}{@html message}{:else}{message}{/if}</div>
 				{/if}
 			{/if}
 		</div>

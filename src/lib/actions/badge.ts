@@ -1,3 +1,5 @@
+import { escapeHtml } from '../services/utils/utils-service.js';
+
 export type BadgeProsType = {
     containerClassName?: string,
     badgePositionClassName?: string,
@@ -15,7 +17,7 @@ export function badge(node: HTMLElement, { containerClassName = '', badgePositio
     badge.innerHTML = `
       <span class="relative flex h-3 w-3 ${badgeContainerClassName}">
         ${badgeBackElement}
-        <span class="relative inline-grid place-items-center rounded-full h-3 w-3 text-3xs text-white bg-sky-500 ${badgeClassName}">${badgeText || ''}</span>
+        <span class="relative inline-grid place-items-center rounded-full h-3 w-3 text-3xs text-white bg-sky-500 ${badgeClassName}">${escapeHtml(badgeText || '')}</span>
       </span>
     `;
 

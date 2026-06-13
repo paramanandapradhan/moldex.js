@@ -6,4 +6,6 @@ export type ToastPropsType = {
     duration?: number;
     className?: string;
     children?: Snippet;
+    /** Render `msg` as raw HTML. Default false → escaped as plain text (XSS-safe). */
+    allowHtml?: boolean;
 };

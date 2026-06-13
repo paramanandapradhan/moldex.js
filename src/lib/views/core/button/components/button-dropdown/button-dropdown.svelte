@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { DropdownState } from '$lib/types.js';
 	import { computeDropdownPosition } from '$lib/services/utils/dropdown-service.js';
+	import { portal } from '$lib/actions/index.js';
 	import { tick, onMount, type Snippet } from 'svelte';
 	import type { ButtonAppearance, ButtonSize, ButtonType } from '../../types';
 	import Button from '../button/button.svelte';
@@ -121,10 +122,13 @@
 	</Button>
 
 	{#if placement}
+		<!-- Portalled to <body> so the fixed-positioned dropdown escapes any ancestor
+		     `transform` / `overflow-hidden` (e.g. an animated dialog panel). -->
 		<div
+			use:portal
 			aria-label="backdrop"
 			id="{id}-dropdown-backdrop"
-			class="fixed inset-0 z-10 cursor-auto {backdropClassName}"
+			class="fixed inset-0 z-40 cursor-auto {backdropClassName}"
 			onmousedown={(e) => { e.stopPropagation(); e.stopImmediatePropagation(); toggleDropdown(e); }}
 			ontouchstart={(e) => { e.stopPropagation(); e.stopImmediatePropagation(); toggleDropdown(e); }}
 			onclick={(e) => { e.stopPropagation(); e.stopImmediatePropagation(); toggleDropdown(e); }}
@@ -133,9 +137,10 @@
 		></div>
 
 		<div
+			use:portal
 			bind:this={dropdownElement}
 			role="dialog"
-			class="fixed z-20 min-w-40 overflow-y-auto rounded-md bg-white shadow-lg transition duration-100 ease-out dark:bg-neutral-800 dark:shadow-black {dropdownClassName} {!isMeasured
+			class="fixed z-50 min-w-40 overflow-y-auto rounded-md bg-white shadow-lg transition duration-100 ease-out dark:bg-neutral-800 dark:shadow-black {dropdownClassName} {!isMeasured
 				? 'pointer-events-none invisible opacity-0'
 				: dropdownState === DropdownState.OPENED
 					? `scale-100 transform opacity-100 ${dropdownOpenClassName}`

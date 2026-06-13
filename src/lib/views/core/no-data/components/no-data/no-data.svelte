@@ -6,6 +6,8 @@
 
 	type PropsType = {
 		message?: string;
+		/** Render `message` as raw HTML. Default false → escaped as plain text (XSS-safe). */
+		allowHtml?: boolean;
 		className?: string;
 		iconPath?: string;
 		iconClassName?: string;
@@ -15,6 +17,7 @@
 
 	let {
 		message = 'No data found!',
+		allowHtml = false,
 		className = '',
 		iconPath = '',
 		iconClassName = '',
@@ -42,6 +45,6 @@
 		{#if iconPath}
 			<Icon path={iconPath} className="w-6 h-6 {iconClassName}" />
 		{/if}
-		<div>{@html message}</div>
+		<div>{#if allowHtml}{@html message}{:else}{message}{/if}</div>
 	{/if}
 </div>

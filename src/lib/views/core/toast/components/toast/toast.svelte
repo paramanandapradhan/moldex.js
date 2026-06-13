@@ -4,7 +4,7 @@
 	let isPlaced: boolean = $state(false);
 	let isOpened: boolean = $state(false);
 
-	let { id, msg, duration = 3000, className, children }: ToastPropsType = $props();
+	let { id, msg, duration = 3000, className, children, allowHtml = false }: ToastPropsType = $props();
 
 	export function openToast() {
 		isPlaced = true;
@@ -38,8 +38,10 @@
 	>
 		{#if children}
 			{@render children()}
-		{:else}
+		{:else if allowHtml}
 			{@html msg}
+		{:else}
+			{msg}
 		{/if}
 	</div>
 {/if}

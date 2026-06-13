@@ -4,6 +4,8 @@
  	 
 	type PropsType = {
 		msg?: string;
+		/** Render `msg` as raw HTML. Default false → escaped as plain text (XSS-safe). */
+		allowHtml?: boolean;
 		msgClassName?: string;
 		spinnerClassName?: string;
 		containerClassName?: string;
@@ -12,6 +14,7 @@
 
 	let {
 		msg = 'Please wait...',
+		allowHtml = false,
 		msgClassName,
 		spinnerClassName,
 		containerClassName,
@@ -36,7 +39,7 @@
 			<Spinner className={spinnerClassName} />
 		</div>
 		<div class="text-neutral-500 dark:text-neutral-400 {msgClassName}">
-			{@html msg || ''}
+			{#if allowHtml}{@html msg || ''}{:else}{msg || ''}{/if}
 		</div>
 	</div>
 </div>

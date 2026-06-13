@@ -74,6 +74,8 @@ export type DialogProps = {
     subtitleClassName?: string;
     title?: string;
     titleClassName?: string;
+    /** Render the title as raw HTML. Default false → escaped as plain text (XSS-safe). */
+    titleAllowHtml?: boolean;
 };
 
 export type DialogExports = {

@@ -4,10 +4,12 @@
 	type PropsType = {
 		className?: string;
 		msg?: string;
+		/** Render `msg` as raw HTML. Default false → escaped as plain text (XSS-safe). */
+		allowHtml?: boolean;
 	};
 
-	let { className, msg, setOnOkClick, setResult, closeDialog }: PropsType & DialogExports =
-		$props();
+	let { className, msg, allowHtml = false, setOnOkClick, setResult, closeDialog }: PropsType &
+		DialogExports = $props();
 
 	$effect(() => {
 		setOnOkClick(() => {
@@ -18,5 +20,5 @@
 </script>
 
 <div class="p-6 text-neutral-800 dark:text-neutral-300 {className}">
-	<div>{@html msg || ''}</div>
+	<div>{#if allowHtml}{@html msg || ''}{:else}{msg || ''}{/if}</div>
 </div>
